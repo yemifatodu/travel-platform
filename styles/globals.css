@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-bebas: 'Bebas Neue', sans-serif;
+  --font-dm: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #080807;
+  color: #F5EFE4;
+  font-family: var(--font-dm);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: #C8A96E; color: #080807; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111110; }
+::-webkit-scrollbar-thumb { background: #C8A96E; border-radius: 3px; }
+
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-gold text-gold font-ui tracking-widest text-xs uppercase transition-all duration-300 hover:bg-gold hover:text-ink;
+  }
+  .btn-solid {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-gold text-ink font-ui tracking-widest text-xs uppercase transition-all duration-300 hover:bg-gold-light;
+  }
+  .section-title {
+    @apply font-display text-4xl md:text-6xl font-light leading-tight;
+  }
+  .section-subtitle {
+    @apply font-ui tracking-[0.25em] text-xs uppercase text-gold;
+  }
+  .card-hover {
+    @apply transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl;
+  }
+  .input-field {
+    @apply w-full bg-ink-mid border border-white/10 text-cream placeholder-cream/30 px-4 py-3 text-sm focus:outline-none focus:border-gold/50 transition-colors;
+  }
+  .nav-link {
+    @apply font-ui tracking-[0.2em] text-xs uppercase text-cream/70 hover:text-gold transition-colors duration-200;
+  }
+}
