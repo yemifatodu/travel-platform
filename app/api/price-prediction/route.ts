@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
       body: JSON.stringify({
-        model: 'gpt-4-turbo',
+        model: 'gpt-3.5-turbo-0125',
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: 'json_object' },
         max_tokens: 600,

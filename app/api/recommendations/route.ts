@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-      body: JSON.stringify({ model: 'gpt-4-turbo', messages: [{ role: 'user', content: prompt }], response_format: { type: 'json_object' }, max_tokens: 1200 })
+      body: JSON.stringify({ model: 'gpt-3.5-turbo-0125', messages: [{ role: 'user', content: prompt }], response_format: { type: 'json_object' }, max_tokens: 1200 })
     })
     const data = await res.json()
     return NextResponse.json(JSON.parse(data.choices[0].message.content))
