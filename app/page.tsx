@@ -26,45 +26,6 @@ const testimonials = [
 export default function HomePage() {
   return (
     <>
-      <style>{`
-        :root { --gold: #C8A96E; --ink: #080807; --cream: #F5EFE4; }
-        .page-pad { padding-left: clamp(20px, 5vw, 60px); padding-right: clamp(20px, 5vw, 60px); }
-        .section-pad { padding-top: clamp(60px, 10vw, 120px); padding-bottom: clamp(60px, 10vw, 120px); }
-        .dest-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
-        .dest-grid a:first-child { grid-column: span 2; }
-        .pkg-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
-        .test-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
-        .search-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 12px; }
-        .stats-bar { display: flex; }
-        .stats-bar > div { flex: 1; }
-        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
-        .newsletter-row { display: flex; }
-        @keyframes float1 { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-40px) scale(1.05)} }
-        @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(30px)} }
-
-        @media (max-width: 768px) {
-          html, body { overflow-x: hidden; max-width: 100vw; }
-          .dest-grid { grid-template-columns: 1fr !important; }
-          .dest-grid a:first-child { grid-column: span 1 !important; }
-          .pkg-grid { grid-template-columns: 1fr 1fr !important; }
-          .test-grid { grid-template-columns: 1fr !important; }
-          .search-grid { grid-template-columns: 1fr 1fr !important; }
-          .search-grid button { grid-column: span 2; padding: 16px !important; }
-          .stats-bar { flex-direction: column; }
-          .stats-bar > div { border-right: none !important; border-bottom: 1px solid rgba(200,169,110,0.1); padding: 16px 24px !important; }
-          .hero-buttons { flex-direction: column; }
-          .hero-buttons a { text-align: center; }
-          .newsletter-row { flex-direction: column; }
-          .newsletter-row input { border-right: 1px solid rgba(200,169,110,0.2) !important; }
-          .newsletter-row button { padding: 16px !important; }
-          .dest-header { flex-direction: column !important; gap: 16px; align-items: flex-start !important; }
-          .orb { display: none; }
-        }
-
-        @media (max-width: 480px) {
-          .pkg-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
 
       {/* ── HERO ── */}
       <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden' }}>
@@ -97,7 +58,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="stats-bar" style={{ position: 'relative', zIndex: 10, borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.8)', backdropFilter: 'blur(8px)' }}>
+        <div className="stats-bar" style={{ borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.8)', backdropFilter: 'blur(8px)' }}>
           {[['190+','Countries Covered'],['50K+','Happy Travellers'],['2,400+','Curated Packages'],['24/7','Expert Support']].map(([num, label]) => (
             <div key={num} style={{ padding: 'clamp(16px,3vw,24px) clamp(16px,3vw,40px)', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.4rem,3vw,2rem)', fontWeight: 600, color: '#C8A96E' }}>{num}</div>
