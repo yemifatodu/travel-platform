@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 
 export function Footer() {
@@ -11,7 +12,6 @@ export function Footer() {
     <footer style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.15)', padding: '80px 60px 40px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: '60px', marginBottom: '60px' }}>
-          {/* Brand */}
           <div>
             <div style={{ marginBottom: '20px' }}>
               <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span>
@@ -24,20 +24,21 @@ export function Footer() {
             <a href="mailto:hello@huuboi.com" style={{ fontSize: '0.78rem', color: '#C8A96E', textDecoration: 'none', letterSpacing: '0.05em', marginBottom: '28px', display: 'block' }}>hello@huuboi.com</a>
             <div style={{ display: 'flex', gap: '16px' }}>
               {['Instagram','Facebook','Twitter','LinkedIn'].map(s => (
-                <a key={s} href="#" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.4)', textDecoration: 'none', transition: 'color 0.2s' }}
+                <a key={s} href="#"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.4)', textDecoration: 'none' }}
                   onMouseEnter={e => (e.target as HTMLElement).style.color = '#C8A96E'}
                   onMouseLeave={e => (e.target as HTMLElement).style.color = 'rgba(245,239,228,0.4)'}>{s}</a>
               ))}
             </div>
           </div>
-          {/* Link Columns */}
           {cols.map(col => (
             <div key={col.title}>
               <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: '20px' }}>{col.title}</div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {col.links.map(([label, href]) => (
                   <li key={href}>
-                    <Link href={href} style={{ fontSize: '0.8rem', color: 'rgba(245,239,228,0.5)', textDecoration: 'none', transition: 'color 0.2s' }}
+                    <Link href={href}
+                      style={{ fontSize: '0.8rem', color: 'rgba(245,239,228,0.5)', textDecoration: 'none' }}
                       onMouseEnter={e => (e.target as HTMLElement).style.color = '#F5EFE4'}
                       onMouseLeave={e => (e.target as HTMLElement).style.color = 'rgba(245,239,228,0.5)'}>{label}</Link>
                   </li>
@@ -46,7 +47,6 @@ export function Footer() {
             </div>
           ))}
         </div>
-        {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <p style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.3)' }}>© 2026 HUUBOI.COM — Six Continents. One Platform. All rights reserved.</p>
           <p style={{ fontSize: '0.7rem', color: 'rgba(245,239,228,0.2)', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.15em' }}>BUILT ON NEXT.JS · VERCEL · SUPABASE</p>

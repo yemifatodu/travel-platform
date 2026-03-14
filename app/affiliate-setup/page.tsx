@@ -1,4 +1,6 @@
+
 'use client'
+export const dynamic = 'force-dynamic'
 import { AFFILIATES } from '@/lib/affiliates'
 
 
