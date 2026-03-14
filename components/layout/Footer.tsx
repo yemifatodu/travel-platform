@@ -14,7 +14,8 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div style={{ marginBottom: '20px' }}>
-              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span><span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#C8A96E' }}>BOI</span>
+              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span>
+              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#C8A96E' }}>BOI</span>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem', letterSpacing: '0.3em', color: 'rgba(200,169,110,0.5)', marginTop: '2px' }}>GLOBAL TRAVEL</div>
             </div>
             <p style={{ color: 'rgba(245,239,228,0.5)', lineHeight: '1.8', fontSize: '0.875rem', maxWidth: '260px', marginBottom: '16px' }}>

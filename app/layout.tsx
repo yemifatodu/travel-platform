@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://yourdomain.com',
+    url: 'https://www.huuboi.com',
     siteName: 'HUUBOI',
     title: 'HUUBOI — Global Travel Experiences',
     description: 'Bespoke global travel. Luxury meets adventure.',
