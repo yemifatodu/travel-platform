@@ -1,5 +1,5 @@
-'use client'
 import Link from 'next/link'
+
 export function Footer() {
   const cols = [
     { title: 'Explore', links: [['Flights','/flights'],['Hotels','/hotels'],['Packages','/packages'],['Tours','/tours'],['Car Rentals','/car-rentals'],['Deals','/deals']] },
@@ -13,12 +13,14 @@ export function Footer() {
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: '60px', marginBottom: '60px' }}>
           {/* Brand */}
           <div>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', fontWeight: 600, color: '#C8A96E', marginBottom: '20px', letterSpacing: '0.1em' }}>
-              [YOUR <span style={{ fontStyle: 'italic', fontWeight: 300, color: '#F5EFE4' }}>BRAND]</span>
+            <div style={{ marginBottom: '20px' }}>
+              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span><span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#C8A96E' }}>BOI</span>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem', letterSpacing: '0.3em', color: 'rgba(200,169,110,0.5)', marginTop: '2px' }}>GLOBAL TRAVEL</div>
             </div>
-            <p style={{ color: 'rgba(245,239,228,0.5)', lineHeight: '1.8', fontSize: '0.875rem', maxWidth: '260px', marginBottom: '28px' }}>
+            <p style={{ color: 'rgba(245,239,228,0.5)', lineHeight: '1.8', fontSize: '0.875rem', maxWidth: '260px', marginBottom: '16px' }}>
               Curating extraordinary journeys across six continents. Luxury travel meets bold adventure.
             </p>
+            <a href="mailto:hello@huuboi.com" style={{ fontSize: '0.78rem', color: '#C8A96E', textDecoration: 'none', letterSpacing: '0.05em', marginBottom: '28px', display: 'block' }}>hello@huuboi.com</a>
             <div style={{ display: 'flex', gap: '16px' }}>
               {['Instagram','Facebook','Twitter','LinkedIn'].map(s => (
                 <a key={s} href="#" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.4)', textDecoration: 'none', transition: 'color 0.2s' }}
@@ -45,7 +47,7 @@ export function Footer() {
         </div>
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.3)' }}>© 2025 [YOUR BRAND]. All rights reserved.</p>
+          <p style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.3)' }}>© 2026 HUUBOI.COM — Six Continents. One Platform. All rights reserved.</p>
           <p style={{ fontSize: '0.7rem', color: 'rgba(245,239,228,0.2)', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.15em' }}>BUILT ON NEXT.JS · VERCEL · SUPABASE</p>
         </div>
       </div>
