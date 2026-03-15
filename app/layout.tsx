@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import Script from 'next/script'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -28,6 +29,20 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          id="travelpayouts"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
+              var script = document.createElement("script");
+              script.async = 1;
+              script.src = 'https://tp-em.com/NTA4MDk1.js?t=508095';
+              document.head.appendChild(script);
+            })();`
+          }}
+        />
+      </head>
       <body>
         <Navbar />
         <main>{children}</main>
