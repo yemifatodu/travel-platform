@@ -30,14 +30,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {/* Travelpayouts verification */}
         <Script
-          id="travelpayouts"
+          id="travelpayouts-verify"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function () {
               var script = document.createElement("script");
               script.async = 1;
               script.src = 'https://tp-em.com/NTA4MDk1.js?t=508095';
+              document.head.appendChild(script);
+            })();`
+          }}
+        />
+        {/* Travelpayouts White Label Widget */}
+        <Script
+          id="travelpayouts-wl"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
+              var script = document.createElement("script");
+              script.async = 1;
+              script.type = "module";
+              script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15099";
               document.head.appendChild(script);
             })();`
           }}

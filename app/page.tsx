@@ -185,6 +185,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── SEARCH WIDGET ── */}
+      <section className="section-pad page-pad" style={{ background: '#111110', borderTop: '1px solid rgba(200,169,110,0.1)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 12 }}>✦ SEARCH & BOOK</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 8 }}>Flights, Hotels & More</h2>
+            <p style={{ color: 'rgba(245,239,228,0.5)', fontSize: '0.9rem' }}>Search and book without leaving huuboi.com</p>
+          </div>
+          <div id="tpwl-search"></div>
+          <div id="tpwl-tickets"></div>
+        </div>
+      </section>
+      
       {/* ── NEWSLETTER ── */}
       <section id="contact" className="section-pad page-pad" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)' }}>
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
