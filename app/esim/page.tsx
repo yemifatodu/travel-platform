@@ -124,6 +124,318 @@ function formatPeriod(period: string): string {
   return `${p} Days`;
 }
 
+const esimStyles = `
+  :root {
+    --gold: #C8A96E;
+    --gold-light: #E8C98E;
+    --ink: #080807;
+    --ink-2: #111110;
+    --cream: #F5EFE4;
+    --cream-dim: #E8E0D0;
+    --muted: rgba(200,169,110,0.15);
+    --border: rgba(200,169,110,0.2);
+  }
+  .esim-page {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+  .esim-hero {
+    text-align: center;
+    padding: 80px 24px 60px;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.12) 0%, transparent 70%);
+    border-bottom: 1px solid var(--border);
+  }
+  .esim-hero .label {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.3em;
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .esim-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .esim-hero h1 span { color: var(--gold); font-style: italic; }
+  .esim-hero p {
+    font-size: 1rem;
+    color: rgba(245,239,228,0.6);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .esim-badges {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .esim-badge {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+    border-radius: 2px;
+  }
+  .esim-body {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .esim-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .esim-tab {
+    background: none;
+    border: none;
+    color: rgba(245,239,228,0.4);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+    font-size: 0.9rem;
+    padding: 12px 24px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .esim-tab.active { color: var(--gold); }
+  .esim-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold);
+  }
+  .esim-tab:hover { color: var(--cream); }
+  .esim-search-wrap {
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .esim-search {
+    width: 100%;
+    background: rgba(245,239,228,0.04);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 14px 20px 14px 48px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .esim-search:focus { border-color: var(--gold); }
+  .esim-search::placeholder { color: rgba(245,239,228,0.3); }
+  .esim-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(200,169,110,0.5);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+  .esim-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .esim-country-card {
+    background: rgba(245,239,228,0.03);
+    border: 1px solid var(--border);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .esim-country-card:hover {
+    border-color: rgba(200,169,110,0.5);
+    background: rgba(200,169,110,0.06);
+  }
+  .esim-country-card.active {
+    border-color: var(--gold);
+    background: rgba(200,169,110,0.1);
+  }
+  .esim-country-flag { font-size: 2rem; margin-bottom: 8px; }
+  .esim-country-name {
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .esim-country-count {
+    font-size: 0.7rem;
+    color: var(--gold);
+    margin-top: 4px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.1em;
+  }
+  .esim-detail {
+    border: 1px solid var(--border);
+    background: rgba(245,239,228,0.02);
+    padding: 40px;
+    margin-bottom: 48px;
+    scroll-margin-top: 20px;
+  }
+  .esim-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .esim-detail-flag { font-size: 3rem; }
+  .esim-detail-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--cream);
+  }
+  .esim-detail-subtitle {
+    font-size: 0.8rem;
+    color: rgba(245,239,228,0.4);
+    margin-top: 4px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+  }
+  .esim-plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .esim-plan-card {
+    border: 1px solid var(--border);
+    background: rgba(245,239,228,0.03);
+    padding: 24px;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .esim-plan-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .esim-plan-card:hover { border-color: rgba(200,169,110,0.4); }
+  .esim-plan-card:hover::before { opacity: 1; }
+  .esim-plan-period {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .esim-plan-data {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .esim-plan-throttle {
+    font-size: 0.7rem;
+    color: rgba(245,239,228,0.35);
+    margin-bottom: 16px;
+  }
+  .esim-plan-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 16px 0;
+  }
+  .esim-plan-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  .esim-plan-price span {
+    font-size: 1rem;
+    color: rgba(200,169,110,0.6);
+    font-weight: 300;
+  }
+  .esim-buy-btn {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .esim-buy-btn:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .esim-loading {
+    text-align: center;
+    padding: 80px 24px;
+    color: rgba(245,239,228,0.4);
+  }
+  .esim-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .esim-empty {
+    text-align: center;
+    padding: 48px;
+    color: rgba(245,239,228,0.3);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+  .esim-coverage {
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: rgba(245,239,228,0.35);
+    line-height: 1.5;
+  }
+  .esim-coverage strong {
+    color: rgba(245,239,228,0.5);
+    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+  }
+  @media (max-width: 640px) {
+    .esim-detail { padding: 24px 16px; }
+    .esim-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    .esim-plans-grid { grid-template-columns: 1fr; }
+  }
+`;
+
 export default function EsimPage() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
@@ -148,442 +460,51 @@ export default function EsimPage() {
 
   const countryGroups: CountryGroup[] = (() => {
     const map = new Map<string, CountryGroup>();
-
     plans.forEach(plan => {
       const isGlobal = plan.planName.toLowerCase().includes('global') || plan.planName.toLowerCase().includes('day pass');
       const isRegional = !plan.country_code && !isGlobal;
       const isSingleCountry = !!plan.country_code;
-
       if (isSingleCountry) {
         const code = plan.country_code!.toUpperCase();
         const info = COUNTRY_MAP[code];
         const key = `country_${code}`;
         if (!map.has(key)) {
-          map.set(key, {
-            code,
-            name: info?.name || plan.country,
-            flag: info?.flag || '🌍',
-            plans: [],
-            isRegional: false,
-          });
+          map.set(key, { code, name: info?.name || plan.country, flag: info?.flag || '🌍', plans: [], isRegional: false });
         }
         map.get(key)!.plans.push(plan);
       } else if (isRegional) {
         const key = `regional_${plan.planName}`;
         if (!map.has(key)) {
-          map.set(key, {
-            code: plan.planName,
-            name: plan.country,
-            flag: '🌍',
-            plans: [],
-            isRegional: true,
-          });
+          map.set(key, { code: plan.planName, name: plan.country, flag: '🌍', plans: [], isRegional: true });
         }
         map.get(key)!.plans.push(plan);
       } else {
         const key = `global_${plan.planName}`;
         if (!map.has(key)) {
-          map.set(key, {
-            code: plan.planName,
-            name: plan.planName,
-            flag: '🌐',
-            plans: [],
-            isRegional: true,
-          });
+          map.set(key, { code: plan.planName, name: plan.planName, flag: '🌐', plans: [], isRegional: true });
         }
         map.get(key)!.plans.push(plan);
       }
     });
-
     return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
   })();
 
   const countriesOnly = countryGroups.filter(g => !g.isRegional);
   const regionalOnly = countryGroups.filter(g => g.isRegional && !g.name.toLowerCase().includes('global') && !g.name.toLowerCase().includes('day'));
   const globalOnly = countryGroups.filter(g => g.isRegional && (g.name.toLowerCase().includes('global') || g.name.toLowerCase().includes('day')));
-
   const currentList = activeTab === 'country' ? countriesOnly : activeTab === 'regional' ? regionalOnly : globalOnly;
-
-  const filtered = search.trim()
-    ? currentList.filter(g => g.name.toLowerCase().includes(search.toLowerCase()))
-    : currentList;
+  const filtered = search.trim() ? currentList.filter(g => g.name.toLowerCase().includes(search.toLowerCase())) : currentList;
 
   const handleSelect = (group: CountryGroup) => {
     setSelected(group);
     setTimeout(() => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   };
 
-  const buildBuyLink = (plan: Plan) => {
-    return `${plan.directLink}?partner=${PARTNER_ID}`;
-  };
+  const buildBuyLink = (plan: Plan) => `${plan.directLink}?partner=${PARTNER_ID}`;
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
-
-        :root {
-          --gold: #C8A96E;
-          --gold-light: #E8C98E;
-          --ink: #080807;
-          --ink-2: #111110;
-          --cream: #F5EFE4;
-          --cream-dim: #E8E0D0;
-          --muted: rgba(200,169,110,0.15);
-          --border: rgba(200,169,110,0.2);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        .esim-page {
-          background: var(--ink);
-          color: var(--cream);
-          font-family: 'DM Sans', sans-serif;
-          min-height: 100vh;
-        }
-
-        .esim-hero {
-          text-align: center;
-          padding: 80px 24px 60px;
-          background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.12) 0%, transparent 70%);
-          border-bottom: 1px solid var(--border);
-        }
-
-        .esim-hero .label {
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.3em;
-          font-size: 0.8rem;
-          color: var(--gold);
-          margin-bottom: 16px;
-        }
-
-        .esim-hero h1 {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(2.5rem, 6vw, 4.5rem);
-          font-weight: 300;
-          line-height: 1.1;
-          color: var(--cream);
-          margin-bottom: 20px;
-        }
-
-        .esim-hero h1 span { color: var(--gold); font-style: italic; }
-
-        .esim-hero p {
-          font-size: 1rem;
-          color: rgba(245,239,228,0.6);
-          max-width: 520px;
-          margin: 0 auto 40px;
-          line-height: 1.7;
-          font-weight: 300;
-        }
-
-        .esim-badges {
-          display: flex;
-          gap: 12px;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        .esim-badge {
-          background: var(--muted);
-          border: 1px solid var(--border);
-          color: var(--gold);
-          padding: 6px 16px;
-          font-size: 0.75rem;
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.15em;
-          border-radius: 2px;
-        }
-
-        .esim-body {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 48px 24px;
-        }
-
-        .esim-tabs {
-          display: flex;
-          gap: 4px;
-          margin-bottom: 32px;
-          border-bottom: 1px solid var(--border);
-        }
-
-        .esim-tab {
-          background: none;
-          border: none;
-          color: rgba(245,239,228,0.4);
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.15em;
-          font-size: 0.9rem;
-          padding: 12px 24px;
-          cursor: pointer;
-          position: relative;
-          transition: color 0.2s;
-        }
-
-        .esim-tab.active { color: var(--gold); }
-
-        .esim-tab.active::after {
-          content: '';
-          position: absolute;
-          bottom: -1px;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: var(--gold);
-        }
-
-        .esim-tab:hover { color: var(--cream); }
-
-        .esim-search-wrap {
-          margin-bottom: 32px;
-          position: relative;
-        }
-
-        .esim-search {
-          width: 100%;
-          background: rgba(245,239,228,0.04);
-          border: 1px solid var(--border);
-          color: var(--cream);
-          font-family: 'DM Sans', sans-serif;
-          font-size: 1rem;
-          font-weight: 300;
-          padding: 14px 20px 14px 48px;
-          outline: none;
-          transition: border-color 0.2s;
-        }
-
-        .esim-search:focus { border-color: var(--gold); }
-        .esim-search::placeholder { color: rgba(245,239,228,0.3); }
-
-        .esim-search-icon {
-          position: absolute;
-          left: 16px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: rgba(200,169,110,0.5);
-          font-size: 1.1rem;
-          pointer-events: none;
-        }
-
-        .esim-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-          gap: 12px;
-          margin-bottom: 48px;
-        }
-
-        .esim-country-card {
-          background: rgba(245,239,228,0.03);
-          border: 1px solid var(--border);
-          padding: 16px;
-          cursor: pointer;
-          transition: all 0.2s;
-          text-align: center;
-        }
-
-        .esim-country-card:hover {
-          border-color: rgba(200,169,110,0.5);
-          background: rgba(200,169,110,0.06);
-        }
-
-        .esim-country-card.active {
-          border-color: var(--gold);
-          background: rgba(200,169,110,0.1);
-        }
-
-        .esim-country-flag { font-size: 2rem; margin-bottom: 8px; }
-
-        .esim-country-name {
-          font-size: 0.8rem;
-          color: var(--cream-dim);
-          font-weight: 400;
-          line-height: 1.3;
-        }
-
-        .esim-country-count {
-          font-size: 0.7rem;
-          color: var(--gold);
-          margin-top: 4px;
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.1em;
-        }
-
-        .esim-detail {
-          border: 1px solid var(--border);
-          background: rgba(245,239,228,0.02);
-          padding: 40px;
-          margin-bottom: 48px;
-          scroll-margin-top: 20px;
-        }
-
-        .esim-detail-header {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin-bottom: 32px;
-          padding-bottom: 24px;
-          border-bottom: 1px solid var(--border);
-        }
-
-        .esim-detail-flag { font-size: 3rem; }
-
-        .esim-detail-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 2rem;
-          font-weight: 300;
-          color: var(--cream);
-        }
-
-        .esim-detail-subtitle {
-          font-size: 0.8rem;
-          color: rgba(245,239,228,0.4);
-          margin-top: 4px;
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.15em;
-        }
-
-        .esim-plans-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-          gap: 16px;
-        }
-
-        .esim-plan-card {
-          border: 1px solid var(--border);
-          background: rgba(245,239,228,0.03);
-          padding: 24px;
-          transition: border-color 0.2s;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .esim-plan-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, var(--gold), transparent);
-          opacity: 0;
-          transition: opacity 0.2s;
-        }
-
-        .esim-plan-card:hover { border-color: rgba(200,169,110,0.4); }
-        .esim-plan-card:hover::before { opacity: 1; }
-
-        .esim-plan-period {
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.2em;
-          font-size: 0.75rem;
-          color: var(--gold);
-          margin-bottom: 12px;
-        }
-
-        .esim-plan-data {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 2.2rem;
-          font-weight: 300;
-          color: var(--cream);
-          line-height: 1;
-          margin-bottom: 4px;
-        }
-
-        .esim-plan-throttle {
-          font-size: 0.7rem;
-          color: rgba(245,239,228,0.35);
-          margin-bottom: 16px;
-        }
-
-        .esim-plan-divider {
-          border: none;
-          border-top: 1px solid var(--border);
-          margin: 16px 0;
-        }
-
-        .esim-plan-price {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 1.8rem;
-          font-weight: 600;
-          color: var(--gold-light);
-          margin-bottom: 16px;
-        }
-
-        .esim-plan-price span {
-          font-size: 1rem;
-          color: rgba(200,169,110,0.6);
-          font-weight: 300;
-        }
-
-        .esim-buy-btn {
-          display: block;
-          width: 100%;
-          background: transparent;
-          border: 1px solid var(--gold);
-          color: var(--gold);
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.2em;
-          font-size: 0.85rem;
-          padding: 12px;
-          cursor: pointer;
-          text-align: center;
-          text-decoration: none;
-          transition: all 0.2s;
-        }
-
-        .esim-buy-btn:hover {
-          background: var(--gold);
-          color: var(--ink);
-        }
-
-        .esim-loading {
-          text-align: center;
-          padding: 80px 24px;
-          color: rgba(245,239,228,0.4);
-        }
-
-        .esim-loading-spinner {
-          width: 40px;
-          height: 40px;
-          border: 2px solid var(--border);
-          border-top-color: var(--gold);
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-          margin: 0 auto 16px;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .esim-empty {
-          text-align: center;
-          padding: 48px;
-          color: rgba(245,239,228,0.3);
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 1.2rem;
-          font-style: italic;
-        }
-
-        .esim-coverage {
-          margin-top: 16px;
-          font-size: 0.75rem;
-          color: rgba(245,239,228,0.35);
-          line-height: 1.5;
-        }
-
-        .esim-coverage strong {
-          color: rgba(245,239,228,0.5);
-          font-weight: 400;
-          font-family: 'Bebas Neue', sans-serif;
-          letter-spacing: 0.1em;
-          font-size: 0.7rem;
-        }
-
-        @media (max-width: 640px) {
-          .esim-detail { padding: 24px 16px; }
-          .esim-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-          .esim-plans-grid { grid-template-columns: 1fr; }
-        }
-      `}</style>
-
+      <style dangerouslySetInnerHTML={{ __html: esimStyles }} />
       <div className="esim-page">
         <div className="esim-hero">
           <p className="label">✦ HUUBOI eSIM STORE ✦</p>
@@ -598,35 +519,24 @@ export default function EsimPage() {
         </div>
 
         <div className="esim-body">
-
           {loading && (
             <div className="esim-loading">
               <div className="esim-loading-spinner"></div>
               <p>Loading live plans...</p>
             </div>
           )}
-
           {error && <div className="esim-empty">{error}</div>}
 
           {!loading && !error && (
             <>
               <div className="esim-tabs">
-                <button
-                  className={`esim-tab ${activeTab === 'country' ? 'active' : ''}`}
-                  onClick={() => { setActiveTab('country'); setSelected(null); setSearch(''); }}
-                >
+                <button className={`esim-tab ${activeTab === 'country' ? 'active' : ''}`} onClick={() => { setActiveTab('country'); setSelected(null); setSearch(''); }}>
                   Countries ({countriesOnly.length})
                 </button>
-                <button
-                  className={`esim-tab ${activeTab === 'regional' ? 'active' : ''}`}
-                  onClick={() => { setActiveTab('regional'); setSelected(null); setSearch(''); }}
-                >
+                <button className={`esim-tab ${activeTab === 'regional' ? 'active' : ''}`} onClick={() => { setActiveTab('regional'); setSelected(null); setSearch(''); }}>
                   Regional
                 </button>
-                <button
-                  className={`esim-tab ${activeTab === 'global' ? 'active' : ''}`}
-                  onClick={() => { setActiveTab('global'); setSelected(null); setSearch(''); }}
-                >
+                <button className={`esim-tab ${activeTab === 'global' ? 'active' : ''}`} onClick={() => { setActiveTab('global'); setSelected(null); setSearch(''); }}>
                   Global
                 </button>
               </div>
@@ -673,7 +583,6 @@ export default function EsimPage() {
                       </div>
                     </div>
                   </div>
-
                   <div className="esim-plans-grid">
                     {selected.plans
                       .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
@@ -690,12 +599,7 @@ export default function EsimPage() {
                           <div className="esim-plan-price">
                             €{parseFloat(plan.price).toFixed(2)} <span>EUR</span>
                           </div>
-                          
-                            href={buildBuyLink(plan)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="esim-buy-btn"
-                          >
+                          <a href={buildBuyLink(plan)} target="_blank" rel="noopener noreferrer" className="esim-buy-btn">
                             Get This eSIM →
                           </a>
                           {selected.isRegional && plan.coverages.length > 1 && (
