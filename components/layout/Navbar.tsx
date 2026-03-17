@@ -8,6 +8,7 @@ const links = [
   { label: 'AI Planner', href: '/ai-planner' },
   { label: 'Packages', href: '/packages' },
   { label: 'Blog', href: '/blog' },
+  { label: 'eSIM', href: '/esim' },
 ]
 
 export function Navbar() {
@@ -58,7 +59,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Links */}
-          <div className="nav-desktop" style={{ alignItems: 'center', gap: 36 }}>
+          <div className="nav-desktop" style={{ alignItems: 'center', gap: 28 }}>
             {links.map(link => (
               <Link key={link.href} href={link.href} style={{
                 fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.72rem', letterSpacing: '0.18em',
