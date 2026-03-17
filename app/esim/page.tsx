@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 const YESIM_API = 'https://api.yesim.app/api_v0.1/api/prices?partner=3031';
 const PARTNER_ID = 3031;
 
-// Country code to flag emoji + full name mapping
 const COUNTRY_MAP: Record<string, { name: string; flag: string }> = {
   AD: { name: 'Andorra', flag: '🇦🇩' }, AE: { name: 'UAE', flag: '🇦🇪' },
   AG: { name: 'Antigua & Barbuda', flag: '🇦🇬' }, AI: { name: 'Anguilla', flag: '🇦🇮' },
@@ -86,6 +85,7 @@ const COUNTRY_MAP: Record<string, { name: string; flag: string }> = {
 interface Plan {
   period: string;
   capacity: string;
+  dataUnit: string;
   capacityInfo: string | null;
   price: string;
   currency: string;
@@ -146,12 +146,10 @@ export default function EsimPage() {
       });
   }, []);
 
-  // Group plans by country/region
   const countryGroups: CountryGroup[] = (() => {
     const map = new Map<string, CountryGroup>();
 
     plans.forEach(plan => {
-      // Determine if this is a single-country, regional, or global plan
       const isGlobal = plan.planName.toLowerCase().includes('global') || plan.planName.toLowerCase().includes('day pass');
       const isRegional = !plan.country_code && !isGlobal;
       const isSingleCountry = !!plan.country_code;
@@ -173,8 +171,6 @@ export default function EsimPage() {
       } else if (isRegional) {
         const key = `regional_${plan.planName}`;
         if (!map.has(key)) {
-          // Get flag from first coverage country
-          const firstCode = plan.coverages[0]?.code;
           map.set(key, {
             code: plan.planName,
             name: plan.country,
@@ -185,7 +181,6 @@ export default function EsimPage() {
         }
         map.get(key)!.plans.push(plan);
       } else {
-        // Global
         const key = `global_${plan.planName}`;
         if (!map.has(key)) {
           map.set(key, {
@@ -311,7 +306,6 @@ export default function EsimPage() {
           gap: 4px;
           margin-bottom: 32px;
           border-bottom: 1px solid var(--border);
-          padding-bottom: 0;
         }
 
         .esim-tab {
@@ -327,9 +321,7 @@ export default function EsimPage() {
           transition: color 0.2s;
         }
 
-        .esim-tab.active {
-          color: var(--gold);
-        }
+        .esim-tab.active { color: var(--gold); }
 
         .esim-tab.active::after {
           content: '';
@@ -653,7 +645,7 @@ export default function EsimPage() {
               )}
 
               {filtered.length === 0 && (
-                <div className="esim-empty">No destinations found for "{search}"</div>
+                <div className="esim-empty">No destinations found for &quot;{search}&quot;</div>
               )}
 
               <div className="esim-grid">
@@ -698,7 +690,7 @@ export default function EsimPage() {
                           <div className="esim-plan-price">
                             €{parseFloat(plan.price).toFixed(2)} <span>EUR</span>
                           </div>
-                          <a
+                          
                             href={buildBuyLink(plan)}
                             target="_blank"
                             rel="noopener noreferrer"
