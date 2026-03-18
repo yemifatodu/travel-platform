@@ -22,6 +22,7 @@ const destinations = [
   { name: 'Dakar', country: 'Senegal', region: 'Africa', slug: 'dakar', gradient: 'linear-gradient(160deg,#001424,#001e38,#002848)' },
   { name: 'Accra', country: 'Ghana', region: 'Africa', slug: 'accra', gradient: 'linear-gradient(160deg,#1a0800,#2c1200,#3e1c00)' },
   { name: 'Addis Ababa', country: 'Ethiopia', region: 'Africa', slug: 'addis-ababa', gradient: 'linear-gradient(160deg,#0e0018,#180028,#220038)' },
+  { name: 'Luanda', country: 'Angola', region: 'Africa', slug: 'luanda', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Mauritius', country: 'Mauritius', region: 'Africa', slug: 'mauritius', gradient: 'linear-gradient(160deg,#001c18,#002c24,#003c30)' },
   { name: 'Seychelles', country: 'Seychelles', region: 'Africa', slug: 'seychelles', gradient: 'linear-gradient(160deg,#001820,#002430,#003040)' },
   { name: 'Madagascar', country: 'Madagascar', region: 'Africa', slug: 'madagascar', gradient: 'linear-gradient(160deg,#001c00,#002c00,#003c00)' },
@@ -224,18 +225,23 @@ export default function HomePage() {
   const [showAllPkg, setShowAllPkg] = useState(false)
 
   const tabs = [
-    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://aviasales.tp.st/4CRDbzuv', cta: 'SEARCH FLIGHTS' },
-    { label: 'Hotels', icon: '🏨', fields: [{placeholder:'City or destination',label:'DESTINATION'},{placeholder:'Check-in date',label:'CHECK IN'},{placeholder:'Check-out date',label:'CHECK OUT'},{placeholder:'No. of guests',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p&creativeref=1100l68075&adref=PZnDB3QOfb', cta: 'SEARCH HOTELS' },
-    { label: 'Packages', icon: '📦', fields: [{placeholder:'Flying from?',label:'FROM'},{placeholder:'Destination',label:'TO'},{placeholder:'Travel dates',label:'DATES'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p&creativeref=1100l68075&adref=PZRpNWOv8b', cta: 'SEARCH PACKAGES' },
-    { label: 'Activities', icon: '🎯', fields: [{placeholder:'City or attraction',label:'DESTINATION'},{placeholder:'Date of activity',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'},{placeholder:'e.g. tours, diving, hiking',label:'CATEGORY'}], link: 'https://wegotrip.tp.st/lqB3ZrDK', cta: 'FIND ACTIVITIES' },
-    { label: 'Car Rentals', icon: '🚗', fields: [{placeholder:'Pick-up location',label:'PICK UP'},{placeholder:'Drop-off location',label:'DROP OFF'},{placeholder:'Pick-up date',label:'DATE FROM'},{placeholder:'Return date',label:'DATE TO'}], link: 'https://getrentacar.tp.st/CvPLu5ev', cta: 'SEARCH CARS' },
-    { label: 'Transfers', icon: '🚌', fields: [{placeholder:'From (airport / hotel)',label:'FROM'},{placeholder:'To (airport / hotel)',label:'TO'},{placeholder:'Date & time',label:'DATE'},{placeholder:'No. of passengers',label:'PASSENGERS'}], link: 'https://kiwitaxi.tp.st/pthb6f1z', cta: 'FIND TRANSFERS' },
-    { label: 'eSIM', icon: '📱', fields: [{placeholder:'Country you are visiting',label:'DESTINATION'},{placeholder:'Days needed',label:'DURATION'},{placeholder:'e.g. 5GB, 10GB, Unlimited',label:'DATA PLAN'},{placeholder:'No. of SIMs',label:'QUANTITY'}], link: '/esim', cta: 'GET YOUR eSIM' },
+    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], cta: 'SEARCH FLIGHTS', isEsim: false },
+    { label: 'Hotels', icon: '🏨', fields: [{placeholder:'City or destination',label:'DESTINATION'},{placeholder:'Check-in date',label:'CHECK IN'},{placeholder:'Check-out date',label:'CHECK OUT'},{placeholder:'No. of guests',label:'GUESTS'}], cta: 'SEARCH HOTELS', isEsim: false },
+    { label: 'Packages', icon: '📦', fields: [{placeholder:'Flying from?',label:'FROM'},{placeholder:'Destination',label:'TO'},{placeholder:'Travel dates',label:'DATES'},{placeholder:'No. of travellers',label:'GUESTS'}], cta: 'SEARCH PACKAGES', isEsim: false },
+    { label: 'Activities', icon: '🎯', fields: [{placeholder:'City or attraction',label:'DESTINATION'},{placeholder:'Date of activity',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'},{placeholder:'e.g. tours, diving, hiking',label:'CATEGORY'}], cta: 'FIND ACTIVITIES', isEsim: false },
+    { label: 'Car Rentals', icon: '🚗', fields: [{placeholder:'Pick-up location',label:'PICK UP'},{placeholder:'Drop-off location',label:'DROP OFF'},{placeholder:'Pick-up date',label:'DATE FROM'},{placeholder:'Return date',label:'DATE TO'}], cta: 'SEARCH CARS', isEsim: false },
+    { label: 'Transfers', icon: '🚌', fields: [{placeholder:'From (airport / hotel)',label:'FROM'},{placeholder:'To (airport / hotel)',label:'TO'},{placeholder:'Date & time',label:'DATE'},{placeholder:'No. of passengers',label:'PASSENGERS'}], cta: 'FIND TRANSFERS', isEsim: false },
+    { label: 'eSIM', icon: '📱', fields: [{placeholder:'Country you are visiting',label:'DESTINATION'},{placeholder:'Days needed',label:'DURATION'},{placeholder:'e.g. 5GB, 10GB, Unlimited',label:'DATA PLAN'},{placeholder:'No. of SIMs',label:'QUANTITY'}], cta: 'GET YOUR eSIM', isEsim: true },
   ]
 
   const visibleDest = showAllDest ? destinations : destinations.slice(0, 18)
   const visiblePkg = showAllPkg ? packages : packages.slice(0, 12)
   const currentTab = tabs[activeTab]
+
+  const scrollToWidget = () => {
+    const widget = document.getElementById('tpwl-search')
+    if (widget) widget.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
     <>
@@ -291,9 +297,15 @@ export default function HomePage() {
                 <input placeholder={field.placeholder} style={{ background: 'none', border: 'none', color: '#F5EFE4', fontSize: '0.9rem', width: '100%', outline: 'none' }} />
               </div>
             ))}
-            <a href={currentTab.link} target="_blank" rel="noopener noreferrer" style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
-              {currentTab.cta}
-            </a>
+            {currentTab.isEsim ? (
+              <Link href="/esim" style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
+                {currentTab.cta}
+              </Link>
+            ) : (
+              <button onClick={scrollToWidget} style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
+                {currentTab.cta}
+              </button>
+            )}
           </div>
         </div>
       </section>
@@ -440,3 +452,4 @@ export default function HomePage() {
     </>
   )
 }
+
