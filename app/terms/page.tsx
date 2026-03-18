@@ -2,29 +2,107 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions',
-  description: 'The terms governing your use of our platform and services.',
+  title: 'Terms & Conditions | HUUBOI',
+  description: 'The terms and conditions governing your use of the HUUBOI platform.',
 }
 
 export default function Page() {
+  const gold = '#C8A96E'
+  const cream = '#F5EFE4'
+  const muted = 'rgba(245,239,228,0.60)'
+
+  const section = (title: string, content: string[]) => (
+    <div style={{ marginBottom: 48 }}>
+      <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.25em', color: gold, marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid rgba(200,169,110,0.15)' }}>
+        {title}
+      </h2>
+      {content.map((para, i) => (
+        <p key={i} style={{ color: muted, lineHeight: 1.9, fontSize: '0.93rem', marginBottom: 14 }}>{para}</p>
+      ))}
+    </div>
+  )
+
   return (
-    <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 120 }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 60px' }}>
+    <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 100 }}>
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: 'clamp(40px,8vw,100px) clamp(20px,5vw,60px)' }}>
+
         {/* Header */}
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 16 }}>📜 NAVIGATION</div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem, 6vw, 6rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1, marginBottom: 24 }}>Terms & Conditions</h1>
-          <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '1rem', maxWidth: 600, lineHeight: 1.8 }}>The terms governing your use of our platform and services.</p>
-        </div>
-        {/* Coming Soon Notice */}
-        <div style={{ border: '1px solid rgba(200,169,110,0.2)', padding: '48px', background: '#1C1B18', maxWidth: 600 }}>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.65rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16 }}>IN DEVELOPMENT</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', fontWeight: 300, color: '#F5EFE4', marginBottom: 16 }}>This page is being built</h2>
-          <p style={{ color: 'rgba(245,239,228,0.5)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 32 }}>
-            Connect your APIs, add your content, and this page will come to life. See the README for implementation guide.
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ width: 32, height: 1, background: gold, display: 'inline-block' }} />
+            LEGAL
+          </div>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2.5rem,6vw,5rem)', fontWeight: 300, color: cream, lineHeight: 1, marginBottom: 24 }}>
+            Terms &amp;<br />Conditions
+          </h1>
+          <p style={{ color: muted, fontSize: '0.9rem', lineHeight: 1.7 }}>
+            Last updated: March 2026 &nbsp;·&nbsp; HUUBOI.COM
           </p>
-          <Link href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', border: '1px solid #C8A96E', color: '#C8A96E', padding: '12px 28px', textDecoration: 'none', display: 'inline-block' }}>← BACK TO HOME</Link>
         </div>
+
+        <div style={{ width: '100%', height: 1, background: 'rgba(200,169,110,0.15)', marginBottom: 56 }} />
+
+        {section('1. Acceptance of Terms', [
+          'By accessing or using the HUUBOI platform at huuboi.com ("the Platform"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, you may not use our services.',
+          'We reserve the right to update these terms at any time. Continued use of the Platform after changes constitutes your acceptance of the revised terms.',
+        ])}
+
+        {section('2. Description of Services', [
+          'HUUBOI is a travel aggregator and affiliate platform that connects users with third-party travel service providers including airlines, hotels, car rental companies, tour operators, eSIM providers and other travel-related services.',
+          'HUUBOI does not directly provide flights, accommodation, car rentals, tours or other travel services. We act as an intermediary, directing you to our partners\' websites and earning a commission when bookings are made.',
+        ])}
+
+        {section('3. User Accounts', [
+          'To access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account.',
+          'You must provide accurate and complete information when creating an account. You must be at least 18 years old to register.',
+          'We reserve the right to suspend or terminate accounts that violate these terms or engage in fraudulent activity.',
+        ])}
+
+        {section('4. Bookings & Third-Party Services', [
+          'When you click through to a partner\'s website to complete a booking, you are entering into a direct contract with that third-party provider. HUUBOI is not a party to that contract and accepts no liability for the services provided.',
+          'All bookings are subject to the terms, conditions and policies of the relevant third-party provider. Please review their terms carefully before completing any booking.',
+          'Prices, availability and offers displayed on our platform are provided by our partners and are subject to change without notice.',
+        ])}
+
+        {section('5. Affiliate Relationships', [
+          'HUUBOI participates in affiliate marketing programmes. We earn a commission from our partners when users complete bookings through our links. This is how we fund our platform and keep it free to use.',
+          'Our affiliate relationships do not influence the travel recommendations or search results we display. We always aim to show you the best options available.',
+        ])}
+
+        {section('6. AI Trip Planner', [
+          'Our AI Trip Planner is provided as a helpful tool to assist with travel planning. Itineraries and recommendations generated by the AI are suggestions only and should not be relied upon as professional travel advice.',
+          'We do not guarantee the accuracy, completeness or suitability of AI-generated content. Always verify important travel information — including visa requirements, entry restrictions, health advisories and booking availability — with official sources.',
+        ])}
+
+        {section('7. Intellectual Property', [
+          'All content on the HUUBOI platform, including text, graphics, logos, images and software, is the property of HUUBOI or its content suppliers and is protected by applicable intellectual property laws.',
+          'You may not reproduce, distribute or create derivative works from our content without written permission.',
+        ])}
+
+        {section('8. Limitation of Liability', [
+          'To the fullest extent permitted by law, HUUBOI shall not be liable for any indirect, incidental, special, consequential or punitive damages arising from your use of the Platform or any third-party services accessed through it.',
+          'HUUBOI is not liable for any losses resulting from booking cancellations, changes, or failures by third-party providers, travel disruptions, natural disasters, or events outside our control.',
+          'Our total liability to you in connection with these terms shall not exceed the amount of any commission we received in relation to your booking.',
+        ])}
+
+        {section('9. Disclaimer of Warranties', [
+          'The Platform is provided on an "as is" and "as available" basis without warranties of any kind, either express or implied. We do not warrant that the Platform will be uninterrupted, error-free or free of viruses.',
+        ])}
+
+        {section('10. Governing Law', [
+          'These Terms and Conditions are governed by the laws of the Federal Republic of Nigeria. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts of Lagos, Nigeria.',
+        ])}
+
+        {section('11. Contact', [
+          'For any questions regarding these Terms & Conditions, please contact us at hello@huuboi.com or visit www.huuboi.com.',
+        ])}
+
+        <div style={{ marginTop: 64, paddingTop: 32, borderTop: '1px solid rgba(200,169,110,0.15)', display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <Link href="/privacy-policy" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: gold, textDecoration: 'none' }}>Privacy Policy →</Link>
+          <Link href="/refund-policy" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: gold, textDecoration: 'none' }}>Refund Policy →</Link>
+          <Link href="/" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: 'rgba(245,239,228,0.4)', textDecoration: 'none' }}>← Back to Home</Link>
+        </div>
+
       </div>
     </div>
   )
