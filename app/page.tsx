@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 const destinations = [
-  // ── AFRICA ──
+  // ── AFRICA (32) ──
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
   { name: 'Cape Town', country: 'South Africa', region: 'Africa', slug: 'cape-town', gradient: 'linear-gradient(160deg,#001018,#001c2d,#002840)' },
   { name: 'Marrakech', country: 'Morocco', region: 'Africa', slug: 'marrakech', gradient: 'linear-gradient(160deg,#200800,#381200,#501c00)' },
@@ -36,12 +36,8 @@ const destinations = [
   { name: 'Alexandria', country: 'Egypt', region: 'Africa', slug: 'alexandria', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Dar es Salaam', country: 'Tanzania', region: 'Africa', slug: 'dar-es-salaam', gradient: 'linear-gradient(160deg,#001c0e,#002c18,#003c22)' },
   { name: 'Harare', country: 'Zimbabwe', region: 'Africa', slug: 'harare', gradient: 'linear-gradient(160deg,#0a1400,#141e00,#1e2c00)' },
-  { name: 'Cairo', country: 'Egypt', region: 'Africa', slug: 'cairo', gradient: 'linear-gradient(160deg,#221000,#381c00,#4e2800)' },
-  { name: 'Pyramids of Giza', country: 'Egypt', region: 'Africa', slug: 'pyramids-giza', gradient: 'linear-gradient(160deg,#261200,#3c1e00,#522a00)' },
-  { name: 'Aswan', country: 'Egypt', region: 'Africa', slug: 'aswan', gradient: 'linear-gradient(160deg,#201000,#341c00,#482800)' },
-  { name: 'Casablanca', country: 'Morocco', region: 'Africa', slug: 'casablanca', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
 
-  // ── MIDDLE EAST ──
+  // ── MIDDLE EAST (16) ──
   { name: 'Dubai', country: 'UAE', region: 'Middle East', slug: 'dubai', gradient: 'linear-gradient(160deg,#200e00,#3d2200,#582e00)' },
   { name: 'Petra', country: 'Jordan', region: 'Middle East', slug: 'petra', gradient: 'linear-gradient(160deg,#200800,#381200,#4a1800)' },
   { name: 'Muscat', country: 'Oman', region: 'Middle East', slug: 'muscat', gradient: 'linear-gradient(160deg,#141000,#221c00,#302600)' },
@@ -59,7 +55,7 @@ const destinations = [
   { name: 'Beirut', country: 'Lebanon', region: 'Middle East', slug: 'beirut', gradient: 'linear-gradient(160deg,#200010,#340020,#480030)' },
   { name: 'Aqaba', country: 'Jordan', region: 'Middle East', slug: 'aqaba', gradient: 'linear-gradient(160deg,#001420,#001e30,#002840)' },
 
-  // ── ASIA ──
+  // ── ASIA (40) ──
   { name: 'Kyoto', country: 'Japan', region: 'Asia', slug: 'kyoto', gradient: 'linear-gradient(160deg,#200015,#380025,#4a0033)' },
   { name: 'Bali', country: 'Indonesia', region: 'Asia', slug: 'bali', gradient: 'linear-gradient(160deg,#001a08,#002d10,#00401a)' },
   { name: 'Maldives', country: 'Maldives', region: 'Asia', slug: 'maldives', gradient: 'linear-gradient(160deg,#001828,#002440,#003058)' },
@@ -88,16 +84,20 @@ const destinations = [
   { name: 'Rajasthan', country: 'India', region: 'Asia', slug: 'rajasthan', gradient: 'linear-gradient(160deg,#240800,#3a1000,#501800)' },
   { name: 'Kerala', country: 'India', region: 'Asia', slug: 'kerala', gradient: 'linear-gradient(160deg,#001a08,#002a10,#003a1a)' },
   { name: 'Goa', country: 'India', region: 'Asia', slug: 'goa', gradient: 'linear-gradient(160deg,#001c14,#002c20,#003c2c)' },
+  { name: 'Pattaya', country: 'Thailand', region: 'Asia', slug: 'pattaya', gradient: 'linear-gradient(160deg,#001c20,#002c30,#003c40)' },
   { name: 'Colombo', country: 'Sri Lanka', region: 'Asia', slug: 'colombo', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Hanoi', country: 'Vietnam', region: 'Asia', slug: 'hanoi', gradient: 'linear-gradient(160deg,#0a1000,#141c00,#1e2800)' },
   { name: 'Kuala Lumpur', country: 'Malaysia', region: 'Asia', slug: 'kuala-lumpur', gradient: 'linear-gradient(160deg,#001428,#001c40,#002458)' },
+  { name: 'Yangon', country: 'Myanmar', region: 'Asia', slug: 'yangon', gradient: 'linear-gradient(160deg,#180800,#281200,#381c00)' },
   { name: 'Bagan', country: 'Myanmar', region: 'Asia', slug: 'bagan', gradient: 'linear-gradient(160deg,#200c00,#341800,#482400)' },
   { name: 'Agra', country: 'India', region: 'Asia', slug: 'agra', gradient: 'linear-gradient(160deg,#1e1000,#301c00,#422800)' },
   { name: 'Mumbai', country: 'India', region: 'Asia', slug: 'mumbai', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
+  { name: 'Lombok', country: 'Indonesia', region: 'Asia', slug: 'lombok', gradient: 'linear-gradient(160deg,#001c10,#002c1a,#003c24)' },
   { name: 'Ubud', country: 'Indonesia', region: 'Asia', slug: 'ubud', gradient: 'linear-gradient(160deg,#001a08,#002a10,#003a1a)' },
+  { name: 'Phuket', country: 'Thailand', region: 'Asia', slug: 'phuket-islands', gradient: 'linear-gradient(160deg,#001c20,#002c30,#003c42)' },
   { name: 'Jeju Island', country: 'South Korea', region: 'Asia', slug: 'jeju', gradient: 'linear-gradient(160deg,#001428,#001c3c,#002450)' },
 
-  // ── EUROPE ──
+  // ── EUROPE (36) ──
   { name: 'Amalfi Coast', country: 'Italy', region: 'Europe', slug: 'amalfi-coast', gradient: 'linear-gradient(160deg,#001428,#002040,#002c58)' },
   { name: 'Santorini', country: 'Greece', region: 'Europe', slug: 'santorini', gradient: 'linear-gradient(160deg,#00101e,#001830,#002040)' },
   { name: 'Dubrovnik', country: 'Croatia', region: 'Europe', slug: 'dubrovnik', gradient: 'linear-gradient(160deg,#000e18,#001828,#002238)' },
@@ -114,15 +114,19 @@ const destinations = [
   { name: 'Edinburgh', country: 'Scotland', region: 'Europe', slug: 'edinburgh', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Reykjavik', country: 'Iceland', region: 'Europe', slug: 'reykjavik', gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)' },
   { name: 'Swiss Alps', country: 'Switzerland', region: 'Europe', slug: 'swiss-alps', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
+  { name: 'Bruges', country: 'Belgium', region: 'Europe', slug: 'bruges', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Mykonos', country: 'Greece', region: 'Europe', slug: 'mykonos', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Corfu', country: 'Greece', region: 'Europe', slug: 'corfu', gradient: 'linear-gradient(160deg,#001828,#002440,#003058)' },
   { name: 'Mallorca', country: 'Spain', region: 'Europe', slug: 'mallorca', gradient: 'linear-gradient(160deg,#001c20,#002c32,#003c44)' },
   { name: 'Florence', country: 'Italy', region: 'Europe', slug: 'florence', gradient: 'linear-gradient(160deg,#1a0800,#2c1200,#401c00)' },
   { name: 'Seville', country: 'Spain', region: 'Europe', slug: 'seville', gradient: 'linear-gradient(160deg,#1e0800,#321200,#461c00)' },
+  { name: 'Zurich', country: 'Switzerland', region: 'Europe', slug: 'zurich', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Budapest', country: 'Hungary', region: 'Europe', slug: 'budapest', gradient: 'linear-gradient(160deg,#1a0010,#2c0020,#3e0030)' },
   { name: 'Krakow', country: 'Poland', region: 'Europe', slug: 'krakow', gradient: 'linear-gradient(160deg,#0e0018,#180028,#220038)' },
+  { name: 'Valletta', country: 'Malta', region: 'Europe', slug: 'valletta', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Kotor', country: 'Montenegro', region: 'Europe', slug: 'kotor', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Tbilisi', country: 'Georgia', region: 'Europe', slug: 'tbilisi', gradient: 'linear-gradient(160deg,#1a0800,#2c1400,#3e2000)' },
+  { name: 'Oporto', country: 'Portugal', region: 'Europe', slug: 'oporto', gradient: 'linear-gradient(160deg,#180a00,#281600,#382200)' },
   { name: 'Tuscany', country: 'Italy', region: 'Europe', slug: 'tuscany', gradient: 'linear-gradient(160deg,#1a0a00,#2c1600,#402200)' },
   { name: 'Madrid', country: 'Spain', region: 'Europe', slug: 'madrid', gradient: 'linear-gradient(160deg,#1a0010,#2c0020,#400030)' },
   { name: 'Athens', country: 'Greece', region: 'Europe', slug: 'athens', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
@@ -131,7 +135,7 @@ const destinations = [
   { name: 'Copenhagen', country: 'Denmark', region: 'Europe', slug: 'copenhagen', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Tallinn', country: 'Estonia', region: 'Europe', slug: 'tallinn', gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)' },
 
-  // ── AMERICAS ──
+  // ── AMERICAS (26) ──
   { name: 'Patagonia', country: 'Argentina', region: 'Americas', slug: 'patagonia', gradient: 'linear-gradient(160deg,#001824,#002a3d,#003852)' },
   { name: 'Machu Picchu', country: 'Peru', region: 'Americas', slug: 'machu-picchu', gradient: 'linear-gradient(160deg,#060e00,#0c1c00,#122600)' },
   { name: 'Galapagos', country: 'Ecuador', region: 'Americas', slug: 'galapagos', gradient: 'linear-gradient(160deg,#001a14,#002822,#003430)' },
@@ -154,10 +158,12 @@ const destinations = [
   { name: 'Tulum', country: 'Mexico', region: 'Americas', slug: 'tulum', gradient: 'linear-gradient(160deg,#001c14,#002c20,#003c2c)' },
   { name: 'Belize', country: 'Belize', region: 'Americas', slug: 'belize', gradient: 'linear-gradient(160deg,#001c10,#002c1a,#003c24)' },
   { name: 'Costa Rica', country: 'Costa Rica', region: 'Americas', slug: 'costa-rica', gradient: 'linear-gradient(160deg,#001c00,#002c00,#003c00)' },
+  { name: 'Nashville', country: 'USA', region: 'Americas', slug: 'nashville', gradient: 'linear-gradient(160deg,#1a0800,#2c1400,#3e2000)' },
+  { name: 'New Orleans', country: 'USA', region: 'Americas', slug: 'new-orleans', gradient: 'linear-gradient(160deg,#1a0010,#2c0020,#3e0030)' },
   { name: 'Jamaica', country: 'Jamaica', region: 'Americas', slug: 'jamaica', gradient: 'linear-gradient(160deg,#001a00,#002a00,#003a00)' },
   { name: 'Barbados', country: 'Barbados', region: 'Americas', slug: 'barbados', gradient: 'linear-gradient(160deg,#001a14,#002820,#00382c)' },
 
-  // ── ARCTIC & POLAR ──
+  // ── ARCTIC & POLAR (8) ──
   { name: 'Svalbard', country: 'Norway', region: 'Arctic', slug: 'svalbard', gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)' },
   { name: 'Faroe Islands', country: 'Denmark', region: 'Arctic', slug: 'faroe-islands', gradient: 'linear-gradient(160deg,#001220,#001c32,#002644)' },
   { name: 'Lofoten Islands', country: 'Norway', region: 'Arctic', slug: 'lofoten', gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)' },
@@ -167,7 +173,7 @@ const destinations = [
   { name: 'Alaska', country: 'USA', region: 'Arctic', slug: 'alaska', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
   { name: 'Lapland', country: 'Finland', region: 'Arctic', slug: 'lapland', gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)' },
 
-  // ── PACIFIC ──
+  // ── PACIFIC (12) ──
   { name: 'Queenstown', country: 'New Zealand', region: 'Pacific', slug: 'queenstown', gradient: 'linear-gradient(160deg,#001418,#001e28,#002838)' },
   { name: 'Fiji Islands', country: 'Fiji', region: 'Pacific', slug: 'fiji', gradient: 'linear-gradient(160deg,#001a10,#00281a,#003424)' },
   { name: 'Milford Sound', country: 'New Zealand', region: 'Pacific', slug: 'milford-sound', gradient: 'linear-gradient(160deg,#001c20,#002c30,#003c40)' },
@@ -180,6 +186,14 @@ const destinations = [
   { name: 'Vanuatu', country: 'Vanuatu', region: 'Pacific', slug: 'vanuatu', gradient: 'linear-gradient(160deg,#001c0e,#002c18,#003c22)' },
   { name: 'Cook Islands', country: 'Cook Islands', region: 'Pacific', slug: 'cook-islands', gradient: 'linear-gradient(160deg,#001c18,#002c24,#003c30)' },
   { name: 'Easter Island', country: 'Chile', region: 'Pacific', slug: 'easter-island', gradient: 'linear-gradient(160deg,#1a1200,#2a1e00,#3a2a00)' },
+
+  // ── EGYPT & NORTH AFRICA (6) ──
+  { name: 'Cairo', country: 'Egypt', region: 'Africa', slug: 'cairo', gradient: 'linear-gradient(160deg,#221000,#381c00,#4e2800)' },
+  { name: 'Pyramids of Giza', country: 'Egypt', region: 'Africa', slug: 'pyramids-giza', gradient: 'linear-gradient(160deg,#261200,#3c1e00,#522a00)' },
+  { name: 'Aswan', country: 'Egypt', region: 'Africa', slug: 'aswan', gradient: 'linear-gradient(160deg,#201000,#341c00,#482800)' },
+  { name: 'Tunis', country: 'Tunisia', region: 'Africa', slug: 'tunis', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
+  { name: 'Djerba', country: 'Tunisia', region: 'Africa', slug: 'djerba', gradient: 'linear-gradient(160deg,#001c20,#002c30,#003c40)' },
+  { name: 'Casablanca', country: 'Morocco', region: 'Africa', slug: 'casablanca', gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)' },
 ]
 
 const packages = [
@@ -225,23 +239,18 @@ export default function HomePage() {
   const [showAllPkg, setShowAllPkg] = useState(false)
 
   const tabs = [
-    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], cta: 'SEARCH FLIGHTS', isEsim: false },
-    { label: 'Hotels', icon: '🏨', fields: [{placeholder:'City or destination',label:'DESTINATION'},{placeholder:'Check-in date',label:'CHECK IN'},{placeholder:'Check-out date',label:'CHECK OUT'},{placeholder:'No. of guests',label:'GUESTS'}], cta: 'SEARCH HOTELS', isEsim: false },
-    { label: 'Packages', icon: '📦', fields: [{placeholder:'Flying from?',label:'FROM'},{placeholder:'Destination',label:'TO'},{placeholder:'Travel dates',label:'DATES'},{placeholder:'No. of travellers',label:'GUESTS'}], cta: 'SEARCH PACKAGES', isEsim: false },
-    { label: 'Activities', icon: '🎯', fields: [{placeholder:'City or attraction',label:'DESTINATION'},{placeholder:'Date of activity',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'},{placeholder:'e.g. tours, diving, hiking',label:'CATEGORY'}], cta: 'FIND ACTIVITIES', isEsim: false },
-    { label: 'Car Rentals', icon: '🚗', fields: [{placeholder:'Pick-up location',label:'PICK UP'},{placeholder:'Drop-off location',label:'DROP OFF'},{placeholder:'Pick-up date',label:'DATE FROM'},{placeholder:'Return date',label:'DATE TO'}], cta: 'SEARCH CARS', isEsim: false },
-    { label: 'Transfers', icon: '🚌', fields: [{placeholder:'From (airport / hotel)',label:'FROM'},{placeholder:'To (airport / hotel)',label:'TO'},{placeholder:'Date & time',label:'DATE'},{placeholder:'No. of passengers',label:'PASSENGERS'}], cta: 'FIND TRANSFERS', isEsim: false },
-    { label: 'eSIM', icon: '📱', fields: [{placeholder:'Country you are visiting',label:'DESTINATION'},{placeholder:'Days needed',label:'DURATION'},{placeholder:'e.g. 5GB, 10GB, Unlimited',label:'DATA PLAN'},{placeholder:'No. of SIMs',label:'QUANTITY'}], cta: 'GET YOUR eSIM', isEsim: true },
+    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://aviasales.tp.st/4CRDbzuv', cta: 'SEARCH FLIGHTS' },
+    { label: 'Hotels', icon: '🏨', fields: [{placeholder:'City or destination',label:'DESTINATION'},{placeholder:'Check-in date',label:'CHECK IN'},{placeholder:'Check-out date',label:'CHECK OUT'},{placeholder:'No. of guests',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p&creativeref=1100l68075&adref=PZnDB3QOfb', cta: 'SEARCH HOTELS' },
+    { label: 'Packages', icon: '📦', fields: [{placeholder:'Flying from?',label:'FROM'},{placeholder:'Destination',label:'TO'},{placeholder:'Travel dates',label:'DATES'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p&creativeref=1100l68075&adref=PZRpNWOv8b', cta: 'SEARCH PACKAGES' },
+    { label: 'Activities', icon: '🎯', fields: [{placeholder:'City or attraction',label:'DESTINATION'},{placeholder:'Date of activity',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'},{placeholder:'e.g. tours, diving, hiking',label:'CATEGORY'}], link: 'https://wegotrip.tp.st/lqB3ZrDK', cta: 'FIND ACTIVITIES' },
+    { label: 'Car Rentals', icon: '🚗', fields: [{placeholder:'Pick-up location',label:'PICK UP'},{placeholder:'Drop-off location',label:'DROP OFF'},{placeholder:'Pick-up date',label:'DATE FROM'},{placeholder:'Return date',label:'DATE TO'}], link: 'https://getrentacar.tp.st/CvPLu5ev', cta: 'SEARCH CARS' },
+    { label: 'Transfers', icon: '🚌', fields: [{placeholder:'From (airport / hotel)',label:'FROM'},{placeholder:'To (airport / hotel)',label:'TO'},{placeholder:'Date & time',label:'DATE'},{placeholder:'No. of passengers',label:'PASSENGERS'}], link: 'https://kiwitaxi.tp.st/pthb6f1z', cta: 'FIND TRANSFERS' },
+    { label: 'eSIM', icon: '📱', fields: [{placeholder:'Country you are visiting',label:'DESTINATION'},{placeholder:'Days needed',label:'DURATION'},{placeholder:'e.g. 5GB, 10GB, Unlimited',label:'DATA PLAN'},{placeholder:'No. of SIMs',label:'QUANTITY'}], link: '/esim', cta: 'GET YOUR eSIM' },
   ]
 
   const visibleDest = showAllDest ? destinations : destinations.slice(0, 18)
   const visiblePkg = showAllPkg ? packages : packages.slice(0, 12)
   const currentTab = tabs[activeTab]
-
-  const scrollToWidget = () => {
-    const widget = document.getElementById('tpwl-search')
-    if (widget) widget.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   return (
     <>
@@ -280,6 +289,57 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* WHY HUUBOI */}
+      <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(60px,8vw,100px) clamp(20px,5vw,60px)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(40px,6vw,80px)', alignItems: 'center' }}>
+
+            {/* Left — the story */}
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ width: 32, height: 1, background: '#C8A96E', display: 'inline-block' }} />
+                WHY HUUBOI
+              </div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,4rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1.05, marginBottom: 28 }}>
+                One Platform.<br />
+                Every Destination.<br />
+                <em style={{ color: '#C8A96E' }}>Smarter Decisions.</em>
+              </h2>
+              <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '1rem', lineHeight: 1.85, marginBottom: 36 }}>
+                HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents — so you stop searching and start discovering. Whether it's a weekend escape or a three-month expedition, we give you everything you need to travel better.
+              </p>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+                  style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', background: '#C8A96E', color: '#080807', padding: '14px 28px', textDecoration: 'none', display: 'inline-block' }}>
+                  SEARCH FLIGHTS
+                </a>
+                <Link href="/destinations"
+                  style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', border: '1px solid rgba(200,169,110,0.35)', color: '#C8A96E', padding: '14px 28px', textDecoration: 'none', display: 'inline-block' }}>
+                  EXPLORE DESTINATIONS
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — the 4 pillars */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+              {[
+                { icon: '✈', title: 'All In One Place', body: 'Flights, hotels, tours, eSIMs, transfers and experiences — searched and compared without ever leaving HUUBOI.' },
+                { icon: '🧭', title: 'Expert Guides', body: 'Deep destination guides written by people who have actually been there — not AI summaries of other AI summaries.' },
+                { icon: '💡', title: 'Smarter Decisions', body: 'Visa requirements, best seasons, budget guides and insider tips built into every destination page.' },
+                { icon: '🌍', title: 'Six Continents', body: '194 destinations across Africa, Middle East, Asia, Europe, the Americas and the Pacific — all in one platform.' },
+              ].map(item => (
+                <div key={item.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '24px 22px' }}>
+                  <div style={{ fontSize: '1.4rem', marginBottom: 12 }}>{item.icon}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.18em', color: '#C8A96E', marginBottom: 8 }}>{item.title}</div>
+                  <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '0.83rem', lineHeight: 1.7, margin: 0 }}>{item.body}</p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* SEARCH TABS */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 0' }}>
@@ -297,15 +357,9 @@ export default function HomePage() {
                 <input placeholder={field.placeholder} style={{ background: 'none', border: 'none', color: '#F5EFE4', fontSize: '0.9rem', width: '100%', outline: 'none' }} />
               </div>
             ))}
-            {currentTab.isEsim ? (
-              <Link href="/esim" style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
-                {currentTab.cta}
-              </Link>
-            ) : (
-              <button onClick={scrollToWidget} style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
-                {currentTab.cta}
-              </button>
-            )}
+            <a href={currentTab.link} target="_blank" rel="noopener noreferrer" style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
+              {currentTab.cta}
+            </a>
           </div>
         </div>
       </section>
@@ -452,4 +506,3 @@ export default function HomePage() {
     </>
   )
 }
-
