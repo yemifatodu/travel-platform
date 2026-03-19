@@ -55,7 +55,7 @@ const destinations = [
     highlights: ['Old Havana', 'Malecón', 'Classic Cars', 'Live Salsa', 'Viñales Valley', 'Mojitos'],
     bestTime: 'Nov–Apr', duration: '5–7 nights', from: '$460',
     description: 'Havana is unlike anywhere else on earth — a city of crumbling baroque grandeur, 1950s American cars polished to a shine, salsa spilling from every doorway, and a warmth of spirit that no embargo has diminished.',
-    experiences: ['Old Havana (Habana Vieja) UNESCO street walk', 'Malecón sunset with a mojito and live music', 'Classic American car tour around the city', "Hemingway's haunts — La Bodeguita del Medio and El Floridita", 'Cabaret Tropicana — Cuba\'s legendary outdoor show', 'Viñales Valley day trip — tobacco farms and mogote hills', 'Jazz at the Casa de la Música at midnight'],
+    experiences: ['Old Havana (Habana Vieja) UNESCO street walk', 'Malecón sunset with a mojito and live music', 'Classic American car tour around the city', 'Hemingway\'s haunts — La Bodeguita del Medio and El Floridita', 'Cabaret Tropicana — Cuba\'s legendary outdoor show', 'Viñales Valley day trip — tobacco farms and mogote hills', 'Jazz at the Casa de la Música at midnight'],
     hotels: ['Gran Hotel Manzana Kempinski', 'Hotel Nacional de Cuba', 'Saratoga Hotel', 'Casa San Ignacio'],
   },
   {
@@ -70,12 +70,12 @@ const destinations = [
   },
   {
     slug: 'galapagos', name: 'Galápagos Islands', country: 'Ecuador',
-    tagline: "Darwin's Laboratory — Still Running",
+    tagline: 'Darwin\'s Laboratory — Still Running',
     gradient: 'linear-gradient(160deg,#001a14,#002822,#003430)',
-    highlights: ['Giant Tortoises', 'Marine Iguanas', 'Blue-Footed Boobies', 'Sea Lions', 'Snorkelling', "Darwin's Finches"],
+    highlights: ['Giant Tortoises', 'Marine Iguanas', 'Blue-Footed Boobies', 'Sea Lions', 'Snorkelling', 'Darwin\'s Finches'],
     bestTime: 'Jun–Nov (Diving) · Dec–May (Warm Water)', duration: '7–10 nights', from: '$2,200',
     description: 'The Galápagos Islands are the most extraordinary wildlife destination on earth — animals that have never learned to fear humans, endemic species found nowhere else, and an ecosystem so delicate and so overwhelming that it changed our understanding of life itself.',
-    experiences: ['Swimming with sea lions on Española Island', 'Giant tortoise sanctuary at the Darwin Research Station', "Snorkelling with hammerhead sharks at Darwin's Arch", 'Blue-footed booby nesting colony on Genovesa Island', 'Marine iguana colony at Fernandina Island', 'Snorkelling with sea turtles and penguins at Bartolomé', 'Liveaboard cruise to the outer islands'],
+    experiences: ['Swimming with sea lions on Española Island', 'Giant tortoise sanctuary at the Darwin Research Station', 'Snorkelling with hammerhead sharks at Darwin\'s Arch', 'Blue-footed booby nesting colony on Genovesa Island', 'Marine iguana colony at Fernandina Island', 'Snorkelling with sea turtles and penguins at Bartolomé', 'Liveaboard cruise to the outer islands'],
     hotels: ['Pikaia Lodge Santa Cruz', 'Finch Bay Eco Hotel', 'Royal Palm Galápagos', 'Liveaboard cruise (Isabela II or National Geographic Islander)'],
   },
   {
@@ -84,7 +84,7 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#001c20,#002c32,#003c44)',
     highlights: ['Chichen Itza', 'Tulum Ruins', 'Cenotes', 'Playa del Carmen', 'Holbox Island', 'Cobá Jungle Pyramid'],
     bestTime: 'Dec–Apr', duration: '7–10 nights', from: '$380',
-    description: "Mexico's Yucatán Peninsula packs an extraordinary combination into a small geography — Mayan pyramids rising from jungle, luminescent cenotes (underground swimming holes), Caribbean turquoise sea and an incredible food culture.",
+    description: 'Mexico\'s Yucatán Peninsula packs an extraordinary combination into a small geography — Mayan pyramids rising from jungle, luminescent cenotes (underground swimming holes), Caribbean turquoise sea and an incredible food culture.',
     experiences: ['Chichen Itza at opening — before the heat and the crowds', 'Cenote Ik Kil and Cenote Dos Ojos — swim in underground crystal water', 'Tulum cliff-top Mayan ruins above the Caribbean', 'Cobá — climb the pyramid through the jungle (still permitted)', 'Holbox Island — no cars, bioluminescent water, whale sharks (seasonal)', 'Playa del Carmen 5th Avenue food and nightlife', 'Day trip to Bacalar — the lagoon of seven colours'],
     hotels: ['Azulik Tulum', 'Nomade Tulum', 'Be Tulum', 'Hotel Esencia Riviera Maya', 'Rosewood Mayakoba'],
   },
@@ -95,12 +95,12 @@ const destinations = [
     highlights: ['Tango', 'Palermo Soho', 'La Boca', 'Recoleta Cemetery', 'Steak Dinner', 'San Telmo Market'],
     bestTime: 'Oct–Dec · Mar–May', duration: '5–7 nights', from: '$280',
     description: 'Buenos Aires is South America\'s most sophisticated city — European architecture, passionate tango, the world\'s finest beef, and a café culture that makes Paris look hurried. The city seduces slowly and thoroughly.',
-    experiences: ['Tango show at Café de los Angelitos or El Viejo Almacén', "Recoleta Cemetery — Eva Perón's tomb and extraordinary mausoleums", 'San Telmo Sunday antiques market and tango in the streets', 'Palermo Soho boutiques and restaurant dinner', 'La Boca neighbourhood and Caminito street art', 'Asado (Argentine barbecue) dinner at a parrilla', 'Day trip to Tigre Delta and the Paraná River'],
+    experiences: ['Tango show at Café de los Angelitos or El Viejo Almacén', 'Recoleta Cemetery — Eva Perón\'s tomb and extraordinary mausoleums', 'San Telmo Sunday antiques market and tango in the streets', 'Palermo Soho boutiques and restaurant dinner', 'La Boca neighbourhood and Caminito street art', 'Asado (Argentine barbecue) dinner at a parrilla', 'Day trip to Tigre Delta and the Paraná River'],
     hotels: ['Palacio Duhau Park Hyatt', 'Faena Hotel Buenos Aires', 'Hotel Madero', 'Alvear Palace Hotel'],
   },
   {
     slug: 'costa-rica', name: 'Costa Rica', country: 'Costa Rica',
-    tagline: "Pura Vida — The World's Best Eco-Tourism",
+    tagline: 'Pura Vida — The World\'s Best Eco-Tourism',
     gradient: 'linear-gradient(160deg,#001c00,#002c00,#003c00)',
     highlights: ['Arenal Volcano', 'Manuel Antonio', 'Monteverde Cloud Forest', 'Tortuguero Turtles', 'Zip-lining', 'Hot Springs'],
     bestTime: 'Dec–Apr', duration: '7–10 nights', from: '$420',
@@ -111,19 +111,19 @@ const destinations = [
 ]
 
 const americasTypes = [
-  { icon: '🌎', title: 'Natural Wonders', desc: "Patagonia's glaciers, the Galápagos, Iguazu Falls, the Amazon and the Atacama — the Americas contain a disproportionate share of the world's great natural spectacles." },
+  { icon: '🌎', title: 'Natural Wonders', desc: 'Patagonia\'s glaciers, the Galápagos, Iguazu Falls, the Amazon and the Atacama — the Americas contain a disproportionate share of the world\'s great natural spectacles.' },
   { icon: '🏛', title: 'Ancient Civilisations', desc: 'Machu Picchu, Chichen Itza, Teotihuacan, Tiwanaku — the pre-Columbian civilisations of the Americas built some of the world\'s most extraordinary monuments.' },
   { icon: '🎺', title: 'Music & Culture', desc: 'Samba in Rio, tango in Buenos Aires, salsa in Havana, jazz in New Orleans — the Americas invented the music that defined the 20th century.' },
   { icon: '🥩', title: 'Food & Gastronomy', desc: 'Argentine asado, Peruvian ceviche, Mexican tacos, Brazilian churrasco — South American food culture has exploded onto the world stage.' },
-  { icon: '🤿', title: 'Ocean & Adventure', desc: "Caribbean coral reefs, Galápagos marine life, Pacific surf, Patagonian trekking — the Americas offer the full range of ocean and adventure travel." },
+  { icon: '🤿', title: 'Ocean & Adventure', desc: 'Caribbean coral reefs, Galápagos marine life, Pacific surf, Patagonian trekking — the Americas offer the full range of ocean and adventure travel.' },
   { icon: '🌆', title: 'World-Class Cities', desc: 'New York, Buenos Aires, Rio, Mexico City, Toronto — the cities of the Americas are among the world\'s most dynamic and culturally rich.' },
 ]
 
 const routes = [
   { title: 'South America Classic', days: '21 days', cities: 'Lima → Cusco → Machu Picchu → Buenos Aires → Patagonia', desc: 'The grand South American journey — Inca history, city culture and wilderness at the end of the world.' },
   { title: 'Caribbean & Central America', days: '14 days', cities: 'Mexico City → Oaxaca → Tulum → Costa Rica → Cartagena', desc: 'Ancient ruins, beach perfection, cloud forests and Caribbean colonial cities.' },
-  { title: 'East Coast USA', days: '14 days', cities: 'New York → Washington D.C. → Boston → Acadia → Montreal', desc: "The original American cities, great art museums and New England autumn foliage." },
-  { title: 'Brazilian Adventure', days: '12 days', cities: 'São Paulo → Salvador → Pantanal → Amazon → Rio de Janeiro', desc: "Brazil's full diversity — urban culture, Afro-Brazilian heritage, wildlife and the marvelous city." },
+  { title: 'East Coast USA', days: '14 days', cities: 'New York → Washington D.C. → Boston → Acadia → Montreal', desc: 'The original American cities, great art museums and New England autumn foliage.' },
+  { title: 'Brazilian Adventure', days: '12 days', cities: 'São Paulo → Salvador → Pantanal → Amazon → Rio de Janeiro', desc: 'Brazil\'s full diversity — urban culture, Afro-Brazilian heritage, wildlife and the marvelous city.' },
 ]
 
 export default function AmericasPage() {
@@ -158,6 +158,8 @@ export default function AmericasPage() {
             </Link>
           </div>
         </div>
+
+        {/* Stats */}
         <div style={{ maxWidth: 1200, margin: '48px auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 2, position: 'relative', zIndex: 1 }}>
           {[
             { num: '10', label: 'Destinations' },
@@ -191,7 +193,7 @@ export default function AmericasPage() {
           ))}
         </div>
 
-        {/* DESTINATIONS */}
+        {/* DESTINATIONS TAB */}
         {activeTab === 'destinations' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))', gap: 2 }}>
             {destinations.map(dest => (
@@ -273,7 +275,7 @@ export default function AmericasPage() {
           </div>
         )}
 
-        {/* EXPERIENCES */}
+        {/* EXPERIENCES TAB */}
         {activeTab === 'experiences' && (
           <div>
             <div style={{ marginBottom: 48 }}>
@@ -284,6 +286,7 @@ export default function AmericasPage() {
                 The Americas stretch from Arctic wilderness to tropical rainforest — and every ecosystem between holds extraordinary experiences waiting to be discovered.
               </p>
             </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 2, marginBottom: 56 }}>
               {americasTypes.map(type => (
                 <div key={type.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '28px 26px' }}>
@@ -293,6 +296,8 @@ export default function AmericasPage() {
                 </div>
               ))}
             </div>
+
+            {/* Routes */}
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginBottom: 16 }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>CLASSIC AMERICAS ROUTES</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
@@ -308,6 +313,8 @@ export default function AmericasPage() {
                 ))}
               </div>
             </div>
+
+            {/* Season guide */}
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)' }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>AMERICAS BY SEASON</div>
               <div style={{ display: 'grid', gap: 16 }}>
@@ -328,7 +335,7 @@ export default function AmericasPage() {
           </div>
         )}
 
-        {/* GUIDE */}
+        {/* PLANNING GUIDE TAB */}
         {activeTab === 'guide' && (
           <div>
             <div style={{ marginBottom: 48 }}>
@@ -337,6 +344,8 @@ export default function AmericasPage() {
               </h2>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+              {/* Safety & practical */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>PRACTICAL ESSENTIALS</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
@@ -355,6 +364,8 @@ export default function AmericasPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Budget guide */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>BUDGET GUIDE (PER PERSON / DAY)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 2 }}>
@@ -376,12 +387,14 @@ export default function AmericasPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Visa overview */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>VISA OVERVIEW</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
                   {[
                     { heading: 'USA', body: 'ESTA (Visa Waiver) for UK, EU, Australia and many others. B1/B2 tourist visa required for Nigerian, Ghanaian and most African nationalities — apply 3+ months ahead with in-person embassy interview.' },
-                    { heading: 'Brazil', body: 'Visa-free for UK, EU, US and Australian passport holders. Most African nationals require an e-Visa at visto.mre.gov.br. Yellow fever certificate required for many entry points.' },
+                    { heading: 'Brazil', body: 'Visa-free for UK, EU, US and Australian passport holders (recently changed). Most African nationals require an e-Visa at visto.mre.gov.br. Yellow fever certificate required for many entry points.' },
                     { heading: 'Peru, Colombia, Ecuador, Costa Rica', body: 'Visa-free for most nationalities for 90 days including most African passports. One of the most accessible regions in the world for international travellers.' },
                     { heading: 'Cuba', body: 'Tourist card (Pink Card) required — sold by airlines and at embassies for ~$25. Travel insurance is mandatory and checked at immigration. US citizens face separate complex restrictions.' },
                   ].map(item => (
@@ -392,6 +405,7 @@ export default function AmericasPage() {
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         )}

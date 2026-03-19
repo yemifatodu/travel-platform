@@ -15,7 +15,7 @@ const destinations = [
     highlights: ['Eiffel Tower', 'Louvre', 'Montmartre', 'Seine River', 'Versailles', 'Le Marais'],
     bestTime: 'Apr–Jun · Sep–Oct', duration: '4–7 nights', from: '$180',
     description: 'Paris is the city that invented the idea of the city as an art form. Every arrondissement a different world. Every café terrace a stage. Every meal a statement of civilisation. No city has been more written about or more deserving of every word.',
-    experiences: ['Eiffel Tower at opening — before the queues', 'Louvre Museum — book online, allow 3 hours minimum', 'Morning croissant at a neighbourhood boulangerie in Le Marais', 'Sunset apéritif on the Seine riverbank', "Musée d'Orsay for Impressionism — one of the world's great collections", 'Day trip to Versailles Palace and gardens (45 min by RER)', 'Evening walk from Notre-Dame across Île Saint-Louis'],
+    experiences: ['Eiffel Tower at opening — before the queues', 'Louvre Museum — book online, allow 3 hours minimum', 'Morning croissant at a neighbourhood boulangerie in Le Marais', 'Sunset apéritif on the Seine riverbank', 'Musée d\'Orsay for Impressionism — one of the world\'s great collections', 'Day trip to Versailles Palace and gardens (45 min by RER)', 'Evening walk from Notre-Dame across Île Saint-Louis'],
     hotels: ['Hôtel de Crillon', 'Le Bristol Paris', 'Hôtel Costes', 'La Réserve Paris', 'Pavillon de la Reine Le Marais'],
   },
   {
@@ -25,7 +25,7 @@ const destinations = [
     highlights: ['Colosseum', 'Vatican', 'Trevi Fountain', 'Pantheon', 'Trastevere', 'Borghese Gallery'],
     bestTime: 'Apr–May · Sep–Oct', duration: '4–6 nights', from: '$200',
     description: 'Rome is the world in miniature — every street a layer of history, every piazza a theatre, every meal a celebration. The sheer density of extraordinary things is overwhelming. Three days barely scratches the surface.',
-    experiences: ['Colosseum and Roman Forum at opening — arrive before 9am', 'Vatican Museums and Sistine Chapel — book tickets weeks ahead', 'Gelato at night at Giolitti or Della Palma', "Borghese Gallery — one of the world's finest art collections (booking essential)", 'Trastevere evening walk and dinner', 'Sunrise at Trevi Fountain — before the crowds arrive at 7am', 'Day trip to Pompeii or Ostia Antica'],
+    experiences: ['Colosseum and Roman Forum at opening — arrive before 9am', 'Vatican Museums and Sistine Chapel — book tickets weeks ahead', 'Gelato at night at Giolitti or Della Palma', 'Borghese Gallery — one of the world\'s finest art collections (booking essential)', 'Trastevere evening walk and dinner', 'Sunrise at Trevi Fountain — before the crowds arrive at 7am', 'Day trip to Pompeii or Ostia Antica'],
     hotels: ['Hotel Eden', 'J.K. Place Roma', 'Hotel de Russie', 'Villa Spalletti Trivelli', 'Palazzo Manfredi'],
   },
   {
@@ -45,7 +45,7 @@ const destinations = [
     highlights: ['Oia Sunset', 'Caldera Views', 'Black Sand Beach', 'Akrotiri Ruins', 'Vineyard Tour', 'Fira'],
     bestTime: 'May–Jun · Sep–Oct', duration: '5–7 nights', from: '$260',
     description: 'Santorini is genuinely unlike anywhere else on earth — a volcanic caldera with crescent-shaped cliffs rising 300 metres from the sea, white-washed villages perched on the edge, and a light that has been called the most beautiful in the world.',
-    experiences: ['Oia sunset — arrive 2 hours early to claim a spot', 'Sunrise walk along the caldera from Fira to Oia (2 hours)', 'Akrotiri Minoan excavations — the Greek Pompeii', 'Perissa black sand beach', 'Santorini wine tasting at Santo Wines or Venetsanos', 'Catamaran sunset cruise with dinner', 'Helicopter transfer from Athens for arrival drama'],
+    experiences: ['Oia sunset — arrive 2 hours early to claim a spot', 'Sunrise walk along the caldera from Fira to Oia (2 hours)', 'Akrotiri Minoan excavations — the "Greek Pompeii"', 'Perissa black sand beach', 'Santorini wine tasting at Santo Wines or Venetsanos', 'Catamaran sunset cruise with dinner', 'Helicopter transfer from Athens for arrival drama'],
     hotels: ['Grace Hotel Santorini', 'Katikies Oia', 'Canaves Oia Suites', 'Mystique Oia', 'Andronis Boutique Hotel'],
   },
   {
@@ -75,8 +75,8 @@ const destinations = [
     highlights: ['British Museum', 'Tate Modern', 'Borough Market', 'Hyde Park', 'Notting Hill', 'The Thames'],
     bestTime: 'May–Sep', duration: '4–7 nights', from: '$160',
     description: 'London is the city where every neighbourhood is a different city — the financial city, the royal city, the creative city, the multicultural city. The sheer density of world-class museums, restaurants, theatre and culture is unmatched anywhere on earth.',
-    experiences: ['British Museum — free entry, allow a full day', 'Borough Market on a Friday or Saturday morning', 'Tate Modern and a walk across the Millennium Bridge', "Afternoon tea at Claridge's or The Ritz", 'Notting Hill and Portobello Road on a Saturday', 'Evening at the National Theatre on the South Bank', 'Day trip to the Cotswolds or Stonehenge'],
-    hotels: ["Claridge's", 'The Connaught', 'Sketch London', 'The Ned', 'Ham Yard Hotel'],
+    experiences: ['British Museum — free entry, allow a full day', 'Borough Market on a Friday or Saturday morning', 'Tate Modern and a walk across the Millennium Bridge', 'Afternoon tea at Claridge\'s or The Ritz', 'Notting Hill and Portobello Road on a Saturday', 'Evening at the National Theatre on the South Bank', 'Day trip to the Cotswolds or Stonehenge'],
+    hotels: ['Claridge\'s', 'The Connaught', 'Sketch London', 'The Ned', 'Ham Yard Hotel'],
   },
   {
     slug: 'amsterdam', name: 'Amsterdam', country: 'Netherlands',
@@ -84,8 +84,8 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)',
     highlights: ['Rijksmuseum', 'Anne Frank House', 'Jordaan Canal Walk', 'Van Gogh Museum', 'Vondelpark', 'Day Trips'],
     bestTime: 'Apr–May · Sep–Oct', duration: '3–5 nights', from: '$190',
-    description: "Amsterdam is Europe's most liveable great city — compact, cycling-friendly, architecturally beautiful and with world-class museums. The Rijksmuseum houses Rembrandt's Night Watch. The Anne Frank House is one of the most moving experiences in Europe.",
-    experiences: ["Rijksmuseum — one of the world's great art museums (book ahead)", 'Anne Frank House — book tickets weeks in advance, deeply moving', 'Jordaan neighbourhood canal walk at golden hour', "Van Gogh Museum — the world's largest Van Gogh collection", 'Hire a bicycle for the day — the authentic Amsterdam experience', 'Cheese market at Alkmaar (30 min by train)', 'Day trip to Keukenhof tulip gardens (April–May only)'],
+    description: 'Amsterdam is Europe\'s most liveable great city — compact, cycling-friendly, architecturally beautiful and with world-class museums. The Rijksmuseum houses Rembrandt\'s Night Watch. The Anne Frank House is one of the most moving experiences in Europe.',
+    experiences: ['Rijksmuseum — one of the world\'s great art museums (book ahead)', 'Anne Frank House — book tickets weeks in advance, deeply moving', 'Jordaan neighbourhood canal walk at golden hour', 'Van Gogh Museum — the world\'s largest Van Gogh collection', 'Hire a bicycle for the day — the authentic Amsterdam experience', 'Cheese market at Alkmaar (30 min by train)', 'Day trip to Keukenhof tulip gardens (April–May only)'],
     hotels: ['Conservatorium Hotel', 'Waldorf Astoria Amsterdam', 'The Dylan Amsterdam', 'Hotel V Nesplein', 'Pulitzer Amsterdam'],
   },
   {
@@ -94,7 +94,7 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#0e0018,#180028,#220038)',
     highlights: ['Prague Castle', 'Charles Bridge', 'Old Town Square', 'Josefov', 'Wenceslas Square', 'Czech Beer'],
     bestTime: 'Apr–Jun · Sep–Oct', duration: '3–5 nights', from: '$120',
-    description: "Prague is Europe's best-kept secret no longer — but it remains one of the continent's most beautiful cities. Gothic cathedrals, baroque palaces, art nouveau cafés and a medieval astronomical clock that draws crowds every hour on the hour.",
+    description: 'Prague is Europe\'s best-kept secret no longer — but it remains one of the continent\'s most beautiful cities. Gothic cathedrals, baroque palaces, art nouveau cafés and a medieval astronomical clock that draws crowds every hour on the hour.',
     experiences: ['Prague Castle complex — the largest ancient castle in the world', 'Charles Bridge at 6am — before any tourists arrive', 'Old Town Square astronomical clock on the hour', 'Josefov Jewish Quarter — six synagogues and a medieval cemetery', 'Evening classical music concert in a baroque church', 'Czech beer tasting tour through Žižkov district', 'Day trip to Kutná Hora and the Sedlec Ossuary (bone church)'],
     hotels: ['Four Seasons Hotel Prague', 'Augustine Prague', 'Hotel Josef', 'The Mark Luxury Hotel', 'Aria Hotel Prague'],
   },
@@ -104,7 +104,7 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)',
     highlights: ['Northern Lights', 'Golden Circle', 'Blue Lagoon', 'Vatnajökull Glacier', 'Midnight Sun', 'Ice Caves'],
     bestTime: 'Jun–Aug (Midnight Sun) · Sep–Mar (Aurora)', duration: '6–9 nights', from: '$340',
-    description: "Iceland is one of the world's most extreme and spectacular destinations — a living geological laboratory where geysers erupt, glaciers calve into black sand beaches, and the sky turns green with the Northern Lights. There is nothing else like it.",
+    description: 'Iceland is one of the world\'s most extreme and spectacular destinations — a living geological laboratory where geysers erupt, glaciers calve into black sand beaches, and the sky turns green with the Northern Lights. There is nothing else like it.',
     experiences: ['Northern Lights hunting Sep–Mar (KP3+ forecast needed)', 'Golden Circle — Geysir, Gullfoss, Þingvellir in one day', 'Ice cave expedition inside Vatnajökull glacier (winter)', 'Blue Lagoon geothermal spa (book well ahead)', 'Snorkelling in Silfra fissure between two tectonic plates', 'Midnight Sun coastal drive in June', 'Whale watching from Húsavík in summer'],
     hotels: ['ION Adventure Hotel', 'Deplar Farm', '101 Hotel Reykjavik', 'Fosshotel Glacier Lagoon', 'Hotel Rangá'],
   },
@@ -114,13 +114,13 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)',
     highlights: ['Matterhorn', 'Jungfraujoch', 'Zermatt', 'Interlaken', 'Lake Geneva', 'Alpine Villages'],
     bestTime: 'Dec–Mar (Skiing) · Jun–Sep (Hiking)', duration: '5–8 nights', from: '$420',
-    description: "The Swiss Alps are the benchmark by which all mountain destinations are measured — the Matterhorn's impossible pyramid peak, the Jungfrau railway climbing to 3,454 metres, precision-engineered ski resorts and picture-perfect villages unchanged for centuries.",
-    experiences: ['Jungfraujoch — the Top of Europe by mountain railway', 'Matterhorn view from Zermatt — no cars, pristine village', 'Paragliding over Interlaken Valley', 'St. Moritz or Verbier for world-class skiing', 'Lake Geneva steamer cruise from Geneva to Montreux', 'Cheese and chocolate fondue in a mountain hut', 'Glacier Express scenic train from Zermatt to St. Moritz'],
-    hotels: ['The Alpina Gstaad', "Badrutt's Palace St. Moritz", 'Grand Hotel Zermatterhof', 'Victoria-Jungfrau Grand Hotel Interlaken'],
+    description: 'The Swiss Alps are the benchmark by which all mountain destinations are measured — the Matterhorn\'s impossible pyramid peak, the Jungfrau railway climbing to 3,454 metres, precision-engineered ski resorts and picture-perfect villages unchanged for centuries.',
+    experiences: ['Jungfraujoch — the "Top of Europe" by mountain railway', 'Matterhorn view from Zermatt — no cars, pristine village', 'Paragliding over Interlaken Valley', 'St. Moritz or Verbier for world-class skiing', 'Lake Geneva steamer cruise from Geneva to Montreux', 'Cheese and chocolate fondue in a mountain hut', 'Glacier Express scenic train from Zermatt to St. Moritz'],
+    hotels: ['The Alpina Gstaad', 'Badrutt\'s Palace St. Moritz', 'Grand Hotel Zermatterhof', 'Victoria-Jungfrau Grand Hotel Interlaken'],
   },
   {
     slug: 'lisbon', name: 'Lisbon & Porto', country: 'Portugal',
-    tagline: "Europe's Most Soulful Cities",
+    tagline: 'Europe\'s Most Soulful Cities',
     gradient: 'linear-gradient(160deg,#1c0e00,#2e1800,#402200)',
     highlights: ['Alfama District', 'Tram 28', 'Fado Music', 'Belém Tower', 'Douro Valley Wine', 'Pastéis de Nata'],
     bestTime: 'Mar–Jun · Sep–Oct', duration: '5–7 nights', from: '$140',
@@ -131,16 +131,16 @@ const destinations = [
 ]
 
 const europeTypes = [
-  { icon: '🎨', title: 'Art & Culture', desc: "The Louvre, Uffizi, Prado, Rijksmuseum, National Gallery — Europe holds more of the world's great art than anywhere else on earth." },
+  { icon: '🎨', title: 'Art & Culture', desc: 'The Louvre, Uffizi, Prado, Rijksmuseum, National Gallery — Europe holds more of the world\'s great art than anywhere else on earth.' },
   { icon: '🍷', title: 'Food & Wine', desc: 'French haute cuisine, Italian pasta and pizza, Spanish tapas, Portuguese wine — European food culture is the world\'s most celebrated.' },
-  { icon: '🏰', title: 'History & Architecture', desc: "From Roman amphitheatres to medieval castles to baroque palaces — Europe's built heritage spans 3,000 years of civilisation." },
+  { icon: '🏰', title: 'History & Architecture', desc: 'From Roman amphitheatres to medieval castles to baroque palaces — Europe\'s built heritage spans 3,000 years of civilisation.' },
   { icon: '🏖', title: 'Mediterranean Beaches', desc: 'Santorini, Amalfi, Dubrovnik, Mallorca — the Mediterranean coastline offers Europe\'s finest combination of beauty, culture and sun.' },
   { icon: '⛷', title: 'Alpine Adventures', desc: 'The Swiss Alps, French Alps and Dolomites offer the world\'s finest skiing, hiking and mountain scenery across four seasons.' },
-  { icon: '🚂', title: 'Rail Journeys', desc: "The Glacier Express, Orient Express, Eurostar and Interrail — Europe's train network makes city-hopping across the continent effortless." },
+  { icon: '🚂', title: 'Rail Journeys', desc: 'The Glacier Express, Orient Express, Eurostar and Interrail — Europe\'s train network makes city-hopping across the continent effortless.' },
 ]
 
 const multiCityRoutes = [
-  { title: 'Classic Grand Tour', days: '14 days', cities: 'London → Paris → Rome → Florence → Venice → Barcelona', desc: "The original European experience — five of the continent's greatest cities in two weeks by train and flight." },
+  { title: 'Classic Grand Tour', days: '14 days', cities: 'London → Paris → Rome → Florence → Venice → Barcelona', desc: 'The original European experience — five of the continent\'s greatest cities in two weeks by train and flight.' },
   { title: 'Mediterranean Summer', days: '12 days', cities: 'Athens → Santorini → Mykonos → Dubrovnik → Split', desc: 'Island hopping and coastal beauty across the Eastern Mediterranean.' },
   { title: 'Nordic Explorer', days: '10 days', cities: 'Copenhagen → Bergen → Flåm → Oslo → Stockholm', desc: 'Fjords, design, hygge and the Northern Lights across Scandinavia.' },
   { title: 'Iberian Peninsula', days: '10 days', cities: 'Madrid → Toledo → Seville → Córdoba → Lisbon → Porto', desc: 'Moorish palaces, flamenco, fado and extraordinary food from Spain to Portugal.' },
@@ -213,28 +213,36 @@ export default function EuropePage() {
           ))}
         </div>
 
-        {/* DESTINATIONS TAB */}
+        {/* ── DESTINATIONS TAB ── */}
         {activeTab === 'destinations' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))', gap: 2 }}>
             {destinations.map(dest => (
               <div key={dest.slug}
                 onClick={() => setSelectedDest(selectedDest?.slug === dest.slug ? null : dest)}
                 style={{ background: '#111110', border: `1px solid ${selectedDest?.slug === dest.slug ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'hidden', transition: 'border-color 0.2s' }}>
+
+                {/* Banner */}
                 <div style={{ background: dest.gradient, height: 130, position: 'relative' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.75) 0%,transparent 60%)' }} />
                   <div style={{ position: 'absolute', bottom: 14, left: 18 }}>
                     <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: gold }}>{dest.country}</div>
                   </div>
                 </div>
+
+                {/* Card content */}
                 <div style={{ padding: '20px 22px 22px' }}>
                   <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 300, color: cream, marginBottom: 4, lineHeight: 1 }}>{dest.name}</h3>
                   <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, marginBottom: 10 }}>{dest.tagline}</p>
                   <p style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.7, marginBottom: 14 }}>{dest.description}</p>
+
+                  {/* Highlight tags */}
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
                     {dest.highlights.map(h => (
                       <span key={h} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.15)', color: gold, padding: '3px 10px' }}>{h}</span>
                     ))}
                   </div>
+
+                  {/* Stats */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2, marginBottom: 14 }}>
                     {[
                       { label: 'BEST TIME', value: dest.bestTime },
@@ -247,10 +255,13 @@ export default function EuropePage() {
                       </div>
                     ))}
                   </div>
+
                   <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.15em', color: selectedDest?.slug === dest.slug ? muted : gold }}>
                     {selectedDest?.slug === dest.slug ? 'CLICK TO CLOSE ↑' : 'SEE DETAILS ↓'}
                   </div>
                 </div>
+
+                {/* Expanded */}
                 {selectedDest?.slug === dest.slug && (
                   <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', padding: '22px 22px 26px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
@@ -295,7 +306,7 @@ export default function EuropePage() {
           </div>
         )}
 
-        {/* EXPERIENCES TAB */}
+        {/* ── EXPERIENCES TAB ── */}
         {activeTab === 'experiences' && (
           <div>
             <div style={{ marginBottom: 48 }}>
@@ -306,6 +317,8 @@ export default function EuropePage() {
                 Europe rewards the traveller who goes beyond the headline attractions — the neighbourhood restaurant, the regional train, the village no one has heard of yet.
               </p>
             </div>
+
+            {/* Experience types */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 2, marginBottom: 56 }}>
               {europeTypes.map(type => (
                 <div key={type.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '28px 26px' }}>
@@ -315,6 +328,8 @@ export default function EuropePage() {
                 </div>
               ))}
             </div>
+
+            {/* Multi-city routes */}
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)' }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>POPULAR MULTI-CITY ROUTES</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
@@ -330,6 +345,8 @@ export default function EuropePage() {
                 ))}
               </div>
             </div>
+
+            {/* Season guide */}
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginTop: 16 }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>EUROPE BY SEASON</div>
               <div style={{ display: 'grid', gap: 16 }}>
@@ -342,7 +359,7 @@ export default function EuropePage() {
                   <div key={row.period} style={{ display: 'grid', gridTemplateColumns: '130px 1fr 100px', gap: 16, alignItems: 'center', paddingBottom: 16, borderBottom: '1px solid rgba(200,169,110,0.08)' }}>
                     <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.1em', color: gold }}>{row.period}</div>
                     <p style={{ color: muted, fontSize: '0.88rem', lineHeight: 1.6, margin: 0 }}>{row.desc}</p>
-                    <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: row.color, border: `1px solid ${row.color}40`, padding: '3px 10px', textAlign: 'center' as const }}>{row.level}</span>
+                    <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: row.color, border: `1px solid ${row.color}40`, padding: '3px 10px', textAlign: 'center' }}>{row.level}</span>
                   </div>
                 ))}
               </div>
@@ -350,7 +367,7 @@ export default function EuropePage() {
           </div>
         )}
 
-        {/* PLANNING GUIDE TAB */}
+        {/* ── PLANNING GUIDE TAB ── */}
         {activeTab === 'guide' && (
           <div>
             <div style={{ marginBottom: 48 }}>
@@ -358,7 +375,10 @@ export default function EuropePage() {
                 Planning Your <em style={{ color: gold }}>Europe Trip</em>
               </h2>
             </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+              {/* Schengen info */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>SCHENGEN VISA GUIDE</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
@@ -375,6 +395,8 @@ export default function EuropePage() {
                   ))}
                 </div>
               </div>
+
+              {/* Getting around */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>GETTING AROUND EUROPE</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 16 }}>
@@ -394,6 +416,8 @@ export default function EuropePage() {
                   ))}
                 </div>
               </div>
+
+              {/* Budget guide */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>BUDGET GUIDE (PER PERSON / DAY)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 2 }}>
@@ -415,6 +439,8 @@ export default function EuropePage() {
                   ))}
                 </div>
               </div>
+
+              {/* Packing */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>EUROPE PACKING ESSENTIALS</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 20 }}>
@@ -435,6 +461,7 @@ export default function EuropePage() {
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         )}

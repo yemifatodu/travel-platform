@@ -14,7 +14,7 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#001428,#001e3d,#002852)',
     highlights: ['Opera House', 'Harbour Bridge', 'Bondi Beach', 'The Rocks', 'Manly Ferry', 'Blue Mountains'],
     bestTime: 'Sep–Nov · Mar–May', duration: '5–8 nights', from: '$740',
-    description: "Sydney is the city that makes people question every life decision that brought them somewhere else — a spectacular harbour, world-class beaches within the city limits, extraordinary food, and a quality of life that consistently ranks among the world's highest.",
+    description: 'Sydney is the city that makes people question every life decision that brought them somewhere else — a spectacular harbour, world-class beaches within the city limits, extraordinary food, and a quality of life that consistently ranks among the world\'s highest.',
     experiences: ['Sydney Opera House guided tour and evening performance', 'Harbour Bridge climb at dawn — 360 degree panorama', 'Bondi to Coogee coastal walk — world-class urban coastline', 'Manly Ferry from Circular Quay — the world\'s great commute', 'The Rocks historic neighbourhood and weekend market', 'Blue Mountains day trip — Three Sisters and Scenic Railway', 'Helicopter flight over the harbour at sunset'],
     hotels: ['Park Hyatt Sydney', 'Capella Sydney', 'Quay Hotel', 'The Langham Sydney', 'One&Only Wolgan Valley (Blue Mountains)'],
   },
@@ -34,8 +34,8 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#2a0a00,#401200,#561a00)',
     highlights: ['Uluru Sunrise', 'Kata Tjuta Domes', 'Aboriginal Culture', 'Milky Way Stargazing', 'Desert Walk', 'Field of Light'],
     bestTime: 'May–Sep', duration: '3–4 nights', from: '$580',
-    description: "Uluru is one of the world's most sacred and spiritually powerful places — a 348-metre sandstone monolith rising from the Australian desert, changing colour from ochre to blood red to violet as the sun moves across the sky. Nothing prepares you for the scale or the silence.",
-    experiences: ['Uluru sunrise from the designated viewing area — bring warm layers', 'Uluru base walk — 10.6km around the rock with Anangu cultural guides', 'Kata Tjuta Valley of the Winds walk at dawn', "Bruce Munro's Field of Light art installation at night", "Milky Way stargazing — one of the world's darkest skies", 'Dot painting workshop with Anangu artists', 'Sunset champagne dinner in the desert with Uluru backdrop'],
+    description: 'Uluru is one of the world\'s most sacred and spiritually powerful places — a 348-metre sandstone monolith rising from the Australian desert, changing colour from ochre to blood red to violet as the sun moves across the sky. Nothing prepares you for the scale or the silence.',
+    experiences: ['Uluru sunrise from the designated viewing area — bring warm layers', 'Uluru base walk — 10.6km around the rock with Anangu cultural guides', 'Kata Tjuta Valley of the Winds walk at dawn', 'Bruce Munro\'s Field of Light art installation at night', 'Milky Way stargazing — one of the world\'s darkest skies', 'Dot painting workshop with Anangu artists', 'Sunset champagne dinner in the desert with Uluru backdrop'],
     hotels: ['Longitude 131° (luxury desert camp)', 'Sails in the Desert', 'Desert Gardens Hotel'],
   },
   {
@@ -46,7 +46,7 @@ const destinations = [
     bestTime: 'Jun–Aug (Skiing) · Dec–Mar (Summer)', duration: '5–8 nights', from: '$820',
     description: 'Queenstown is adventure made permanent — every activity ever invented for adrenaline lives here, surrounded by mountain scenery so dramatic it looks like a film set. Because it is — Lord of the Rings was filmed in almost every direction.',
     experiences: ['AJ Hackett Kawarau Bridge bungee — the original commercial bungee jump', 'Milford Sound fjord cruise — the eighth wonder of the world', 'Remarkables ski field on a powder day', 'Shotover Jet boat canyon sprint', 'Skydive from 15,000 feet over Lake Wakatipu', 'Fergburger at 2am — an institution that no one questions', 'Central Otago Pinot Noir wine trail by bicycle'],
-    hotels: ['Matakauri Lodge', 'The Rees Hotel', "Eichardt's Private Hotel", 'Azur Lodge', 'Blanket Bay'],
+    hotels: ['Matakauri Lodge', 'The Rees Hotel', 'Eichardt\'s Private Hotel', 'Azur Lodge', 'Blanket Bay'],
   },
   {
     slug: 'milford-sound', name: 'Milford Sound & Fiordland', country: 'New Zealand',
@@ -54,7 +54,7 @@ const destinations = [
     gradient: 'linear-gradient(160deg,#001e10,#002e18,#003e20)',
     highlights: ['Fiord Cruise', 'Mitre Peak', 'Underwater Observatory', 'Milford Track', 'Doubtful Sound', 'Waterfalls'],
     bestTime: 'Oct–Apr', duration: '2–3 nights', from: '$680',
-    description: "Milford Sound is one of the world's most spectacular places — sheer granite cliffs rising 1,200 metres from a fjord carved by glaciers, waterfalls plunging directly into dark sea water, and a silence and scale that makes human beings feel appropriately small.",
+    description: 'Milford Sound is one of the world\'s most spectacular places — sheer granite cliffs rising 1,200 metres from a fjord carved by glaciers, waterfalls plunging directly into dark sea water, and a silence and scale that makes human beings feel appropriately small.',
     experiences: ['Overnight cruise on Milford Sound — waterfalls by moonlight', 'Mitre Peak in morning mist from the cruise bow', 'Milford Track — the finest walk in the world (4 days, guided or independent)', 'Underwater Observatory — unique look at the fjord below the surface', 'Doubtful Sound overnight cruise — even more remote and spectacular', 'Kayak under the waterfalls at Stirling Falls', 'Scenic flight from Queenstown — glaciers and peaks from above'],
     hotels: ['Milford Sound Lodge', 'Te Anau Lodge', 'Fiordland Lodge Te Anau', 'Overnight cruise vessel'],
   },
@@ -70,21 +70,21 @@ const destinations = [
   },
   {
     slug: 'moorea', name: 'Moorea', country: 'French Polynesia',
-    tagline: "Bora Bora's More Beautiful and Less Visited Sister",
+    tagline: 'Bora Bora\'s More Beautiful and Less Visited Sister',
     gradient: 'linear-gradient(160deg,#001c24,#002c38,#003c4c)',
-    highlights: ["Cook's Bay", 'Dolphin Watching', 'Belvedere Lookout', 'Pineapple Wine', 'Snorkelling', 'Whale Season'],
+    highlights: ['Cook\'s Bay', 'Dolphin Watching', 'Belvedere Lookout', 'Pineapple Wine', 'Snorkelling', 'Whale Season'],
     bestTime: 'May–Oct', duration: '4–6 nights', from: '$680',
-    description: "Moorea is what travellers discover when they want Bora Bora without the crowds or the price — a jagged volcanic island of extraordinary beauty just 17 kilometres from Tahiti, with two spectacular bays, wild hinterland and some of the Pacific's best snorkelling.",
-    experiences: ['Belvedere Lookout — the most dramatic viewpoint in French Polynesia', 'Swimming with spinner dolphins in the wild — a regular morning occurrence', 'Whale watching Jul–Nov — humpback whales with calves', 'Ray Village — snorkel with stingrays in shallow water', 'ATV or 4WD circuit of the island interior — pineapple plantations and peaks', "Cook's Bay sunset from a waterfront restaurant", 'Island night cultural show with traditional dance'],
+    description: 'Moorea is what travellers discover when they want Bora Bora without the crowds or the price — a jagged volcanic island of extraordinary beauty just 17 kilometres from Tahiti, with two spectacular bays, wild hinterland and some of the Pacific\'s best snorkelling.',
+    experiences: ['Belvedere Lookout — the most dramatic viewpoint in French Polynesia', 'Swimming with spinner dolphins in the wild — a regular morning occurrence', 'Whale watching Jul–Nov — humpback whales with calves', 'Ray Village — snorkel with stingrays in shallow water', 'ATV or 4WD circuit of the island interior — pineapple plantations and peaks', 'Cook\'s Bay sunset from a waterfront restaurant', 'Island night cultural show with traditional dance'],
     hotels: ['Hilton Moorea Lagoon Resort', 'Sofitel Moorea Ia Ora Beach Resort', 'Manava Beach Resort', 'Fare Miti (private villa)'],
   },
   {
     slug: 'fiji', name: 'Fiji', country: 'Fiji',
-    tagline: "Bula — The World's Friendliest Islands",
+    tagline: 'Bula — The World\'s Friendliest Islands',
     gradient: 'linear-gradient(160deg,#001c14,#002c1e,#003c28)',
     highlights: ['Yasawa Islands', 'Beqa Lagoon Diving', 'Village Kava Ceremony', 'Taveuni Garden Island', 'Manta Rays', 'Overwater Bure'],
     bestTime: 'May–Oct', duration: '7–10 nights', from: '$620',
-    description: "Fiji is the Pacific's warmest welcome — 330 islands of extraordinary beauty, a culture built around joy and hospitality, world-class diving in the Coral Triangle, and resorts ranging from backpacker surf camps to ultra-luxury private islands.",
+    description: 'Fiji is the Pacific\'s warmest welcome — 330 islands of extraordinary beauty, a culture built around joy and hospitality, world-class diving in the Coral Triangle, and resorts ranging from backpacker surf camps to ultra-luxury private islands.',
     experiences: ['Beqa Lagoon bull shark dive — one of the world\'s great dives', 'Yasawa Island Group day sail or liveaboard — the outer islands', 'Traditional kava ceremony in a Fijian village', 'Taveuni Island rainforest and the 180th meridian', 'Snorkelling with manta rays at Drawaqa Island', 'Mamanuca Islands seaplane hop between islands', 'Firewalking ceremony — a genuine Fijian tradition'],
     hotels: ['Laucala Island Resort', 'Kokomo Private Island', 'Turtle Island', 'Royal Davui Island', 'Jean-Michel Cousteau Resort'],
   },
@@ -95,7 +95,7 @@ const destinations = [
     highlights: ['Volcanoes National Park', 'Na Pali Coast', 'Road to Hana', 'Waimea Canyon', 'Big Wave Surfing', 'Haleakalā Sunrise'],
     bestTime: 'Apr–Jun · Sep–Nov', duration: '7–12 nights', from: '$680',
     description: 'Hawaii is unlike any other US destination and unlike any other Pacific island — active volcanoes adding new land to the earth as you watch, the world\'s most powerful surf, ancient Polynesian culture, and a landscape that ranges from tropical rainforest to high-altitude desert in a single island.',
-    experiences: ['Volcanoes National Park lava flow viewing at night on the Big Island', 'Na Pali Coast boat tour from Kauai — the world\'s most dramatic coastline', 'Road to Hana on Maui — 620 curves and 59 bridges', 'Haleakalā volcano sunrise — above the clouds at 3,055 metres', 'Waimea Canyon on Kauai — the Grand Canyon of the Pacific', "Pipeline surf watching on Oahu's North Shore in winter", 'Manta ray night snorkel off Kona — 100% encounter rate'],
+    experiences: ['Volcanoes National Park lava flow viewing at night on the Big Island', 'Na Pali Coast boat tour from Kauai — the world\'s most dramatic coastline', 'Road to Hana on Maui — 620 curves and 59 bridges', 'Haleakalā volcano sunrise — above the clouds at 3,055 metres', 'Waimea Canyon on Kauai — the Grand Canyon of the Pacific', 'Pipeline surf watching on Oahu\'s North Shore in winter', 'Manta ray night snorkel off Kona — 100% encounter rate'],
     hotels: ['Four Seasons Resort Hualalai', 'Andaz Maui at Wailea', 'Four Seasons Resort Lanai', 'Sensei Lanai', 'Koa Kea Hotel Kauai'],
   },
   {
@@ -111,18 +111,18 @@ const destinations = [
 ]
 
 const pacificTypes = [
-  { icon: '🤿', title: 'Diving & Marine Life', desc: "The Great Barrier Reef, Fijian Coral Triangle, Bora Bora lagoon and the waters off Moorea contain some of the world's greatest concentrations of marine biodiversity." },
-  { icon: '🏔', title: 'Adventure & Extreme Sports', desc: "Queenstown invented modern adventure tourism. New Zealand's Fiordland and Australia's outback offer wilderness on a scale that genuinely humbles." },
+  { icon: '🤿', title: 'Diving & Marine Life', desc: 'The Great Barrier Reef, Fijiian Coral Triangle, Bora Bora lagoon and the waters off Moorea contain some of the world\'s greatest concentrations of marine biodiversity.' },
+  { icon: '🏔', title: 'Adventure & Extreme Sports', desc: 'Queenstown invented modern adventure tourism. New Zealand\'s Fiordland and Australia\'s outback offer wilderness on a scale that genuinely humbles.' },
   { icon: '🌺', title: 'Island Paradise', desc: 'French Polynesia, Fiji, Hawaii and the Cook Islands set the global standard for tropical island beauty — overwater bungalows, turquoise lagoons and white sand.' },
-  { icon: '🦘', title: 'Wildlife & Nature', desc: "Australia's unique wildlife — kangaroos, koalas, wombats, quolls — is found nowhere else on earth. The Great Barrier Reef adds an entire ocean ecosystem." },
-  { icon: '🏄', title: 'Surf & Ocean Culture', desc: "Hawaii's North Shore, Byron Bay, Raglan in New Zealand — the Pacific rim is where surfing was born and where its greatest breaks still define the sport." },
+  { icon: '🦘', title: 'Wildlife & Nature', desc: 'Australia\'s unique wildlife — kangaroos, koalas, wombats, quolls — is found nowhere else on earth. The Great Barrier Reef adds an entire ocean ecosystem.' },
+  { icon: '🏄', title: 'Surf & Ocean Culture', desc: 'Hawaii\'s North Shore, Byron Bay, Raglan in New Zealand — the Pacific rim is where surfing was born and where its greatest breaks still define the sport.' },
   { icon: '🪨', title: 'Sacred Landscapes', desc: 'Uluru, the thermal fields of Rotorua, the volcanic fire of the Big Island — the Pacific carries a geological energy and indigenous spiritual tradition found nowhere else.' },
 ]
 
 const routes = [
   { title: 'Australia Grand Tour', days: '21 days', cities: 'Sydney → Great Barrier Reef → Uluru → Melbourne → Tasmania', desc: 'The full Australian experience from world-class harbour city to the red centre, reef and beyond.' },
   { title: 'New Zealand North & South', days: '16 days', cities: 'Auckland → Rotorua → Tongariro → Wellington → Queenstown → Milford Sound', desc: 'Both islands — volcanic north, fjord south. The most scenically diverse country per square kilometre on earth.' },
-  { title: 'Polynesian Triangle', days: '14 days', cities: 'Tahiti → Bora Bora → Moorea → Rarotonga → Aitutaki', desc: "French Polynesia's finest islands plus the Cook Islands' secret lagoon." },
+  { title: 'Polynesian Triangle', days: '14 days', cities: 'Tahiti → Bora Bora → Moorea → Rarotonga → Aitutaki', desc: 'French Polynesia\'s finest islands plus the Cook Islands\' secret lagoon.' },
   { title: 'Pacific Island Hop', days: '18 days', cities: 'Hawaii → Fiji → Vanuatu → New Caledonia → Sydney', desc: 'Across the Pacific from Hawaiian volcanoes to Australian harbour — island by island.' },
 ]
 
@@ -158,6 +158,8 @@ export default function PacificPage() {
             </Link>
           </div>
         </div>
+
+        {/* Stats */}
         <div style={{ maxWidth: 1200, margin: '48px auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 2, position: 'relative', zIndex: 1 }}>
           {[
             { num: '10', label: 'Destinations' },
@@ -284,6 +286,7 @@ export default function PacificPage() {
                 The Pacific demands long flights and rewards them handsomely — experiences that simply do not exist anywhere else on earth, from bungee jumping above an Alpine lake to swimming in a Polynesian lagoon at midnight.
               </p>
             </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 2, marginBottom: 56 }}>
               {pacificTypes.map(type => (
                 <div key={type.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '28px 26px' }}>
@@ -293,6 +296,8 @@ export default function PacificPage() {
                 </div>
               ))}
             </div>
+
+            {/* Routes */}
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginBottom: 16 }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>CLASSIC PACIFIC ROUTES</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
@@ -308,6 +313,8 @@ export default function PacificPage() {
                 ))}
               </div>
             </div>
+
+            {/* Season guide */}
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)' }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>PACIFIC BY SEASON</div>
               <div style={{ display: 'grid', gap: 16 }}>
@@ -337,6 +344,8 @@ export default function PacificPage() {
               </h2>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+              {/* Practical */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>PACIFIC ESSENTIALS</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
@@ -355,6 +364,8 @@ export default function PacificPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Budget */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>BUDGET GUIDE (PER PERSON / DAY)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 2 }}>
@@ -376,6 +387,8 @@ export default function PacificPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Visa */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>VISA OVERVIEW</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
@@ -392,6 +405,7 @@ export default function PacificPage() {
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         )}
