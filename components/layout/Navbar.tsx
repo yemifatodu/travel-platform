@@ -7,13 +7,9 @@ const ink = '#080807'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 
-const destLinks = [
-  { label: 'All Destinations', href: '/destinations', icon: '🌍' },
-  { label: 'Africa & Safari', href: '/africa-safari', icon: '🦁' },
-  { label: 'Map Explorer', href: '/map-explorer', icon: '🗺' },
-]
-
 const navLinks = [
+  { label: 'Destinations', href: '/destinations' },
+  { label: 'Africa & Safari', href: '/africa-safari' },
   { label: 'Travel Guides', href: '/travel-guides' },
   { label: 'Blog', href: '/blog' },
   { label: 'Packages', href: '/packages', highlight: true },
@@ -24,23 +20,22 @@ const toolsLinks = [
   { label: 'AI Trip Planner', href: '/ai-planner', icon: '🤖', desc: 'Build your itinerary' },
   { label: 'Budget Calculator', href: '/budget-calculator', icon: '💰', desc: 'Estimate trip costs' },
   { label: 'Price Alerts', href: '/price-alerts', icon: '🔔', desc: 'Best time to book' },
+  { label: 'Map Explorer', href: '/map-explorer', icon: '🗺', desc: 'Browse destinations' },
   { label: 'Travel Tips', href: '/travel-tips', icon: '✦', desc: 'Expert advice' },
-  { label: 'Visa Requirements', href: '/visa-requirements', icon: '🛂', desc: 'Entry rules by country' },
 ]
 
 const moreLinks = [
   { label: 'About Us', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Help Center', href: '/help' },
+  { label: 'Visa Requirements', href: '/visa-requirements' },
 ]
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [destOpen, setDestOpen] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
-  const destRef = useRef<HTMLDivElement>(null)
   const toolsRef = useRef<HTMLDivElement>(null)
   const moreRef = useRef<HTMLDivElement>(null)
 
@@ -56,9 +51,9 @@ export function Navbar() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (destRef.current && !destRef.current.contains(e.target as Node)) setDestOpen(false)
       if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) setToolsOpen(false)
       if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false)
     }
@@ -68,22 +63,8 @@ export function Navbar() {
 
   const closeAll = () => {
     setMenuOpen(false)
-    setDestOpen(false)
     setToolsOpen(false)
     setMoreOpen(false)
-  }
-
-  const dropdownStyle = {
-    position: 'absolute' as const,
-    top: '100%',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    marginTop: 16,
-    background: 'rgba(8,8,7,0.98)',
-    border: '1px solid rgba(200,169,110,0.15)',
-    backdropFilter: 'blur(20px)',
-    zIndex: 100,
-    minWidth: 220,
   }
 
   return (
@@ -98,8 +79,9 @@ export function Navbar() {
           .nav-mobile-btn { display: flex !important; }
           .nav-inner { padding: 0 20px !important; }
         }
-        .nav-link-hover:hover { color: #C8A96E !important; }
-        .drop-item:hover { background: rgba(200,169,110,0.08) !important; }
+        .nav-link:hover { color: #C8A96E !important; }
+        .dropdown-item:hover { background: rgba(200,169,110,0.08) !important; }
+        .mobile-link:hover { color: #C8A96E !important; }
       `}</style>
 
       <nav style={{
@@ -109,6 +91,8 @@ export function Navbar() {
         backdropFilter: scrolled || menuOpen ? 'blur(20px)' : 'none',
         transition: 'all 0.4s ease',
       }}>
+
+        {/* ── Main bar ── */}
         <div className="nav-inner" style={{ padding: '0 48px', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
 
           {/* Logo */}
@@ -118,57 +102,76 @@ export function Navbar() {
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.9rem', letterSpacing: '0.08em', color: 'rgba(200,169,110,0.45)', marginLeft: 2 }}>.COM</span>
           </Link>
 
-          {/* Desktop links */}
+          {/* Desktop nav links */}
           <div className="nav-desktop" style={{ alignItems: 'center', gap: 28, flex: 1, justifyContent: 'center' }}>
 
-            {/* Destinations dropdown */}
-            <div ref={destRef} style={{ position: 'relative' }}>
-              <button onClick={() => { setDestOpen(!destOpen); setToolsOpen(false); setMoreOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: destOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: 0, transition: 'color 0.2s' }}
-                className="nav-link-hover">
-                DESTINATIONS
-                <span style={{ fontSize: '0.5rem', transition: 'transform 0.2s', transform: destOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
-              </button>
-              {destOpen && (
-                <div style={dropdownStyle}>
-                  <div style={{ padding: '8px 0' }}>
-                    {destLinks.map(link => (
-                      <Link key={link.href} href={link.href} onClick={closeAll}
-                        className="drop-item"
-                        style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 18px', textDecoration: 'none', transition: 'background 0.15s' }}>
-                        <span style={{ fontSize: '1rem', width: 22, textAlign: 'center', flexShrink: 0 }}>{link.icon}</span>
-                        <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', color: cream }}>{link.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Static links */}
             {navLinks.map(link => (
-              <Link key={link.href} href={link.href} onClick={closeAll}
-                className="nav-link-hover"
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: link.highlight ? gold : muted, textDecoration: 'none', border: link.highlight ? '1px solid rgba(200,169,110,0.3)' : 'none', padding: link.highlight ? '6px 14px' : '0', transition: 'color 0.2s', whiteSpace: 'nowrap' }}>
+              <Link key={link.href} href={link.href}
+                className="nav-link"
+                style={{
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.16em',
+                  color: link.highlight ? gold : muted,
+                  textDecoration: 'none',
+                  border: link.highlight ? '1px solid rgba(200,169,110,0.3)' : 'none',
+                  padding: link.highlight ? '6px 14px' : '0',
+                  transition: 'color 0.2s',
+                  whiteSpace: 'nowrap',
+                }}>
                 {link.highlight ? `★ ${link.label}` : link.label}
               </Link>
             ))}
 
             {/* Tools dropdown */}
             <div ref={toolsRef} style={{ position: 'relative' }}>
-              <button onClick={() => { setToolsOpen(!toolsOpen); setDestOpen(false); setMoreOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: toolsOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: 0, transition: 'color 0.2s' }}
-                className="nav-link-hover">
+              <button
+                onClick={() => { setToolsOpen(!toolsOpen); setMoreOpen(false) }}
+                style={{
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.16em',
+                  color: toolsOpen ? gold : muted,
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: 0,
+                  transition: 'color 0.2s',
+                  whiteSpace: 'nowrap',
+                }}>
                 TOOLS
                 <span style={{ fontSize: '0.5rem', transition: 'transform 0.2s', transform: toolsOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
+
               {toolsOpen && (
-                <div style={{ ...dropdownStyle, width: 280 }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  marginTop: 16,
+                  background: 'rgba(8,8,7,0.98)',
+                  border: '1px solid rgba(200,169,110,0.15)',
+                  backdropFilter: 'blur(20px)',
+                  width: 280,
+                  zIndex: 100,
+                }}>
                   <div style={{ padding: '8px 0' }}>
                     {toolsLinks.map(tool => (
-                      <Link key={tool.href} href={tool.href} onClick={closeAll}
-                        className="drop-item"
-                        style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 18px', textDecoration: 'none', transition: 'background 0.15s' }}>
+                      <Link key={tool.href} href={tool.href}
+                        className="dropdown-item"
+                        onClick={closeAll}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 14,
+                          padding: '12px 18px',
+                          textDecoration: 'none',
+                          transition: 'background 0.15s',
+                        }}>
                         <span style={{ fontSize: '1rem', width: 22, textAlign: 'center', flexShrink: 0 }}>{tool.icon}</span>
                         <div>
                           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', color: cream }}>{tool.label}</div>
@@ -183,19 +186,54 @@ export function Navbar() {
 
             {/* More dropdown */}
             <div ref={moreRef} style={{ position: 'relative' }}>
-              <button onClick={() => { setMoreOpen(!moreOpen); setDestOpen(false); setToolsOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: moreOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: 0, transition: 'color 0.2s' }}
-                className="nav-link-hover">
+              <button
+                onClick={() => { setMoreOpen(!moreOpen); setToolsOpen(false) }}
+                style={{
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.16em',
+                  color: moreOpen ? gold : muted,
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: 0,
+                  transition: 'color 0.2s',
+                }}>
                 MORE
                 <span style={{ fontSize: '0.5rem', transition: 'transform 0.2s', transform: moreOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
+
               {moreOpen && (
-                <div style={dropdownStyle}>
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  marginTop: 16,
+                  background: 'rgba(8,8,7,0.98)',
+                  border: '1px solid rgba(200,169,110,0.15)',
+                  backdropFilter: 'blur(20px)',
+                  width: 200,
+                  zIndex: 100,
+                }}>
                   <div style={{ padding: '8px 0' }}>
                     {moreLinks.map(link => (
-                      <Link key={link.href} href={link.href} onClick={closeAll}
-                        className="drop-item"
-                        style={{ display: 'block', padding: '12px 18px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', color: cream, textDecoration: 'none', transition: 'background 0.15s' }}>
+                      <Link key={link.href} href={link.href}
+                        className="dropdown-item"
+                        onClick={closeAll}
+                        style={{
+                          display: 'block',
+                          padding: '12px 18px',
+                          fontFamily: "'Bebas Neue',sans-serif",
+                          fontSize: '0.68rem',
+                          letterSpacing: '0.15em',
+                          color: cream,
+                          textDecoration: 'none',
+                          transition: 'background 0.15s',
+                        }}>
                         {link.label}
                       </Link>
                     ))}
@@ -206,74 +244,177 @@ export function Navbar() {
 
           </div>
 
-          {/* CTA buttons */}
+          {/* Desktop CTA buttons */}
           <div className="nav-cta-bar" style={{ alignItems: 'center', gap: 12, flexShrink: 0 }}>
-            <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.14em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.3)', padding: '8px 16px', whiteSpace: 'nowrap' }}>
+            <Link href="/esim"
+              style={{
+                fontFamily: "'Bebas Neue',sans-serif",
+                fontSize: '0.65rem',
+                letterSpacing: '0.14em',
+                color: gold,
+                textDecoration: 'none',
+                border: '1px solid rgba(200,169,110,0.3)',
+                padding: '8px 16px',
+                whiteSpace: 'nowrap',
+              }}>
               📱 eSIM
             </Link>
-            <Link href="/auth/login" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.14em', color: muted, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            <Link href="/auth/login"
+              style={{
+                fontFamily: "'Bebas Neue',sans-serif",
+                fontSize: '0.65rem',
+                letterSpacing: '0.14em',
+                color: muted,
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+              }}>
               SIGN IN
             </Link>
-            <Link href="/packages" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: ink, padding: '10px 20px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            <Link href="/packages"
+              style={{
+                fontFamily: "'Bebas Neue',sans-serif",
+                fontSize: '0.68rem',
+                letterSpacing: '0.15em',
+                background: gold,
+                color: ink,
+                padding: '10px 20px',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+              }}>
               BOOK NOW
             </Link>
           </div>
 
           {/* Mobile hamburger */}
-          <button className="nav-mobile-btn" onClick={() => setMenuOpen(!menuOpen)}
+          <button
+            className="nav-mobile-btn"
+            onClick={() => setMenuOpen(!menuOpen)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, flexDirection: 'column', gap: 5, alignItems: 'center', justifyContent: 'center' }}
-            aria-label="Toggle menu">
-            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }}/>
-            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', opacity: menuOpen ? 0 : 1 }}/>
-            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }}/>
+            aria-label="Toggle menu"
+          >
+            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
+            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* ── Mobile Menu ── */}
         {menuOpen && (
-          <div style={{ background: 'rgba(8,8,7,0.99)', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '20px 20px 32px', display: 'flex', flexDirection: 'column', gap: 0, maxHeight: '85vh', overflowY: 'auto' }}>
+          <div style={{
+            background: 'rgba(8,8,7,0.99)',
+            borderTop: '1px solid rgba(200,169,110,0.1)',
+            padding: '20px 20px 32px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 0,
+            maxHeight: '85vh',
+            overflowY: 'auto',
+          }}>
 
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.45)', padding: '8px 0 8px' }}>DESTINATIONS</div>
-            {destLinks.map(link => (
-              <Link key={link.href} href={link.href} onClick={closeAll}
-                style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.15em', color: cream, textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(200,169,110,0.06)' }}>
-                <span>{link.icon}</span>{link.label}
-              </Link>
-            ))}
-
+            {/* Main links */}
             {navLinks.map(link => (
-              <Link key={link.href} href={link.href} onClick={closeAll}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.95rem', letterSpacing: '0.2em', color: link.highlight ? gold : cream, textDecoration: 'none', padding: '14px 0', borderBottom: '1px solid rgba(200,169,110,0.08)' }}>
+              <Link key={link.href} href={link.href}
+                className="mobile-link"
+                onClick={closeAll}
+                style={{
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.95rem',
+                  letterSpacing: '0.2em',
+                  color: link.highlight ? gold : cream,
+                  textDecoration: 'none',
+                  padding: '14px 0',
+                  borderBottom: '1px solid rgba(200,169,110,0.08)',
+                  transition: 'color 0.2s',
+                }}>
                 {link.highlight ? `★ ${link.label}` : link.label}
               </Link>
             ))}
 
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.45)', padding: '14px 0 8px' }}>TOOLS & FEATURES</div>
-            {toolsLinks.map(tool => (
-              <Link key={tool.href} href={tool.href} onClick={closeAll}
-                style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.15em', color: cream, textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(200,169,110,0.06)' }}>
-                <span style={{ fontSize: '0.9rem' }}>{tool.icon}</span>{tool.label}
-              </Link>
-            ))}
+            {/* Tools section */}
+            <div style={{ marginTop: 8 }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.45)', padding: '14px 0 8px' }}>
+                TOOLS & FEATURES
+              </div>
+              {toolsLinks.map(tool => (
+                <Link key={tool.href} href={tool.href}
+                  className="mobile-link"
+                  onClick={closeAll}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    fontFamily: "'Bebas Neue',sans-serif",
+                    fontSize: '0.85rem',
+                    letterSpacing: '0.15em',
+                    color: cream,
+                    textDecoration: 'none',
+                    padding: '12px 0',
+                    borderBottom: '1px solid rgba(200,169,110,0.06)',
+                    transition: 'color 0.2s',
+                  }}>
+                  <span style={{ fontSize: '0.9rem' }}>{tool.icon}</span>
+                  {tool.label}
+                </Link>
+              ))}
+            </div>
 
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.45)', padding: '14px 0 8px' }}>COMPANY</div>
-            {moreLinks.map(link => (
-              <Link key={link.href} href={link.href} onClick={closeAll}
-                style={{ display: 'block', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.15em', color: cream, textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(200,169,110,0.06)' }}>
-                {link.label}
-              </Link>
-            ))}
+            {/* More section */}
+            <div style={{ marginTop: 8 }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.45)', padding: '14px 0 8px' }}>
+                COMPANY
+              </div>
+              {moreLinks.map(link => (
+                <Link key={link.href} href={link.href}
+                  className="mobile-link"
+                  onClick={closeAll}
+                  style={{
+                    display: 'block',
+                    fontFamily: "'Bebas Neue',sans-serif",
+                    fontSize: '0.85rem',
+                    letterSpacing: '0.15em',
+                    color: cream,
+                    textDecoration: 'none',
+                    padding: '12px 0',
+                    borderBottom: '1px solid rgba(200,169,110,0.06)',
+                    transition: 'color 0.2s',
+                  }}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
 
+            {/* Mobile CTA buttons */}
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
               <Link href="/esim" onClick={closeAll}
-                style={{ flex: 1, textAlign: 'center', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.15em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.35)', padding: '14px' }}>
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.15em',
+                  color: gold,
+                  textDecoration: 'none',
+                  border: '1px solid rgba(200,169,110,0.35)',
+                  padding: '14px',
+                }}>
                 📱 GET eSIM
               </Link>
               <Link href="/packages" onClick={closeAll}
-                style={{ flex: 1, textAlign: 'center', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.15em', background: gold, color: ink, textDecoration: 'none', padding: '14px' }}>
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.15em',
+                  background: gold,
+                  color: ink,
+                  textDecoration: 'none',
+                  padding: '14px',
+                }}>
                 BOOK NOW
               </Link>
             </div>
+
           </div>
         )}
       </nav>
