@@ -134,7 +134,6 @@ export function Navbar() {
                 DESTINATIONS
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s', transform: destOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
-
               {destOpen && (
                 <div style={{ ...dropdownBase, minWidth: 240 }}>
                   <div style={{ padding: '8px 0' }}>
@@ -168,7 +167,6 @@ export function Navbar() {
                 TOOLS
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s', transform: toolsOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
-
               {toolsOpen && (
                 <div style={{ ...dropdownBase, width: 280 }}>
                   <div style={{ padding: '8px 0' }}>
@@ -196,7 +194,6 @@ export function Navbar() {
                 MORE
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s', transform: moreOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
-
               {moreOpen && (
                 <div style={dropdownBase}>
                   <div style={{ padding: '8px 0' }}>
@@ -219,7 +216,10 @@ export function Navbar() {
             <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.14em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.3)', padding: '8px 16px', whiteSpace: 'nowrap' }}>
               📱 eSIM
             </Link>
-            <Link href="/packages" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: ink, padding: '10px 20px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            <Link href="/request-trip" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.14em', color: muted, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              PLAN A TRIP
+            </Link>
+            <Link href="/request-trip" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: ink, padding: '10px 20px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
               BOOK NOW
             </Link>
           </div>
@@ -274,9 +274,9 @@ export function Navbar() {
                 style={{ flex: 1, textAlign: 'center', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.35)', padding: '14px' }}>
                 📱 GET eSIM
               </Link>
-              <Link href="/packages" onClick={closeAll}
+              <Link href="/request-trip" onClick={closeAll}
                 style={{ flex: 1, textAlign: 'center', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', background: gold, color: ink, textDecoration: 'none', padding: '14px' }}>
-                BOOK NOW
+                PLAN A TRIP
               </Link>
             </div>
           </div>
