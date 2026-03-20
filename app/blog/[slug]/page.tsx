@@ -83,7 +83,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
         {/* Booking CTAs */}
         <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 8 }}>
-          <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+          <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
             style={{ background: 'transparent', border: '1px solid rgba(200,169,110,0.25)', color: gold, padding: '14px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
             ✈ SEARCH FLIGHTS
           </a>

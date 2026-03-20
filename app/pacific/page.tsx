@@ -148,7 +148,7 @@ export default function PacificPage() {
             The world's largest ocean. The planet's most isolated islands. Ancient cultures that navigated by stars. Active volcanoes building new land. Lagoons so blue they look painted. The Pacific rewards those who make the journey.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-block' }}>
               ✈ SEARCH FLIGHTS
             </a>
@@ -255,7 +255,7 @@ export default function PacificPage() {
                       </div>
                     </div>
                     <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+                      <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
                         style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-block' }}>
                         ✈ SEARCH FLIGHTS
                       </a>

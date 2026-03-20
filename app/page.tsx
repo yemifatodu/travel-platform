@@ -239,7 +239,7 @@ export default function HomePage() {
   const [showAllPkg, setShowAllPkg] = useState(false)
 
   const tabs = [
-    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://aviasales.tp.st/4CRDbzuv', cta: 'SEARCH FLIGHTS' },
+    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://www.aviasales.com/?marker=710879&locale=en', cta: 'SEARCH FLIGHTS' },
     { label: 'Hotels', icon: '🏨', fields: [{placeholder:'City or destination',label:'DESTINATION'},{placeholder:'Check-in date',label:'CHECK IN'},{placeholder:'Check-out date',label:'CHECK OUT'},{placeholder:'No. of guests',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p&creativeref=1100l68075&adref=PZnDB3QOfb', cta: 'SEARCH HOTELS' },
     { label: 'Packages', icon: '📦', fields: [{placeholder:'Flying from?',label:'FROM'},{placeholder:'Destination',label:'TO'},{placeholder:'Travel dates',label:'DATES'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p&creativeref=1100l68075&adref=PZRpNWOv8b', cta: 'SEARCH PACKAGES' },
     { label: 'Activities', icon: '🎯', fields: [{placeholder:'City or attraction',label:'DESTINATION'},{placeholder:'Date of activity',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'},{placeholder:'e.g. tours, diving, hiking',label:'CATEGORY'}], link: 'https://wegotrip.tp.st/lqB3ZrDK', cta: 'FIND ACTIVITIES' },
@@ -309,7 +309,7 @@ export default function HomePage() {
                 HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents — so you stop searching and start discovering. Whether it's a weekend escape or a three-month expedition, we give you everything you need to travel better.
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
                   style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', background: '#C8A96E', color: '#080807', padding: '14px 28px', textDecoration: 'none', display: 'inline-block' }}>
                   SEARCH FLIGHTS
                 </a>

@@ -241,7 +241,7 @@ export default function PriceAlerts() {
   const getBookingLink = () => {
     if (form.trip_type === 'hotel') return 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p&creativeref=1100l68075&adref=PZnDB3QOfb'
     if (form.trip_type === 'package') return 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p&creativeref=1100l68075&adref=PZRpNWOv8b'
-    return 'https://aviasales.tp.st/4CRDbzuv'
+    return 'https://www.aviasales.com/?marker=710879&locale=en'
   }
 
   return (

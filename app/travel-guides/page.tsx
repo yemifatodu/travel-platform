@@ -25,7 +25,7 @@ const guides = [
       { heading: 'Money & Budgeting', body: 'Dubai is expensive but not as expensive as many assume. Budget $250–400 per person per day for a luxury experience including a 5-star hotel, meals at quality restaurants and activities. The UAE has no income or sales tax — prices are as listed.' },
     ],
     tips: ['Book Burj Khalifa tickets weeks in advance — they sell out fast', 'Friday brunch is a Dubai institution — try it at Cé La Vi or Sass Café', 'Dress modestly when visiting souks or older neighbourhoods', 'The Dubai Metro is air-conditioned and far faster than taxis during rush hour'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -45,7 +45,7 @@ const guides = [
       { heading: 'Getting Around', body: 'Hire a private driver for the day ($35–50) for maximum flexibility. Grab (the local Uber) works well in Seminyak and Ubud. Scooter rental is popular but only recommended if you have riding experience — traffic can be chaotic.' },
     ],
     tips: ['Respect temple dress codes — always carry a sarong', 'Negotiate at markets but with a smile — it\'s expected', 'Get a local SIM or Bali eSIM on arrival for cheap data', 'Try to visit temples early morning before tour groups arrive'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -65,7 +65,7 @@ const guides = [
       { heading: 'Budget & Booking', body: 'Kenya safari is not cheap — expect $400–800 per person per night at a quality tented camp, inclusive of game drives, meals and park fees. However, the experience is genuinely life-changing and comparable to nowhere else on earth.' },
     ],
     tips: ['Pack neutral colours — khaki, olive and brown. Avoid bright colours', 'Bring a quality zoom lens if you are a photographer — 200mm minimum', 'Yellow Fever vaccination required for Kenya entry', 'Combine with Zanzibar or the Kenyan coast for a beach finish'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -85,7 +85,7 @@ const guides = [
       { heading: 'Food & Drink', body: 'Moroccan cuisine is extraordinary — tagine, couscous, b\'stilla (sweet pigeon pastry) and harira soup. Drink sweet mint tea everywhere. The best food is often in traditional riads and local restaurants in the medina — avoid tourist traps on the main squares.' },
     ],
     tips: ['Bargaining is expected everywhere — start at 40% of the asking price', 'Book a local guide for the Fes medina — it is genuinely easy to get lost', 'Morocco is largely cash-based — change money at banks not street changers', 'A grand taxi between cities is cheap and authentic'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -105,7 +105,7 @@ const guides = [
       { heading: 'Etiquette', body: 'Remove shoes when entering homes and many traditional restaurants. No eating while walking. Queue patiently — Japanese queuing culture is exemplary. Tipping is not practised and can cause offence. Tattoos may restrict access to some onsen (hot spring baths).' },
     ],
     tips: ['Get a pocket WiFi or Japan eSIM — essential for navigation', 'Book popular restaurants online before you arrive — many are fully booked', 'Visit temples and shrines early morning for peaceful, crowd-free experience', 'Cash is still king in Japan — always carry yen'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -125,7 +125,7 @@ const guides = [
       { heading: 'Getting There', body: 'Fly into Malé (MLE). From Malé, you reach your resort by speedboat (30–90 minutes) or seaplane (15–45 minutes). Seaplanes are spectacular but can only fly during daylight — time your connection carefully. Many resorts include transfers in their packages.' },
     ],
     tips: ['Book at least 6 months ahead for peak season and festive periods', 'All-inclusive packages offer best value — food and drink is expensive à la carte', 'Bring underwater camera — the snorkelling is world class', 'Pack light — the Maldives is casual. You won\'t need much beyond swimwear and one smart outfit'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -145,7 +145,7 @@ const guides = [
       { heading: 'Day Trips', body: 'Versailles (45 minutes by RER) is unmissable — book tickets in advance. Giverny (Monet\'s garden) is stunning in spring. Champagne region (1.5 hours by TGV) for vineyard tours and tastings.' },
     ],
     tips: ['Learn a few words of French — effort is always appreciated', 'Biking along the Seine is free with Vélib\' bike share', 'Book popular restaurants at least a week ahead', 'The Paris Museum Pass covers 50+ museums and skips all queues'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -165,7 +165,7 @@ const guides = [
       { heading: 'Budget & Costs', body: 'Iceland is expensive — budget $200–350 per person per day including a mid-range guesthouse, rental car, petrol and meals. Cooking your own meals in guesthouse kitchens cuts costs significantly. Petrol is expensive — fill up in towns, not at highway stations.' },
     ],
     tips: ['Book accommodation months ahead — Iceland is hugely popular and rural guesthouses fill fast', 'Pack waterproof layers even in summer — weather changes in minutes', 'Northern Lights tours from Reykjavik run nightly in winter', 'A 4WD is essential if you plan to drive the highland roads (F-roads)'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -185,7 +185,7 @@ const guides = [
       { heading: 'Sacred Valley', body: 'Spend 2–3 days in the Sacred Valley before Machu Picchu: Pisac market and ruins, Ollantaytambo fortress and the salt mines of Maras and the circular terraces of Moray are all extraordinary. Stay at Explora Valle Sagrado or Inkaterra Hacienda Urubamba for a luxurious base.' },
     ],
     tips: ['Take altitude sickness medication (Diamox) if prescribed by your doctor', 'No tripods allowed inside Machu Picchu — use a handheld stabiliser', 'Hire a guide at the entrance — unlicensed guides are not permitted', 'The Huayna Picchu and Machu Picchu Mountain hikes require separate tickets'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
   {
@@ -205,7 +205,7 @@ const guides = [
       { heading: 'Food & Wine', body: 'Santorini\'s volcanic soil produces unique wines — Assyrtiko white wine is crisp, mineral and perfect with seafood. Try fava (yellow split pea purée), tomatokeftedes (tomato fritters) and fresh grilled octopus. For the best meals, explore restaurants away from the main caldera strip.' },
     ],
     tips: ['Book caldera-view accommodation 3–6 months ahead for summer', 'Rent an ATV to explore the island at your own pace', 'The ferry from Athens (Piraeus) to Santorini takes 5–8 hours — book ahead', 'Avoid driving in Oia — parking is impossible. Walk or take the cable car'],
-    flightLink: 'https://aviasales.tp.st/4CRDbzuv',
+    flightLink: 'https://www.aviasales.com/?marker=710879&locale=en',
     hotelLink: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p',
   },
 ]

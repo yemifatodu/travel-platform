@@ -295,7 +295,7 @@ export default function MapExplorer() {
               <Link href="/ai-planner" style={{ background: gold, color: '#080807', padding: '12px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 PLAN TRIP TO {selected.name.toUpperCase()}
               </Link>
-              <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
                 style={{ background: 'transparent', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 SEARCH FLIGHTS
               </a>

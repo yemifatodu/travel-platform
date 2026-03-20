@@ -121,7 +121,7 @@ export default function MiddleEast() {
             Ancient cities carved in rose-red rock. Ultramodern skylines rising from the desert. The world's most spectacular mosques and the most generous hospitality on earth. The Middle East rewards the curious traveller like nowhere else.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-block' }}>
               ✈ SEARCH FLIGHTS
             </a>
@@ -215,7 +215,7 @@ export default function MiddleEast() {
                       </div>
                     </div>
                     <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+                      <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
                         style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none' }}>
                         ✈ SEARCH FLIGHTS
                       </a>

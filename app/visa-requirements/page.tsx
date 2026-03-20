@@ -747,7 +747,7 @@ export default function VisaRequirements() {
 
                 {/* CTAs */}
                 <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                  <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
+                  <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
                     style={{ background:gold, color:'#080807', padding:'12px', fontFamily:"'Bebas Neue',sans-serif", fontSize:'0.68rem', letterSpacing:'0.15em', textDecoration:'none', textAlign:'center', display:'block' }}>
                     ✈ SEARCH FLIGHTS TO {selected.country.toUpperCase().split(' ')[0]}
                   </a>

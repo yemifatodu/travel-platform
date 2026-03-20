@@ -7,7 +7,7 @@ const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-const FLIGHTS_LINK = 'https://aviasales.tp.st/4CRDbzuv'
+const FLIGHTS_LINK = 'https://www.aviasales.com/?marker=710879&locale=en'
 
 const popularRoutes = [
   { from: 'Lagos', to: 'Dubai', code: 'LOS → DXB', from_flag: '🇳🇬', to_flag: '🇦🇪', from: '$380' },
