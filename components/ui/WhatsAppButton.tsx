@@ -40,7 +40,7 @@ export function WhatsAppButton() {
           border: 1px solid rgba(200,169,110,0.2);
           color: rgba(245,239,228,0.85);
           padding: 8px 14px;
-          font-family: 'DM Sans', sans-serif;
+          font-family: DM Sans, sans-serif;
           font-size: 0.8rem;
           white-space: nowrap;
           pointer-events: none;
@@ -59,14 +59,7 @@ export function WhatsAppButton() {
           .wa-tooltip { display: none; }
         }
       `}</style>
-
-      
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="wa-btn"
-        aria-label="Chat on WhatsApp"
-      >
+      <a href={url} target="_blank" rel="noopener noreferrer" className="wa-btn" aria-label="Chat on WhatsApp">
         <span style={{ fontSize: '1.6rem' }}>💬</span>
       </a>
       <div className="wa-tooltip">Chat with us on WhatsApp</div>
