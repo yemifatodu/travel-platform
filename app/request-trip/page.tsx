@@ -84,7 +84,7 @@ export default function RequestTripPage() {
             Want a faster response? WhatsApp us directly and we will reply immediately.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://wa.me/2348000000000?text=Hi%20HUUBOI%2C%20I%20just%20submitted%20a%20trip%20enquiry%20for%20" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/2347033736377?text=Hi%20HUUBOI%2C%20I%20just%20submitted%20a%20trip%20enquiry" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', background: '#25D366', color: '#fff', padding: '14px 28px', textDecoration: 'none', display: 'inline-block' }}>
               💬 WHATSAPP US NOW
             </a>
@@ -113,7 +113,7 @@ export default function RequestTripPage() {
               Let Us Plan<br /><em style={{ color: gold }}>Your Perfect Trip</em>
             </h1>
             <p style={{ color: muted, fontSize: '1rem', lineHeight: 1.85, marginBottom: 0 }}>
-              Tell us where you want to go and what you dream of doing. We handle everything — flights, hotels, airport transfers, guided tours, restaurant bookings and the return journey — so you just show up and experience it.
+              Tell us where you want to go and what you dream of doing. We handle everything — flights, hotels, airport transfers, guided tours, restaurant bookings and the return journey.
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -137,7 +137,7 @@ export default function RequestTripPage() {
       {/* Form */}
       <div style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* Step 1 — Trip type */}
+        {/* Step 1 */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 8 }}>STEP 1</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 300, color: cream, marginBottom: 20 }}>
@@ -145,8 +145,7 @@ export default function RequestTripPage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 2 }}>
             {tripTypes.map(t => (
-              <button key={t.label}
-                onClick={() => set('trip_type', t.label)}
+              <button key={t.label} onClick={() => set('trip_type', t.label)}
                 style={{ background: form.trip_type === t.label ? 'rgba(200,169,110,0.15)' : '#111110', border: `1px solid ${form.trip_type === t.label ? gold : 'rgba(200,169,110,0.1)'}`, padding: '16px 12px', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, transition: 'all 0.2s' }}>
                 <span style={{ fontSize: '1.4rem' }}>{t.icon}</span>
                 <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.58rem', letterSpacing: '0.1em', color: form.trip_type === t.label ? gold : muted, textAlign: 'center' }}>{t.label}</span>
@@ -155,7 +154,7 @@ export default function RequestTripPage() {
           </div>
         </div>
 
-        {/* Step 2 — Destination */}
+        {/* Step 2 */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 8 }}>STEP 2</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 300, color: cream, marginBottom: 20 }}>
@@ -170,7 +169,7 @@ export default function RequestTripPage() {
               </button>
             ))}
           </div>
-          {(customDest || !popularDestinations.includes(form.destination)) && (
+          {(customDest || (!popularDestinations.includes(form.destination) && form.destination !== '')) && (
             <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: '12px 18px' }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.18em', color: gold, marginBottom: 6 }}>YOUR DESTINATION</div>
               <input value={form.destination} onChange={e => set('destination', e.target.value)}
@@ -180,7 +179,7 @@ export default function RequestTripPage() {
           )}
         </div>
 
-        {/* Step 3 — Trip details */}
+        {/* Step 3 */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 8 }}>STEP 3</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 300, color: cream, marginBottom: 20 }}>
@@ -200,8 +199,6 @@ export default function RequestTripPage() {
               </div>
             ))}
           </div>
-
-          {/* Budget */}
           <div style={{ marginTop: 8 }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: dim, marginBottom: 10 }}>APPROXIMATE BUDGET</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 2 }}>
@@ -215,7 +212,7 @@ export default function RequestTripPage() {
           </div>
         </div>
 
-        {/* Step 4 — Message */}
+        {/* Step 4 */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 8 }}>STEP 4</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 300, color: cream, marginBottom: 20 }}>
@@ -224,13 +221,13 @@ export default function RequestTripPage() {
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '16px 18px' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.18em', color: gold, marginBottom: 8 }}>YOUR MESSAGE (OPTIONAL)</div>
             <textarea value={form.message} onChange={e => set('message', e.target.value)}
-              placeholder="Tell us about special requests, dietary requirements, accessibility needs, specific experiences you want included, or anything else that will help us plan the perfect trip..."
+              placeholder="Tell us about special requests, dietary requirements, accessibility needs, specific experiences you want included..."
               rows={5}
               style={{ background: 'none', border: 'none', color: cream, fontSize: '0.9rem', width: '100%', outline: 'none', resize: 'vertical', fontFamily: "'DM Sans',sans-serif", lineHeight: 1.7 }} />
           </div>
         </div>
 
-        {/* Step 5 — Contact details */}
+        {/* Step 5 */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 8 }}>STEP 5</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 300, color: cream, marginBottom: 20 }}>
@@ -241,9 +238,9 @@ export default function RequestTripPage() {
               { label: 'FULL NAME *', placeholder: 'Your full name', field: 'name' },
               { label: 'EMAIL ADDRESS *', placeholder: 'your@email.com', field: 'email' },
               { label: 'PHONE NUMBER', placeholder: '+234 800 000 0000', field: 'phone' },
-              { label: 'WHATSAPP NUMBER', placeholder: '+234 800 000 0000 (for faster reply)', field: 'whatsapp' },
+              { label: 'WHATSAPP NUMBER', placeholder: '+234 800 000 0000', field: 'whatsapp' },
             ].map(f => (
-              <div key={f.field} style={{ background: '#111110', border: `1px solid ${(f.field === 'name' || f.field === 'email') && !((form as any)[f.field]) && status === 'error' ? '#f87171' : 'rgba(200,169,110,0.15)'}`, padding: '14px 18px' }}>
+              <div key={f.field} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '14px 18px' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.18em', color: gold, marginBottom: 6 }}>{f.label}</div>
                 <input value={(form as any)[f.field]} onChange={e => set(f.field, e.target.value)}
                   placeholder={f.placeholder}
@@ -262,20 +259,18 @@ export default function RequestTripPage() {
               </p>
             </div>
           )}
-
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <button onClick={handleSubmit} disabled={status === 'sending'}
-              style={{ background: gold, color: '#080807', border: 'none', padding: '18px 48px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.82rem', letterSpacing: '0.22em', cursor: status === 'sending' ? 'wait' : 'pointer', opacity: status === 'sending' ? 0.7 : 1, transition: 'opacity 0.2s' }}>
+              style={{ background: gold, color: '#080807', border: 'none', padding: '18px 48px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.82rem', letterSpacing: '0.22em', cursor: status === 'sending' ? 'wait' : 'pointer', opacity: status === 'sending' ? 0.7 : 1 }}>
               {status === 'sending' ? 'SENDING...' : 'SEND TRIP ENQUIRY →'}
             </button>
-            <a href="https://wa.me/2348000000000?text=Hi%20HUUBOI%2C%20I%20would%20like%20to%20plan%20a%20trip%20to%20" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/2347033736377?text=Hi%20HUUBOI%2C%20I%20would%20like%20to%20plan%20a%20trip" target="_blank" rel="noopener noreferrer"
               style={{ background: '#25D366', color: '#fff', border: 'none', padding: '18px 28px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.18em', cursor: 'pointer', textDecoration: 'none', display: 'inline-block' }}>
               💬 WHATSAPP INSTEAD
             </a>
           </div>
           <p style={{ color: dim, fontSize: '0.78rem', marginTop: 14, fontFamily: "'DM Sans',sans-serif", lineHeight: 1.6 }}>
-            We respond to all enquiries within 24 hours. For urgent requests WhatsApp is fastest.
-            Your details are never shared with third parties.
+            We respond to all enquiries within 24 hours. Your details are never shared with third parties.
           </p>
         </div>
 
