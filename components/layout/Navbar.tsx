@@ -19,6 +19,7 @@ const destLinks = [
 ]
 
 const navLinks = [
+  { label: 'Search', href: '/search' },
   { label: 'Travel Guides', href: '/travel-guides' },
   { label: 'Blog', href: '/blog' },
   { label: 'Packages', href: '/packages', highlight: true },

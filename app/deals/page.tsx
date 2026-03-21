@@ -1,164 +1,257 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { AFFILIATES, buildTrackedUrl } from '@/lib/affiliates'
 
-const featuredDeals = [
-  { destination: 'Dubai', region: 'Middle East', slug: 'dubai', type: 'Flight + Hotel', saving: 'Save up to 35%', badge: 'HOT DEAL', affiliateId: 'booking', gradient: 'linear-gradient(135deg,#1a0e00,#3d2800)' },
-  { destination: 'Bali', region: 'Asia', slug: 'bali', type: 'Hotel Package', saving: 'From $49/night', badge: 'BEST VALUE', affiliateId: 'airbnb', gradient: 'linear-gradient(135deg,#001a10,#003020)' },
-  { destination: 'Patagonia', region: 'Americas', slug: 'patagonia', type: 'Adventure Tour', saving: 'Save up to 20%', badge: 'LIMITED', affiliateId: 'viator', gradient: 'linear-gradient(135deg,#001a20,#002d3d)' },
-  { destination: 'Santorini', region: 'Europe', slug: 'santorini', type: 'Hotel Stay', saving: 'From $89/night', badge: 'POPULAR', affiliateId: 'booking', gradient: 'linear-gradient(135deg,#001030,#002060)' },
-  { destination: 'Tokyo', region: 'Asia', slug: 'tokyo', type: 'City Package', saving: 'Save up to 25%', badge: 'NEW', affiliateId: 'expedia', gradient: 'linear-gradient(135deg,#1a0010,#2d0030)' },
-  { destination: 'Cape Town', region: 'Africa', slug: 'cape-town', type: 'Experience', saving: 'From $35/activity', badge: 'TOP RATED', affiliateId: 'getyourguide', gradient: 'linear-gradient(135deg,#0a0a00,#1a1a00)' },
+const gold = '#C8A96E'
+const cream = '#F5EFE4'
+const muted = 'rgba(245,239,228,0.60)'
+const dim = 'rgba(245,239,228,0.35)'
+
+const deals = [
+  {
+    title: 'Lagos to Dubai Return',
+    type: 'Flight Deal',
+    icon: '✈',
+    saving: 'Save up to 35%',
+    badge: 'HOT DEAL',
+    badgeColor: '#f87171',
+    desc: 'Return flights from Lagos to Dubai with Emirates or Air Peace. Includes 30kg checked baggage.',
+    from: '$380',
+    was: '$590',
+    link: 'https://www.aviasales.com/?marker=710879&locale=en',
+    expires: 'Limited time',
+  },
+  {
+    title: 'Maldives Overwater Villa',
+    type: 'Hotel Deal',
+    icon: '🏨',
+    saving: 'From $299/night',
+    badge: 'BEST VALUE',
+    badgeColor: '#4ade80',
+    desc: 'Overwater bungalows with direct lagoon access. Breakfast included. Free cancellation.',
+    from: '$299',
+    was: '$480',
+    link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FHotels&camref=1110lBk7p',
+    expires: 'Book 30 days ahead',
+  },
+  {
+    title: 'Serengeti Safari Package',
+    type: 'Safari Package',
+    icon: '🦁',
+    saving: 'Save $800 per person',
+    badge: 'LIMITED',
+    badgeColor: '#fbbf24',
+    desc: '7 nights luxury tented camp during the Great Migration. Game drives twice daily. All meals included.',
+    from: '$3,200',
+    was: '$4,000',
+    link: '/request-trip',
+    expires: 'Jul–Oct departures',
+    internal: true,
+  },
+  {
+    title: 'Bali 10-Night Retreat',
+    type: 'Package Deal',
+    icon: '🌿',
+    saving: 'Save up to 25%',
+    badge: 'POPULAR',
+    badgeColor: '#60a5fa',
+    desc: 'Flights + boutique hotel in Ubud. Includes daily breakfast, one spa treatment and temple tour.',
+    from: '$1,890',
+    was: '$2,520',
+    link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p',
+    expires: 'Apr–Oct travel',
+  },
+  {
+    title: 'Dubai Desert Safari + BBQ',
+    type: 'Experience Deal',
+    icon: '🎯',
+    saving: 'Save 20%',
+    badge: 'TOP RATED',
+    badgeColor: '#a78bfa',
+    desc: 'Evening desert safari with dune bashing, camel ride, traditional BBQ dinner and live entertainment.',
+    from: '$60',
+    was: '$75',
+    link: 'https://www.getyourguide.com/dubai-l173/?partner_id=ZE8RKTS8',
+    expires: 'Year-round',
+  },
+  {
+    title: 'Cape Town + Safari Combo',
+    type: 'Combo Deal',
+    icon: '🌍',
+    saving: 'Save $600 per person',
+    badge: 'NEW',
+    badgeColor: '#4ade80',
+    desc: '5 nights Cape Town + 4 nights Kruger National Park private game reserve. Flights included.',
+    from: '$2,800',
+    was: '$3,400',
+    link: '/request-trip',
+    expires: 'May–Sep departures',
+    internal: true,
+  },
+  {
+    title: 'Paris City Break',
+    type: 'Hotel Deal',
+    icon: '🗼',
+    saving: 'From £89/night',
+    badge: 'GREAT VALUE',
+    badgeColor: '#fbbf24',
+    desc: 'Central Paris boutique hotels with breakfast. Walking distance to Eiffel Tower and Louvre.',
+    from: '£89',
+    was: '£145',
+    link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FHotels&camref=1110lBk7p',
+    expires: 'Mar–Jun · Sep–Oct',
+  },
+  {
+    title: 'Morocco 7-Night Adventure',
+    type: 'Package Deal',
+    icon: '🕌',
+    saving: 'Save 30%',
+    badge: 'HOT DEAL',
+    badgeColor: '#f87171',
+    desc: 'Marrakech, Sahara Desert camp and Fes medina. Flights, riads and guided tours included.',
+    from: '$1,400',
+    was: '$2,000',
+    link: '/request-trip',
+    expires: 'Mar–May · Sep–Nov',
+    internal: true,
+  },
 ]
 
 const categories = [
-  { icon: '✈', label: 'Flights', affiliateId: 'skyscanner', desc: 'Compare 1,200+ airlines', color: '0770E3' },
-  { icon: '🏨', label: 'Hotels', affiliateId: 'booking', desc: '28M+ properties worldwide', color: '003580' },
-  { icon: '📦', label: 'Packages', affiliateId: 'expedia', desc: 'Flight + hotel bundles', color: 'FFC72C' },
-  { icon: '🎯', label: 'Tours', affiliateId: 'viator', desc: '300K+ experiences', color: '179BD7' },
-  { icon: '🏠', label: 'Stays', affiliateId: 'airbnb', desc: 'Unique homes & villas', color: 'FF5A5F' },
-  { icon: '🗺', label: 'Activities', affiliateId: 'getyourguide', desc: 'Local tours & tickets', color: 'FF6D00' },
-  { icon: '🦉', label: 'Reviews', affiliateId: 'tripadvisor', desc: 'Read before you book', color: '00AF87' },
-  { icon: '🚗', label: 'Car Hire', affiliateId: 'rentalcars', desc: '900+ rental companies', color: 'E31837' },
+  { icon: '✈', label: 'Flight Deals', link: 'https://www.aviasales.com/?marker=710879&locale=en' },
+  { icon: '🏨', label: 'Hotel Deals', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FHotels&camref=1110lBk7p' },
+  { icon: '📦', label: 'Package Deals', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p' },
+  { icon: '🦁', label: 'Safari Deals', link: '/request-trip' },
+  { icon: '🎯', label: 'Experience Deals', link: 'https://www.getyourguide.com/?partner_id=ZE8RKTS8' },
+  { icon: '🚗', label: 'Car Rental Deals', link: 'https://getrentacar.tp.st/CvPLu5ev' },
 ]
 
 export default function DealsPage() {
-  const [searchDest, setSearchDest] = useState('')
-  const gold = '#C8A96E', ink = '#080807', cream = '#F5EFE4'
-
-  const getAffiliate = (id: string) => AFFILIATES.find(a => a.id === id)!
+  const [activeCategory, setActiveCategory] = useState('All')
 
   return (
-    <div style={{ minHeight: '100vh', background: ink, paddingTop: 100 }}>
+    <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
       {/* Hero */}
-      <div style={{ position: 'relative', padding: '80px 60px 60px', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.08) 0%, transparent 60%)' }} />
-        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.35em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ background: 'linear-gradient(160deg,#0a0800,#100c00,#080810)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,100px) clamp(20px,5vw,60px)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ width: 32, height: 1, background: gold, display: 'inline-block' }} />
-            EXCLUSIVE PARTNER DEALS
+            DEALS & OFFERS
           </div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem,7vw,6.5rem)', fontWeight: 300, color: cream, lineHeight: 0.95, marginBottom: 24 }}>
-            Travel <em style={{ color: gold }}>Deals</em><br />& Partners
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(3rem,8vw,7rem)', fontWeight: 300, color: cream, lineHeight: 0.92, marginBottom: 24 }}>
+            Best Travel <em style={{ color: gold }}>Deals</em>
           </h1>
-          <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '1rem', maxWidth: 520, lineHeight: 1.8, marginBottom: 48 }}>
-            We partner with the world's leading travel platforms to bring you the best prices. Compare, book, and save — all in one place.
+          <p style={{ color: muted, fontSize: 'clamp(0.95rem,2vw,1.1rem)', maxWidth: 520, lineHeight: 1.8 }}>
+            Handpicked flight deals, hotel offers, safari packages and experiences — updated regularly. Book fast, prices change daily.
           </p>
-
-          {/* Quick Search */}
-          <div style={{ display: 'flex', gap: 0, maxWidth: 600 }}>
-            <input
-              placeholder="Search a destination (e.g. Bali, Paris, Dubai)..."
-              value={searchDest}
-              onChange={e => setSearchDest(e.target.value)}
-              style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: cream, padding: '16px 24px', fontSize: '0.9rem', outline: 'none' }}
-            />
-            <button style={{ background: gold, color: ink, border: 'none', padding: '0 32px', fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.8rem', letterSpacing: '0.15em', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
-              FIND DEALS
-            </button>
-          </div>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 60px 120px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* Category Grid */}
-        <div style={{ marginBottom: 80 }}>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 24 }}>BROWSE BY CATEGORY</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 2 }}>
-            {categories.map(cat => {
-              const affiliate = getAffiliate(cat.affiliateId)
-              const url = buildTrackedUrl(affiliate, { destination: searchDest || 'worldwide' })
-              return (
-                <a key={cat.label} href={url} target="_blank" rel="noopener noreferrer sponsored"
-                  style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '24px 16px', textDecoration: 'none', textAlign: 'center' as const, transition: 'all 0.3s', display: 'block' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = `#${cat.color}60`; el.style.background = `#${cat.color}10`; el.style.transform = 'translateY(-3px)' }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(200,169,110,0.1)'; el.style.background = '#111110'; el.style.transform = 'translateY(0)' }}
-                >
-                  <div style={{ fontSize: '1.8rem', marginBottom: 10 }}>{cat.icon}</div>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.72rem', letterSpacing: '0.15em', color: cream, marginBottom: 6 }}>{cat.label}</div>
-                  <div style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.35)', lineHeight: 1.4 }}>{cat.desc}</div>
-                </a>
-              )
-            })}
+        {/* Categories */}
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            <button onClick={() => setActiveCategory('All')}
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', padding: '8px 18px', background: activeCategory === 'All' ? gold : 'transparent', border: `1px solid ${activeCategory === 'All' ? gold : 'rgba(200,169,110,0.2)'}`, color: activeCategory === 'All' ? '#080807' : muted, cursor: 'pointer', transition: 'all 0.2s' }}>
+              ALL DEALS
+            </button>
+            {categories.map(cat => (
+              <button key={cat.label} onClick={() => setActiveCategory(cat.label)}
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', padding: '8px 18px', background: activeCategory === cat.label ? gold : 'transparent', border: `1px solid ${activeCategory === cat.label ? gold : 'rgba(200,169,110,0.2)'}`, color: activeCategory === cat.label ? '#080807' : muted, cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap' }}>
+                {cat.icon} {cat.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Featured Deals Grid */}
-        <div style={{ marginBottom: 80 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
-            <div>
-              <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 10 }}>HANDPICKED FOR YOU</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 300, color: cream }}>
-                Featured <em style={{ color: gold }}>Destinations</em>
-              </h2>
+        {/* Deals grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 2, marginBottom: 'clamp(48px,7vw,80px)' }}>
+          {deals.map(deal => (
+            <div key={deal.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+              {/* Top bar */}
+              <div style={{ background: '#1C1B18', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(200,169,110,0.08)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: '1.2rem' }}>{deal.icon}</span>
+                  <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: dim }}>{deal.type}</span>
+                </div>
+                <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.12em', color: deal.badgeColor, border: `1px solid ${deal.badgeColor}40`, padding: '3px 10px' }}>{deal.badge}</span>
+              </div>
+
+              {/* Content */}
+              <div style={{ padding: '20px 22px', flex: 1 }}>
+                <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.2rem', color: cream, fontWeight: 600, lineHeight: 1.2, marginBottom: 8 }}>{deal.title}</h3>
+                <p style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.7, marginBottom: 16 }}>{deal.desc}</p>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.58rem', letterSpacing: '0.12em', color: dim, marginBottom: 4 }}>⏰ {deal.expires}</div>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: '#4ade80', marginBottom: 16 }}>✦ {deal.saving}</div>
+              </div>
+
+              {/* Price + CTA */}
+              <div style={{ padding: '16px 22px 20px', borderTop: '1px solid rgba(200,169,110,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.12em', color: dim, marginBottom: 2 }}>FROM</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: gold, fontWeight: 600, lineHeight: 1 }}>{deal.from}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.1em', color: dim, textDecoration: 'line-through', marginTop: 2 }}>was {deal.was}</div>
+                </div>
+                {deal.internal ? (
+                  <Link href={deal.link}
+                    style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 20px', textDecoration: 'none', display: 'inline-block' }}>
+                    REQUEST →
+                  </Link>
+                ) : (
+                  <a href={deal.link} target="_blank" rel="noopener noreferrer"
+                    style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 20px', textDecoration: 'none', display: 'inline-block' }}>
+                    BOOK NOW →
+                  </a>
+                )}
+              </div>
             </div>
+          ))}
+        </div>
+
+        {/* Custom package strip */}
+        <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(28px,4vw,48px)', marginBottom: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 32, alignItems: 'center' }}>
+          <div>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 12 }}>CANT FIND WHAT YOU WANT?</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3vw,2.5rem)', fontWeight: 300, color: cream, lineHeight: 1.1, marginBottom: 12 }}>
+              Get a <em style={{ color: gold }}>Custom Deal</em>
+            </h2>
+            <p style={{ color: muted, fontSize: '0.9rem', lineHeight: 1.75, margin: 0 }}>
+              Tell us your destination, dates and budget. We will find the best available deal and put together a personalised package just for you.
+            </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
-            {featuredDeals.map(deal => {
-              const affiliate = getAffiliate(deal.affiliateId)
-              const url = buildTrackedUrl(affiliate, { destination: deal.destination })
-              return (
-                <a key={deal.destination} href={url} target="_blank" rel="noopener noreferrer sponsored"
-                  style={{ background: deal.gradient, border: '1px solid rgba(200,169,110,0.1)', padding: '40px 32px', textDecoration: 'none', display: 'block', position: 'relative', overflow: 'hidden', transition: 'all 0.4s' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(200,169,110,0.4)'; el.style.transform = 'translateY(-4px)' }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(200,169,110,0.1)'; el.style.transform = 'translateY(0)' }}
-                >
-                  <div style={{ position: 'absolute', top: 20, right: 20, fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', background: gold, color: ink, padding: '4px 10px' }}>{deal.badge}</div>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.62rem', letterSpacing: '0.2em', color: 'rgba(245,239,228,0.45)', marginBottom: 10 }}>{deal.region} · {deal.type}</div>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', fontWeight: 600, color: cream, marginBottom: 8 }}>{deal.destination}</h3>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.8rem', color: gold, marginBottom: 20 }}>{deal.saving}</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontSize: '1rem' }}>{affiliate.logo}</span>
-                    <div>
-                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.6rem', letterSpacing: '0.1em', color: 'rgba(245,239,228,0.4)' }}>VIA</div>
-                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.1em', color: cream }}>{affiliate.name}</div>
-                    </div>
-                    <div style={{ marginLeft: 'auto', fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: gold, borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2 }}>BOOK NOW →</div>
-                  </div>
-                </a>
-              )
-            })}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Link href="/request-trip"
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 32px', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              REQUEST A CUSTOM PACKAGE
+            </Link>
+            <a href="https://wa.me/2347033736377?text=Hi%20HUUBOI%2C%20I%20am%20looking%20for%20a%20travel%20deal%20to%20"
+              target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: '#25D366', color: '#fff', padding: '16px 32px', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              💬 WHATSAPP FOR DEALS
+            </a>
           </div>
         </div>
 
-        {/* All Partners */}
-        <div style={{ marginBottom: 80 }}>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 24 }}>ALL PARTNER PLATFORMS</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2 }}>
-            {AFFILIATES.map(affiliate => {
-              const url = buildTrackedUrl(affiliate, { destination: searchDest || 'worldwide' })
-              return (
-                <a key={affiliate.id} href={url} target="_blank" rel="noopener noreferrer sponsored"
-                  style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '28px 24px', textDecoration: 'none', transition: 'all 0.3s', display: 'block' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = `#${affiliate.color}50`; el.style.transform = 'translateY(-2px)' }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(200,169,110,0.1)'; el.style.transform = 'translateY(0)' }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-                    <span style={{ fontSize: '1.8rem' }}>{affiliate.logo}</span>
-                    <div>
-                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', fontWeight: 600, color: cream }}>{affiliate.name}</div>
-                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.58rem', letterSpacing: '0.15em', color: `#${affiliate.color}`, marginTop: 2 }}>{affiliate.category}</div>
-                    </div>
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: 'rgba(245,239,228,0.5)', lineHeight: 1.6, marginBottom: 16 }}>{affiliate.description}</p>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, borderBottom: '1px solid rgba(200,169,110,0.3)', display: 'inline-block', paddingBottom: 2 }}>
-                    SEARCH NOW →
-                  </div>
-                </a>
-              )
-            })}
-          </div>
+        {/* Related */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
+          {[
+            { label: 'Flights', href: '/flights' },
+            { label: 'Hotels', href: '/hotels' },
+            { label: 'Tours & Experiences', href: '/tours' },
+            { label: 'Request a Trip', href: '/request-trip' },
+          ].map(link => (
+            <Link key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
+              <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '18px 20px', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: gold }}>{link.label} →</div>
+              </div>
+            </Link>
+          ))}
         </div>
 
-        {/* Disclosure */}
-        <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 32, textAlign: 'center' as const }}>
-          <p style={{ fontSize: '0.78rem', color: 'rgba(245,239,228,0.3)', lineHeight: 1.8, maxWidth: 700, margin: '0 auto' }}>
-            <strong style={{ color: 'rgba(245,239,228,0.5)' }}>Affiliate Disclosure:</strong> We partner with travel booking platforms and may receive a commission when you make a purchase through our links. This comes at no extra cost to you and helps us keep the platform free. We only partner with platforms we trust.
-          </p>
-        </div>
       </div>
     </div>
   )
