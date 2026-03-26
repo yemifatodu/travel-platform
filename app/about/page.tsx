@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export const metadata = {
   title: 'About Us | HUUBOI',
@@ -33,13 +34,13 @@ export default function AboutPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(60px,8vw,100px) clamp(20px,5vw,60px)' }}>
 
-        {/* Main story */}
+        {/* The problem */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(40px,6vw,80px)', marginBottom: 'clamp(60px,8vw,100px)', alignItems: 'start' }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>THE PROBLEM WE SOLVE</div>
             <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 300, color: cream, lineHeight: 1.05, marginBottom: 28 }}>
-              Planning an international trip today is<br />
-              <em style={{ color: gold }}>fragmented, time-consuming,<br />and often uncertain.</em>
+              Planning an international trip today is
+              <em style={{ color: gold }}> fragmented, time-consuming, and often uncertain.</em>
             </h2>
             <p style={{ color: muted, fontSize: '1rem', lineHeight: 1.9, marginBottom: 20 }}>
               From comparing flights and hotels across multiple platforms to navigating unclear visa requirements and unreliable recommendations, travelers are forced to piece everything together on their own.
@@ -48,20 +49,10 @@ export default function AboutPage() {
               Huuboi was built to end that frustration.
             </p>
           </div>
-
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {[
-              { icon: '✈', label: 'Flights' },
-              { icon: '🏨', label: 'Accommodations' },
-              { icon: '🎯', label: 'Tours & Experiences' },
-              { icon: '🚐', label: 'Transfers' },
-              { icon: '📱', label: 'eSIM Connectivity' },
-              { icon: '🛂', label: 'Visa Guidance' },
-              { icon: '🧭', label: 'Destination Intelligence' },
-            ].map(item => (
-              <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 16, background: '#111110', border: '1px solid rgba(200,169,110,0.08)', padding: '14px 20px' }}>
-                <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{item.icon}</span>
-                <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: muted }}>{item.label}</span>
+            {['✈ Flights', '🏨 Accommodations', '🎯 Tours & Experiences', '🚐 Transfers', '📱 eSIM Connectivity', '🛂 Visa Guidance', '🧭 Destination Intelligence'].map(item => (
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 16, background: '#111110', border: '1px solid rgba(200,169,110,0.08)', padding: '14px 20px' }}>
+                <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: muted }}>{item}</span>
               </div>
             ))}
             <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '14px 20px', textAlign: 'center' }}>
@@ -70,7 +61,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Mission statement */}
+        {/* Mission */}
         <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(36px,5vw,64px)', marginBottom: 'clamp(60px,8vw,100px)' }}>
           <div style={{ maxWidth: 860, margin: '0 auto' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 24, textAlign: 'center' }}>OUR MISSION</div>
@@ -94,7 +85,6 @@ export default function AboutPage() {
               Every recommendation on Huuboi is shaped by real travel experience, curated insights, and a commitment to clarity over noise. We don't just aggregate options — we help you choose the right ones.
             </p>
           </div>
-
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
             {[
               { num: '194+', label: 'Destinations' },
@@ -110,7 +100,56 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Global positioning */}
+        {/* Founder */}
+        <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(36px,5vw,64px)', marginBottom: 'clamp(60px,8vw,100px)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 'clamp(32px,5vw,60px)', alignItems: 'center' }}>
+
+            {/* Photo */}
+            <div style={{ position: 'relative', maxWidth: 420, margin: '0 auto' }}>
+              <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)' }}>
+                <Image
+                  src="/founder.jpg"
+                  alt="Yemi Fatodu — Founder of HUUBOI"
+                  fill
+                  style={{ objectFit: 'cover', objectPosition: 'top' }}
+                  priority
+                />
+              </div>
+              {/* Gold accent line */}
+              <div style={{ position: 'absolute', bottom: -12, left: -12, width: 80, height: 80, borderBottom: `2px solid ${gold}`, borderLeft: `2px solid ${gold}` }} />
+              <div style={{ position: 'absolute', top: -12, right: -12, width: 80, height: 80, borderTop: `2px solid ${gold}`, borderRight: `2px solid ${gold}` }} />
+            </div>
+
+            {/* Bio */}
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>THE FOUNDER</div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 300, color: cream, lineHeight: 1.05, marginBottom: 8 }}>
+                Yemi Fatodu
+              </h2>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.15em', color: gold, marginBottom: 24 }}>
+                FOUNDER · HUUBOI.COM
+              </div>
+              <p style={{ color: muted, fontSize: '0.97rem', lineHeight: 1.9, marginBottom: 16 }}>
+                Yemi Fatodu is the founder of Huuboi.com, combining a passion for travel with expertise in data science and business intelligence. With a certification in Applied Data Science from WorldQuant University and an advanced diploma in Database & SQL, Yemi brings hands-on experience in managing complex travel data and building smart, user-centric digital solutions.
+              </p>
+              <p style={{ color: muted, fontSize: '0.97rem', lineHeight: 1.9, marginBottom: 28 }}>
+                His career as a data analyst and business intelligence professional equips him to transform travel planning into seamless, personalized experiences.
+              </p>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <a href="https://yemifatodu.github.io" target="_blank" rel="noopener noreferrer"
+                  style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.4)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-block' }}>
+                  VIEW PORTFOLIO →
+                </a>
+                <Link href="/request-trip"
+                  style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-block' }}>
+                  PLAN A TRIP
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Vision */}
         <div style={{ background: 'rgba(200,169,110,0.04)', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(36px,5vw,64px)', marginBottom: 'clamp(60px,8vw,100px)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 'clamp(32px,5vw,60px)', alignItems: 'center' }}>
             <div>
@@ -133,7 +172,7 @@ export default function AboutPage() {
                 { icon: '✦', text: 'Curated by real travel experience' },
                 { icon: '⚡', text: 'Built for faster, smarter decisions' },
               ].map(item => (
-                <div key={item.text} style={{ display: 'flex', gap: 14, alignItems: 'center', background: '#111110', border: '1px solid rgba(200,169,110,0.08)', padding: '14px 18px' }}>
+                <div key={item.text} style={{ display: 'flex', gap: 14, alignItems: 'center', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.08)', padding: '14px 18px' }}>
                   <span style={{ fontSize: '1rem', flexShrink: 0 }}>{item.icon}</span>
                   <span style={{ color: muted, fontSize: '0.87rem', lineHeight: 1.5 }}>{item.text}</span>
                 </div>
@@ -142,7 +181,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Closing statement */}
+        {/* Closing */}
         <div style={{ textAlign: 'center', marginBottom: 'clamp(60px,8vw,100px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>THE VISION</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 300, color: cream, lineHeight: 1.05, marginBottom: 24, maxWidth: 800, margin: '0 auto 24px' }}>
@@ -165,7 +204,7 @@ export default function AboutPage() {
         </div>
 
         {/* Partners */}
-        <div style={{ marginBottom: 16 }}>
+        <div>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 24, textAlign: 'center' }}>POWERED BY THE WORLD'S BEST</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 2 }}>
             {[
