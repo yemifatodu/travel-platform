@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { ChatButton } from '@/components/ui/ChatButton'
 import Script from 'next/script'
 
 export const viewport: Viewport = {
@@ -42,24 +43,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })();`
           }}
         />
-        <Script
-          id="travelpayouts-wl"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function () {
-              var script = document.createElement("script");
-              script.async = 1;
-              script.type = "module";
-              script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15099";
-              document.head.appendChild(script);
-            })();`
-          }}
-        />
       </head>
       <body>
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <ChatButton />
       </body>
     </html>
   )
