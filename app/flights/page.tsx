@@ -54,11 +54,6 @@ const flightTypes = [
 ]
 
 export default function FlightsPage() {
-  const [from, setFrom] = useState('')
-  const [to, setTo] = useState('')
-  const [depart, setDepart] = useState('')
-  const [returnDate, setReturnDate] = useState('')
-  const [passengers, setPassengers] = useState('')
   const [tripType, setTripType] = useState('Return')
 
   return (
@@ -74,12 +69,12 @@ export default function FlightsPage() {
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(3rem,8vw,7rem)', fontWeight: 300, color: cream, lineHeight: 0.92, marginBottom: 24 }}>
             Fly <em style={{ color: gold }}>Anywhere</em>
           </h1>
-          <p style={{ color: muted, fontSize: 'clamp(0.95rem,2vw,1.1rem)', maxWidth: 520, lineHeight: 1.8, marginBottom: 48 }}>
+          <p style={{ color: muted, fontSize: 'clamp(0.95rem,2vw,1.1rem)', maxWidth: 520, lineHeight: 1.8, marginBottom: 32 }}>
             Compare flights across 1,200+ airlines worldwide. Find the best prices for every route — economy to first class, one way to multi-city.
           </p>
 
-          {/* Trip type selector */}
-          <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
+          {/* Trip type */}
+          <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
             {['One Way', 'Return', 'Multi-City'].map(type => (
               <button key={type} onClick={() => setTripType(type)}
                 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', padding: '8px 18px', background: tripType === type ? gold : 'transparent', border: `1px solid ${tripType === type ? gold : 'rgba(200,169,110,0.25)'}`, color: tripType === type ? '#080807' : muted, cursor: 'pointer', transition: 'all 0.2s' }}>
@@ -88,30 +83,26 @@ export default function FlightsPage() {
             ))}
           </div>
 
-          {/* Search box */}
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 8, marginBottom: 12 }}>
-              {[
-                { label: 'FROM', placeholder: 'City or airport e.g. Lagos LOS', value: from, set: setFrom },
-                { label: 'TO', placeholder: 'City or airport e.g. Dubai DXB', value: to, set: setTo },
-                { label: 'DEPART', placeholder: 'DD / MM / YYYY', value: depart, set: setDepart },
-                ...(tripType === 'Return' ? [{ label: 'RETURN', placeholder: 'DD / MM / YYYY', value: returnDate, set: setReturnDate }] : []),
-                { label: 'PASSENGERS', placeholder: '1 adult', value: passengers, set: setPassengers },
-              ].map(field => (
-                <div key={field.label} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.15)', padding: '12px 16px' }}>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.18em', color: gold, marginBottom: 6 }}>{field.label}</div>
-                  <input value={field.value} onChange={e => field.set(e.target.value)} placeholder={field.placeholder}
-                    style={{ background: 'none', border: 'none', color: cream, fontSize: '0.88rem', width: '100%', outline: 'none', fontFamily: "'DM Sans',sans-serif" }} />
-                </div>
-              ))}
+          {/* White Label widget placeholder */}
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(24px,3vw,40px)', maxWidth: 900 }}>
+            <div id="tp-flight-search">
+              {/* Travelpayouts White Label Widget goes here */}
+              {/* Paste your widget code from travelpayouts.com → Tools → White Label → Widget */}
             </div>
-            <a href={FLIGHTS_LINK} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'block', textAlign: 'center', background: gold, color: '#080807', padding: '16px 40px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', textDecoration: 'none' }}>
-              ✈ SEARCH FLIGHTS
-            </a>
-            <p style={{ color: dim, fontSize: '0.75rem', textAlign: 'center', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
-              Powered by Aviasales · 1,200+ airlines · Best price guarantee
-            </p>
+
+            {/* Fallback search button always visible */}
+            <div style={{ marginTop: 20, borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 20 }}>
+              <p style={{ color: dim, fontSize: '0.8rem', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
+                Search 1,200+ airlines for the best prices on your route:
+              </p>
+              <a href={FLIGHTS_LINK} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-block', background: gold, color: '#080807', padding: '14px 36px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', textDecoration: 'none' }}>
+                ✈ SEARCH FLIGHTS NOW
+              </a>
+              <p style={{ color: dim, fontSize: '0.72rem', marginTop: 10, fontFamily: "'DM Sans',sans-serif" }}>
+                Powered by Aviasales · 1,200+ airlines · Results open in English
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -204,7 +195,7 @@ export default function FlightsPage() {
           </div>
         </div>
 
-        {/* Request trip strip */}
+        {/* Request trip */}
         <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4 }}>🧭 WANT US TO BOOK FOR YOU?</div>
