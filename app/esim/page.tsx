@@ -248,19 +248,22 @@ const esimStyles = `
     font-size: 1.1rem;
     pointer-events: none;
   }
-  .esim-grid {
+    .esim-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
     margin-bottom: 48px;
   }
   .esim-country-card {
     background: rgba(245,239,228,0.03);
     border: 1px solid var(--border);
-    padding: 16px;
+    padding: 10px 14px;
     cursor: pointer;
     transition: all 0.2s;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
   }
   .esim-country-card:hover {
     border-color: rgba(200,169,110,0.5);
@@ -270,19 +273,20 @@ const esimStyles = `
     border-color: var(--gold);
     background: rgba(200,169,110,0.1);
   }
-  .esim-country-flag { font-size: 2rem; margin-bottom: 8px; }
+  .esim-country-flag { font-size: 1.4rem; flex-shrink: 0; }
   .esim-country-name {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--cream-dim);
     font-weight: 400;
-    line-height: 1.3;
+    line-height: 1.2;
+    flex: 1;
   }
   .esim-country-count {
-    font-size: 0.7rem;
+    font-size: 0.62rem;
     color: var(--gold);
-    margin-top: 4px;
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.1em;
+    white-space: nowrap;
   }
   .esim-detail {
     border: 1px solid var(--border);
