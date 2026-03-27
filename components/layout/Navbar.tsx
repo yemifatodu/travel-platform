@@ -118,13 +118,14 @@ export function Navbar() {
         <div className="nav-inner" style={{ padding: '0 48px', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
 
           {/* Logo */}
-          <Link href="/" onClick={closeAll} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          <Link href="/" onClick={closeAll} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, gap: 10 }}>
+            <img src="/huuboi-logo.webp" alt="HUUBOI" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }} />
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.12em', color: cream }}>HUU</span>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.12em', color: gold }}>BOI</span>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.9rem', letterSpacing: '0.08em', color: 'rgba(200,169,110,0.45)', marginLeft: 2 }}>.COM</span>
           </Link>
-
-          {/* Desktop nav */}
+          
+         {/* Desktop nav */}
           <div className="nav-desktop" style={{ alignItems: 'center', gap: 28, flex: 1, justifyContent: 'center' }}>
 
             {/* Destinations dropdown */}
