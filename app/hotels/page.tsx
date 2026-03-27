@@ -52,7 +52,7 @@ export default function HotelsPage() {
       script.id = 'tp-hotel-widget'
       script.async = true
       script.type = 'module'
-      script.src = 'https://tpwidg.com/wl_web/main.js?wl_id=15518'
+      script.src = 'https://tpwidg.com/wl_web/main.js?wl_id=15518&default_tab=hotels'
       document.head.appendChild(script)
     }
     return () => {
@@ -83,8 +83,8 @@ export default function HotelsPage() {
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
               SEARCH HOTELS — select the Hotels tab in the search box below
             </div>
-            <div id="tpwl-search" />
-            <div id="tpwl-tickets" />
+            <div id="tpwl-search-hotels" />
+            <div id="tpwl-tickets-hotels" />
           </div>
         </div>
       </div>

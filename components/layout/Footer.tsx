@@ -24,16 +24,16 @@ export function Footer() {
           flex-wrap: wrap;
           gap: 12px;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
           .footer-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 36px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 32px;
           }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {
           .footer-grid {
-            grid-template-columns: 1fr;
-            gap: 32px;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
           }
           .footer-bottom {
             flex-direction: column;
@@ -43,9 +43,8 @@ export function Footer() {
       `}</style>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div className="footer-grid">
-
           {/* Brand column */}
-          <div>
+          <div style={{ gridColumn: 'span 1' }}>
             <div style={{ marginBottom: 20 }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#C8A96E' }}>BOI</span>
@@ -69,7 +68,6 @@ export function Footer() {
               ))}
             </div>
           </div>
-
           {/* Link columns */}
           {cols.map(col => (
             <div key={col.title}>
@@ -89,8 +87,6 @@ export function Footer() {
             </div>
           ))}
         </div>
-
-        {/* Bottom bar */}
         <div className="footer-bottom" style={{ borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 28 }}>
           <p style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.3)', margin: 0 }}>© 2026 HUUBOI.COM — Six Continents. One Platform. All rights reserved.</p>
           <p style={{ fontSize: '0.7rem', color: 'rgba(245,239,228,0.2)', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.15em', margin: 0 }}>BUILT ON NEXT.JS · VERCEL · SUPABASE</p>

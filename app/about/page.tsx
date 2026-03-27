@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 export const metadata = {
   title: 'About Us | HUUBOI',
@@ -107,12 +106,10 @@ export default function AboutPage() {
             {/* Photo */}
             <div style={{ position: 'relative', maxWidth: 420, margin: '0 auto' }}>
               <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.2)' }}>
-                <Image
+                <img
                   src="/founder.jpg"
                   alt="Yemi Fatodu — Founder of HUUBOI"
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'top' }}
-                  priority
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
                 />
               </div>
               {/* Gold accent line */}
