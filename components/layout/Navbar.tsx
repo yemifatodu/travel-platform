@@ -120,12 +120,11 @@ export function Navbar() {
           {/* Logo — favicon icon + tight text, no gaps */}
           <Link href="/" onClick={closeAll} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, gap: 8 }}>
             <img
-              src="/favicon-32x32.png"
+              src="/android-chrome-192x192.png"
               alt="HUUBOI"
-              width={28}
-              height={28}
-              style={{ display: 'block', flexShrink: 0 }}
-            />
+              width={36}
+              height={36}
+              style={{ display: 'block', flexShrink: 0, borderRadius: '50%' }}
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.08em', color: cream, lineHeight: 1 }}>HUUBOI</span>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.06em', color: 'rgba(200,169,110,0.5)', lineHeight: 1, marginLeft: 1 }}>.COM</span>
           </Link>
