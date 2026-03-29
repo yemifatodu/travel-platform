@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -23,138 +24,18 @@ const categories = [
 ]
 
 const featured = [
-  {
-    title: 'Serengeti Great Migration Safari',
-    location: 'Tanzania, Africa',
-    duration: '7 days',
-    from: '$3,200',
-    rating: '4.9',
-    reviews: '2,847',
-    category: 'Safari',
-    gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)',
-    link: 'https://www.getyourguide.com/serengeti-l1097/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Petra by Night & Full Day Tour',
-    location: 'Jordan, Middle East',
-    duration: '2 days',
-    from: '$180',
-    rating: '4.8',
-    reviews: '1,203',
-    category: 'History',
-    gradient: 'linear-gradient(160deg,#200800,#381200,#4a1800)',
-    link: 'https://www.getyourguide.com/petra-l966/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Cappadocia Hot Air Balloon at Sunrise',
-    location: 'Turkey, Middle East',
-    duration: '1 day',
-    from: '$220',
-    rating: '4.9',
-    reviews: '5,621',
-    category: 'Balloon',
-    gradient: 'linear-gradient(160deg,#1e0800,#301400,#422000)',
-    link: 'https://www.getyourguide.com/cappadocia-l4498/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Bali Temple & Rice Terrace Day Tour',
-    location: 'Bali, Indonesia',
-    duration: '1 day',
-    from: '$45',
-    rating: '4.8',
-    reviews: '8,934',
-    category: 'Culture',
-    gradient: 'linear-gradient(160deg,#001a08,#002d10,#00401a)',
-    link: 'https://www.getyourguide.com/bali-l97/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Machu Picchu Guided Tour & Train',
-    location: 'Peru, Americas',
-    duration: '2 days',
-    from: '$380',
-    rating: '4.9',
-    reviews: '3,412',
-    category: 'History',
-    gradient: 'linear-gradient(160deg,#060e00,#0c1c00,#122600)',
-    link: 'https://www.getyourguide.com/machu-picchu-l762/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Maldives Snorkelling & Dolphin Cruise',
-    location: 'Maldives, Asia',
-    duration: '1 day',
-    from: '$95',
-    rating: '4.9',
-    reviews: '1,876',
-    category: 'Water Sports',
-    gradient: 'linear-gradient(160deg,#001828,#002440,#003058)',
-    link: 'https://www.getyourguide.com/maldives-l973/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Eiffel Tower Skip-the-Line Summit Tour',
-    location: 'Paris, France',
-    duration: '2 hours',
-    from: '$65',
-    rating: '4.7',
-    reviews: '12,445',
-    category: 'City Tour',
-    gradient: 'linear-gradient(160deg,#100014,#1c0022,#280030)',
-    link: 'https://www.getyourguide.com/paris-l16/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Dubai Desert Safari with BBQ Dinner',
-    location: 'Dubai, UAE',
-    duration: '6 hours',
-    from: '$75',
-    rating: '4.8',
-    reviews: '9,201',
-    category: 'Adventure',
-    gradient: 'linear-gradient(160deg,#200e00,#3d2200,#582e00)',
-    link: 'https://www.getyourguide.com/dubai-l173/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Galápagos Island Hopping Expedition',
-    location: 'Ecuador, Americas',
-    duration: '8 days',
-    from: '$2,800',
-    rating: '5.0',
-    reviews: '432',
-    category: 'Wildlife',
-    gradient: 'linear-gradient(160deg,#001a14,#002822,#003430)',
-    link: 'https://www.getyourguide.com/galapagos-islands-l762/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Northern Lights Hunting — Iceland',
-    location: 'Reykjavik, Iceland',
-    duration: '4 hours',
-    from: '$95',
-    rating: '4.7',
-    reviews: '6,789',
-    category: 'Nature',
-    gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)',
-    link: 'https://www.getyourguide.com/reykjavik-l30/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Gorilla Trekking — Rwanda Volcanoes',
-    location: 'Rwanda, Africa',
-    duration: '1 day',
-    from: '$1,500',
-    rating: '5.0',
-    reviews: '876',
-    category: 'Wildlife',
-    gradient: 'linear-gradient(160deg,#001800,#002800,#003800)',
-    link: 'https://www.getyourguide.com/rwanda-l1050/?partner_id=ZE8RKTS8',
-  },
-  {
-    title: 'Tokyo Street Food Night Walk',
-    location: 'Tokyo, Japan',
-    duration: '3 hours',
-    from: '$55',
-    rating: '4.9',
-    reviews: '4,123',
-    category: 'Food',
-    gradient: 'linear-gradient(160deg,#10001a,#1c0030,#280042)',
-    link: 'https://www.getyourguide.com/tokyo-l184/?partner_id=ZE8RKTS8',
-  },
+  { title: 'Serengeti Great Migration Safari', location: 'Tanzania, Africa', duration: '7 days', from: '$3,200', rating: '4.9', reviews: '2,847', category: 'Safari', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)', link: 'https://www.getyourguide.com/serengeti-l1097/?partner_id=ZE8RKTS8' },
+  { title: 'Petra by Night & Full Day Tour', location: 'Jordan, Middle East', duration: '2 days', from: '$180', rating: '4.8', reviews: '1,203', category: 'History', gradient: 'linear-gradient(160deg,#200800,#381200,#4a1800)', link: 'https://www.getyourguide.com/petra-l966/?partner_id=ZE8RKTS8' },
+  { title: 'Cappadocia Hot Air Balloon at Sunrise', location: 'Turkey, Middle East', duration: '1 day', from: '$220', rating: '4.9', reviews: '5,621', category: 'Balloon', gradient: 'linear-gradient(160deg,#1e0800,#301400,#422000)', link: 'https://www.getyourguide.com/cappadocia-l4498/?partner_id=ZE8RKTS8' },
+  { title: 'Bali Temple & Rice Terrace Day Tour', location: 'Bali, Indonesia', duration: '1 day', from: '$45', rating: '4.8', reviews: '8,934', category: 'Culture', gradient: 'linear-gradient(160deg,#001a08,#002d10,#00401a)', link: 'https://www.getyourguide.com/bali-l97/?partner_id=ZE8RKTS8' },
+  { title: 'Machu Picchu Guided Tour & Train', location: 'Peru, Americas', duration: '2 days', from: '$380', rating: '4.9', reviews: '3,412', category: 'History', gradient: 'linear-gradient(160deg,#060e00,#0c1c00,#122600)', link: 'https://www.getyourguide.com/machu-picchu-l762/?partner_id=ZE8RKTS8' },
+  { title: 'Maldives Snorkelling & Dolphin Cruise', location: 'Maldives, Asia', duration: '1 day', from: '$95', rating: '4.9', reviews: '1,876', category: 'Water Sports', gradient: 'linear-gradient(160deg,#001828,#002440,#003058)', link: 'https://www.getyourguide.com/maldives-l973/?partner_id=ZE8RKTS8' },
+  { title: 'Eiffel Tower Skip-the-Line Summit Tour', location: 'Paris, France', duration: '2 hours', from: '$65', rating: '4.7', reviews: '12,445', category: 'City Tour', gradient: 'linear-gradient(160deg,#100014,#1c0022,#280030)', link: 'https://www.getyourguide.com/paris-l16/?partner_id=ZE8RKTS8' },
+  { title: 'Dubai Desert Safari with BBQ Dinner', location: 'Dubai, UAE', duration: '6 hours', from: '$75', rating: '4.8', reviews: '9,201', category: 'Adventure', gradient: 'linear-gradient(160deg,#200e00,#3d2200,#582e00)', link: 'https://www.getyourguide.com/dubai-l173/?partner_id=ZE8RKTS8' },
+  { title: 'Galápagos Island Hopping Expedition', location: 'Ecuador, Americas', duration: '8 days', from: '$2,800', rating: '5.0', reviews: '432', category: 'Wildlife', gradient: 'linear-gradient(160deg,#001a14,#002822,#003430)', link: 'https://www.getyourguide.com/galapagos-islands-l762/?partner_id=ZE8RKTS8' },
+  { title: 'Northern Lights Hunting — Iceland', location: 'Reykjavik, Iceland', duration: '4 hours', from: '$95', rating: '4.7', reviews: '6,789', category: 'Nature', gradient: 'linear-gradient(160deg,#00082a,#001040,#001858)', link: 'https://www.getyourguide.com/reykjavik-l30/?partner_id=ZE8RKTS8' },
+  { title: 'Gorilla Trekking — Rwanda Volcanoes', location: 'Rwanda, Africa', duration: '1 day', from: '$1,500', rating: '5.0', reviews: '876', category: 'Wildlife', gradient: 'linear-gradient(160deg,#001800,#002800,#003800)', link: 'https://www.getyourguide.com/rwanda-l1050/?partner_id=ZE8RKTS8' },
+  { title: 'Tokyo Street Food Night Walk', location: 'Tokyo, Japan', duration: '3 hours', from: '$55', rating: '4.9', reviews: '4,123', category: 'Food', gradient: 'linear-gradient(160deg,#10001a,#1c0030,#280042)', link: 'https://www.getyourguide.com/tokyo-l184/?partner_id=ZE8RKTS8' },
 ]
 
 const partners = [
@@ -165,7 +46,6 @@ const partners = [
 
 export default function ToursPage() {
   const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState('All')
 
   const handleSearch = () => {
     const q = search.trim()
@@ -215,6 +95,32 @@ export default function ToursPage() {
         </div>
       </div>
 
+      {/* Widget I — Activities/Tours (USD, 3 items, category 4) */}
+      <div style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(32px,5vw,48px) clamp(20px,5vw,60px)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.28em', color: gold, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ width: 28, height: 1, background: gold, display: 'inline-block' }} />
+            🎯 FEATURED ACTIVITIES & TOURS
+          </div>
+          <div id="tp-widget-i-container" style={{ minHeight: 120 }} />
+          <Script
+            id="tp-widget-i"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  var s = document.createElement('script');
+                  s.async = true;
+                  s.charset = 'utf-8';
+                  s.src = 'https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=en&category=4&amount=3&powered_by=true&campaign_id=137&promo_id=4497';
+                  document.getElementById('tp-widget-i-container').appendChild(s);
+                })();
+              `
+            }}
+          />
+        </div>
+      </div>
+
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
         {/* Categories */}
@@ -247,14 +153,12 @@ export default function ToursPage() {
               VIEW ALL 300,000+ →
             </a>
           </div>
-
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 2 }}>
             {featured.map(exp => (
               <a key={exp.title} href={exp.link} target="_blank" rel="noopener noreferrer"
                 style={{ textDecoration: 'none', display: 'block', background: '#111110', border: '1px solid rgba(200,169,110,0.1)', overflow: 'hidden', transition: 'border-color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
-                {/* Banner */}
                 <div style={{ background: exp.gradient, height: 120, position: 'relative' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.7) 0%,transparent 60%)' }} />
                   <div style={{ position: 'absolute', top: 12, right: 12 }}>
@@ -299,7 +203,7 @@ export default function ToursPage() {
           </div>
         </div>
 
-        {/* eSIM */}
+        {/* eSIM promo */}
         <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4 }}>📱 TRAVELLING TO YOUR EXPERIENCE?</div>
