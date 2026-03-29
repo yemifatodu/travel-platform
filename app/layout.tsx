@@ -54,6 +54,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
+
+        {/* Travelpayouts verification */}
         <Script
           id="travelpayouts-verify"
           strategy="afterInteractive"
@@ -62,6 +64,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               var script = document.createElement("script");
               script.async = 1;
               script.src = 'https://tp-em.com/NTA4MDk1.js?t=508095';
+              document.head.appendChild(script);
+            })();`
+          }}
+        />
+
+        {/* Travelpayouts White Label — Flight Metasearch (wl_id=15518) */}
+        <Script
+          id="travelpayouts-wl"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
+              var script = document.createElement("script");
+              script.async = true;
+              script.type = "module";
+              script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
               document.head.appendChild(script);
             })();`
           }}

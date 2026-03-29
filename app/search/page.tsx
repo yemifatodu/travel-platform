@@ -1,31 +1,19 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
-const dim = 'rgba(245,239,228,0.35)'
+
+const affiliateLinks = {
+  hotels: 'https://booking.tp.st/bs6F38oi',
+  cars: 'https://getrentacar.tp.st/CvPLu5ev',
+  transfers: 'https://kiwitaxi.tp.st/pthb6f1z',
+}
 
 export default function SearchPage() {
   const [activeTab, setActiveTab] = useState<'flights' | 'hotels' | 'cars' | 'transfers'>('flights')
-  const scriptLoaded = useRef(false)
-
-  useEffect(() => {
-    if (scriptLoaded.current) return
-    scriptLoaded.current = true
-
-    // Load Travelpayouts White Label widget once
-    const script = document.createElement('script')
-    script.async = true
-    script.type = 'module'
-    script.src = 'https://tpwidg.com/wl_web/main.js?wl_id=15518'
-    document.head.appendChild(script)
-
-    return () => {
-      // Do NOT remove the script on unmount — this causes the reboot
-    }
-  }, [])
 
   const tabs = [
     { key: 'flights' as const, icon: '✈', label: 'Flights' },
@@ -33,12 +21,6 @@ export default function SearchPage() {
     { key: 'cars' as const, icon: '🚗', label: 'Car Rentals' },
     { key: 'transfers' as const, icon: '🚌', label: 'Transfers' },
   ]
-
-  const affiliateLinks = {
-    hotels: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FHotels&camref=1110lBk7p',
-    cars: 'https://getrentacar.tp.st/CvPLu5ev',
-    transfers: 'https://kiwitaxi.tp.st/pthb6f1z',
-  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
@@ -73,13 +55,15 @@ export default function SearchPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(32px,5vw,60px) clamp(20px,5vw,60px)' }}>
 
-        {/* FLIGHTS TAB — widget */}
+        {/* FLIGHTS TAB — Travelpayouts White Label Widget */}
         <div style={{ display: activeTab === 'flights' ? 'block' : 'none' }}>
           <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 20, fontFamily: "'DM Sans',sans-serif" }}>
             Search and compare 1,200+ airlines. Live prices load below — results stay on huuboi.com.
           </p>
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,3vw,24px)', marginBottom: 24, minHeight: 200 }}>
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,3vw,24px)', marginBottom: 24, minHeight: 400 }}>
+            {/* White Label search box — injected by wl_id=15518 script in layout.tsx */}
             <div id="tpwl-search" />
+            {/* White Label results — injected by wl_id=15518 script in layout.tsx */}
             <div id="tpwl-tickets" />
           </div>
         </div>
@@ -87,11 +71,11 @@ export default function SearchPage() {
         {/* HOTELS TAB */}
         <div style={{ display: activeTab === 'hotels' ? 'block' : 'none' }}>
           <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 24, fontFamily: "'DM Sans',sans-serif" }}>
-            Search 28 million+ properties worldwide via our partner Expedia — best prices with free cancellation on most bookings.
+            Search 28 million+ properties worldwide via our partner Booking.com — best prices with free cancellation on most bookings.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 2, marginBottom: 24 }}>
             {[
-              { label: 'Search All Hotels', href: affiliateLinks.hotels, desc: 'Expedia · 28M+ properties worldwide' },
+              { label: 'Search All Hotels', href: affiliateLinks.hotels, desc: 'Booking.com · 28M+ properties worldwide' },
               { label: 'Luxury Resorts', href: affiliateLinks.hotels, desc: 'Five-star hotels & resorts' },
               { label: 'Safari Lodges', href: affiliateLinks.hotels, desc: 'Africa · Asia · Americas' },
               { label: 'Boutique Hotels', href: affiliateLinks.hotels, desc: 'Handpicked independent stays' },
@@ -106,34 +90,56 @@ export default function SearchPage() {
             ))}
           </div>
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px 24px' }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 8 }}>WHY WE USE EXPEDIA FOR HOTELS</div>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 8 }}>WHY WE USE BOOKING.COM FOR HOTELS</div>
             <p style={{ color: muted, fontSize: '0.85rem', margin: 0, fontFamily: "'DM Sans',sans-serif", lineHeight: 1.7 }}>
-              28 million+ properties. Free cancellation on most bookings. Best price guarantee. Your booking is confirmed instantly and managed directly by Expedia with 24/7 support.
+              28 million+ properties. Free cancellation on most bookings. Best price guarantee. Your booking is confirmed instantly with 24/7 support.
             </p>
           </div>
         </div>
 
-        {/* CARS TAB */}
+        {/* CARS TAB — Localrent White Label Widget */}
         <div style={{ display: activeTab === 'cars' ? 'block' : 'none' }}>
           <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 24, fontFamily: "'DM Sans',sans-serif" }}>
-            Compare 900+ car rental suppliers worldwide via GetRentACar — economy to luxury, city to 4WD.
+            Compare car rentals worldwide. Search below — default is Dubai, but you can search any city.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 2, marginBottom: 24 }}>
-            {[
-              { label: 'Search All Cars', href: affiliateLinks.cars, desc: 'GetRentACar · 900+ suppliers worldwide' },
-              { label: 'Economy & Compact', href: affiliateLinks.cars, desc: 'Affordable city driving' },
-              { label: 'SUV & 4WD', href: affiliateLinks.cars, desc: 'Safari & adventure ready' },
-              { label: 'Luxury Vehicles', href: affiliateLinks.cars, desc: 'Mercedes, BMW, Tesla & more' },
-            ].map(item => (
-              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-                style={{ textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.12)', padding: '20px 22px', display: 'block', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.12)')}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', color: gold, marginBottom: 6 }}>🚗 {item.label}</div>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: muted }}>{item.desc}</div>
-              </a>
-            ))}
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,3vw,24px)', marginBottom: 24, minHeight: 300 }}>
+            {/* Localrent Search Widget — Dubai default */}
+            <script
+              src="https://static.localrent.com/widget/v3/app.js"
+              async
+              data-mrc="true"
+              data-affiliate="14849"
+              data-apikey="hello_huuboi_com"
+              data-apisign="aaa0d2e76663ac7e0c143065815dbefd"
+              data-country="14"
+              data-city="62821"
+              data-border="false"
+              data-gearbox="true"
+              data-lang="en"
+              data-background="dark"
+              data-logo="false"
+              data-class="cars"
+              data-marker="HUUBOI-CARS"
+            />
           </div>
+          {/* Localrent White Label Booking Engine */}
+          <script
+            src="https://static.localrent.com/booking/v2/wl/app.js"
+            async
+            data-mrc-wl="true"
+            data-affiliate="14849"
+            data-country="14"
+            data-city="62821"
+            data-routing="on"
+            data-class="CARS"
+            data-id="HUUBOI-"
+            data-marker="HUUBOI-CARS"
+            data-zindex="10"
+          />
+          <a href={affiliateLinks.cars} target="_blank" rel="noopener noreferrer"
+            style={{ display: 'inline-block', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none' }}>
+            SEARCH ALL CAR RENTALS →
+          </a>
         </div>
 
         {/* TRANSFERS TAB */}
@@ -169,6 +175,7 @@ export default function SearchPage() {
             PLAN A TRIP
           </Link>
         </div>
+
       </div>
     </div>
   )
