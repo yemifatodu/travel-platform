@@ -117,7 +117,7 @@ export function Navbar() {
       }}>
         <div className="nav-inner" style={{ padding: '0 48px', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
 
-          {/* Logo — favicon icon + tight text, no gaps */}
+          {/* Logo */}
           <Link href="/" onClick={closeAll} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, gap: 8 }}>
             <img
               src="/android-chrome-192x192.png"
@@ -125,6 +125,7 @@ export function Navbar() {
               width={36}
               height={36}
               style={{ display: 'block', flexShrink: 0, borderRadius: '50%' }}
+            />
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.08em', color: cream, lineHeight: 1 }}>HUUBOI</span>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.06em', color: 'rgba(200,169,110,0.5)', lineHeight: 1, marginLeft: 1 }}>.COM</span>
           </Link>
