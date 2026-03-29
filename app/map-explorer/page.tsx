@@ -1,6 +1,7 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
+import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -73,112 +74,15 @@ const destinations = [
 const regions = ['All', 'Africa', 'Middle East', 'Europe', 'Asia', 'Americas', 'Arctic', 'Pacific']
 
 export default function MapExplorer() {
-  const mapRef = useRef<HTMLDivElement>(null)
-  const leafletMapRef = useRef<any>(null)
-  const markersRef = useRef<any[]>([])
   const [selected, setSelected] = useState<typeof destinations[0] | null>(null)
   const [activeRegion, setActiveRegion] = useState('All')
   const [search, setSearch] = useState('')
-  const [mapLoaded, setMapLoaded] = useState(false)
 
   const filtered = destinations.filter(d => {
     const matchRegion = activeRegion === 'All' || d.region === activeRegion
     const matchSearch = search === '' || d.name.toLowerCase().includes(search.toLowerCase()) || d.country.toLowerCase().includes(search.toLowerCase())
     return matchRegion && matchSearch
   })
-
-  // Load Leaflet from CDN
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    if ((window as any).L) { setMapLoaded(true); return }
-
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
-    document.head.appendChild(link)
-
-    const script = document.createElement('script')
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
-    script.onload = () => setMapLoaded(true)
-    document.head.appendChild(script)
-  }, [])
-
-  // Initialise map
-  useEffect(() => {
-    if (!mapLoaded || !mapRef.current || leafletMapRef.current) return
-    const L = (window as any).L
-
-    const map = L.map(mapRef.current, {
-      center: [20, 20],
-      zoom: 2,
-      minZoom: 2,
-      maxZoom: 10,
-      zoomControl: true,
-      attributionControl: false,
-    })
-
-    // Dark styled tiles from CartoDB
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-      maxZoom: 19,
-    }).addTo(map)
-
-    // Subtle attribution
-    L.control.attribution({ prefix: '' }).addTo(map)
-
-    leafletMapRef.current = map
-
-    // Add markers
-    destinations.forEach(dest => {
-      const color = regionColors[dest.region] || gold
-      const icon = L.divIcon({
-        className: '',
-        html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:1.5px solid ${color};box-shadow:0 0 6px ${color}66;cursor:pointer;transition:transform 0.2s;"></div>`,
-        iconSize: [10, 10],
-        iconAnchor: [5, 5],
-      })
-
-      const marker = L.marker([dest.lat, dest.lng], { icon })
-        .addTo(map)
-        .on('click', () => setSelected(dest))
-        .on('mouseover', function (this: any) {
-          this.getElement()?.querySelector('div')?.style && (this.getElement().querySelector('div').style.transform = 'scale(1.8)')
-        })
-        .on('mouseout', function (this: any) {
-          this.getElement()?.querySelector('div')?.style && (this.getElement().querySelector('div').style.transform = 'scale(1)')
-        })
-
-      markersRef.current.push({ marker, dest })
-    })
-
-    return () => {
-      map.remove()
-      leafletMapRef.current = null
-      markersRef.current = []
-    }
-  }, [mapLoaded])
-
-  // Fly to selected
-  useEffect(() => {
-    if (!selected || !leafletMapRef.current) return
-    leafletMapRef.current.flyTo([selected.lat, selected.lng], 5, { duration: 1.2 })
-  }, [selected])
-
-  // Filter markers visibility
-  useEffect(() => {
-    if (!leafletMapRef.current) return
-    const L = (window as any).L
-    if (!L) return
-    markersRef.current.forEach(({ marker, dest }) => {
-      const visible = (activeRegion === 'All' || dest.region === activeRegion) &&
-        (search === '' || dest.name.toLowerCase().includes(search.toLowerCase()) || dest.country.toLowerCase().includes(search.toLowerCase()))
-      if (visible) {
-        if (!leafletMapRef.current.hasLayer(marker)) marker.addTo(leafletMapRef.current)
-      } else {
-        if (leafletMapRef.current.hasLayer(marker)) marker.remove()
-      }
-    })
-  }, [activeRegion, search])
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
@@ -195,7 +99,7 @@ export default function MapExplorer() {
               Map <em style={{ color: gold }}>Explorer</em>
             </h1>
             <p style={{ color: muted, fontSize: '0.9rem', maxWidth: 340, lineHeight: 1.7, margin: 0 }}>
-              Click any marker to explore. {destinations.length} destinations across 6 continents.
+              Explore live flight prices across {destinations.length} destinations. Click the map to search flights.
             </p>
           </div>
         </div>
@@ -215,39 +119,63 @@ export default function MapExplorer() {
         </div>
       </div>
 
-      {/* Map + Panel */}
+      {/* Widget R — Interactive Flight Price Map */}
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(20px,5vw,60px)' }}>
+        <div style={{ border: '1px solid rgba(200,169,110,0.15)', overflow: 'hidden', marginBottom: 12 }}>
+          <div style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold }}>✈ LIVE FLIGHT PRICE MAP</span>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.72rem', color: muted }}>— Click any destination to search flights from London</span>
+          </div>
+          {/* Widget R container */}
+          <div id="tp-map-widget" style={{ width: '100%', minHeight: 500, background: '#0a0c10' }} />
+          <Script
+            id="tp-widget-r"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  var s = document.createElement('script');
+                  s.async = true;
+                  s.charset = 'utf-8';
+                  s.src = 'https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=100&height=500&zoom=1&promo_id=4054&campaign_id=100';
+                  document.getElementById('tp-map-widget').appendChild(s);
+                })();
+              `
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Destination grid + detail panel */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(20px,5vw,60px)', display: 'grid', gridTemplateColumns: selected ? '1fr 320px' : '1fr', gap: 12 }}>
 
-        {/* Map container */}
-        <div style={{ position: 'relative', border: '1px solid rgba(200,169,110,0.15)', overflow: 'hidden' }}>
-          <div ref={mapRef} style={{ height: 520, width: '100%', background: '#0a0c10' }} />
-
-          {!mapLoaded && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0c10', flexDirection: 'column', gap: 16 }}>
-              <div style={{ width: 36, height: 36, border: '2px solid rgba(200,169,110,0.2)', borderTopColor: gold, borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-              <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: dim }}>LOADING MAP...</p>
-            </div>
-          )}
-
-          {/* Legend */}
-          <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(8,8,7,0.85)', border: '1px solid rgba(200,169,110,0.1)', padding: '10px 14px', display: 'flex', gap: 12, flexWrap: 'wrap', backdropFilter: 'blur(8px)', zIndex: 500 }}>
-            {Object.entries(regionColors).map(([region, color]) => (
-              <div key={region} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <div style={{ width: 7, height: 7, borderRadius: '50%', background: color, boxShadow: `0 0 4px ${color}88` }} />
-                <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.1em', color: dim }}>{region}</span>
-              </div>
-            ))}
+        {/* Destination grid */}
+        <div>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.25em', color: gold, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid rgba(200,169,110,0.1)' }}>
+            {activeRegion === 'All' ? 'ALL DESTINATIONS' : activeRegion.toUpperCase()} — {filtered.length} DESTINATIONS
           </div>
-
-          {/* Count */}
-          <div style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(8,8,7,0.85)', border: '1px solid rgba(200,169,110,0.1)', padding: '6px 12px', zIndex: 500, backdropFilter: 'blur(8px)' }}>
-            <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.58rem', letterSpacing: '0.15em', color: dim }}>{filtered.length} DESTINATIONS</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 2 }}>
+            {filtered.map(dest => {
+              const isSel = selected?.slug === dest.slug
+              const color = regionColors[dest.region] || gold
+              return (
+                <button key={dest.slug} onClick={() => setSelected(isSel ? null : dest)}
+                  style={{ background: isSel ? 'rgba(200,169,110,0.1)' : '#111110', border: `1px solid ${isSel ? color : 'rgba(200,169,110,0.08)'}`, padding: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                    <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.08em', color: dim }}>{dest.region}</span>
+                  </div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: isSel ? cream : muted, fontWeight: 600, marginBottom: 2 }}>{dest.name}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.08em', color: isSel ? gold : dim }}>{dest.country} · {dest.from}</div>
+                </button>
+              )
+            })}
           </div>
         </div>
 
-        {/* Detail Panel */}
+        {/* Detail panel */}
         {selected && (
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', display: 'flex', flexDirection: 'column', maxHeight: 520 }}>
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', display: 'flex', flexDirection: 'column', maxHeight: 600 }}>
             <div style={{ background: '#1C1B18', padding: '20px 20px 16px', borderBottom: '1px solid rgba(200,169,110,0.1)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
@@ -295,39 +223,16 @@ export default function MapExplorer() {
               <Link href="/ai-planner" style={{ background: gold, color: '#080807', padding: '12px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 PLAN TRIP TO {selected.name.toUpperCase()}
               </Link>
-              <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
+              <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
                 style={{ background: 'transparent', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
-                SEARCH FLIGHTS
+                SEARCH FLIGHTS →
               </a>
             </div>
           </div>
         )}
       </div>
 
-      {/* Destination grid */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '20px clamp(20px,5vw,60px) clamp(40px,6vw,80px)' }}>
-        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.25em', color: gold, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid rgba(200,169,110,0.1)' }}>
-          {activeRegion === 'All' ? 'ALL DESTINATIONS' : activeRegion.toUpperCase()} — {filtered.length} DESTINATIONS
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 2 }}>
-          {filtered.map(dest => {
-            const isSel = selected?.slug === dest.slug
-            const color = regionColors[dest.region] || gold
-            return (
-              <button key={dest.slug} onClick={() => setSelected(isSel ? null : dest)}
-                style={{ background: isSel ? 'rgba(200,169,110,0.1)' : '#111110', border: `1px solid ${isSel ? color : 'rgba(200,169,110,0.08)'}`, padding: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
-                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0 }} />
-                  <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.08em', color: dim }}>{dest.region}</span>
-                </div>
-                <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: isSel ? cream : muted, fontWeight: 600, marginBottom: 2 }}>{dest.name}</div>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.08em', color: isSel ? gold : dim }}>{dest.country} · {dest.from}</div>
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
+      <div style={{ height: 60 }} />
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )

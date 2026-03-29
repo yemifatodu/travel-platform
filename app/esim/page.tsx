@@ -273,7 +273,8 @@ const esimStyles = `
     border-color: var(--gold);
     background: rgba(200,169,110,0.1);
   }
-  .esim-country-flag { font-size: 1.4rem; flex-shrink: 0; }
+  .esim-country-flag { flex-shrink: 0; width: 32px; height: 24px; display: flex; align-items: center; justify-content: center; }
+
   .esim-country-name {
     font-size: 0.78rem;
     color: var(--cream-dim);
@@ -569,7 +570,20 @@ export default function EsimPage() {
                     className={`esim-country-card ${selected?.code === group.code ? 'active' : ''}`}
                     onClick={() => handleSelect(group)}
                   >
-                    <div className="esim-country-flag">{group.flag}</div>
+                    <div className="esim-country-flag">
+  {group.code.length === 2 ? (
+    <img
+      src={`https://flagcdn.com/32x24/${group.code.toLowerCase()}.png`}
+      alt={group.name}
+      width={32}
+      height={24}
+      style={{ display: 'inline-block', borderRadius: 2, objectFit: 'cover' }}
+      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+    />
+  ) : (
+    <span style={{ fontSize: '1.4rem' }}>{group.flag}</span>
+  )}
+</div>
                     <div className="esim-country-name">{group.name}</div>
                     <div className="esim-country-count">{group.plans.length} plan{group.plans.length !== 1 ? 's' : ''}</div>
                   </div>
