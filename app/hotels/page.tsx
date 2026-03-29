@@ -1,6 +1,6 @@
 'use client'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -44,6 +44,23 @@ const tips = [
 ]
 
 export default function HotelsPage() {
+  useEffect(() => {
+    // Load the same Travelpayouts White Label widget — switch to Hotels tab
+    const existing = document.getElementById('tp-hotel-widget')
+    if (!existing) {
+      const script = document.createElement('script')
+      script.id = 'tp-hotel-widget'
+      script.async = true
+      script.type = 'module'
+      script.src = 'https://tpwidg.com/wl_web/main.js?wl_id=15518&default_tab=hotels'
+      document.head.appendChild(script)
+    }
+    return () => {
+      const s = document.getElementById('tp-hotel-widget')
+      if (s) { try { document.head.removeChild(s) } catch {} }
+    }
+  }, [])
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -58,38 +75,16 @@ export default function HotelsPage() {
             Sleep <em style={{ color: gold }}>Extraordinarily</em>
           </h1>
           <p style={{ color: muted, fontSize: 'clamp(0.95rem,2vw,1.1rem)', maxWidth: 520, lineHeight: 1.8, marginBottom: 32 }}>
-            Search 28 million+ properties worldwide. Live prices — book without leaving huuboi.com.
+            Search hotels, resorts and boutique stays worldwide. Live prices — book without leaving huuboi.com.
           </p>
 
-          {/* Widget F — Hotel search, coral button, dark theme */}
+          {/* Widget */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900 }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
-              🏨 SEARCH HOTELS WORLDWIDE
+              SEARCH HOTELS — select the Hotels tab in the search box below
             </div>
-            <div id="tp-hotel-widget-f" style={{ minHeight: 120 }} />
-            <Script
-              id="tp-widget-f"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  (function() {
-                    var s = document.createElement('script');
-                    s.async = true;
-                    s.charset = 'utf-8';
-                    s.src = 'https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&color_button=%23f2685f&color_focused=%23f2685f&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=5&plain=false&no_labels=true&promo_id=8588&campaign_id=541';
-                    document.getElementById('tp-hotel-widget-f').appendChild(s);
-                  })();
-                `
-              }}
-            />
-          </div>
-
-          {/* Fallback affiliate link */}
-          <div style={{ marginTop: 12 }}>
-            <a href="https://booking.tp.st/bs6F38oi" target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: muted, textDecoration: 'none' }}>
-              Or search via Booking.com directly →
-            </a>
+            <div id="tpwl-search-hotels" />
+            <div id="tpwl-tickets-hotels" />
           </div>
         </div>
       </div>
@@ -104,11 +99,9 @@ export default function HotelsPage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 2 }}>
             {featured.map(hotel => (
-              <a key={hotel.name}
-                href="https://booking.tp.st/bs6F38oi"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.1)', overflow: 'hidden', cursor: 'pointer', transition: 'border-color 0.2s', display: 'block' }}
+              <div key={hotel.name}
+                style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', overflow: 'hidden', cursor: 'pointer', transition: 'border-color 0.2s' }}
+                onClick={() => { const el = document.getElementById('tpwl-search'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
                 <div style={{ background: hotel.gradient, height: 120, position: 'relative' }}>
@@ -132,7 +125,7 @@ export default function HotelsPage() {
                     <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: gold }}>SEARCH →</span>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
@@ -142,18 +135,16 @@ export default function HotelsPage() {
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>POPULAR DESTINATIONS</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 2 }}>
             {popularDestinations.map(dest => (
-              <a key={dest.city}
-                href="https://booking.tp.st/bs6F38oi"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', cursor: 'pointer', transition: 'border-color 0.2s', display: 'block' }}
+              <div key={dest.city}
+                style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', cursor: 'pointer', transition: 'border-color 0.2s' }}
+                onClick={() => { const el = document.getElementById('tpwl-search'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
                 <div style={{ fontSize: '1.5rem', marginBottom: 10 }}>{dest.flag}</div>
                 <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.05rem', color: cream, fontWeight: 600, marginBottom: 2 }}>{dest.city}</div>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.1em', color: dim, marginBottom: 10 }}>{dest.country}</div>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.1em', color: gold }}>FROM {dest.from}</div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
@@ -182,10 +173,10 @@ export default function HotelsPage() {
           </Link>
         </div>
 
-        {/* Related links */}
+        {/* Related */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
           {[
-            { label: 'Flights', href: '/search' },
+            { label: 'Flights', href: '/flights' },
             { label: 'Tours & Experiences', href: '/tours' },
             { label: 'Airport Transfers', href: '/transfers' },
             { label: 'Travel eSIM', href: '/esim' },

@@ -127,7 +127,7 @@ export default function MapExplorer() {
             <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.72rem', color: muted }}>— Click any destination to search flights from London</span>
           </div>
           {/* Widget R container */}
-          <div id="tp-map-widget" style={{ width: '100%', minHeight: 500, background: '#0a0c10' }} />
+          <div id="tp-map-widget" style={{ width: '1500%', minHeight: 500, background: '#0a0c10' }} />
           <Script
             id="tp-widget-r"
             strategy="afterInteractive"
