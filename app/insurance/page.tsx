@@ -60,32 +60,58 @@ export default function InsurancePage() {
             </p>
           </div>
 
-          {/* Widget M — Insurance */}
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900 }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
-              🛡 GET YOUR TRAVEL INSURANCE QUOTE
+          {/* New Grid System for Widgets */}
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'stretch', maxWidth: 1200 }}>
+            
+            {/* Box 1: Flight Compensation Widget */}
+            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
+                ✈ FLIGHT COMPENSATION CLAIM
+              </div>
+              
+              <div style={{ flexGrow: 1, minHeight: 160 }}>
+                {/* Replaced old dynamic append with isolated Next.js script loading */}
+                <Script 
+                  id="compensation-widget-1"
+                  src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&width=100&powered_by=true&campaign_id=86&promo_id=2110"
+                  strategy="afterInteractive"
+                  charSet="utf-8"
+                />
+              </div>
             </div>
-            <div id="tp-insurance-main" style={{ minHeight: 160 }} />
-            <Script
-              id="tp-widget-m-insurance"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  (function() {
-                    var s = document.createElement('script');
-                    s.async = true;
-                    s.charset = 'utf-8';
-                    s.src = 'https://tp.media/content?campaign_id=222&promo_id=8813&shmarker=710879&trs=508095';
-                    document.getElementById('tp-insurance-main').appendChild(s);
-                  })();
-                `
-              }}
-            />
+
+            {/* Box 2: Flight Delay / Secondary Compensation Widget */}
+            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
+                ⏳ CHECK DELAYED FLIGHT ELIGIBILITY
+              </div>
+              
+              <div style={{ flexGrow: 1, minHeight: 160 }}>
+                <Script 
+                  id="compensation-widget-2"
+                  src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&border_radius=5&plain=true&powered_by=true&promo_id=3408&campaign_id=86"
+                  strategy="afterInteractive"
+                  charSet="utf-8"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
+
+        {/* Affiliate Link for Ekta Insurance */}
+        <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 'clamp(48px,7vw,80px)' }}>
+          <div>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4 }}>LOOKING FOR TRADITIONAL MEDICAL COVERAGE?</div>
+            <p style={{ color: muted, fontSize: '0.88rem', margin: 0 }}>Purchase global protection spanning everything from luggage loss to medical evacuations.</p>
+          </div>
+          <a href="https://ektatraveling.tp.st/9WtYKvw6" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            GET EKTA INSURANCE →
+          </a>
+        </div>
 
         {/* What's covered */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
