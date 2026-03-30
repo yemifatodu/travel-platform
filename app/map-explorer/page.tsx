@@ -133,7 +133,6 @@ export default function MapExplorer() {
               id="tp-map-widget-script"
               src="https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1500&height=500&zoom=2&promo_id=4054&campaign_id=100"
               strategy="afterInteractive"
-              charset="utf-8"
             />
           </div>
         </div>
