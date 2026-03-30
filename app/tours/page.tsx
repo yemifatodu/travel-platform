@@ -1,6 +1,6 @@
 'use client'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -149,6 +149,49 @@ const partners = [
 ]
 
 export default function ToursPage() {
+
+  useEffect(() => {
+    // SCRIPT 1
+    const container1 = document.getElementById('tour-widget-container-1');
+    if (container1 && container1.innerHTML === '') {
+      const script1 = document.createElement('script');
+      script1.async = true;
+      script1.charset = 'utf-8';
+      script1.src = "https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&language=en&layout=horizontal&cards=4&powered_by=true&campaign_id=89&promo_id=3947";
+      container1.appendChild(script1);
+    }
+
+    // SCRIPT 2
+    const container2 = document.getElementById('tour-widget-container-2');
+    if (container2 && container2.innerHTML === '') {
+      const script2 = document.createElement('script');
+      script2.async = true;
+      script2.charset = 'utf-8';
+      script2.src = "https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=260932&category=4&amount=3&powered_by=true&campaign_id=137&promo_id=4497";
+      container2.appendChild(script2);
+    }
+
+    // SCRIPT 3
+    const container3 = document.getElementById('tour-widget-container-3');
+    if (container3 && container3.innerHTML === '') {
+      const script3 = document.createElement('script');
+      script3.async = true;
+      script3.charset = 'utf-8';
+      script3.src = "https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&product=&language=en&layout=horizontal&powered_by=true&campaign_id=89&promo_id=3948";
+      container3.appendChild(script3);
+    }
+
+    // SCRIPT 4
+    const container4 = document.getElementById('tour-widget-container-4');
+    if (container4 && container4.innerHTML === '') {
+      const script4 = document.createElement('script');
+      script4.async = true;
+      script4.charset = 'utf-8';
+      script4.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&tours=3&powered_by=true&campaign_id=150&promo_id=4489";
+      container4.appendChild(script4);
+    }
+  }, []);
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -166,17 +209,13 @@ export default function ToursPage() {
             300,000+ guided tours, safaris, diving trips, cooking classes and unforgettable experiences across every continent. Book instantly with free cancellation on most activities.
           </p>
 
-          {/* SCRIPT 1: Replaced Destination Input Search with Script */}
+          {/* SCRIPT 1 Container */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(16px,3vw,32px)', maxWidth: 860 }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.2em', color: gold, marginBottom: 20 }}>SEARCH EXPERIENCES</div>
-            <div style={{ minHeight: '80px' }}>
-              <Script 
-                id="tour-widget-1"
-                src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&language=en&layout=horizontal&cards=4&powered_by=true&campaign_id=89&promo_id=3947" 
-                strategy="afterInteractive"
-                charSet="utf-8"
-              />
-            </div>
+            
+            {/* INJECTION POINT */}
+            <div id="tour-widget-container-1" style={{ minHeight: '80px' }} />
+            
             <p style={{ color: dim, fontSize: '0.75rem', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
               Powered by GetYourGuide · 300,000+ experiences · Free cancellation on most bookings
             </p>
@@ -186,17 +225,12 @@ export default function ToursPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* SCRIPT 2: Placed where Categories used to live */}
+        {/* SCRIPT 2 Container */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>BROWSE POPULAR ACTIVITES</div>
-          <div style={{ minHeight: '120px' }}>
-            <Script 
-              id="tour-widget-2"
-              src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=260932&category=4&amount=3&powered_by=true&campaign_id=137&promo_id=4497" 
-              strategy="afterInteractive"
-              charSet="utf-8"
-            />
-          </div>
+          
+          {/* INJECTION POINT */}
+          <div id="tour-widget-container-2" style={{ minHeight: '120px' }} />
         </div>
 
         {/* Featured experiences */}
@@ -251,17 +285,12 @@ export default function ToursPage() {
           </div>
         </div>
 
-        {/* SCRIPT 3: Positioned above Booking Partners */}
+        {/* SCRIPT 3 Container */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>EXPLORE MORE TOURS</div>
-          <div style={{ minHeight: '100px' }}>
-            <Script 
-              id="tour-widget-3"
-              src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&product=&language=en&layout=horizontal&powered_by=true&campaign_id=89&promo_id=3948" 
-              strategy="afterInteractive"
-              charSet="utf-8"
-            />
-          </div>
+          
+          {/* INJECTION POINT */}
+          <div id="tour-widget-container-3" style={{ minHeight: '100px' }} />
         </div>
 
         {/* Partners */}
@@ -288,17 +317,12 @@ export default function ToursPage() {
           </Link>
         </div>
 
-        {/* SCRIPT 4: Placed above footer quick-links */}
+        {/* SCRIPT 4 Container */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>FIND MORE ATTRACTIONS</div>
-          <div style={{ minHeight: '100px' }}>
-            <Script 
-              id="tour-widget-4"
-              src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&tours=3&powered_by=true&campaign_id=150&promo_id=4489" 
-              strategy="afterInteractive"
-              charSet="utf-8"
-            />
-          </div>
+          
+          {/* INJECTION POINT */}
+          <div id="tour-widget-container-4" style={{ minHeight: '100px' }} />
         </div>
 
         {/* Related */}
