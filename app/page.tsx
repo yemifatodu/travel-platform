@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const destinations = [
@@ -53,17 +53,24 @@ const testimonials = [
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(0)
 
-  const tabs = [
-    { label: 'Flights', icon: '✈', fields: [{placeholder:'Flying from? e.g. Lagos, London',label:'FROM'},{placeholder:'Flying to? e.g. Dubai, Tokyo',label:'TO'},{placeholder:'Departure date',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'}], link: '/search', cta: 'SEARCH FLIGHTS' },
-    { label: 'Hotels', icon: '🏨', fields: [{placeholder:'City or destination',label:'DESTINATION'},{placeholder:'Check-in date',label:'CHECK IN'},{placeholder:'Check-out date',label:'CHECK OUT'},{placeholder:'No. of guests',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p', cta: 'SEARCH HOTELS' },
-    { label: 'Packages', icon: '📦', fields: [{placeholder:'Flying from?',label:'FROM'},{placeholder:'Destination',label:'TO'},{placeholder:'Travel dates',label:'DATES'},{placeholder:'No. of travellers',label:'GUESTS'}], link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p', cta: 'SEARCH PACKAGES' },
-    { label: 'Activities', icon: '🎯', fields: [{placeholder:'City or attraction',label:'DESTINATION'},{placeholder:'Date of activity',label:'DATE'},{placeholder:'No. of travellers',label:'GUESTS'},{placeholder:'e.g. tours, diving, hiking',label:'CATEGORY'}], link: 'https://www.getyourguide.com/?partner_id=ZE8RKTS8', cta: 'FIND ACTIVITIES' },
-    { label: 'Car Rentals', icon: '🚗', fields: [{placeholder:'Pick-up location',label:'PICK UP'},{placeholder:'Drop-off location',label:'DROP OFF'},{placeholder:'Pick-up date',label:'DATE FROM'},{placeholder:'Return date',label:'DATE TO'}], link: 'https://getrentacar.tp.st/CvPLu5ev', cta: 'SEARCH CARS' },
-    { label: 'Transfers', icon: '🚌', fields: [{placeholder:'From (airport / hotel)',label:'FROM'},{placeholder:'To (airport / hotel)',label:'TO'},{placeholder:'Date & time',label:'DATE'},{placeholder:'No. of passengers',label:'PASSENGERS'}], link: 'https://kiwitaxi.tp.st/pthb6f1z', cta: 'FIND TRANSFERS' },
-    { label: 'eSIM', icon: '📱', fields: [{placeholder:'Country you are visiting',label:'DESTINATION'},{placeholder:'Days needed',label:'DURATION'},{placeholder:'e.g. 5GB, 10GB, Unlimited',label:'DATA PLAN'},{placeholder:'No. of SIMs',label:'QUANTITY'}], link: '/esim', cta: 'GET YOUR eSIM' },
-  ]
+  // Handled Safe Execution of Travel Payouts Script inside React on Mount
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.type = "module";
+    script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
+    document.head.appendChild(script);
+  }, []);
 
-  const currentTab = tabs[activeTab]
+  const tabs = [
+    { label: 'Flights', icon: '✈', link: '/search' },
+    { label: 'Hotels', icon: '🏨', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p' },
+    { label: 'Packages', icon: '📦', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p' },
+    { label: 'Activities', icon: '🎯', link: 'https://www.getyourguide.com/?partner_id=ZE8RKTS8' },
+    { label: 'Car Rentals', icon: '🚗', link: 'https://getrentacar.tp.st/CvPLu5ev' },
+    { label: 'Transfers', icon: '🚌', link: 'https://kiwitaxi.tp.st/pthb6f1z' },
+    { label: 'eSIM', icon: '📱', link: '/esim' },
+  ]
 
   return (
     <>
@@ -78,10 +85,10 @@ export default function HomePage() {
           grid-template-columns: repeat(4, 1fr);
           gap: 8px;
         }
-        .search-grid {
+        .test-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-          gap: 8px;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
         }
         @media (max-width: 768px) {
           .dest-grid-home {
@@ -89,6 +96,9 @@ export default function HomePage() {
           }
           .pkg-grid-home {
             grid-template-columns: repeat(2, 1fr);
+          }
+          .test-grid {
+            grid-template-columns: 1fr;
           }
         }
         @media (max-width: 480px) {
@@ -151,11 +161,9 @@ export default function HomePage() {
               <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '1rem', lineHeight: 1.85, marginBottom: 36 }}>
                 HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents — so you stop searching and start discovering.
               </p>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <Link href="/search" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', background: '#C8A96E', color: '#080807', padding: '14px 28px', textDecoration: 'none', display: 'inline-block' }}>SEARCH FLIGHTS</Link>
-                <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', border: '1px solid rgba(200,169,110,0.35)', color: '#C8A96E', padding: '14px 28px', textDecoration: 'none', display: 'inline-block' }}>EXPLORE DESTINATIONS</Link>
-              </div>
             </div>
+            
+            {/* 2) Reduced grid to 2x2 for these items */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
               {[
                 { icon: '✈', title: 'All In One Place', body: 'Flights, hotels, tours, eSIMs, transfers and experiences — without ever leaving HUUBOI.' },
@@ -174,32 +182,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SEARCH TABS */}
+      {/* SEARCH TABS & WHITE LABEL */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 0' }}>
+          
+          {/* 3) Retained the top horizontal tab row */}
           <div style={{ display: 'flex', gap: 0, marginBottom: 28, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
             {tabs.map((tab, i) => (
-              <button key={tab.label} onClick={() => setActiveTab(i)} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.14em', padding: '14px 16px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s' }}>
+              <a key={tab.label} href={tab.link} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.14em', padding: '14px 16px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
                 <span style={{ marginRight: 5 }}>{tab.icon}</span>{tab.label}
-              </button>
+              </a>
             ))}
           </div>
-          <div className="search-grid">
-            {currentTab.fields.map(field => (
-              <div key={field.label} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.22)', padding: '14px 18px' }}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: 6 }}>{field.label}</div>
-                <input placeholder={field.placeholder} style={{ background: 'none', border: 'none', color: '#F5EFE4', fontSize: '0.9rem', width: '100%', outline: 'none' }} />
-              </div>
-            ))}
-            {activeTab === 0 ? (
-              <Link href="/search" style={{ background: '#C8A96E', color: '#080807', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
-                {currentTab.cta}
-              </Link>
-            ) : (
-              <a href={currentTab.link} target="_blank" rel="noopener noreferrer" style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 20px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.16em', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 56, whiteSpace: 'nowrap', fontWeight: 700 }}>
-                {currentTab.cta}
-              </a>
-            )}
+          
+          {/* 3) Removed standard flight forms and injected White Label targets here */}
+          <div style={{ background: '#1C1B18', padding: '20px', border: '1px solid rgba(200,169,110,0.12)' }}>
+            <div id="tpwl-search"></div>
+            <div id="tpwl-tickets"></div>
           </div>
         </div>
       </section>
@@ -300,17 +299,21 @@ export default function HomePage() {
               Words from the <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Road</em>
             </h2>
           </div>
-          <div className="test-grid">
-            {testimonials.map(t => (
-              <div key={t.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(24px,3vw,40px)' }}>
-                <div style={{ color: '#C8A96E', fontSize: '1.2rem', marginBottom: 24 }}>{'★'.repeat(t.rating)}</div>
-                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1rem,2vw,1.15rem)', color: 'rgba(245,239,228,0.92)', lineHeight: 1.75, fontStyle: 'italic', marginBottom: 32 }}>"{t.text}"</p>
-                <div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 500, color: '#F5EFE4' }}>{t.name}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.55)', marginTop: 4 }}>{t.location}</div>
+          
+          {/* 4) Reduced sizing of rectangles to 2/3 and changed grid to wrap */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="test-grid" style={{ width: '66.6%' }}>
+              {testimonials.map(t => (
+                <div key={t.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: '20px' }}>
+                  <div style={{ color: '#C8A96E', fontSize: '1rem', marginBottom: 16 }}>{'★'.repeat(t.rating)}</div>
+                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.9rem', color: 'rgba(245,239,228,0.92)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 20 }}>"{t.text}"</p>
+                  <div>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 500, color: '#F5EFE4' }}>{t.name}</div>
+                    <div style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', marginTop: 4 }}>{t.location}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
