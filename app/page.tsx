@@ -53,13 +53,79 @@ const testimonials = [
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(0)
 
-  // Handled Safe Execution of Travel Payouts Script inside React on Mount
   useEffect(() => {
-    const script = document.createElement("script");
-    script.async = true;
-    script.type = "module";
-    script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
-    document.head.appendChild(script);
+    // 1. Safe Execution of Travel Payouts Script inside React on Mount
+    const existingScript = document.querySelector('script[src*="wl_id=15518"]');
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.type = "module";
+      script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
+      document.head.appendChild(script);
+    }
+
+    // 2. Inject CSS to force clear visibility and remove the hotel tab
+    const style = document.createElement('style');
+    style.innerHTML = `
+      /* --- HIDE DEFAULT HOTEL TAB --- */
+      .tpwl-widget .wl-tabs__item--hotels, 
+      .tpwl-widget [data-tab="hotels"] { 
+        display: none !important; 
+      }
+
+      /* --- FIXING DISTORTED TEXT COLORS & THEME --- */
+      /* Master container should mesh perfectly with your #1C1B18 wrap block */
+      .tpwl-widget, .TPWL-widget, #tpwl-main-form {
+        background: #1C1B18 !important;
+        border: none !important;
+        color: #F5EFE4 !important;
+      }
+
+      /* Make all labels, legends, and grey text clearly readable */
+      .tpwl-widget label,
+      .tpwl-widget span,
+      .tpwl-widget div,
+      .tpwl-widget .mewtwo-placeholder-label {
+        color: rgba(245, 239, 228, 0.85) !important;
+      }
+
+      /* Ensure clear contrast when typing inside search inputs */
+      .tpwl-widget input {
+        background: #0d0c0a !important;
+        color: #F5EFE4 !important;
+        border: 1px solid rgba(200, 169, 110, 0.25) !important;
+      }
+      
+      /* Placeholder styling for blank input text */
+      .tpwl-widget input::placeholder {
+        color: rgba(245, 239, 228, 0.45) !important;
+      }
+
+      /* Turn blue actionable buttons into your classic Gold aesthetic */
+      .tpwl-widget button[type="submit"],
+      .tpwl-widget .wl-button--primary {
+        background: #C8A96E !important;
+        color: #080807 !important;
+        font-family: 'Bebas Neue', sans-serif !important;
+        letter-spacing: 0.1em !important;
+      }
+
+      /* Neutralize the blinding white ticket result grids to fit the dark palette */
+      .tpwl-widget .wl-ticket, 
+      .tpwl-widget .wl-card {
+        background: #0d0c0a !important;
+        border: 1px solid rgba(200, 169, 110, 0.15) !important;
+      }
+      
+      /* Make sure location dropdown choices are readable */
+      .tpwl-widget .mewtwo-autocomplete-list,
+      .tpwl-widget .wl-autocomplete__dropdown {
+        background: #1C1B18 !important;
+        color: #F5EFE4 !important;
+        border: 1px solid rgba(200, 169, 110, 0.2) !important;
+      }
+    `;
+    document.head.appendChild(style);
   }, []);
 
   const tabs = [
@@ -136,7 +202,12 @@ export default function HomePage() {
           </div>
         </div>
         <div className="stats-bar" style={{ borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)' }}>
-          {[['194+','Countries'],['50K+','Travellers'],['2,400+','Packages'],['24/7','Support']].map(([num, label]) => (
+          {[
+            ['194+','Countries'],
+            ['50K+','Travellers'],
+            ['2,400+','Packages'],
+            ['24/7','Support']
+          ].map(([num, label]) => (
             <div key={num} style={{ padding: 'clamp(16px,3vw,24px) clamp(16px,3vw,40px)', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
               <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.4rem,3vw,2rem)', fontWeight: 600, color: '#C8A96E' }}>{num}</div>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(245,239,228,0.65)', marginTop: 4 }}>{label}</div>
@@ -163,7 +234,6 @@ export default function HomePage() {
               </p>
             </div>
             
-            {/* 2) Reduced grid to 2x2 for these items */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
               {[
                 { icon: '✈', title: 'All In One Place', body: 'Flights, hotels, tours, eSIMs, transfers and experiences — without ever leaving HUUBOI.' },
@@ -186,7 +256,6 @@ export default function HomePage() {
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 0' }}>
           
-          {/* 3) Retained the top horizontal tab row */}
           <div style={{ display: 'flex', gap: 0, marginBottom: 28, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
             {tabs.map((tab, i) => (
               <a key={tab.label} href={tab.link} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.14em', padding: '14px 16px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
@@ -195,7 +264,7 @@ export default function HomePage() {
             ))}
           </div>
           
-          {/* 3) Removed standard flight forms and injected White Label targets here */}
+          {/* Form and Results containers */}
           <div style={{ background: '#1C1B18', padding: '20px', border: '1px solid rgba(200,169,110,0.12)' }}>
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
@@ -300,7 +369,6 @@ export default function HomePage() {
             </h2>
           </div>
           
-          {/* 4) Reduced sizing of rectangles to 2/3 and changed grid to wrap */}
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="test-grid" style={{ width: '66.6%' }}>
               {testimonials.map(t => (
@@ -326,7 +394,7 @@ export default function HomePage() {
             Travel <em style={{ color: '#C8A96E' }}>Intelligence</em> — Delivered
           </h2>
           <p style={{ color: 'rgba(245,239,228,0.60)', marginBottom: 24, fontSize: '0.82rem', lineHeight: 1.6 }}>Exclusive deals, destination guides, and curated travel insights. No spam — only wanderlust.</p>
-          <div className="newsletter-row">
+          <div className="newsletter-row" style={{ display: 'flex' }}>
             <input type="email" placeholder="Your email address" style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: '#F5EFE4', padding: '13px 20px', fontSize: '0.85rem', outline: 'none', minWidth: 0 }} />
             <button style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 22px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
           </div>
