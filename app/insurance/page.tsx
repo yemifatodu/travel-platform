@@ -1,6 +1,6 @@
 'use client'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -37,6 +37,29 @@ const tips = [
 ]
 
 export default function InsurancePage() {
+
+  useEffect(() => {
+    // SCRIPT 1: Flight Compensation Widget
+    const container1 = document.getElementById('help-widget-container-1');
+    if (container1 && container1.innerHTML === '') {
+      const script1 = document.createElement('script');
+      script1.async = true;
+      script1.charset = 'utf-8';
+      script1.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&width=100&powered_by=true&campaign_id=86&promo_id=2110";
+      container1.appendChild(script1);
+    }
+
+    // SCRIPT 2: Flight Delay / Secondary Compensation Widget
+    const container2 = document.getElementById('help-widget-container-2');
+    if (container2 && container2.innerHTML === '') {
+      const script2 = document.createElement('script');
+      script2.async = true;
+      script2.charset = 'utf-8';
+      script2.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&border_radius=5&plain=true&powered_by=true&promo_id=3408&campaign_id=86";
+      container2.appendChild(script2);
+    }
+  }, []);
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -70,13 +93,8 @@ export default function InsurancePage() {
               </div>
               
               <div style={{ flexGrow: 1, minHeight: 160 }}>
-                {/* Replaced old dynamic append with isolated Next.js script loading */}
-                <Script 
-                  id="compensation-widget-1"
-                  src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&width=100&powered_by=true&campaign_id=86&promo_id=2110"
-                  strategy="afterInteractive"
-                  charSet="utf-8"
-                />
+                {/* INJECTION POINT 1 */}
+                <div id="help-widget-container-1" />
               </div>
             </div>
 
@@ -87,12 +105,8 @@ export default function InsurancePage() {
               </div>
               
               <div style={{ flexGrow: 1, minHeight: 160 }}>
-                <Script 
-                  id="compensation-widget-2"
-                  src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&border_radius=5&plain=true&powered_by=true&promo_id=3408&campaign_id=86"
-                  strategy="afterInteractive"
-                  charSet="utf-8"
-                />
+                {/* INJECTION POINT 2 */}
+                <div id="help-widget-container-2" />
               </div>
             </div>
 
