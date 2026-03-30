@@ -45,7 +45,7 @@ const tips = [
 
 export default function HotelsPage() {
   useEffect(() => {
-    // Load the same Travelpayouts White Label widget — switch to Hotels tab
+    // Load the Travelpayouts White Label widget focused on Hotels
     const existing = document.getElementById('tp-hotel-widget')
     if (!existing) {
       const script = document.createElement('script')
@@ -63,9 +63,44 @@ export default function HotelsPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+      
+      {/* Global CSS Overrides for Widget Contrast */}
+      <style jsx global>{`
+        /* Force widget inputs to have dark, readable text */
+        .tpwl-widget input,
+        .tpwl-widget select,
+        .tpwl-widget .m-input,
+        .tpwl-widget .m-select {
+          color: #080807 !important;
+          background-color: #FFFFFF !important;
+        }
+        
+        /* Dropdowns, calendars, and active search lists must have dark text */
+        .tpwl-widget .m-dropdown,
+        .tpwl-widget .m-autocomplete__list,
+        .tpwl-widget .m-calendar,
+        .tpwl-widget [class*="dropdown"],
+        .tpwl-widget [class*="autocomplete"],
+        .tpwl-widget [class*="calendar"] {
+          color: #080807 !important;
+        }
+        
+        /* Hide the flights tab if you want this pure hotels focus */
+        .tpwl-widget .m-tabs__item[data-tab="flights"],
+        .tpwl-widget [class*="tabs__item"][data-tab="flights"] {
+          display: none !important;
+        }
+
+        /* Golden touch for search buttons */
+        .tpwl-widget button[type="submit"],
+        .tpwl-widget .m-button--primary {
+          background-color: ${gold} !important;
+          color: #080807 !important;
+        }
+      `}</style>
 
       {/* Hero */}
-      <div style={{ background: 'linear-gradient(160deg,#080a10,#0a080c,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
+      <div id="hotel-search-section" style={{ background: 'linear-gradient(160deg,#080a10,#0a080c,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ width: 32, height: 1, background: gold, display: 'inline-block' }} />
@@ -78,11 +113,13 @@ export default function HotelsPage() {
             Search hotels, resorts and boutique stays worldwide. Live prices — book without leaving huuboi.com.
           </p>
 
-          {/* Widget */}
+          {/* Widget Container */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900 }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
-              SEARCH HOTELS — select the Hotels tab in the search box below
+              SEARCH HOTELS — Live bookings on Huuboi.com
             </div>
+            
+            {/* Kept your original IDs since standard widgets find them automatically */}
             <div id="tpwl-search-hotels" />
             <div id="tpwl-tickets-hotels" />
           </div>
@@ -101,7 +138,7 @@ export default function HotelsPage() {
             {featured.map(hotel => (
               <div key={hotel.name}
                 style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', overflow: 'hidden', cursor: 'pointer', transition: 'border-color 0.2s' }}
-                onClick={() => { const el = document.getElementById('tpwl-search'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
+                onClick={() => { const el = document.getElementById('hotel-search-section'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
                 <div style={{ background: hotel.gradient, height: 120, position: 'relative' }}>
@@ -137,7 +174,7 @@ export default function HotelsPage() {
             {popularDestinations.map(dest => (
               <div key={dest.city}
                 style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', cursor: 'pointer', transition: 'border-color 0.2s' }}
-                onClick={() => { const el = document.getElementById('tpwl-search'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
+                onClick={() => { const el = document.getElementById('hotel-search-section'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
                 <div style={{ fontSize: '1.5rem', marginBottom: 10 }}>{dest.flag}</div>

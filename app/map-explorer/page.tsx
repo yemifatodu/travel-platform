@@ -1,7 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -78,6 +77,30 @@ export default function MapExplorer() {
   const [activeRegion, setActiveRegion] = useState('All')
   const [search, setSearch] = useState('')
 
+  // Bulletproof script loader to fix map blank/refuse to load issue
+  useEffect(() => {
+    const container = document.getElementById('tp-map-widget');
+    if (!container) return;
+
+    // Remove any previous script instances to avoid duplicates
+    const existingScript = document.getElementById('injected-map-script');
+    if (existingScript) existingScript.remove();
+
+    const script = document.createElement('script');
+    script.id = 'injected-map-script';
+    script.src = "https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=100%25&height=500&zoom=2&promo_id=4054&campaign_id=100";
+    script.async = true;
+    script.charset = "utf-8";
+
+    container.appendChild(script);
+
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
+
   const filtered = destinations.filter(d => {
     const matchRegion = activeRegion === 'All' || d.region === activeRegion
     const matchSearch = search === '' || d.name.toLowerCase().includes(search.toLowerCase()) || d.country.toLowerCase().includes(search.toLowerCase())
@@ -129,11 +152,7 @@ export default function MapExplorer() {
           
           {/* Widget container */}
           <div id="tp-map-widget" style={{ width: '100%', minHeight: 500, background: '#0a0c10' }}>
-            <Script
-              id="tp-map-widget-script"
-              src="https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1500&height=500&zoom=2&promo_id=4054&campaign_id=100"
-              strategy="afterInteractive"
-            />
+            {/* Script loads here via useEffect */}
           </div>
         </div>
       </div>
@@ -157,7 +176,7 @@ export default function MapExplorer() {
                   style={{ 
                     background: isSel ? 'rgba(200,169,110,0.15)' : '#111110', 
                     border: isSel ? `2px solid ${gold}` : '1px solid rgba(200,169,110,0.25)', 
-                    padding: '10px 12px', /* Reduced padding to fit smaller box aesthetic */
+                    padding: '10px 12px', 
                     cursor: 'pointer', 
                     textAlign: 'left', 
                     transition: 'all 0.2s',
