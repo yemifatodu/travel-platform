@@ -32,8 +32,12 @@ export function Footer() {
         }
         @media (max-width: 640px) {
           .footer-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 28px;
+            grid-template-columns: 1fr 1fr; /* Creates the 2 columns you asked for */
+            gap: 40px 28px; /* Added more vertical spacing between the stacked rows */
+          }
+          .brand-col {
+            grid-column: span 2; /* Forces the brand to sit on top across both columns */
+            margin-bottom: 20px;
           }
           .footer-bottom {
             flex-direction: column;
@@ -44,7 +48,7 @@ export function Footer() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div className="footer-grid">
           {/* Brand column */}
-          <div style={{ gridColumn: 'span 1' }}>
+          <div className="brand-col">
             <div style={{ marginBottom: 20 }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#C8A96E' }}>BOI</span>
