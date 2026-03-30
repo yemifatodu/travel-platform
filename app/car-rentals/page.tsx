@@ -1,6 +1,6 @@
 'use client'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -17,6 +17,39 @@ const tips = [
 ]
 
 export default function CarRentalsPage() {
+
+  useEffect(() => {
+    // SCRIPT 1: Top Whitelist Widget
+    const container1 = document.getElementById('car-rent-widget-container-1');
+    if (container1 && container1.innerHTML === '') {
+      const script1 = document.createElement('script');
+      script1.async = true;
+      script1.charset = 'utf-8';
+      script1.src = "https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=en&powered_by=true&transfer_options_limit=10&transfer_options=MCR&disable_currency_selector=true&hide_form_extras=true&hide_external_links=true&campaign_id=1&promo_id=3879";
+      container1.appendChild(script1);
+    }
+
+    // SCRIPT 2: Middle Whitelist Widget
+    const container2 = document.getElementById('car-rent-widget-container-2');
+    if (container2 && container2.innerHTML === '') {
+      const script2 = document.createElement('script');
+      script2.async = true;
+      script2.charset = 'utf-8';
+      script2.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&border_radius=5&plain=true&show_logo=true&color_background=%23ffca28&color_button=%2355a539&color_text=%23000000&color_input_text=%23000000&color_button_text=%23ffffff&promo_id=4480&campaign_id=10";
+      container2.appendChild(script2);
+    }
+
+    // SCRIPT 3: Bottom Whitelist Widget
+    const container3 = document.getElementById('car-rent-widget-container-3');
+    if (container3 && container3.innerHTML === '') {
+      const script3 = document.createElement('script');
+      script3.async = true;
+      script3.charset = 'utf-8';
+      script3.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&campaign_id=172&promo_id=4850";
+      container3.appendChild(script3);
+    }
+  }, []);
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -34,18 +67,13 @@ export default function CarRentalsPage() {
             Compare car rental prices from 900+ suppliers worldwide. Economy to luxury, city runabouts to 4WD safari vehicles — find the right car at the right price.
           </p>
 
-          {/* SCRIPT 1: Top Whitelist Widget */}
+          {/* SCRIPT 1 Container */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(16px,3vw,36px)', maxWidth: 860 }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.2em', color: gold, marginBottom: 20 }}>SEARCH RENTALS & TRANSFERS</div>
             
-            <div style={{ minHeight: '100px' }}>
-              <Script 
-                id="car-rent-widget-1"
-                src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=en&powered_by=true&transfer_options_limit=10&transfer_options=MCR&disable_currency_selector=true&hide_form_extras=true&hide_external_links=true&campaign_id=1&promo_id=3879" 
-                strategy="afterInteractive"
-                charSet="utf-8"
-              />
-            </div>
+            {/* INJECTION POINT */}
+            <div id="car-rent-widget-container-1" style={{ minHeight: '100px' }} />
+
             <p style={{ color: dim, fontSize: '0.75rem', textAlign: 'center', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
               Best price guarantee · Powered by global local networks
             </p>
@@ -55,17 +83,12 @@ export default function CarRentalsPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* SCRIPT 2: Middle Whitelist Widget */}
+        {/* SCRIPT 2 Container */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>FIND THE BEST DEALS</div>
-          <div style={{ minHeight: '120px' }}>
-            <Script 
-              id="car-rent-widget-2"
-              src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&border_radius=5&plain=true&show_logo=true&color_background=%23ffca28&color_button=%2355a539&color_text=%23000000&color_input_text=%23000000&color_button_text=%23ffffff&promo_id=4480&campaign_id=10" 
-              strategy="afterInteractive"
-              charSet="utf-8"
-            />
-          </div>
+          
+          {/* INJECTION POINT */}
+          <div id="car-rent-widget-container-2" style={{ minHeight: '120px' }} />
         </div>
 
         {/* Tips */}
@@ -92,17 +115,12 @@ export default function CarRentalsPage() {
           </Link>
         </div>
 
-        {/* SCRIPT 3: Bottom Whitelist Widget */}
+        {/* SCRIPT 3 Container */}
         <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)', marginBottom: 'clamp(48px,7vw,80px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>COMPARE MORE RATES</div>
-          <div style={{ minHeight: '100px' }}>
-            <Script 
-              id="car-rent-widget-3"
-              src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&campaign_id=172&promo_id=4850" 
-              strategy="afterInteractive"
-              charSet="utf-8"
-            />
-          </div>
+          
+          {/* INJECTION POINT */}
+          <div id="car-rent-widget-container-3" style={{ minHeight: '100px' }} />
         </div>
 
         {/* Related */}
