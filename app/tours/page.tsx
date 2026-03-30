@@ -1,26 +1,11 @@
 'use client'
-import { useState } from 'react'
 import Link from 'next/link'
+import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
-
-const categories = [
-  { icon: '🦁', label: 'Safari & Wildlife', link: 'https://www.getyourguide.com/safaris-tc278/?partner_id=ZE8RKTS8' },
-  { icon: '🏛', label: 'History & Culture', link: 'https://www.getyourguide.com/history-culture-tc1/?partner_id=ZE8RKTS8' },
-  { icon: '🤿', label: 'Diving & Snorkelling', link: 'https://www.getyourguide.com/diving-tc68/?partner_id=ZE8RKTS8' },
-  { icon: '🥾', label: 'Hiking & Trekking', link: 'https://www.getyourguide.com/hiking-tc59/?partner_id=ZE8RKTS8' },
-  { icon: '🍜', label: 'Food & Cooking', link: 'https://www.getyourguide.com/food-drink-tc239/?partner_id=ZE8RKTS8' },
-  { icon: '🎈', label: 'Hot Air Balloon', link: 'https://www.getyourguide.com/balloon-rides-tc254/?partner_id=ZE8RKTS8' },
-  { icon: '🚣', label: 'Water Sports', link: 'https://www.getyourguide.com/water-sports-tc68/?partner_id=ZE8RKTS8' },
-  { icon: '🏙', label: 'City Tours', link: 'https://www.getyourguide.com/city-tours-tc22/?partner_id=ZE8RKTS8' },
-  { icon: '🌄', label: 'Day Trips', link: 'https://www.getyourguide.com/day-trips-tc66/?partner_id=ZE8RKTS8' },
-  { icon: '🎭', label: 'Shows & Events', link: 'https://www.getyourguide.com/shows-performances-tc262/?partner_id=ZE8RKTS8' },
-  { icon: '🧘', label: 'Wellness & Spa', link: 'https://www.getyourguide.com/wellness-spa-tc298/?partner_id=ZE8RKTS8' },
-  { icon: '📸', label: 'Photography Tours', link: 'https://www.getyourguide.com/photography-tc285/?partner_id=ZE8RKTS8' },
-]
 
 const featured = [
   {
@@ -164,17 +149,6 @@ const partners = [
 ]
 
 export default function ToursPage() {
-  const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState('All')
-
-  const handleSearch = () => {
-    const q = search.trim()
-    const url = q
-      ? `https://www.getyourguide.com/s/?q=${encodeURIComponent(q)}&partner_id=ZE8RKTS8`
-      : `https://www.getyourguide.com/?partner_id=ZE8RKTS8`
-    window.open(url, '_blank')
-  }
-
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -192,44 +166,36 @@ export default function ToursPage() {
             300,000+ guided tours, safaris, diving trips, cooking classes and unforgettable experiences across every continent. Book instantly with free cancellation on most activities.
           </p>
 
-          {/* Search */}
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(20px,3vw,32px)', maxWidth: 680, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <div style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.15)', padding: '12px 18px', minWidth: 200 }}>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.18em', color: gold, marginBottom: 5 }}>DESTINATION OR ACTIVITY</div>
-              <input
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleSearch()}
-                placeholder="e.g. Bali cooking class, Paris tour..."
-                style={{ background: 'none', border: 'none', color: cream, fontSize: '0.9rem', width: '100%', outline: 'none', fontFamily: "'DM Sans',sans-serif" }}
+          {/* SCRIPT 1: Replaced Destination Input Search with Script */}
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(16px,3vw,32px)', maxWidth: 860 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.2em', color: gold, marginBottom: 20 }}>SEARCH EXPERIENCES</div>
+            <div style={{ minHeight: '80px' }}>
+              <Script 
+                id="tour-widget-1"
+                src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&language=en&layout=horizontal&cards=4&powered_by=true&campaign_id=89&promo_id=3947" 
+                strategy="afterInteractive"
+                charSet="utf-8"
               />
             </div>
-            <button onClick={handleSearch}
-              style={{ background: gold, color: '#080807', border: 'none', padding: '0 32px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: 56 }}>
-              SEARCH EXPERIENCES
-            </button>
+            <p style={{ color: dim, fontSize: '0.75rem', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
+              Powered by GetYourGuide · 300,000+ experiences · Free cancellation on most bookings
+            </p>
           </div>
-          <p style={{ color: dim, fontSize: '0.75rem', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
-            Powered by GetYourGuide · 300,000+ experiences · Free cancellation on most bookings
-          </p>
         </div>
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* Categories */}
-        <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>BROWSE BY CATEGORY</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 2 }}>
-            {categories.map(cat => (
-              <a key={cat.label} href={cat.link} target="_blank" rel="noopener noreferrer"
-                style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '22px 16px', cursor: 'pointer', transition: 'border-color 0.2s', textAlign: 'center' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
-                <span style={{ fontSize: '1.8rem' }}>{cat.icon}</span>
-                <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: muted }}>{cat.label}</span>
-              </a>
-            ))}
+        {/* SCRIPT 2: Placed where Categories used to live */}
+        <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>BROWSE POPULAR ACTIVITES</div>
+          <div style={{ minHeight: '120px' }}>
+            <Script 
+              id="tour-widget-2"
+              src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=260932&category=4&amount=3&powered_by=true&campaign_id=137&promo_id=4497" 
+              strategy="afterInteractive"
+              charSet="utf-8"
+            />
           </div>
         </div>
 
@@ -254,7 +220,6 @@ export default function ToursPage() {
                 style={{ textDecoration: 'none', display: 'block', background: '#111110', border: '1px solid rgba(200,169,110,0.1)', overflow: 'hidden', transition: 'border-color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
-                {/* Banner */}
                 <div style={{ background: exp.gradient, height: 120, position: 'relative' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.7) 0%,transparent 60%)' }} />
                   <div style={{ position: 'absolute', top: 12, right: 12 }}>
@@ -286,8 +251,21 @@ export default function ToursPage() {
           </div>
         </div>
 
+        {/* SCRIPT 3: Positioned above Booking Partners */}
+        <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>EXPLORE MORE TOURS</div>
+          <div style={{ minHeight: '100px' }}>
+            <Script 
+              id="tour-widget-3"
+              src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&product=&language=en&layout=horizontal&powered_by=true&campaign_id=89&promo_id=3948" 
+              strategy="afterInteractive"
+              charSet="utf-8"
+            />
+          </div>
+        </div>
+
         {/* Partners */}
-        <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginBottom: 16 }}>
+        <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginBottom: 'clamp(48px,7vw,80px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>OUR BOOKING PARTNERS</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 2 }}>
             {partners.map(p => (
@@ -300,7 +278,7 @@ export default function ToursPage() {
         </div>
 
         {/* eSIM */}
-        <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
+        <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 'clamp(48px,7vw,80px)' }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4 }}>📱 TRAVELLING TO YOUR EXPERIENCE?</div>
             <p style={{ color: muted, fontSize: '0.88rem', margin: 0 }}>Get a travel eSIM — instant data in 150+ countries, no roaming fees</p>
@@ -308,6 +286,19 @@ export default function ToursPage() {
           <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             GET ESIM
           </Link>
+        </div>
+
+        {/* SCRIPT 4: Placed above footer quick-links */}
+        <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>FIND MORE ATTRACTIONS</div>
+          <div style={{ minHeight: '100px' }}>
+            <Script 
+              id="tour-widget-4"
+              src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&tours=3&powered_by=true&campaign_id=150&promo_id=4489" 
+              strategy="afterInteractive"
+              charSet="utf-8"
+            />
+          </div>
         </div>
 
         {/* Related */}
