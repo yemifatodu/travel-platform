@@ -119,30 +119,23 @@ export default function MapExplorer() {
         </div>
       </div>
 
-      {/* Widget R — Interactive Flight Price Map */}
+      {/* Interactive Flight Price Map */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(20px,5vw,60px)' }}>
         <div style={{ border: '1px solid rgba(200,169,110,0.15)', overflow: 'hidden', marginBottom: 12 }}>
           <div style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold }}>✈ LIVE FLIGHT PRICE MAP</span>
             <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.72rem', color: muted }}>— Click any destination to search flights from London</span>
           </div>
-          {/* Widget R container */}
-          <div id="tp-map-widget" style={{ width: '1500%', minHeight: 500, background: '#0a0c10' }} />
-          <Script
-            id="tp-widget-r"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function() {
-                  var s = document.createElement('script');
-                  s.async = true;
-                  s.charset = 'utf-8';
-                  s.src = 'https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=100&height=500&zoom=1&promo_id=4054&campaign_id=100';
-                  document.getElementById('tp-map-widget').appendChild(s);
-                })();
-              `
-            }}
-          />
+          
+          {/* Widget container */}
+          <div id="tp-map-widget" style={{ width: '100%', minHeight: 500, background: '#0a0c10' }}>
+            <Script
+              id="tp-map-widget-script"
+              src="https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1500&height=500&zoom=2&promo_id=4054&campaign_id=100"
+              strategy="afterInteractive"
+              charset="utf-8"
+            />
+          </div>
         </div>
       </div>
 
@@ -154,19 +147,29 @@ export default function MapExplorer() {
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.25em', color: gold, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid rgba(200,169,110,0.1)' }}>
             {activeRegion === 'All' ? 'ALL DESTINATIONS' : activeRegion.toUpperCase()} — {filtered.length} DESTINATIONS
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 2 }}>
+          
+          {/* Grid setup with reduced box sizes (2/3 size) and golden wrappers */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(120px,1fr))', gap: 6 }}>
             {filtered.map(dest => {
               const isSel = selected?.slug === dest.slug
               const color = regionColors[dest.region] || gold
               return (
                 <button key={dest.slug} onClick={() => setSelected(isSel ? null : dest)}
-                  style={{ background: isSel ? 'rgba(200,169,110,0.1)' : '#111110', border: `1px solid ${isSel ? color : 'rgba(200,169,110,0.08)'}`, padding: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
-                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  style={{ 
+                    background: isSel ? 'rgba(200,169,110,0.15)' : '#111110', 
+                    border: isSel ? `2px solid ${gold}` : '1px solid rgba(200,169,110,0.25)', 
+                    padding: '10px 12px', /* Reduced padding to fit smaller box aesthetic */
+                    cursor: 'pointer', 
+                    textAlign: 'left', 
+                    transition: 'all 0.2s',
+                    boxShadow: isSel ? `0 0 10px rgba(200,169,110,0.3)` : 'none'
+                  }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 3 }}>
+                    <div style={{ width: 4, height: 4, borderRadius: '50%', background: color, flexShrink: 0 }} />
                     <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.08em', color: dim }}>{dest.region}</span>
                   </div>
-                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: isSel ? cream : muted, fontWeight: 600, marginBottom: 2 }}>{dest.name}</div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.08em', color: isSel ? gold : dim }}>{dest.country} · {dest.from}</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.85rem', color: isSel ? cream : muted, fontWeight: 600, marginBottom: 1 }}>{dest.name}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.50rem', letterSpacing: '0.08em', color: isSel ? gold : dim }}>{dest.country} · {dest.from}</div>
                 </button>
               )
             })}
@@ -175,7 +178,7 @@ export default function MapExplorer() {
 
         {/* Detail panel */}
         {selected && (
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', display: 'flex', flexDirection: 'column', maxHeight: 600 }}>
+          <div style={{ background: '#111110', border: `1px solid ${gold}`, display: 'flex', flexDirection: 'column', maxHeight: 600 }}>
             <div style={{ background: '#1C1B18', padding: '20px 20px 16px', borderBottom: '1px solid rgba(200,169,110,0.1)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
@@ -224,7 +227,7 @@ export default function MapExplorer() {
                 PLAN TRIP TO {selected.name.toUpperCase()}
               </Link>
               <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
-                style={{ background: 'transparent', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+                style={{ background: 'transparent', border: `1px solid ${gold}`, color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 SEARCH FLIGHTS →
               </a>
             </div>
