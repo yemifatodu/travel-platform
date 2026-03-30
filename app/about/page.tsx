@@ -133,7 +133,7 @@ export default function AboutPage() {
                 His career as a data analyst and business intelligence professional equips him to transform travel planning into seamless, personalized experiences.
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <a href="https://yemifatodu.github.io" target="_blank" rel="noopener noreferrer"
+                <a href="https://my-portfolio-two-beta-69.vercel.app/" target="_blank" rel="noopener noreferrer"
                   style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.4)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-block' }}>
                   VIEW PORTFOLIO →
                 </a>
