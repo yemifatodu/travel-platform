@@ -30,6 +30,37 @@ const popular = [
 export default function TransfersPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+      
+      {/* Global CSS Overrides for Widget Contrast */}
+      <style jsx global>{`
+        /* Force widget inputs and dropdowns to have dark, readable text */
+        .tpwl-widget input,
+        .tpwl-widget select,
+        .tpwl-widget .m-input,
+        .tpwl-widget .m-select,
+        .kiwitaxi-widget input,
+        .kiwitaxi-widget select {
+          color: #080807 !important;
+          background-color: #FFFFFF !important;
+        }
+        
+        /* Dropdowns and autocomplete lists must have dark text */
+        .tpwl-widget .m-dropdown,
+        .tpwl-widget .m-autocomplete__list,
+        [class*="dropdown"],
+        [class*="autocomplete"] {
+          color: #080807 !important;
+        }
+
+        /* Golden touch for search buttons to fit Huuboi branding */
+        .tpwl-widget button[type="submit"],
+        .tpwl-widget .m-button--primary,
+        .kiwitaxi-widget button {
+          background-color: ${gold} !important;
+          color: #080807 !important;
+        }
+      `}</style>
+
       <div style={{ background: 'linear-gradient(160deg,#080810,#0a0c08,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,100px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -53,7 +84,7 @@ export default function TransfersPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(40px,6vw,70px) clamp(20px,5vw,60px)' }}>
+      <div id="transfer-search-section" style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(40px,6vw,70px) clamp(20px,5vw,60px)' }}>
 
         {/* Replaced Search Section with Two Scripts */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
@@ -97,6 +128,7 @@ export default function TransfersPage() {
             {popular.map(route => (
               <div key={route.from}
                 style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '18px 20px', transition: 'border-color 0.2s', cursor: 'pointer' }}
+                onClick={() => { const el = document.getElementById('transfer-search-section'); if (el) el.scrollIntoView({ behavior: 'smooth' }) }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
                 <div style={{ fontSize: '1.4rem', marginBottom: 10 }}>{route.flag}</div>
