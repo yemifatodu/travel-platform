@@ -181,14 +181,15 @@ export default function HomePage() {
         }
       `}</style>
 
-      {/* HERO */}
-      <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden' }}>
+      {/* HERO — Shifted to sit at the top, roughly 1/3 inch from the header boundary */}
+      <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(200,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.04) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,0.4) 50%,transparent 100%)' }} />
         
-        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
+        {/* Adjusted padding top (approx. 32px or 1/3 inch) to pull the layout high up */}
+        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '32px', paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
             LUXURY GLOBAL TRAVEL
@@ -208,7 +209,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="stats-bar" style={{ display: 'flex', borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)' }}>
+        <div className="stats-bar" style={{ display: 'flex', borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)', marginTop: 'auto' }}>
           {[
             ['194+','Countries'],
             ['50K+','Travellers'],
@@ -338,15 +339,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI PROMO */}
-      <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0', position: 'relative', overflow: 'hidden' }}>
+      {/* AI PROMO — Widened text container to sit natively against mobile and desktop widths */}
+      <section className="section-pad page-pad" style={{ background: '#080807', padding: '60px 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', width: '30vw', height: '30vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.07) 0%,transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(30px)' }} />
-        <div style={{ maxWidth: 450, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>POWERED BY AI</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3.5vw,2.5rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 14, lineHeight: 1.1 }}>
+        
+        {/* Swapped maxWidth: 450 to 1200 to let it fill standard content bounding boxes */}
+        <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>POWERED BY AI</div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4.5vw,3.5rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 14, lineHeight: 1.1 }}>
             Your Perfect Itinerary,<br/><em style={{ color: '#C8A96E' }}>Generated in Seconds</em>
           </h2>
-          <p style={{ color: 'rgba(245,239,228,0.75)', lineHeight: 1.6, marginBottom: 24, fontSize: '0.8rem' }}>
+          <p style={{ color: 'rgba(245,239,228,0.75)', lineHeight: 1.6, marginBottom: 24, fontSize: '1rem', maxWidth: 700, margin: '0 auto 24px auto' }}>
             Tell us where you dream of going, your budget, and how you like to travel. Our AI builds a fully personalised day-by-day itinerary — flights, hotels, activities, and hidden gems included.
           </p>
           <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: '#C8A96E', color: '#080807', padding: '12px 32px', textDecoration: 'none', display: 'inline-block' }}>
@@ -382,17 +385,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
-      <section id="contact" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '30px 0' }}>
-        <div style={{ maxWidth: 240, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: 6 }}>STAY INSPIRED</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', fontWeight: 300, color: '#F5EFE4', marginBottom: 6 }}>
+      {/* NEWSLETTER — Widened elements and upscaled typography for scannability */}
+      <section id="contact" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '60px 0' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: '0 20px' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>STAY INSPIRED</div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '2rem', fontWeight: 300, color: '#F5EFE4', marginBottom: 10 }}>
             Travel <em style={{ color: '#C8A96E' }}>Intelligence</em> — Delivered
           </h2>
-          <p style={{ color: 'rgba(245,239,228,0.60)', marginBottom: 16, fontSize: '0.65rem', lineHeight: 1.4 }}>Exclusive deals, destination guides, and curated travel insights.</p>
-          <div className="newsletter-row" style={{ display: 'flex' }}>
-            <input type="email" placeholder="Your email address" style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: '#F5EFE4', padding: '8px 12px', fontSize: '0.65rem', outline: 'none', minWidth: 0 }} />
-            <button style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 12px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.1em', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
+          <p style={{ color: 'rgba(245,239,228,0.60)', marginBottom: 24, fontSize: '0.9rem', lineHeight: 1.6 }}>Exclusive deals, destination guides, and curated travel insights.</p>
+          
+          <div className="newsletter-row" style={{ display: 'flex', maxWidth: 450, margin: '0 auto' }}>
+            <input type="email" placeholder="Your email address" style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: '#F5EFE4', padding: '14px 16px', fontSize: '0.85rem', outline: 'none', minWidth: 0 }} />
+            <button style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 24px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.1em', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
           </div>
         </div>
       </section>
