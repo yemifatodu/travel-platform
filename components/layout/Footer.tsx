@@ -9,13 +9,14 @@ export function Footer() {
     { title: 'Support', links: [['About Us','/about'],['Contact','/contact'],['Help Center','/help'],['Privacy Policy','/privacy-policy'],['Terms','/terms'],['Refund Policy','/refund-policy']] },
   ]
   return (
-    <footer style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(48px,8vw,80px) clamp(20px,5vw,60px) clamp(28px,4vw,40px)' }}>
+    /* 🚀 Reduced top/bottom padding to tighten the container height */
+    <footer style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(32px,5vw,55px) clamp(20px,5vw,60px) clamp(20px,3vw,30px)' }}>
       <style>{`
         .footer-grid {
           display: grid;
           grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-          gap: 60px;
-          margin-bottom: 60px;
+          gap: 40px; /* 🚀 Reduced from 60px */
+          margin-bottom: 40px; /* 🚀 Reduced from 60px */
         }
         .footer-bottom {
           display: flex;
@@ -32,12 +33,12 @@ export function Footer() {
         }
         @media (max-width: 640px) {
           .footer-grid {
-            grid-template-columns: 1fr 1fr; /* Creates the 2 columns you asked for */
-            gap: 40px 28px; /* Added more vertical spacing between the stacked rows */
+            grid-template-columns: 1fr 1fr; 
+            gap: 32px 28px; 
           }
           .brand-col {
-            grid-column: span 2; /* Forces the brand to sit on top across both columns */
-            margin-bottom: 20px;
+            grid-column: span 2; 
+            margin-bottom: 16px;
           }
           .footer-bottom {
             flex-direction: column;
@@ -49,16 +50,16 @@ export function Footer() {
         <div className="footer-grid">
           {/* Brand column */}
           <div className="brand-col">
-            <div style={{ marginBottom: 20 }}>
+            <div style={{ marginBottom: 12 /* 🚀 Reduced from 20 */ }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#F5EFE4' }}>HUU</span>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.15em', color: '#C8A96E' }}>BOI</span>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.6rem', letterSpacing: '0.3em', color: 'rgba(200,169,110,0.5)', marginTop: 2 }}>GLOBAL TRAVEL</div>
             </div>
-            <p style={{ color: 'rgba(245,239,228,0.5)', lineHeight: 1.8, fontSize: '0.875rem', maxWidth: 260, marginBottom: 16 }}>
+            <p style={{ color: 'rgba(245,239,228,0.5)', lineHeight: 1.6, fontSize: '0.875rem', maxWidth: 260, marginBottom: 12 /* 🚀 Reduced margin and line-height */ }}>
               Curating extraordinary journeys across six continents. Luxury travel meets bold adventure.
             </p>
             <a href="mailto:hello@huuboi.com"
-              style={{ fontSize: '0.78rem', color: '#C8A96E', textDecoration: 'none', letterSpacing: '0.05em', marginBottom: 28, display: 'block' }}>
+              style={{ fontSize: '0.78rem', color: '#C8A96E', textDecoration: 'none', letterSpacing: '0.05em', marginBottom: 16, display: 'block' /* 🚀 Reduced margin */ }}>
               hello@huuboi.com
             </a>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
@@ -75,8 +76,8 @@ export function Footer() {
           {/* Link columns */}
           {cols.map(col => (
             <div key={col.title}>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 20 }}>{col.title}</div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, padding: 0, margin: 0 }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 14 /* 🚀 Reduced from 20 */ }}>{col.title}</div>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7, padding: 0, margin: 0 /* 🚀 Reduced gap from 10 */ }}>
                 {col.links.map(([label, href]) => (
                   <li key={href}>
                     <Link href={href}
@@ -91,7 +92,7 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="footer-bottom" style={{ borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 28 }}>
+        <div className="footer-bottom" style={{ borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 20 /* 🚀 Reduced from 28 */ }}>
           <p style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.3)', margin: 0 }}>© 2026 HUUBOI.COM — Six Continents. One Platform. All rights reserved.</p>
           <p style={{ fontSize: '0.7rem', color: 'rgba(245,239,228,0.2)', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.15em', margin: 0 }}>BUILT ON NEXT.JS · VERCEL · SUPABASE</p>
         </div>
