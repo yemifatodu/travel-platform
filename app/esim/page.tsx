@@ -141,12 +141,29 @@ const esimStyles = `
     font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
   }
+  
+  /* UPDATED HERO: Flex container for split screen */
   .esim-hero {
-    text-align: center;
     padding: 80px 24px 60px;
     background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.12) 0%, transparent 70%);
     border-bottom: 1px solid var(--border);
   }
+  
+  .esim-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    text-align: left;
+  }
+
+  .esim-hero-left {
+    flex: 1;
+    max-width: 600px;
+  }
+
   .esim-hero .label {
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.3em;
@@ -154,39 +171,53 @@ const esimStyles = `
     color: var(--gold);
     margin-bottom: 16px;
   }
+  
   .esim-hero h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 300;
     line-height: 1.1;
     color: var(--cream);
     margin-bottom: 20px;
   }
+  
   .esim-hero h1 span { color: var(--gold); font-style: italic; }
+  
   .esim-hero p {
     font-size: 1rem;
     color: rgba(245,239,228,0.6);
-    max-width: 520px;
-    margin: 0 auto 40px;
     line-height: 1.7;
     font-weight: 300;
+    margin: 0;
   }
+  
+  /* UPDATED BADGES: Stacking them vertically on the right */
+  .esim-hero-right {
+    flex-shrink: 0;
+    width: 280px;
+  }
+
   .esim-badges {
     display: flex;
+    flex-direction: column;
     gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
   }
+  
   .esim-badge {
     background: var(--muted);
     border: 1px solid var(--border);
     color: var(--gold);
-    padding: 6px 16px;
-    font-size: 0.75rem;
+    padding: 12px 16px;
+    font-size: 0.8rem;
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.15em;
     border-radius: 2px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
+  
   .esim-body {
     max-width: 1200px;
     margin: 0 auto;
@@ -434,6 +465,26 @@ const esimStyles = `
     letter-spacing: 0.1em;
     font-size: 0.7rem;
   }
+
+  /* MEDIA QUERIES: Collapse back to stack on mobile */
+  @media (max-width: 768px) {
+    .esim-hero-inner {
+      flex-direction: column;
+      text-align: center;
+      gap: 32px;
+    }
+    .esim-hero-left {
+      max-width: 100%;
+    }
+    .esim-hero-right {
+      width: 100%;
+      max-width: 320px;
+    }
+    .esim-badge {
+      justify-content: center;
+    }
+  }
+
   @media (max-width: 640px) {
     .esim-detail { padding: 24px 16px; }
     .esim-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
@@ -512,14 +563,27 @@ export default function EsimPage() {
       <style dangerouslySetInnerHTML={{ __html: esimStyles }} />
       <div className="esim-page">
         <div className="esim-hero">
-          <p className="label">✦ HUUBOI eSIM STORE ✦</p>
-          <h1>Stay Connected<br /><span>Anywhere on Earth</span></h1>
-          <p>Instant eSIMs for 150+ destinations. No roaming fees. No physical SIM. Activate in minutes.</p>
-          <div className="esim-badges">
-            <span className="esim-badge">📶 150+ Countries</span>
-            <span className="esim-badge">⚡ Instant Activation</span>
-            <span className="esim-badge">🔒 No Roaming Fees</span>
-            <span className="esim-badge">📱 eSIM Compatible Phones</span>
+          
+          {/* New Flex container wraps content */}
+          <div className="esim-hero-inner">
+            
+            {/* Left side: Heading and copy */}
+            <div className="esim-hero-left">
+              <p className="label">✦ HUUBOI eSIM STORE ✦</p>
+              <h1>Stay Connected<br /><span>Anywhere on Earth</span></h1>
+              <p>Instant eSIMs for 150+ destinations. No roaming fees. No physical SIM. Activate in minutes.</p>
+            </div>
+
+            {/* Right side: Stacked Badges */}
+            <div className="esim-hero-right">
+              <div className="esim-badges">
+                <span className="esim-badge">📶 150+ Countries</span>
+                <span className="esim-badge">⚡ Instant Activation</span>
+                <span className="esim-badge">🔒 No Roaming Fees</span>
+                <span className="esim-badge">📱 eSIM Compatible Phones</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
