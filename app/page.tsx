@@ -67,9 +67,10 @@ export default function HomePage() {
     // 2. Inject CSS to force clear visibility and fix bounding box issues
     const style = document.createElement('style');
     style.innerHTML = `
-      /* --- HIDE DEFAULT HOTEL TAB --- */
+      /* --- HIDE DEFAULT HOTEL TAB & HOTEL CHECKBOX --- */
       .tpwl-widget .wl-tabs__item--hotels, 
-      .tpwl-widget [data-tab="hotels"] { 
+      .tpwl-widget [data-tab="hotels"],
+      .tpwl-widget .mewtwo-hotels-checkbox { 
         display: none !important; 
       }
 
@@ -108,9 +109,9 @@ export default function HomePage() {
         letter-spacing: 0.1em !important;
       }
 
-      /* --- FIX 6: SCALE SELECTION BOX & MAKE BRIGHT/WHITE --- */
+      /* --- RESTORED TO FULL WIDTH & BRIGHT BACKGROUND --- */
       #tpwl-search, #tpwl-main-form {
-        max-width: 50% !important;
+        max-width: 100% !important;
         margin: 0 auto !important;
         background: #FDFBF7 !important; /* Off-white visible background */
         padding: 15px !important;
@@ -124,11 +125,18 @@ export default function HomePage() {
         color: #1C1B18 !important;
       }
 
-      /* Neutralize blinding white ticket result grids to fit the dark palette */
+      /* --- REDUCE HEIGHT AND BRIGHTEN TICKET RESULTS --- */
       .tpwl-widget .wl-ticket, 
       .tpwl-widget .wl-card {
-        background: #0d0c0a !important;
+        background: #FDFBF7 !important;
         border: 1px solid rgba(200, 169, 110, 0.15) !important;
+        max-height: 180px !important; /* Forces a half-height constraint */
+        overflow: hidden !important;
+      }
+      
+      .tpwl-widget .wl-ticket *, 
+      .tpwl-widget .wl-card * {
+        color: #1C1B18 !important; /* Dark text on light ticket backgrounds */
       }
       
       /* Make sure location dropdown choices are readable */
@@ -142,14 +150,9 @@ export default function HomePage() {
     document.head.appendChild(style);
   }, []);
 
+  // Removed all clicks except Flights
   const tabs = [
-    { label: 'Flights', icon: '✈', link: '/search' },
-    { label: 'Hotels', icon: '🏨', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p' },
-    { label: 'Packages', icon: '📦', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p' },
-    { label: 'Activities', icon: '🎯', link: 'https://www.getyourguide.com/?partner_id=ZE8RKTS8' },
-    { label: 'Car Rentals', icon: '🚗', link: 'https://getrentacar.tp.st/CvPLu5ev' },
-    { label: 'Transfers', icon: '🚌', link: 'https://kiwitaxi.tp.st/pthb6f1z' },
-    { label: 'eSIM', icon: '📱', link: '/esim' },
+    { label: 'Flights', icon: '✈', link: '/search' }
   ]
 
   return (
@@ -174,11 +177,11 @@ export default function HomePage() {
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .test-grid { grid-template-columns: 1fr; }
-          #tpwl-search, #tpwl-main-form { max-width: 90% !important; } /* Mobile breathing room */
+          #tpwl-search, #tpwl-main-form { max-width: 100% !important; } 
         }
       `}</style>
 
-      {/* HERO — FIX 7: REDUCE TEXT SIZE TO 2/3 */}
+      {/* HERO */}
       <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
@@ -191,7 +194,6 @@ export default function HomePage() {
             LUXURY GLOBAL TRAVEL
           </div>
           
-          {/* Reduced Hero Typography by roughly 1/3 */}
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,6.5vw,6rem)', fontWeight: 300, lineHeight: 0.9, color: '#F5EFE4', marginBottom: 20, letterSpacing: '-0.01em' }}>
             The World<br/>
             <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Awaits</em><br/>
@@ -221,20 +223,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHY HUUBOI */}
-      <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(40px,6vw,60px) clamp(20px,5vw,60px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(30px,4vw,50px)', alignItems: 'center' }}>
+      {/* WHY HUUBOI — REDUCED TO 4/5 SCALE */}
+      <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(32px,4.8vw,48px) clamp(16px,4vw,48px)' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 'clamp(24px,3.2vw,40px)', alignItems: 'center' }}>
             <div>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ width: 32, height: 1, background: '#C8A96E', display: 'inline-block' }} />
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
                 WHY HUUBOI
               </div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3.2rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1.05, marginBottom: 20 }}>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.4rem,3.2vw,2.5rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1.05, marginBottom: 16 }}>
                 One Platform.<br />Every Destination.<br />
                 <em style={{ color: '#C8A96E' }}>Smarter Decisions.</em>
               </h2>
-              <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 24 }}>
+              <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '0.72rem', lineHeight: 1.7, marginBottom: 20 }}>
                 HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents — so you stop searching and start discovering.
               </p>
             </div>
@@ -246,10 +248,10 @@ export default function HomePage() {
                 { icon: '💡', title: 'Smarter Decisions', body: 'Visa requirements, best seasons, budget guides and insider tips on every page.' },
                 { icon: '🌍', title: 'Six Continents', body: '194 destinations across Africa, Middle East, Asia, Europe, the Americas and the Pacific.' },
               ].map(item => (
-                <div key={item.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px' }}>
-                  <div style={{ fontSize: '1.2rem', marginBottom: 10 }}>{item.icon}</div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: '#C8A96E', marginBottom: 6 }}>{item.title}</div>
-                  <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
+                <div key={item.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '16px' }}>
+                  <div style={{ fontSize: '1rem', marginBottom: 8 }}>{item.icon}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.12em', color: '#C8A96E', marginBottom: 4 }}>{item.title}</div>
+                  <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '0.6rem', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
                 </div>
               ))}
             </div>
@@ -257,7 +259,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SEARCH TABS & WHITE LABEL */}
+      {/* SEARCH FRAME */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 0' }}>
           
@@ -269,7 +271,6 @@ export default function HomePage() {
             ))}
           </div>
           
-          {/* Constrained Search Frame */}
           <div style={{ padding: '15px' }}>
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
@@ -337,7 +338,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI PROMO — FIX 5: REDUCE TO 1/2 SIZE */}
+      {/* AI PROMO */}
       <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', width: '30vw', height: '30vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.07) 0%,transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(30px)' }} />
         <div style={{ maxWidth: 450, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
@@ -354,7 +355,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS — FIX 4: REDUCE TO 2/3 SIZE */}
+      {/* TESTIMONIALS */}
       <section className="section-pad page-pad" style={{ background: '#0d0c0a', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 30 }}>
@@ -381,7 +382,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWSLETTER — FIX 3: REDUCE TO 1/2 SIZE */}
+      {/* NEWSLETTER */}
       <section id="contact" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '30px 0' }}>
         <div style={{ maxWidth: 240, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: 6 }}>STAY INSPIRED</div>
