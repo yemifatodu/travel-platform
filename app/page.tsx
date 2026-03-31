@@ -64,7 +64,7 @@ export default function HomePage() {
       document.head.appendChild(script);
     }
 
-    // 2. Inject CSS to force clear visibility and remove the hotel tab
+    // 2. Inject CSS to force clear visibility and fix bounding box issues
     const style = document.createElement('style');
     style.innerHTML = `
       /* --- HIDE DEFAULT HOTEL TAB --- */
@@ -74,14 +74,13 @@ export default function HomePage() {
       }
 
       /* --- FIXING DISTORTED TEXT COLORS & THEME --- */
-      /* Master container should mesh perfectly with your #1C1B18 wrap block */
       .tpwl-widget, .TPWL-widget, #tpwl-main-form {
         background: #1C1B18 !important;
         border: none !important;
         color: #F5EFE4 !important;
       }
 
-      /* Make all labels, legends, and grey text clearly readable */
+      /* Make all labels clearly readable */
       .tpwl-widget label,
       .tpwl-widget span,
       .tpwl-widget div,
@@ -96,12 +95,11 @@ export default function HomePage() {
         border: 1px solid rgba(200, 169, 110, 0.25) !important;
       }
       
-      /* Placeholder styling for blank input text */
       .tpwl-widget input::placeholder {
         color: rgba(245, 239, 228, 0.45) !important;
       }
 
-      /* Turn blue actionable buttons into your classic Gold aesthetic */
+      /* Turn actionable buttons into your classic Gold aesthetic */
       .tpwl-widget button[type="submit"],
       .tpwl-widget .wl-button--primary {
         background: #C8A96E !important;
@@ -110,7 +108,23 @@ export default function HomePage() {
         letter-spacing: 0.1em !important;
       }
 
-      /* Neutralize the blinding white ticket result grids to fit the dark palette */
+      /* --- FIX 6: SCALE SELECTION BOX & MAKE BRIGHT/WHITE --- */
+      #tpwl-search, #tpwl-main-form {
+        max-width: 50% !important;
+        margin: 0 auto !important;
+        background: #FDFBF7 !important; /* Off-white visible background */
+        padding: 15px !important;
+        border-radius: 8px !important;
+      }
+      
+      /* Force dark text for readability on the bright form box */
+      #tpwl-search label, 
+      #tpwl-search span, 
+      #tpwl-search .mewtwo-placeholder-label {
+        color: #1C1B18 !important;
+      }
+
+      /* Neutralize blinding white ticket result grids to fit the dark palette */
       .tpwl-widget .wl-ticket, 
       .tpwl-widget .wl-card {
         background: #0d0c0a !important;
@@ -157,79 +171,70 @@ export default function HomePage() {
           gap: 20px;
         }
         @media (max-width: 768px) {
-          .dest-grid-home {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .pkg-grid-home {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .test-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-        @media (max-width: 480px) {
-          .dest-grid-home {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .pkg-grid-home {
-            grid-template-columns: repeat(2, 1fr);
-          }
+          .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
+          .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
+          .test-grid { grid-template-columns: 1fr; }
+          #tpwl-search, #tpwl-main-form { max-width: 90% !important; } /* Mobile breathing room */
         }
       `}</style>
 
-      {/* HERO */}
+      {/* HERO — FIX 7: REDUCE TEXT SIZE TO 2/3 */}
       <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(200,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.04) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,0.4) 50%,transparent 100%)' }} />
-        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingBottom: 'clamp(80px,12vw,120px)', maxWidth: 900 }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.35em', color: '#C8A96E', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ width: 40, height: 1, background: '#C8A96E', display: 'inline-block' }} />
+        
+        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
             LUXURY GLOBAL TRAVEL
           </div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(3rem,10vw,9rem)', fontWeight: 300, lineHeight: 0.9, color: '#F5EFE4', marginBottom: 32, letterSpacing: '-0.01em' }}>
+          
+          {/* Reduced Hero Typography by roughly 1/3 */}
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,6.5vw,6rem)', fontWeight: 300, lineHeight: 0.9, color: '#F5EFE4', marginBottom: 20, letterSpacing: '-0.01em' }}>
             The World<br/>
             <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Awaits</em><br/>
             You
           </h1>
-          <p style={{ fontSize: 'clamp(0.95rem,2vw,1.15rem)', color: 'rgba(245,239,228,0.80)', maxWidth: 480, lineHeight: 1.8, marginBottom: 48, fontWeight: 300 }}>
+          <p style={{ fontSize: 'clamp(0.75rem,1.5vw,0.85rem)', color: 'rgba(245,239,228,0.70)', maxWidth: 350, lineHeight: 1.6, marginBottom: 32, fontWeight: 300 }}>
             Bespoke journeys crafted for the discerning traveller. Six continents. Infinite stories. One platform.
           </p>
           <div className="hero-buttons">
-            <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.25em', background: '#C8A96E', color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-block' }}>EXPLORE DESTINATIONS</Link>
-            <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.25em', border: '1px solid rgba(200,169,110,0.5)', color: '#C8A96E', padding: '16px 36px', textDecoration: 'none', display: 'inline-block' }}>AI TRIP PLANNER</Link>
+            <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', background: '#C8A96E', color: '#080807', padding: '12px 28px', textDecoration: 'none', display: 'inline-block' }}>EXPLORE DESTINATIONS</Link>
+            <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', border: '1px solid rgba(200,169,110,0.5)', color: '#C8A96E', padding: '12px 28px', textDecoration: 'none', display: 'inline-block', marginLeft: '10px' }}>AI TRIP PLANNER</Link>
           </div>
         </div>
-        <div className="stats-bar" style={{ borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)' }}>
+
+        <div className="stats-bar" style={{ display: 'flex', borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)' }}>
           {[
             ['194+','Countries'],
             ['50K+','Travellers'],
             ['2,400+','Packages'],
             ['24/7','Support']
           ].map(([num, label]) => (
-            <div key={num} style={{ padding: 'clamp(16px,3vw,24px) clamp(16px,3vw,40px)', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.4rem,3vw,2rem)', fontWeight: 600, color: '#C8A96E' }}>{num}</div>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(245,239,228,0.65)', marginTop: 4 }}>{label}</div>
+            <div key={num} style={{ flex: 1, padding: '12px 0', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
+              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1rem,2vw,1.4rem)', fontWeight: 600, color: '#C8A96E' }}>{num}</div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.65)', marginTop: 2 }}>{label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* WHY HUUBOI */}
-      <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(60px,8vw,100px) clamp(20px,5vw,60px)' }}>
+      <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(40px,6vw,60px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(40px,6vw,80px)', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(30px,4vw,50px)', alignItems: 'center' }}>
             <div>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ width: 32, height: 1, background: '#C8A96E', display: 'inline-block' }} />
                 WHY HUUBOI
               </div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,4rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1.05, marginBottom: 28 }}>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3.2rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1.05, marginBottom: 20 }}>
                 One Platform.<br />Every Destination.<br />
                 <em style={{ color: '#C8A96E' }}>Smarter Decisions.</em>
               </h2>
-              <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '1rem', lineHeight: 1.85, marginBottom: 36 }}>
+              <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 24 }}>
                 HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents — so you stop searching and start discovering.
               </p>
             </div>
@@ -241,10 +246,10 @@ export default function HomePage() {
                 { icon: '💡', title: 'Smarter Decisions', body: 'Visa requirements, best seasons, budget guides and insider tips on every page.' },
                 { icon: '🌍', title: 'Six Continents', body: '194 destinations across Africa, Middle East, Asia, Europe, the Americas and the Pacific.' },
               ].map(item => (
-                <div key={item.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '24px 22px' }}>
-                  <div style={{ fontSize: '1.4rem', marginBottom: 12 }}>{item.icon}</div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.18em', color: '#C8A96E', marginBottom: 8 }}>{item.title}</div>
-                  <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '0.83rem', lineHeight: 1.7, margin: 0 }}>{item.body}</p>
+                <div key={item.title} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px' }}>
+                  <div style={{ fontSize: '1.2rem', marginBottom: 10 }}>{item.icon}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: '#C8A96E', marginBottom: 6 }}>{item.title}</div>
+                  <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
                 </div>
               ))}
             </div>
@@ -254,117 +259,107 @@ export default function HomePage() {
 
       {/* SEARCH TABS & WHITE LABEL */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 0' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 0' }}>
           
-          <div style={{ display: 'flex', gap: 0, marginBottom: 28, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
+          <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
             {tabs.map((tab, i) => (
-              <a key={tab.label} href={tab.link} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.14em', padding: '14px 16px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
+              <a key={tab.label} href={tab.link} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.12em', padding: '12px 14px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
                 <span style={{ marginRight: 5 }}>{tab.icon}</span>{tab.label}
               </a>
             ))}
           </div>
           
-          {/* Form and Results containers */}
-          <div style={{ background: '#1C1B18', padding: '20px', border: '1px solid rgba(200,169,110,0.12)' }}>
+          {/* Constrained Search Frame */}
+          <div style={{ padding: '15px' }}>
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
           </div>
         </div>
       </section>
 
-      {/* DESTINATIONS — 3×3 desktop, 2×3 mobile */}
-      <section className="section-pad page-pad" style={{ background: '#080807' }}>
+      {/* DESTINATIONS */}
+      <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 12 }}>194 DESTINATIONS WORLDWIDE</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1 }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 8 }}>194 DESTINATIONS WORLDWIDE</div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3.2rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1 }}>
                 Iconic <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Destinations</em>
               </h2>
             </div>
-            <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 4, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
+            <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
           <div className="dest-grid-home">
-            {destinations.map((dest, i) => (
+            {destinations.map((dest) => (
               <Link key={dest.slug} href={regionHubs[dest.region] || `/destinations/${dest.slug}`}
                 style={{ textDecoration: 'none', display: 'block', position: 'relative', aspectRatio: '4/3', overflow: 'hidden', background: dest.gradient }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.92) 0%,rgba(8,8,7,0.2) 65%,transparent 100%)' }} />
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'clamp(12px,2vw,20px)' }}>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: 4 }}>{dest.region}</div>
-                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.1rem,2.5vw,1.6rem)', fontWeight: 600, color: '#F5EFE4', lineHeight: 1.1 }}>{dest.name}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(245,239,228,0.70)', marginTop: 4 }}>{dest.country}</div>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '12px' }}>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: '#C8A96E', marginBottom: 2 }}>{dest.region}</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(0.95rem,2vw,1.3rem)', fontWeight: 600, color: '#F5EFE4', lineHeight: 1.1 }}>{dest.name}</div>
+                  <div style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.70)', marginTop: 2 }}>{dest.country}</div>
                 </div>
               </Link>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: 36 }}>
-            <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', color: '#C8A96E', background: 'none', border: '1px solid rgba(200,169,110,0.4)', padding: '14px 40px', textDecoration: 'none', display: 'inline-block' }}>
-              VIEW ALL 194 DESTINATIONS →
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* PACKAGES — 4×2 desktop, 2×2 mobile — 8 packages fixed */}
-      <section className="section-pad page-pad" style={{ background: '#0d0c0a' }}>
+      {/* PACKAGES */}
+      <section className="section-pad page-pad" style={{ background: '#0d0c0a', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 12 }}>HANDPICKED FOR YOU</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 300, color: '#F5EFE4' }}>
+          <div style={{ textAlign: 'center', marginBottom: 30 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 8 }}>HANDPICKED FOR YOU</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3.2rem)', fontWeight: 300, color: '#F5EFE4' }}>
               Featured <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Packages</em>
             </h2>
           </div>
           <div className="pkg-grid-home">
             {packages.map(pkg => (
-              <div key={pkg.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(16px,2vw,22px)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.2em', color: '#C8A96E', border: '1px solid rgba(200,169,110,0.35)', display: 'inline-block', padding: '3px 8px' }}>{pkg.type}</div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.45)' }}>{pkg.region}</div>
+              <div key={pkg.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', padding: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.15em', color: '#C8A96E', border: '1px solid rgba(200,169,110,0.35)', display: 'inline-block', padding: '2px 6px' }}>{pkg.type}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.1em', color: 'rgba(245,239,228,0.45)' }}>{pkg.region}</div>
                 </div>
-                <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1rem,1.8vw,1.3rem)', fontWeight: 600, color: '#F5EFE4', marginBottom: 6, lineHeight: 1.2 }}>{pkg.name}</h3>
-                <p style={{ fontSize: '0.78rem', color: 'rgba(245,239,228,0.70)', marginBottom: 3 }}>{pkg.dest}</p>
-                <p style={{ fontSize: '0.72rem', color: 'rgba(245,239,228,0.45)', marginBottom: 16 }}>{pkg.duration}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 12 }}>
+                <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', fontWeight: 600, color: '#F5EFE4', marginBottom: 4, lineHeight: 1.2 }}>{pkg.name}</h3>
+                <p style={{ fontSize: '0.7rem', color: 'rgba(245,239,228,0.70)', marginBottom: 2 }}>{pkg.dest}</p>
+                <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.45)', marginBottom: 12 }}>{pkg.duration}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 10 }}>
                   <div>
-                    <div style={{ fontSize: '0.55rem', color: 'rgba(245,239,228,0.45)', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>FROM</div>
-                    <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1rem,1.8vw,1.3rem)', fontWeight: 600, color: '#C8A96E' }}>{pkg.price}</div>
+                    <div style={{ fontSize: '0.5rem', color: 'rgba(245,239,228,0.45)', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.05em' }}>FROM</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', fontWeight: 600, color: '#C8A96E' }}>{pkg.price}</div>
                   </div>
-                  <Link href="/request-trip" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.2em', color: '#C8A96E', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2 }}>REQUEST →</Link>
+                  <Link href="/request-trip" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: '#C8A96E', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 1 }}>REQUEST →</Link>
                 </div>
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: 36 }}>
-            <Link href="/packages" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', color: '#C8A96E', background: 'none', border: '1px solid rgba(200,169,110,0.4)', padding: '14px 40px', textDecoration: 'none', display: 'inline-block' }}>
-              VIEW ALL PACKAGES →
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* AI PROMO */}
-      <section className="section-pad page-pad" style={{ background: '#080807', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', width: '50vw', maxWidth: 600, height: '50vw', maxHeight: 600, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.07) 0%,transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(40px)' }} />
-        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 16 }}>POWERED BY AI</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,5rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 24, lineHeight: 1.1 }}>
+      {/* AI PROMO — FIX 5: REDUCE TO 1/2 SIZE */}
+      <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', width: '30vw', height: '30vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.07) 0%,transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(30px)' }} />
+        <div style={{ maxWidth: 450, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>POWERED BY AI</div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.5rem,3.5vw,2.5rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 14, lineHeight: 1.1 }}>
             Your Perfect Itinerary,<br/><em style={{ color: '#C8A96E' }}>Generated in Seconds</em>
           </h2>
-          <p style={{ color: 'rgba(245,239,228,0.75)', lineHeight: 1.8, marginBottom: 48, fontSize: 'clamp(0.9rem,2vw,1rem)' }}>
+          <p style={{ color: 'rgba(245,239,228,0.75)', lineHeight: 1.6, marginBottom: 24, fontSize: '0.8rem' }}>
             Tell us where you dream of going, your budget, and how you like to travel. Our AI builds a fully personalised day-by-day itinerary — flights, hotels, activities, and hidden gems included.
           </p>
-          <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.25em', background: '#C8A96E', color: '#080807', padding: '18px 48px', textDecoration: 'none', display: 'inline-block' }}>
+          <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: '#C8A96E', color: '#080807', padding: '12px 32px', textDecoration: 'none', display: 'inline-block' }}>
             TRY THE AI PLANNER FREE
           </Link>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="section-pad page-pad" style={{ background: '#0d0c0a' }}>
+      {/* TESTIMONIALS — FIX 4: REDUCE TO 2/3 SIZE */}
+      <section className="section-pad page-pad" style={{ background: '#0d0c0a', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 12 }}>TRAVELLER STORIES</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,5vw,4.5rem)', fontWeight: 300, color: '#F5EFE4' }}>
+          <div style={{ textAlign: 'center', marginBottom: 30 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 8 }}>TRAVELLER STORIES</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.6rem,3.5vw,2.6rem)', fontWeight: 300, color: '#F5EFE4' }}>
               Words from the <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Road</em>
             </h2>
           </div>
@@ -372,12 +367,12 @@ export default function HomePage() {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="test-grid" style={{ width: '66.6%' }}>
               {testimonials.map(t => (
-                <div key={t.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: '20px' }}>
-                  <div style={{ color: '#C8A96E', fontSize: '1rem', marginBottom: 16 }}>{'★'.repeat(t.rating)}</div>
-                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.9rem', color: 'rgba(245,239,228,0.92)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 20 }}>"{t.text}"</p>
+                <div key={t.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: '15px' }}>
+                  <div style={{ color: '#C8A96E', fontSize: '0.75rem', marginBottom: 10 }}>{'★'.repeat(t.rating)}</div>
+                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.75rem', color: 'rgba(245,239,228,0.92)', lineHeight: 1.5, fontStyle: 'italic', marginBottom: 12 }}>"{t.text}"</p>
                   <div>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 500, color: '#F5EFE4' }}>{t.name}</div>
-                    <div style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', marginTop: 4 }}>{t.location}</div>
+                    <div style={{ fontSize: '0.65rem', fontWeight: 500, color: '#F5EFE4' }}>{t.name}</div>
+                    <div style={{ fontSize: '0.55rem', color: 'rgba(245,239,228,0.55)', marginTop: 2 }}>{t.location}</div>
                   </div>
                 </div>
               ))}
@@ -386,17 +381,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWSLETTER — reduced size */}
-      <section id="contact" className="section-pad page-pad" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)' }}>
-        <div style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>STAY INSPIRED</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.4rem,3vw,2rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 10 }}>
+      {/* NEWSLETTER — FIX 3: REDUCE TO 1/2 SIZE */}
+      <section id="contact" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '30px 0' }}>
+        <div style={{ maxWidth: 240, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.2em', color: '#C8A96E', marginBottom: 6 }}>STAY INSPIRED</div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', fontWeight: 300, color: '#F5EFE4', marginBottom: 6 }}>
             Travel <em style={{ color: '#C8A96E' }}>Intelligence</em> — Delivered
           </h2>
-          <p style={{ color: 'rgba(245,239,228,0.60)', marginBottom: 24, fontSize: '0.82rem', lineHeight: 1.6 }}>Exclusive deals, destination guides, and curated travel insights. No spam — only wanderlust.</p>
+          <p style={{ color: 'rgba(245,239,228,0.60)', marginBottom: 16, fontSize: '0.65rem', lineHeight: 1.4 }}>Exclusive deals, destination guides, and curated travel insights.</p>
           <div className="newsletter-row" style={{ display: 'flex' }}>
-            <input type="email" placeholder="Your email address" style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: '#F5EFE4', padding: '13px 20px', fontSize: '0.85rem', outline: 'none', minWidth: 0 }} />
-            <button style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 22px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
+            <input type="email" placeholder="Your email address" style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: '#F5EFE4', padding: '8px 12px', fontSize: '0.65rem', outline: 'none', minWidth: 0 }} />
+            <button style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 12px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.1em', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
           </div>
         </div>
       </section>
