@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Script from 'next/script' // 🚀 Import Next.js optimized Script tag
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -76,30 +77,7 @@ export default function MapExplorer() {
   const [selected, setSelected] = useState<typeof destinations[0] | null>(null)
   const [activeRegion, setActiveRegion] = useState('All')
   const [search, setSearch] = useState('')
-
-  // Bulletproof script loader to fix map blank/refuse to load issue
-  useEffect(() => {
-    const container = document.getElementById('tp-map-widget');
-    if (!container) return;
-
-    // Remove any previous script instances to avoid duplicates
-    const existingScript = document.getElementById('injected-map-script');
-    if (existingScript) existingScript.remove();
-
-    const script = document.createElement('script');
-    script.id = 'injected-map-script';
-    script.src = "https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=100%25&height=500&zoom=2&promo_id=4054&campaign_id=100";
-    script.async = true;
-    script.charset = "utf-8";
-
-    container.appendChild(script);
-
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
+  const [mapIsLoading, setMapIsLoading] = useState(true) // 🚀 Track loading state
 
   const filtered = destinations.filter(d => {
     const matchRegion = activeRegion === 'All' || d.region === activeRegion
@@ -109,6 +87,14 @@ export default function MapExplorer() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+      
+      {/* 🚀 Next.js handles script insertion directly now, avoiding race conditions */}
+      <Script
+        id="injected-map-script"
+        src="https://tpwidg.com/content?currency=usd&trs=508095&shmarker=710879&lat=51.51&lng=0.06&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=LON&value_min=0&value_max=1000000&round_trip=true&only_direct=false&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=false&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=100%25&height=500&zoom=2&promo_id=4054&campaign_id=100"
+        strategy="afterInteractive"
+        onLoad={() => setMapIsLoading(false)} // 🚀 Turn off skeleton loader when JS delivers
+      />
 
       {/* Header */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(32px,5vw,60px) clamp(20px,5vw,60px) 0' }}>
@@ -150,9 +136,29 @@ export default function MapExplorer() {
             <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.72rem', color: muted }}>— Click any destination to search flights from London</span>
           </div>
           
-          {/* Widget container */}
-          <div id="tp-map-widget" style={{ width: '100%', minHeight: 500, background: '#0a0c10' }}>
-            {/* Script loads here via useEffect */}
+          {/* Widget container: Set to a variable height so it's small on mobile and taller on desktop */}
+          <div 
+            id="tp-map-widget" 
+            style={{ 
+              width: '100%', 
+              background: '#0a0c10',
+              position: 'relative'
+            }}
+            className="map-container-responsive"
+          >
+            {/* 🚀 Smooth Skeleton Loading State to prevent UI shifts */}
+            {mapIsLoading && (
+              <div style={{ 
+                position: 'absolute', 
+                top: 0, left: 0, width: '100%', height: '100%', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: '#0a0c10', color: muted, fontFamily: "'DM Sans', sans-serif", fontSize: '0.9rem'
+              }}>
+                <div className="skeleton-pulse" style={{ padding: '20px', border: '1px solid rgba(200,169,110,0.15)', borderRadius: '4px' }}>
+                  Loading Live Price Map...
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -254,7 +260,29 @@ export default function MapExplorer() {
       </div>
 
       <div style={{ height: 60 }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      
+      {/* 🚀 CSS added for Skeleton loader and perfect map sizing */}
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .skeleton-pulse {
+          animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0% { opacity: 0.6; }
+          50% { opacity: 0.3; }
+          100% { opacity: 0.6; }
+        }
+
+        .map-container-responsive {
+          height: 350px;
+        }
+        @media (min-width: 768px) {
+          .map-container-responsive {
+            height: 500px;
+          }
+        }
+      `}</style>
     </div>
   )
 }
