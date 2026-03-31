@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Script from 'next/script' // Added for the transfer widgets
 
 const destinations = [
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
@@ -276,6 +277,70 @@ export default function HomePage() {
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
           </div>
+        </div>
+      </section>
+
+      {/* AIRPORT TRANSFERS — Added Here to perfectly bridge flights and destinations */}
+      <section style={{ background: '#080807', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(30px,5vw,50px) 0' }}>
+          
+          {/* Global CSS Overrides for Widget Contrast */}
+          <style jsx global>{`
+            .tpwl-widget input,
+            .tpwl-widget select,
+            .tpwl-widget .m-input,
+            .tpwl-widget .m-select,
+            .kiwitaxi-widget input,
+            .kiwitaxi-widget select {
+              color: #080807 !important;
+              background-color: #FFFFFF !important;
+            }
+            
+            .tpwl-widget .m-dropdown,
+            .tpwl-widget .m-autocomplete__list,
+            [class*="dropdown"],
+            [class*="autocomplete"] {
+              color: #080807 !important;
+            }
+
+            .tpwl-widget button[type="submit"],
+            .tpwl-widget .m-button--primary,
+            .kiwitaxi-widget button {
+              background-color: #C8A96E !important;
+              color: #080807 !important;
+            }
+          `}</style>
+
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 20 }}>
+            AIRPORT TRANSFERS — SEARCH & BOOK YOUR RIDE
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
+            
+            {/* Wrapper for Widget 1 */}
+            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 200 }}>
+              <Script 
+                id="transfer-widget-1"
+                src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&language=en&theme=9&powered_by=true&campaign_id=1&promo_id=1486" 
+                strategy="afterInteractive"
+                charSet="utf-8"
+              />
+            </div>
+
+            {/* Wrapper for Widget 2 */}
+            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 200 }}>
+              <Script 
+                id="transfer-widget-2"
+                src="https://tpwidg.com/content?trs=508095&powered_by=true&shmarker=710879&language=en&display_currency=USD&transfer_type=any&hide_form_extras=true&hide_external_links=true&disable_currency_selector=true&campaign_id=1&promo_id=691" 
+                strategy="afterInteractive"
+                charSet="utf-8"
+              />
+            </div>
+          </div>
+
+          <p style={{ color: 'rgba(245,239,228,0.35)', fontSize: '0.75rem', marginTop: 10, fontFamily: "'DM Sans',sans-serif" }}>
+            Powered by Kiwitaxi · Available in 120+ countries · Instant confirmation · Direct booking on huuboi.com
+          </p>
         </div>
       </section>
 
