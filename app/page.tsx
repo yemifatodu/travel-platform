@@ -47,7 +47,7 @@ const regionHubs: Record<string, string> = {
 
 const testimonials = [
   { name: 'Sarah M.', location: 'London, UK', text: 'The Patagonia expedition was flawlessly organised. Every detail was handled — from the remote trekking lodges to the private glacier tours.', rating: 5 },
-  { name: 'Ahmed K.', location: 'Dubai, UAE', text: 'A truly luxurious experience. The team understood exactly what I needed — discretion, quality, and unforgettable moments.', rating: 5 },
+  { Ahmed K.', location: 'Dubai, UAE', text: 'A truly luxurious experience. The team understood exactly what I needed — discretion, quality, and unforgettable moments.', rating: 5 },
   { name: 'Yuki T.', location: 'Tokyo, Japan', text: "Booked the Serengeti package and I'm still in awe. The great migration was beyond anything I imagined.", rating: 5 },
 ]
 
@@ -129,15 +129,27 @@ export default function HomePage() {
       /* --- REDUCE HEIGHT AND BRIGHTEN TICKET RESULTS --- */
       .tpwl-widget .wl-ticket, 
       .tpwl-widget .wl-card {
-        background: #FDFBF7 !important;
-        border: 1px solid rgba(200, 169, 110, 0.15) !important;
-        max-height: 180px !important; /* Forces a half-height constraint */
+        background: #FFFFFF !important; /* Pure white background for better contrast */
+        border: 1px solid rgba(200, 169, 110, 0.25) !important;
+        max-height: 160px !important; /* Shrinks the height significantly */
         overflow: hidden !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
       }
       
+      /* Force rich dark text for extreme readability against the white background */
       .tpwl-widget .wl-ticket *, 
-      .tpwl-widget .wl-card * {
-        color: #1C1B18 !important; /* Dark text on light ticket backgrounds */
+      .tpwl-widget .wl-card *,
+      .tpwl-widget .wl-ticket__price,
+      .tpwl-widget .wl-ticket__flight-title {
+        color: #080807 !important; 
+      }
+
+      /* Handle secondary/subtext gray descriptions inside the white ticket */
+      .tpwl-widget .wl-ticket__airline-name,
+      .tpwl-widget .wl-ticket__baggage-rule,
+      .tpwl-widget [class*="text--gray"],
+      .tpwl-widget [class*="text--muted"] {
+        color: #555555 !important;
       }
       
       /* Make sure location dropdown choices are readable */
@@ -182,15 +194,15 @@ export default function HomePage() {
         }
       `}</style>
 
-      {/* HERO — Shifted to sit at the top, roughly 1/3 inch from the header boundary */}
+      {/* HERO — Top boundary fixed to prevent collision with Header */}
       <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(200,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.04) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,0.4) 50%,transparent 100%)' }} />
         
-        {/* Adjusted padding top (approx. 32px or 1/3 inch) to pull the layout high up */}
-        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '32px', paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
+        {/* Adjusted padding top to 120px to perfectly clear global site headers */}
+        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '120px', paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
             LUXURY GLOBAL TRAVEL
