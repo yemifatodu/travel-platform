@@ -54,10 +54,12 @@ export default function HomePage() {
   const [activeTab] = useState(0)
 
   useEffect(() => {
-    // 1. Safe Execution of Travel Payouts Script inside React on Mount
+    // 1. Safe Execution of Travel Payouts Script
     const existingScript = document.querySelector('script[src*="wl_id=15518"]');
+    let script: HTMLScriptElement;
+
     if (!existingScript) {
-      const script = document.createElement("script");
+      script = document.createElement("script");
       script.async = true;
       script.type = "module";
       script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
@@ -67,34 +69,30 @@ export default function HomePage() {
     // 2. Inject CSS to force clear visibility and fix bounding box issues
     const style = document.createElement('style');
     style.innerHTML = `
-      /* --- HIDE DEFAULT HOTEL TAB & HOTEL CHECKBOX --- */
       .tpwl-widget .wl-tabs__item--hotels, 
       .tpwl-widget [data-tab="hotels"],
       .tpwl-widget .mewtwo-hotels-checkbox { 
         display: none !important; 
       }
 
-      /* --- FORCE COMPACT SEARCH BOX HEIGHT & OFF-WHITE BACKGROUND --- */
       #tpwl-search, #tpwl-main-form {
         max-width: 100% !important;
         margin: 0 auto !important;
-        background: #FDFBF7 !important; /* Forces your requested off-white color */
-        padding: 10px 15px !important; /* Reduced padding to shrink height */
+        background: #FDFBF7 !important; 
+        padding: 10px 15px !important; 
         border-radius: 8px !important;
-        min-height: 50px !important; /* Constrains the massive block */
+        min-height: 50px !important; 
       }
 
-      /* --- REDUCE HEIGHT AND BRIGHTEN TICKET RESULTS --- */
       .tpwl-widget .wl-ticket, 
       .tpwl-widget .wl-card {
         background: #FFFFFF !important; 
         border: 1px solid rgba(200, 169, 110, 0.25) !important;
-        max-height: 120px !important; /* Shrunk the height down aggressively */
+        max-height: 120px !important; 
         overflow: hidden !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
       }
 
-      /* Turn actionable buttons into your classic Gold aesthetic */
       .tpwl-widget button[type="submit"],
       .tpwl-widget .wl-button--primary {
         background: #C8A96E !important;
@@ -103,14 +101,12 @@ export default function HomePage() {
         letter-spacing: 0.1em !important;
       }
       
-      /* Force dark text for readability on the bright form box */
       #tpwl-search label, 
       #tpwl-search span, 
       #tpwl-search .mewtwo-placeholder-label {
         color: #1C1B18 !important;
       }
       
-      /* Force rich dark text for extreme readability against the white background */
       .tpwl-widget .wl-ticket *, 
       .tpwl-widget .wl-card *,
       .tpwl-widget .wl-ticket__price,
@@ -119,11 +115,15 @@ export default function HomePage() {
       }
     `;
     document.head.appendChild(style);
+
+    // Cleanup to prevent leaks
+    return () => {
+      if (style.parentNode) style.parentNode.removeChild(style);
+      // We generally leave the TP script alone once mounted to prevent reload flickers
+    };
   }, []);
 
-  const tabs = [
-    { label: 'Flights', icon: '✈', link: '/' }
-  ]
+  const tabs = [{ label: 'Flights', icon: '✈', link: '/' }]
 
   return (
     <>
@@ -149,7 +149,6 @@ export default function HomePage() {
           .test-grid { grid-template-columns: 1fr; }
           #tpwl-search, #tpwl-main-form { max-width: 100% !important; } 
           
-          /* FIX 3: Drastically reduced massive empty space on mobile hero section */
           .mobile-hero-container {
              min-height: auto !important;
              padding-bottom: 20px !important;
@@ -162,6 +161,15 @@ export default function HomePage() {
           .hero-buttons a {
              margin-left: 0 !important;
              text-align: center;
+          }
+          
+          .responsive-flex-cards {
+            flex-direction: column !important;
+          }
+          
+          .test-grid-container {
+            width: 100% !important;
+            padding: 0 16px;
           }
         }
       `}</style>
@@ -193,7 +201,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* STATS BAR: Updated to your exact requested lower numbers */}
+        {/* STATS BAR */}
         <div className="stats-bar" style={{ display: 'flex', borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)', marginTop: 'auto' }}>
           {[
             ['194+','Countries'],
@@ -261,8 +269,8 @@ export default function HomePage() {
             <div id="tpwl-tickets"></div>
           </div>
 
-          {/* NEW: LIGHTWEIGHT CARDS PROMOTING HOTELS & TRANSFERS (Drives traffic to Option 2 pages) */}
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: '20px' }}>
+          {/* LIGHTWEIGHT PROMO CARDS */}
+          <div className="responsive-flex-cards" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: '20px' }}>
             
             {/* Hotels Card */}
             <Link href="/hotels" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -287,8 +295,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AIRPORT TRANSFERS REMOVED FROM HERE TO SPEED UP LOAD */}
-
       {/* DESTINATIONS */}
       <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -302,7 +308,7 @@ export default function HomePage() {
             <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
 
-          {/* FIX 3 ALTERNATIVE: Stunning landmark visual placeholder box */}
+          {/* Placeholder box */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '30px', textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '150px' }}>
              <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏛️</div>
              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C8A96E' }}>[ PLACEHOLDER: BURJ KHALIFA / LONDON BRIDGE IMAGE ]</div>
@@ -386,17 +392,19 @@ export default function HomePage() {
           </div>
           
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div className="test-grid" style={{ width: '66.6%' }}>
-              {testimonials.map(t => (
-                <div key={t.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: '15px' }}>
-                  <div style={{ color: '#C8A96E', fontSize: '0.75rem', marginBottom: 10 }}>{'★'.repeat(t.rating)}</div>
-                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.75rem', color: 'rgba(245,239,228,0.92)', lineHeight: 1.5, fontStyle: 'italic', marginBottom: 12 }}>"{t.text}"</p>
-                  <div>
-                    <div style={{ fontSize: '0.65rem', fontWeight: 500, color: '#F5EFE4' }}>{t.name}</div>
-                    <div style={{ fontSize: '0.55rem', color: 'rgba(245,239,228,0.55)', marginTop: 2 }}>{t.location}</div>
+            <div className="test-grid-container" style={{ width: '66.6%' }}>
+              <div className="test-grid">
+                {testimonials.map(t => (
+                  <div key={t.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: '15px' }}>
+                    <div style={{ color: '#C8A96E', fontSize: '0.75rem', marginBottom: 10 }}>{'★'.repeat(t.rating)}</div>
+                    <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.75rem', color: 'rgba(245,239,228,0.92)', lineHeight: 1.5, fontStyle: 'italic', marginBottom: 12 }}>"{t.text}"</p>
+                    <div>
+                      <div style={{ fontSize: '0.65rem', fontWeight: 500, color: '#F5EFE4' }}>{t.name}</div>
+                      <div style={{ fontSize: '0.55rem', color: 'rgba(245,239,228,0.55)', marginTop: 2 }}>{t.location}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
