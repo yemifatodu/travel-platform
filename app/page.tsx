@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script' 
 
 const destinations = [
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
@@ -52,7 +51,7 @@ const testimonials = [
 ]
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab] = useState(0)
 
   useEffect(() => {
     // 1. Safe Execution of Travel Payouts Script inside React on Mount
@@ -75,30 +74,24 @@ export default function HomePage() {
         display: none !important; 
       }
 
-      /* --- FIXING DISTORTED TEXT COLORS & THEME --- */
-      .tpwl-widget, .TPWL-widget, #tpwl-main-form {
-        background: #1C1B18 !important;
-        border: none !important;
-        color: #F5EFE4 !important;
+      /* --- FORCE COMPACT SEARCH BOX HEIGHT & OFF-WHITE BACKGROUND --- */
+      #tpwl-search, #tpwl-main-form {
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        background: #FDFBF7 !important; /* Forces your requested off-white color */
+        padding: 10px 15px !important; /* Reduced padding to shrink height */
+        border-radius: 8px !important;
+        min-height: 50px !important; /* Constrains the massive block */
       }
 
-      /* Make all labels clearly readable */
-      .tpwl-widget label,
-      .tpwl-widget span,
-      .tpwl-widget div,
-      .tpwl-widget .mewtwo-placeholder-label {
-        color: rgba(245, 239, 228, 0.85) !important;
-      }
-
-      /* Ensure clear contrast when typing inside search inputs */
-      .tpwl-widget input {
-        background: #0d0c0a !important;
-        color: #F5EFE4 !important;
+      /* --- REDUCE HEIGHT AND BRIGHTEN TICKET RESULTS --- */
+      .tpwl-widget .wl-ticket, 
+      .tpwl-widget .wl-card {
+        background: #FFFFFF !important; 
         border: 1px solid rgba(200, 169, 110, 0.25) !important;
-      }
-      
-      .tpwl-widget input::placeholder {
-        color: rgba(245, 239, 228, 0.45) !important;
+        max-height: 120px !important; /* Shrunk the height down aggressively */
+        overflow: hidden !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
       }
 
       /* Turn actionable buttons into your classic Gold aesthetic */
@@ -109,31 +102,12 @@ export default function HomePage() {
         font-family: 'Bebas Neue', sans-serif !important;
         letter-spacing: 0.1em !important;
       }
-
-      /* --- RESTORED TO FULL WIDTH & BRIGHT BACKGROUND --- */
-      #tpwl-search, #tpwl-main-form {
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        background: #FDFBF7 !important; /* Off-white visible background */
-        padding: 15px !important;
-        border-radius: 8px !important;
-      }
       
       /* Force dark text for readability on the bright form box */
       #tpwl-search label, 
       #tpwl-search span, 
       #tpwl-search .mewtwo-placeholder-label {
         color: #1C1B18 !important;
-      }
-
-      /* --- REDUCE HEIGHT AND BRIGHTEN TICKET RESULTS --- */
-      .tpwl-widget .wl-ticket, 
-      .tpwl-widget .wl-card {
-        background: #FFFFFF !important; /* Pure white background for better contrast */
-        border: 1px solid rgba(200, 169, 110, 0.25) !important;
-        max-height: 160px !important; /* Shrinks the height significantly */
-        overflow: hidden !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
       }
       
       /* Force rich dark text for extreme readability against the white background */
@@ -143,28 +117,12 @@ export default function HomePage() {
       .tpwl-widget .wl-ticket__flight-title {
         color: #080807 !important; 
       }
-
-      /* Handle secondary/subtext gray descriptions inside the white ticket */
-      .tpwl-widget .wl-ticket__airline-name,
-      .tpwl-widget .wl-ticket__baggage-rule,
-      .tpwl-widget [class*="text--gray"],
-      .tpwl-widget [class*="text--muted"] {
-        color: #555555 !important;
-      }
-      
-      /* Make sure location dropdown choices are readable */
-      .tpwl-widget .mewtwo-autocomplete-list,
-      .tpwl-widget .wl-autocomplete__dropdown {
-        background: #1C1B18 !important;
-        color: #F5EFE4 !important;
-        border: 1px solid rgba(200, 169, 110, 0.2) !important;
-      }
     `;
     document.head.appendChild(style);
   }, []);
 
   const tabs = [
-    { label: 'Flights', icon: '✈', link: '/search' }
+    { label: 'Flights', icon: '✈', link: '/' }
   ]
 
   return (
@@ -190,17 +148,32 @@ export default function HomePage() {
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .test-grid { grid-template-columns: 1fr; }
           #tpwl-search, #tpwl-main-form { max-width: 100% !important; } 
+          
+          /* FIX 3: Drastically reduced massive empty space on mobile hero section */
+          .mobile-hero-container {
+             min-height: auto !important;
+             padding-bottom: 20px !important;
+          }
+          .hero-buttons {
+             display: flex;
+             flex-direction: column;
+             gap: 10px;
+          }
+          .hero-buttons a {
+             margin-left: 0 !important;
+             text-align: center;
+          }
         }
       `}</style>
 
-      {/* HERO */}
-      <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', overflow: 'hidden' }}>
+      {/* HERO SECTION */}
+      <section className="mobile-hero-container" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(200,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.04) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,0.4) 50%,transparent 100%)' }} />
         
-        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '120px', paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
+        <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '120px', paddingBottom: 'clamp(30px,5vw,40px)', maxWidth: 600 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
             LUXURY GLOBAL TRAVEL
@@ -220,11 +193,12 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* STATS BAR: Updated to your exact requested lower numbers */}
         <div className="stats-bar" style={{ display: 'flex', borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)', marginTop: 'auto' }}>
           {[
             ['194+','Countries'],
-            ['50K+','Travellers'],
-            ['2,400+','Packages'],
+            ['27K+','Travellers'],
+            ['400+','Packages'],
             ['24/7','Support']
           ].map(([num, label]) => (
             <div key={num} style={{ flex: 1, padding: '12px 0', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
@@ -271,7 +245,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SEARCH FRAME */}
+      {/* SEARCH FRAME & ALTERNATIVE REDIRECTS SECTION */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 0' }}>
           <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
@@ -286,44 +260,34 @@ export default function HomePage() {
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
           </div>
+
+          {/* NEW: LIGHTWEIGHT CARDS PROMOTING HOTELS & TRANSFERS (Drives traffic to Option 2 pages) */}
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: '20px' }}>
+            
+            {/* Hotels Card */}
+            <Link href="/hotels" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🏨</div>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}>FIND HOTEL DEALS</div>
+                <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', margin: 0 }}>Book premium stays globally at highly competitive rates.</p>
+              </div>
+              <span style={{ color: '#C8A96E', fontSize: '1rem' }}>→</span>
+            </Link>
+
+            {/* Transfers Card */}
+            <Link href="/transfers" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🚖</div>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}>AIRPORT TRANSFERS</div>
+                <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', margin: 0 }}>Skip the long airport lines. Search & book verified rides.</p>
+              </div>
+              <span style={{ color: '#C8A96E', fontSize: '1rem' }}>→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* AIRPORT TRANSFERS */}
-      <section style={{ background: '#080807', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(30px,5vw,50px) 0' }}>
-          
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 20 }}>
-            AIRPORT TRANSFERS — SEARCH & BOOK YOUR RIDE
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
-            {/* Wrapper for Widget 1 */}
-            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 200 }}>
-              <Script 
-                id="transfer-widget-1"
-                src="https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&language=en&theme=9&powered_by=true&campaign_id=1&promo_id=1486" 
-                strategy="afterInteractive"
-                charSet="utf-8"
-              />
-            </div>
-
-            {/* Wrapper for Widget 2 */}
-            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 200 }}>
-              <Script 
-                id="transfer-widget-2"
-                src="https://tpwidg.com/content?trs=508095&powered_by=true&shmarker=710879&language=en&display_currency=USD&transfer_type=any&hide_form_extras=true&hide_external_links=true&disable_currency_selector=true&campaign_id=1&promo_id=691" 
-                strategy="afterInteractive"
-                charSet="utf-8"
-              />
-            </div>
-          </div>
-
-          <p style={{ color: 'rgba(245,239,228,0.35)', fontSize: '0.75rem', marginTop: 10, fontFamily: "'DM Sans',sans-serif" }}>
-            Powered by Kiwitaxi · Available in 120+ countries · Instant confirmation · Direct booking on huuboi.com
-          </p>
-        </div>
-      </section>
+      {/* AIRPORT TRANSFERS REMOVED FROM HERE TO SPEED UP LOAD */}
 
       {/* DESTINATIONS */}
       <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0' }}>
@@ -337,6 +301,14 @@ export default function HomePage() {
             </div>
             <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
+
+          {/* FIX 3 ALTERNATIVE: Stunning landmark visual placeholder box */}
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '30px', textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '150px' }}>
+             <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏛️</div>
+             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C8A96E' }}>[ PLACEHOLDER: BURJ KHALIFA / LONDON BRIDGE IMAGE ]</div>
+             <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', marginTop: '5px' }}>Replace this box with a high-resolution banner of world wonders.</p>
+          </div>
+
           <div className="dest-grid-home">
             {destinations.map((dest) => (
               <Link key={dest.slug} href={regionHubs[dest.region] || `/destinations/${dest.slug}`}
