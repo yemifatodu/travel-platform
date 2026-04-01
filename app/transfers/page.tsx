@@ -61,6 +61,7 @@ export default function TransfersPage() {
         }
       `}</style>
 
+      {/* Hero Section */}
       <div style={{ background: 'linear-gradient(160deg,#080810,#0a0c08,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,100px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -84,15 +85,16 @@ export default function TransfersPage() {
         </div>
       </div>
 
+      {/* Main Content Section */}
       <div id="transfer-search-section" style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(40px,6vw,70px) clamp(20px,5vw,60px)' }}>
 
-        {/* Replaced Search Section with Two Scripts */}
+        {/* Airport Transfer Widgets Container */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>
             SEARCH & BOOK YOUR TRANSFER
           </div>
           
-          {/* Container for the scripts. Flexes into a row on desktop and stacks on mobile. */}
+          {/* Flexes into a row on desktop and stacks on mobile. */}
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
             
             {/* Wrapper for Widget 1 */}
@@ -122,6 +124,7 @@ export default function TransfersPage() {
           </p>
         </div>
 
+        {/* Popular Routes Section */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>POPULAR ROUTES</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 2 }}>
@@ -142,6 +145,7 @@ export default function TransfersPage() {
           </div>
         </div>
 
+        {/* Bottom Call To Action */}
         <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4 }}>WANT US TO ARRANGE EVERYTHING?</div>
@@ -151,6 +155,7 @@ export default function TransfersPage() {
             PLAN A TRIP
           </Link>
         </div>
+
       </div>
     </div>
   )
