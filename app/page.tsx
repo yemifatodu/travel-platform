@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 
 const destinations = [
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
@@ -36,8 +35,13 @@ const packages = [
 ]
 
 const regionHubs: Record<string, string> = {
-  'Africa': '/africa-safari', 'Middle East': '/middle-east', 'Asia': '/asia',
-  'Europe': '/europe', 'Americas': '/americas', 'Arctic': '/map-explorer', 'Pacific': '/pacific',
+  'Africa': '/africa-safari',
+  'Middle East': '/middle-east',
+  'Asia': '/asia',
+  'Europe': '/europe',
+  'Americas': '/americas',
+  'Arctic': '/map-explorer',
+  'Pacific': '/pacific',
 }
 
 const testimonials = [
@@ -50,47 +54,40 @@ export default function HomePage() {
   const [activeTab] = useState(0)
 
   useEffect(() => {
-    // Load White Label flight widget
-    const existingScript = document.querySelector('script[src*="wl_id=15518"]')
+    // 1. Safe Execution of Travel Payouts Script strictly for flight operations
+    const existingScript = document.querySelector('script[src*="wl_id=15518"]');
+
     if (!existingScript) {
-      const script = document.createElement('script')
-      script.async = true
-      script.type = 'module'
-      script.src = 'https://tpwidg.com/wl_web/main.js?wl_id=15518'
-      document.head.appendChild(script)
+      const script = document.createElement("script");
+      script.async = true;
+      script.type = "module";
+      script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
+      document.head.appendChild(script);
     }
 
-    // CSS — flights only, hotel tab hidden, results contained
-    const style = document.createElement('style')
-    style.id = 'tp-flight-only-styles'
+    // 2. Inject CSS to maintain branding controls
+    const style = document.createElement('style');
     style.innerHTML = `
-      /* Hide hotels tab from White Label */
-      .tpwl-widget .wl-tabs__item--hotels,
+      .tpwl-widget .wl-tabs__item--hotels, 
       .tpwl-widget [data-tab="hotels"],
-      .tpwl-widget .mewtwo-hotels-checkbox { display: none !important; }
+      .tpwl-widget .mewtwo-hotels-checkbox { 
+        display: none !important; 
+      }
 
-      /* Flight search box */
       #tpwl-search, #tpwl-main-form {
         max-width: 100% !important;
         margin: 0 auto !important;
-        background: #FDFBF7 !important;
-        padding: 10px 15px !important;
+        background: #FDFBF7 !important; 
+        padding: 10px 15px !important; 
         border-radius: 8px !important;
-        min-height: 50px !important;
+        min-height: 50px !important; 
       }
 
-      /* Results — hard ceiling, no bleed */
-      #tpwl-tickets {
-        max-height: 600px !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-      }
-
-      .tpwl-widget .wl-ticket,
+      .tpwl-widget .wl-ticket, 
       .tpwl-widget .wl-card {
-        background: #FFFFFF !important;
-        border: 1px solid rgba(200,169,110,0.25) !important;
-        max-height: 120px !important;
+        background: #FFFFFF !important; 
+        border: 1px solid rgba(200, 169, 110, 0.25) !important;
+        max-height: 120px !important; 
         overflow: hidden !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
       }
@@ -102,65 +99,94 @@ export default function HomePage() {
         font-family: 'Bebas Neue', sans-serif !important;
         letter-spacing: 0.1em !important;
       }
-
-      #tpwl-search label,
-      #tpwl-search span,
-      #tpwl-search .mewtwo-placeholder-label { color: #1C1B18 !important; }
-
-      .tpwl-widget .wl-ticket *,
+      
+      #tpwl-search label, 
+      #tpwl-search span, 
+      #tpwl-search .mewtwo-placeholder-label {
+        color: #1C1B18 !important;
+      }
+      
+      .tpwl-widget .wl-ticket *, 
       .tpwl-widget .wl-card *,
       .tpwl-widget .wl-ticket__price,
-      .tpwl-widget .wl-ticket__flight-title { color: #080807 !important; }
+      .tpwl-widget .wl-ticket__flight-title {
+        color: #080807 !important; 
+      }
+    `;
+    document.head.appendChild(style);
 
-      /* Hotel widget wrapper — fully contained */
-      #hotel-widget-wrap {
-        contain: layout style !important;
-        overflow: hidden !important;
-        position: relative !important;
-      }
-      #hotel-widget-wrap * {
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-      }
-    `
-    document.head.appendChild(style)
-    return () => { const s = document.getElementById('tp-flight-only-styles'); if (s) s.remove() }
-  }, [])
+    return () => {
+      if (style.parentNode) style.parentNode.removeChild(style);
+    };
+  }, []);
 
   const tabs = [{ label: 'Flights', icon: '✈', link: '/' }]
 
   return (
     <>
       <style>{`
-        .dest-grid-home { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .pkg-grid-home { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .dest-grid-home {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+        }
+        .pkg-grid-home {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 8px;
+        }
+        .test-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
         @media (max-width: 768px) {
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .test-grid { grid-template-columns: 1fr; }
-          .mobile-hero-container { min-height: auto !important; padding-bottom: 20px !important; }
-          .hero-buttons { display: flex; flex-direction: column; gap: 10px; }
-          .hero-buttons a { margin-left: 0 !important; text-align: center; }
-          .responsive-flex-cards { flex-direction: column !important; }
-          .test-grid-container { width: 100% !important; padding: 0 16px; }
+          #tpwl-search, #tpwl-main-form { max-width: 100% !important; } 
+          
+          .mobile-hero-container {
+             min-height: auto !important;
+             padding-bottom: 20px !important;
+          }
+          .hero-buttons {
+             display: flex;
+             flex-direction: column;
+             gap: 10px;
+          }
+          .hero-buttons a {
+             margin-left: 0 !important;
+             text-align: center;
+          }
+          
+          .responsive-flex-cards {
+            flex-direction: column !important;
+          }
+          
+          .test-grid-container {
+            width: 100% !important;
+            padding: 0 16px;
+          }
         }
       `}</style>
 
-      {/* ── HERO ── */}
+      {/* HERO SECTION */}
       <section className="mobile-hero-container" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(200,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.04) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,0.4) 50%,transparent 100%)' }} />
+        
         <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '120px', paddingBottom: 'clamp(30px,5vw,40px)', maxWidth: 600 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
             LUXURY GLOBAL TRAVEL
           </div>
+          
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,6.5vw,6rem)', fontWeight: 300, lineHeight: 0.9, color: '#F5EFE4', marginBottom: 20, letterSpacing: '-0.01em' }}>
-            The World<br />
-            <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Awaits</em><br />
+            The World<br/>
+            <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Awaits</em><br/>
             You
           </h1>
           <p style={{ fontSize: 'clamp(0.75rem,1.5vw,0.85rem)', color: 'rgba(245,239,228,0.70)', maxWidth: 350, lineHeight: 1.6, marginBottom: 32, fontWeight: 300 }}>
@@ -171,8 +197,15 @@ export default function HomePage() {
             <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', border: '1px solid rgba(200,169,110,0.5)', color: '#C8A96E', padding: '12px 28px', textDecoration: 'none', display: 'inline-block', marginLeft: '10px' }}>AI TRIP PLANNER</Link>
           </div>
         </div>
+
+        {/* STATS BAR */}
         <div className="stats-bar" style={{ display: 'flex', borderTop: '1px solid rgba(200,169,110,0.1)', background: 'rgba(8,8,7,0.85)', backdropFilter: 'blur(8px)', marginTop: 'auto' }}>
-          {[['194+', 'Countries'], ['27K+', 'Travellers'], ['400+', 'Packages'], ['24/7', 'Support']].map(([num, label]) => (
+          {[
+            ['194+','Countries'],
+            ['27K+','Travellers'],
+            ['400+','Packages'],
+            ['24/7','Support']
+          ].map(([num, label]) => (
             <div key={num} style={{ flex: 1, padding: '12px 0', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
               <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1rem,2vw,1.4rem)', fontWeight: 600, color: '#C8A96E' }}>{num}</div>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.65)', marginTop: 2 }}>{label}</div>
@@ -181,7 +214,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── WHY HUUBOI ── */}
+      {/* WHY HUUBOI */}
       <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(32px,4.8vw,48px) clamp(16px,4vw,48px)' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 'clamp(24px,3.2vw,40px)', alignItems: 'center' }}>
@@ -195,9 +228,10 @@ export default function HomePage() {
                 <em style={{ color: '#C8A96E' }}>Smarter Decisions.</em>
               </h2>
               <p style={{ color: 'rgba(245,239,228,0.65)', fontSize: '0.72rem', lineHeight: 1.7, marginBottom: 20 }}>
-                HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents.
+                HUUBOI brings together flights, hotels, tours, eSIMs and expert travel guides from across six continents — so you stop searching and start discovering.
               </p>
             </div>
+            
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
               {[
                 { icon: '✈', title: 'All In One Place', body: 'Flights, hotels, tours, eSIMs, transfers and experiences — without ever leaving HUUBOI.' },
@@ -216,26 +250,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FLIGHT SEARCH SECTION (flights only) ── */}
+      {/* SEARCH FRAME & ALTERNATIVE REDIRECTS SECTION */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 0' }}>
-          <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid rgba(200,169,110,0.15)' }}>
+          <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
             {tabs.map((tab, i) => (
-              <a key={tab.label} href={tab.link}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.12em', padding: '12px 14px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
+              <a key={tab.label} href={tab.link} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.12em', padding: '12px 14px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
                 <span style={{ marginRight: 5 }}>{tab.icon}</span>{tab.label}
               </a>
             ))}
           </div>
-
-          {/* Flight widget — results contained within box */}
-          <div style={{ padding: '15px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', marginBottom: 20 }}>
-            <div id="tpwl-search" />
-            <div id="tpwl-tickets" style={{ maxHeight: 600, overflowY: 'auto', overflowX: 'hidden' }} />
+          
+          <div style={{ padding: '15px' }}>
+            {/* These targets allow your White Label script to map search fields directly onto the page */}
+            <div id="tpwl-search"></div>
+            <div id="tpwl-tickets"></div>
           </div>
 
-          {/* Quick links below flight search */}
-          <div className="responsive-flex-cards" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
+          {/* LIGHTWEIGHT PROMO CARDS */}
+          <div className="responsive-flex-cards" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: '20px' }}>
+            
+            {/* Hotels Card */}
             <Link href="/hotels" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🏨</div>
@@ -244,6 +279,8 @@ export default function HomePage() {
               </div>
               <span style={{ color: '#C8A96E', fontSize: '1rem' }}>→</span>
             </Link>
+
+            {/* Transfers Card */}
             <Link href="/transfers" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🚖</div>
@@ -256,69 +293,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── HOTEL SEARCH SECTION (hotels only, fully wrapped, no footer bleed) ── */}
-      <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 0' }}>
-
-          {/* Hotels tab header */}
-          <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid rgba(200,169,110,0.15)' }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.12em', padding: '12px 14px', color: '#C8A96E', borderBottom: '2px solid #C8A96E' }}>
-              🏨 Hotels
-            </div>
-          </div>
-
-          {/* 
-            Hotel widget wrapper:
-            - overflow: hidden  → clips anything the widget tries to render outside 
-            - contain: layout style → browser-level isolation, prevents layout escape
-            - maxHeight → hard ceiling so it can never push the footer down
-            - position: relative → establishes a new stacking context
-          */}
-          <div
-            id="hotel-widget-wrap"
-            style={{
-              background: '#111110',
-              border: '1px solid rgba(200,169,110,0.15)',
-              padding: '20px',
-              overflow: 'hidden',
-              position: 'relative',
-              contain: 'layout style',
-              maxHeight: 700,
-              overflowY: 'auto',
-            }}
-          >
-            <div id="tp-hotel-home" style={{ minHeight: 120 }} />
-            <Script
-              id="tp-hotel-homepage"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  (function() {
-                    if (document.getElementById('tp-hotel-loaded-flag')) return;
-                    var flag = document.createElement('span');
-                    flag.id = 'tp-hotel-loaded-flag';
-                    flag.style.display = 'none';
-                    document.body.appendChild(flag);
-                    var s = document.createElement('script');
-                    s.async = true;
-                    s.charset = 'utf-8';
-                    s.src = 'https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&border_radius=5&plain=true&show_logo=true&color_background=%23ffca28&color_button=%2355a539&color_text=%23000000&color_input_text=%23000000&color_button_text=%23ffffff&promo_id=4480&campaign_id=10';
-                    document.getElementById('tp-hotel-home').appendChild(s);
-                  })();
-                `
-              }}
-            />
-          </div>
-
-          <div style={{ marginTop: 12, textAlign: 'right' }}>
-            <Link href="/hotels" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.40)', textDecoration: 'none' }}>
-              VIEW ALL HOTEL OPTIONS →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── DESTINATIONS ── */}
+      {/* DESTINATIONS */}
       <section className="section-pad page-pad" style={{ background: '#080807', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 30 }}>
@@ -330,6 +305,14 @@ export default function HomePage() {
             </div>
             <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
+
+          {/* Placeholder box */}
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '30px', textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '150px' }}>
+             <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏛️</div>
+             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C8A96E' }}>[ PLACEHOLDER: BURJ KHALIFA / LONDON BRIDGE IMAGE ]</div>
+             <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', marginTop: '5px' }}>Replace this box with a high-resolution banner of world wonders.</p>
+          </div>
+
           <div className="dest-grid-home">
             {destinations.map((dest) => (
               <Link key={dest.slug} href={regionHubs[dest.region] || `/destinations/${dest.slug}`}
@@ -346,7 +329,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PACKAGES ── */}
+      {/* PACKAGES */}
       <section className="section-pad page-pad" style={{ background: '#0d0c0a', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 30 }}>
@@ -378,13 +361,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── AI PROMO ── */}
+      {/* AI PROMO */}
       <section className="section-pad page-pad" style={{ background: '#080807', padding: '60px 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', width: '30vw', height: '30vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.07) 0%,transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(30px)' }} />
+        
         <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>POWERED BY AI</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4.5vw,3.5rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 14, lineHeight: 1.1 }}>
-            Your Perfect Itinerary,<br /><em style={{ color: '#C8A96E' }}>Generated in Seconds</em>
+            Your Perfect Itinerary,<br/><em style={{ color: '#C8A96E' }}>Generated in Seconds</em>
           </h2>
           <p style={{ color: 'rgba(245,239,228,0.75)', lineHeight: 1.6, marginBottom: 24, fontSize: '1rem', maxWidth: 700, margin: '0 auto 24px auto' }}>
             Tell us where you dream of going, your budget, and how you like to travel. Our AI builds a fully personalised day-by-day itinerary — flights, hotels, activities, and hidden gems included.
@@ -395,7 +379,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
+      {/* TESTIMONIALS */}
       <section className="section-pad page-pad" style={{ background: '#0d0c0a', padding: '40px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 30 }}>
@@ -404,6 +388,7 @@ export default function HomePage() {
               Words from the <em style={{ fontStyle: 'italic', color: '#C8A96E' }}>Road</em>
             </h2>
           </div>
+          
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="test-grid-container" style={{ width: '66.6%' }}>
               <div className="test-grid">
@@ -423,7 +408,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── NEWSLETTER ── */}
+      {/* NEWSLETTER */}
       <section id="contact" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '60px 0' }}>
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: '0 20px' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>STAY INSPIRED</div>
@@ -431,6 +416,7 @@ export default function HomePage() {
             Travel <em style={{ color: '#C8A96E' }}>Intelligence</em> — Delivered
           </h2>
           <p style={{ color: 'rgba(245,239,228,0.60)', marginBottom: 24, fontSize: '0.9rem', lineHeight: 1.6 }}>Exclusive deals, destination guides, and curated travel insights.</p>
+          
           <div className="newsletter-row" style={{ display: 'flex', maxWidth: 450, margin: '0 auto' }}>
             <input type="email" placeholder="Your email address" style={{ flex: 1, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.25)', borderRight: 'none', color: '#F5EFE4', padding: '14px 16px', fontSize: '0.85rem', outline: 'none', minWidth: 0 }} />
             <button style={{ background: '#C8A96E', color: '#080807', border: 'none', padding: '0 24px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.1em', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
