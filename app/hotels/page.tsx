@@ -1,5 +1,4 @@
 'use client'
-import { useEffect } from 'react'
 import Link from 'next/link'
 
 const gold = '#C8A96E'
@@ -15,7 +14,7 @@ const featured = [
   { name: 'Belmond Copacabana Palace', location: 'Rio de Janeiro, Brazil', type: 'Luxury Hotel', stars: 5, from: '$480/night', highlight: "Rio's legendary beachfront palace overlooking Copacabana", gradient: 'linear-gradient(160deg,#001e14,#003020,#00402a)' },
   { name: 'Katikies Oia', location: 'Santorini, Greece', type: 'Boutique Hotel', stars: 5, from: '$680/night', highlight: 'Carved into the caldera cliff with the most famous sunset view in the world', gradient: 'linear-gradient(160deg,#00101e,#001830,#002040)' },
   { name: 'Singita Sabora Tented Camp', location: 'Serengeti, Tanzania', type: 'Safari Lodge', stars: 5, from: '$1,600/night', highlight: '1920s explorer aesthetic deep in the Grumeti Game Reserve', gradient: 'linear-gradient(160deg,#1a1000,#2a1c00,#3a2800)' },
-  { name: 'Le Bristol Paris', location: 'Paris, France', type: 'Palace Hotel', stars: 5, from: '$1,100/night', highlight: "One of Paris's greatest palace hotels on Rue du Faubourg Saint-Honore", gradient: 'linear-gradient(160deg,#100014,#1c0022,#280030)' },
+  { name: 'Le Bristol Paris', location: 'Paris, France', type: 'Palace Hotel', stars: 5, from: '$1,100/night', highlight: "One of Paris's greatest palace hotels on Rue du Favbourg Saint-Honore", gradient: 'linear-gradient(160deg,#100014,#1c0022,#280030)' },
   { name: 'Longitude 131', location: 'Uluru, Australia', type: 'Luxury Camp', stars: 5, from: '$1,100/night', highlight: 'Tented luxury camp with direct Uluru views and Milky Way stargazing', gradient: 'linear-gradient(160deg,#2a0a00,#401200,#561a00)' },
 ]
 
@@ -44,61 +43,9 @@ const tips = [
 ]
 
 export default function HotelsPage() {
-  useEffect(() => {
-    // Load the Travelpayouts White Label widget focused on Hotels
-    const existing = document.getElementById('tp-hotel-widget')
-    if (!existing) {
-      const script = document.createElement('script')
-      script.id = 'tp-hotel-widget'
-      script.async = true
-      script.type = 'module'
-      script.src = 'https://tpwidg.com/wl_web/main.js?wl_id=15518&default_tab=hotels'
-      document.head.appendChild(script)
-    }
-    return () => {
-      const s = document.getElementById('tp-hotel-widget')
-      if (s) { try { document.head.removeChild(s) } catch {} }
-    }
-  }, [])
-
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       
-      {/* Global CSS Overrides for Widget Contrast */}
-      <style jsx global>{`
-        /* Force widget inputs to have dark, readable text */
-        .tpwl-widget input,
-        .tpwl-widget select,
-        .tpwl-widget .m-input,
-        .tpwl-widget .m-select {
-          color: #080807 !important;
-          background-color: #FFFFFF !important;
-        }
-        
-        /* Dropdowns, calendars, and active search lists must have dark text */
-        .tpwl-widget .m-dropdown,
-        .tpwl-widget .m-autocomplete__list,
-        .tpwl-widget .m-calendar,
-        .tpwl-widget [class*="dropdown"],
-        .tpwl-widget [class*="autocomplete"],
-        .tpwl-widget [class*="calendar"] {
-          color: #080807 !important;
-        }
-        
-        /* Hide the flights tab if you want this pure hotels focus */
-        .tpwl-widget .m-tabs__item[data-tab="flights"],
-        .tpwl-widget [class*="tabs__item"][data-tab="flights"] {
-          display: none !important;
-        }
-
-        /* Golden touch for search buttons */
-        .tpwl-widget button[type="submit"],
-        .tpwl-widget .m-button--primary {
-          background-color: ${gold} !important;
-          color: #080807 !important;
-        }
-      `}</style>
-
       {/* Hero */}
       <div id="hotel-search-section" style={{ background: 'linear-gradient(160deg,#080a10,#0a080c,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -113,15 +60,67 @@ export default function HotelsPage() {
             Search hotels, resorts and boutique stays worldwide. Live prices — book without leaving huuboi.com.
           </p>
 
-          {/* Widget Container */}
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900 }}>
+          {/* Widget Container (Bound with sandboxed iframe) */}
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900, position: 'relative' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
               SEARCH HOTELS — Live bookings on Huuboi.com
             </div>
             
-            {/* Kept your original IDs since standard widgets find them automatically */}
-            <div id="tpwl-search-hotels" />
-            <div id="tpwl-tickets-hotels" />
+            <iframe
+              srcDoc={`
+                <html>
+                  <head>
+                    <style>
+                      body { 
+                        margin: 0; 
+                        background: #111110; 
+                        overflow: visible !important;
+                      }
+                      /* Force widget inputs and dropdowns to have dark, readable text */
+                      .tpwl-widget input,
+                      .tpwl-widget select,
+                      .tpwl-widget .m-input,
+                      .tpwl-widget .m-select {
+                        color: #080807 !important;
+                        background-color: #FFFFFF !important;
+                      }
+                      
+                      .tpwl-widget .m-dropdown,
+                      .tpwl-widget .m-autocomplete__list,
+                      .tpwl-widget .m-calendar,
+                      .tpwl-widget [class*="dropdown"],
+                      .tpwl-widget [class*="autocomplete"],
+                      .tpwl-widget [class*="calendar"] {
+                        color: #080807 !important;
+                      }
+                      
+                      .tpwl-widget .m-tabs__item[data-tab="flights"],
+                      .tpwl-widget [class*="tabs__item"][data-tab="flights"] {
+                        display: none !important;
+                      }
+
+                      .tpwl-widget button[type="submit"],
+                      .tpwl-widget .m-button--primary {
+                        background-color: ${gold} !important;
+                        color: #080807 !important;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <div id="tpwl-search-hotels"></div>
+                    <div id="tpwl-tickets-hotels"></div>
+                    <script async type="module" src="https://tpwidg.com/wl_web/main.js?wl_id=15518&default_tab=hotels"></script>
+                  </body>
+                </html>
+              `}
+              style={{
+                width: '100%',
+                height: '450px', 
+                border: 'none',
+                overflow: 'visible'
+              }}
+              title="Travelpayouts Hotels Widget"
+            />
           </div>
         </div>
       </div>
