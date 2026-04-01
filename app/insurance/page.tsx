@@ -1,11 +1,10 @@
 'use client'
-import { useEffect } from 'react'
 import Link from 'next/link'
+import Script from 'next/script'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
-const dim = 'rgba(245,239,228,0.35)'
 
 const coverageTypes = [
   { icon: '✈', title: 'Trip Cancellation', desc: 'Reimbursement if you cancel due to illness, emergencies or unexpected events before departure.' },
@@ -37,31 +36,20 @@ const tips = [
 ]
 
 export default function InsurancePage() {
-
-  useEffect(() => {
-    // SCRIPT 1: Flight Compensation Widget
-    const container1 = document.getElementById('help-widget-container-1');
-    if (container1 && container1.innerHTML === '') {
-      const script1 = document.createElement('script');
-      script1.async = true;
-      script1.charset = 'utf-8';
-      script1.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&width=100&powered_by=true&campaign_id=86&promo_id=2110";
-      container1.appendChild(script1);
-    }
-
-    // SCRIPT 2: Flight Delay / Secondary Compensation Widget
-    const container2 = document.getElementById('help-widget-container-2');
-    if (container2 && container2.innerHTML === '') {
-      const script2 = document.createElement('script');
-      script2.async = true;
-      script2.charset = 'utf-8';
-      script2.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&border_radius=5&plain=true&powered_by=true&promo_id=3408&campaign_id=86";
-      container2.appendChild(script2);
-    }
-  }, []);
-
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+
+      {/* Script 1: Flight Compensation Widget */}
+      <Script 
+        src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&width=100&powered_by=true&campaign_id=86&promo_id=2110"
+        strategy="afterInteractive"
+      />
+
+      {/* Script 2: Flight Delay / Secondary Compensation Widget */}
+      <Script 
+        src="https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&border_radius=5&plain=true&powered_by=true&promo_id=3408&campaign_id=86"
+        strategy="afterInteractive"
+      />
 
       {/* Hero */}
       <div style={{ background: 'linear-gradient(160deg,#080a10,#0a080c,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
@@ -83,7 +71,7 @@ export default function InsurancePage() {
             </p>
           </div>
 
-          {/* New Grid System for Widgets */}
+          {/* Grid System for Widgets */}
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'stretch', maxWidth: 1200 }}>
             
             {/* Box 1: Flight Compensation Widget */}
@@ -93,8 +81,7 @@ export default function InsurancePage() {
               </div>
               
               <div style={{ flexGrow: 1, minHeight: 160 }}>
-                {/* INJECTION POINT 1 */}
-                <div id="help-widget-container-1" />
+                {/* The script 1 automatically injects itself wherever it's called */}
               </div>
             </div>
 
@@ -105,8 +92,7 @@ export default function InsurancePage() {
               </div>
               
               <div style={{ flexGrow: 1, minHeight: 160 }}>
-                {/* INJECTION POINT 2 */}
-                <div id="help-widget-container-2" />
+                {/* The script 2 automatically injects itself wherever it's called */}
               </div>
             </div>
 
