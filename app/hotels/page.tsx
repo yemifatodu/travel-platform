@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react'
 import Link from 'next/link'
 
 const gold = '#C8A96E'
@@ -43,6 +44,20 @@ const tips = [
 ]
 
 export default function HotelsPage() {
+  useEffect(() => {
+    const container = document.getElementById('hotel-widget-container');
+    
+    // Safety check with explicit string typing for TypeScript
+    if (container && container.childNodes.length === 0) {
+      const script = document.createElement('script');
+      // Using your 3rd Script (Default widget with no yellow/green clashing)
+      script.src = 'https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&campaign_id=172&promo_id=4850';
+      script.async = true;
+      script.charset = 'utf-8';
+      container.appendChild(script);
+    }
+  }, []);
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       
@@ -60,67 +75,14 @@ export default function HotelsPage() {
             Search hotels, resorts and boutique stays worldwide. Live prices — book without leaving huuboi.com.
           </p>
 
-          {/* Widget Container (Bound with sandboxed iframe) */}
+          {/* Widget Container */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,32px)', maxWidth: 900, position: 'relative' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
               SEARCH HOTELS — Live bookings on Huuboi.com
             </div>
             
-            <iframe
-              srcDoc={`
-                <html>
-                  <head>
-                    <style>
-                      body { 
-                        margin: 0; 
-                        background: #111110; 
-                        overflow: visible !important;
-                      }
-                      /* Force widget inputs and dropdowns to have dark, readable text */
-                      .tpwl-widget input,
-                      .tpwl-widget select,
-                      .tpwl-widget .m-input,
-                      .tpwl-widget .m-select {
-                        color: #080807 !important;
-                        background-color: #FFFFFF !important;
-                      }
-                      
-                      .tpwl-widget .m-dropdown,
-                      .tpwl-widget .m-autocomplete__list,
-                      .tpwl-widget .m-calendar,
-                      .tpwl-widget [class*="dropdown"],
-                      .tpwl-widget [class*="autocomplete"],
-                      .tpwl-widget [class*="calendar"] {
-                        color: #080807 !important;
-                      }
-                      
-                      .tpwl-widget .m-tabs__item[data-tab="flights"],
-                      .tpwl-widget [class*="tabs__item"][data-tab="flights"] {
-                        display: none !important;
-                      }
-
-                      .tpwl-widget button[type="submit"],
-                      .tpwl-widget .m-button--primary {
-                        background-color: ${gold} !important;
-                        color: #080807 !important;
-                      }
-                    </style>
-                  </head>
-                  <body>
-                    <div id="tpwl-search-hotels"></div>
-                    <div id="tpwl-tickets-hotels"></div>
-                    <script async type="module" src="https://tpwidg.com/wl_web/main.js?wl_id=15518&default_tab=hotels"></script>
-                  </body>
-                </html>
-              `}
-              style={{
-                width: '100%',
-                height: '450px', 
-                border: 'none',
-                overflow: 'visible'
-              }}
-              title="Travelpayouts Hotels Widget"
-            />
+            {/* Div replacement for iframe to secure Next.js component rendering */}
+            <div id="hotel-widget-container" style={{ minHeight: '300px' }}></div>
           </div>
         </div>
       </div>
