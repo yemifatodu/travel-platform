@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script' // Added for the transfer widgets
+import Script from 'next/script' 
 
 const destinations = [
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
@@ -47,7 +47,7 @@ const regionHubs: Record<string, string> = {
 
 const testimonials = [
   { name: 'Sarah M.', location: 'London, UK', text: 'The Patagonia expedition was flawlessly organised. Every detail was handled — from the remote trekking lodges to the private glacier tours.', rating: 5 },
-  { Ahmed K.', location: 'Dubai, UAE', text: 'A truly luxurious experience. The team understood exactly what I needed — discretion, quality, and unforgettable moments.', rating: 5 },
+  { name: 'Ahmed K.', location: 'Dubai, UAE', text: 'A truly luxurious experience. The team understood exactly what I needed — discretion, quality, and unforgettable moments.', rating: 5 },
   { name: 'Yuki T.', location: 'Tokyo, Japan', text: "Booked the Serengeti package and I'm still in awe. The great migration was beyond anything I imagined.", rating: 5 },
 ]
 
@@ -163,7 +163,6 @@ export default function HomePage() {
     document.head.appendChild(style);
   }, []);
 
-  // Removed all clicks except Flights
   const tabs = [
     { label: 'Flights', icon: '✈', link: '/search' }
   ]
@@ -194,14 +193,13 @@ export default function HomePage() {
         }
       `}</style>
 
-      {/* HERO — Top boundary fixed to prevent collision with Header */}
+      {/* HERO */}
       <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#0a0a08 0%,#12100a 25%,#0d1520 50%,#080c14 75%,#0a0a08 100%)' }} />
         <div style={{ position: 'absolute', width: '50vw', maxWidth: 700, height: '50vw', maxHeight: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%)', top: -200, right: '5%', filter: 'blur(60px)' }} />
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(200,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.04) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,0.4) 50%,transparent 100%)' }} />
         
-        {/* Adjusted padding top to 120px to perfectly clear global site headers */}
         <div className="page-pad" style={{ position: 'relative', zIndex: 10, paddingTop: '120px', paddingBottom: 'clamp(50px,8vw,80px)', maxWidth: 600 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 25, height: 1, background: '#C8A96E', display: 'inline-block' }} />
@@ -237,7 +235,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHY HUUBOI — REDUCED TO 4/5 SCALE */}
+      {/* WHY HUUBOI */}
       <section style={{ background: '#0a0908', borderBottom: '1px solid rgba(200,169,110,0.1)', padding: 'clamp(32px,4.8vw,48px) clamp(16px,4vw,48px)' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 'clamp(24px,3.2vw,40px)', alignItems: 'center' }}>
@@ -276,7 +274,6 @@ export default function HomePage() {
       {/* SEARCH FRAME */}
       <section style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 0' }}>
-          
           <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid rgba(200,169,110,0.15)', overflowX: 'auto' }}>
             {tabs.map((tab, i) => (
               <a key={tab.label} href={tab.link} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.12em', padding: '12px 14px', background: 'none', border: 'none', color: activeTab === i ? '#C8A96E' : 'rgba(245,239,228,0.60)', borderBottom: activeTab === i ? '2px solid #C8A96E' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', textDecoration: 'none' }}>
@@ -292,43 +289,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AIRPORT TRANSFERS — Added Here to perfectly bridge flights and destinations */}
+      {/* AIRPORT TRANSFERS */}
       <section style={{ background: '#080807', borderBottom: '1px solid rgba(200,169,110,0.12)' }} className="page-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(30px,5vw,50px) 0' }}>
           
-          {/* Global CSS Overrides for Widget Contrast */}
-          <style jsx global>{`
-            .tpwl-widget input,
-            .tpwl-widget select,
-            .tpwl-widget .m-input,
-            .tpwl-widget .m-select,
-            .kiwitaxi-widget input,
-            .kiwitaxi-widget select {
-              color: #080807 !important;
-              background-color: #FFFFFF !important;
-            }
-            
-            .tpwl-widget .m-dropdown,
-            .tpwl-widget .m-autocomplete__list,
-            [class*="dropdown"],
-            [class*="autocomplete"] {
-              color: #080807 !important;
-            }
-
-            .tpwl-widget button[type="submit"],
-            .tpwl-widget .m-button--primary,
-            .kiwitaxi-widget button {
-              background-color: #C8A96E !important;
-              color: #080807 !important;
-            }
-          `}</style>
-
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 20 }}>
             AIRPORT TRANSFERS — SEARCH & BOOK YOUR RIDE
           </div>
           
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
-            
             {/* Wrapper for Widget 1 */}
             <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 200 }}>
               <Script 
@@ -416,11 +385,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI PROMO — Widened text container to sit natively against mobile and desktop widths */}
+      {/* AI PROMO */}
       <section className="section-pad page-pad" style={{ background: '#080807', padding: '60px 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', width: '30vw', height: '30vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(200,169,110,0.07) 0%,transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', filter: 'blur(30px)' }} />
         
-        {/* Swapped maxWidth: 450 to 1200 to let it fill standard content bounding boxes */}
         <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>POWERED BY AI</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4.5vw,3.5rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 14, lineHeight: 1.1 }}>
@@ -462,7 +430,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWSLETTER — Widened elements and upscaled typography for scannability */}
+      {/* NEWSLETTER */}
       <section id="contact" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.1)', padding: '60px 0' }}>
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: '0 20px' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 10 }}>STAY INSPIRED</div>

@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import MapExplorerComponent from '@/components/MapExplorer' // 👈 Importing your new map!
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -18,7 +19,7 @@ const regionColors: Record<string, string> = {
 }
 
 const destinations = [
-  // AFRICA
+  // (Your massive list of 43 destinations remains untouched here...)
   { name:'Lagos', country:'Nigeria', region:'Africa', highlights:['Nightlife','Culture','Beaches'], bestTime:'Nov–Feb', from:'$320', slug:'lagos' },
   { name:'Cairo', country:'Egypt', region:'Africa', highlights:['Pyramids','Nile','History'], bestTime:'Oct–Apr', from:'$280', slug:'cairo' },
   { name:'Cape Town', country:'South Africa', region:'Africa', highlights:['Table Mountain','Winelands','Beaches'], bestTime:'Nov–Mar', from:'$480', slug:'cape-town' },
@@ -27,14 +28,12 @@ const destinations = [
   { name:'Zanzibar', country:'Tanzania', region:'Africa', highlights:['Beaches','Spices','Diving'], bestTime:'Jun–Oct', from:'$380', slug:'zanzibar' },
   { name:'Serengeti', country:'Tanzania', region:'Africa', highlights:['Migration','Big Five','Safari'], bestTime:'Jul–Sep', from:'$520', slug:'serengeti' },
   { name:'Accra', country:'Ghana', region:'Africa', highlights:['Culture','Beaches','History'], bestTime:'Nov–Mar', from:'$290', slug:'accra' },
-  // MIDDLE EAST
   { name:'Dubai', country:'UAE', region:'Middle East', highlights:['Luxury','Shopping','Architecture'], bestTime:'Nov–Mar', from:'$380', slug:'dubai' },
   { name:'Istanbul', country:'Turkey', region:'Middle East', highlights:['History','Bazaars','Bosphorus'], bestTime:'Apr–Jun', from:'$240', slug:'istanbul' },
   { name:'Petra', country:'Jordan', region:'Middle East', highlights:['Ancient City','Desert','Hiking'], bestTime:'Mar–May', from:'$320', slug:'petra' },
   { name:'Muscat', country:'Oman', region:'Middle East', highlights:['Forts','Beaches','Souqs'], bestTime:'Oct–Apr', from:'$360', slug:'muscat' },
   { name:'Doha', country:'Qatar', region:'Middle East', highlights:['Luxury','Museums','Desert'], bestTime:'Nov–Mar', from:'$360', slug:'doha' },
   { name:'Riyadh', country:'Saudi Arabia', region:'Middle East', highlights:['AlUla','Desert','Culture'], bestTime:'Nov–Mar', from:'$400', slug:'riyadh' },
-  // EUROPE
   { name:'Paris', country:'France', region:'Europe', highlights:['Eiffel Tower','Cuisine','Art'], bestTime:'Apr–Jun', from:'$180', slug:'paris' },
   { name:'Rome', country:'Italy', region:'Europe', highlights:['Colosseum','Vatican','Food'], bestTime:'Apr–May', from:'$200', slug:'rome' },
   { name:'Barcelona', country:'Spain', region:'Europe', highlights:['Gaudí','Beaches','Nightlife'], bestTime:'May–Jun', from:'$190', slug:'barcelona' },
@@ -43,7 +42,6 @@ const destinations = [
   { name:'Reykjavik', country:'Iceland', region:'Europe', highlights:['Northern Lights','Geysers','Hot Springs'], bestTime:'Sep–Mar', from:'$340', slug:'reykjavik' },
   { name:'Dubrovnik', country:'Croatia', region:'Europe', highlights:['Old Town','Adriatic','Walls'], bestTime:'May–Jun', from:'$230', slug:'dubrovnik' },
   { name:'Amsterdam', country:'Netherlands', region:'Europe', highlights:['Canals','Museums','Cycling'], bestTime:'Apr–May', from:'$190', slug:'amsterdam' },
-  // ASIA
   { name:'Bali', country:'Indonesia', region:'Asia', highlights:['Temples','Surf','Rice Terraces'], bestTime:'Apr–Oct', from:'$420', slug:'bali' },
   { name:'Tokyo', country:'Japan', region:'Asia', highlights:['Technology','Culture','Food'], bestTime:'Mar–May', from:'$580', slug:'tokyo' },
   { name:'Bangkok', country:'Thailand', region:'Asia', highlights:['Temples','Street Food','Nightlife'], bestTime:'Nov–Feb', from:'$380', slug:'bangkok' },
@@ -53,17 +51,14 @@ const destinations = [
   { name:'Delhi', country:'India', region:'Asia', highlights:['History','Food','Culture'], bestTime:'Oct–Mar', from:'$340', slug:'delhi' },
   { name:'Hong Kong', country:'Hong Kong', region:'Asia', highlights:['Skyline','Food','Shopping'], bestTime:'Oct–Dec', from:'$480', slug:'hong-kong' },
   { name:'Seoul', country:'South Korea', region:'Asia', highlights:['K-Culture','Food','Temples'], bestTime:'Apr–Jun', from:'$520', slug:'seoul' },
-  // AMERICAS
   { name:'New York', country:'USA', region:'Americas', highlights:['Manhattan','Broadway','Museums'], bestTime:'Apr–Jun', from:'$420', slug:'new-york' },
   { name:'Rio de Janeiro', country:'Brazil', region:'Americas', highlights:['Carnival','Beaches','Christ Redeemer'], bestTime:'Dec–Mar', from:'$560', slug:'rio-de-janeiro' },
   { name:'Machu Picchu', country:'Peru', region:'Americas', highlights:['Inca Ruins','Hiking','History'], bestTime:'May–Sep', from:'$620', slug:'machu-picchu' },
   { name:'Cancun', country:'Mexico', region:'Americas', highlights:['Beaches','Cenotes','Ruins'], bestTime:'Dec–Apr', from:'$380', slug:'cancun' },
   { name:'Buenos Aires', country:'Argentina', region:'Americas', highlights:['Tango','Food','Architecture'], bestTime:'Oct–Apr', from:'$580', slug:'buenos-aires' },
   { name:'Patagonia', country:'Argentina', region:'Americas', highlights:['Glaciers','Hiking','Wildlife'], bestTime:'Nov–Mar', from:'$680', slug:'patagonia' },
-  // ARCTIC
   { name:'Svalbard', country:'Norway', region:'Arctic', highlights:['Northern Lights','Polar Bears','Midnight Sun'], bestTime:'Feb–Apr', from:'$780', slug:'svalbard' },
   { name:'Lapland', country:'Finland', region:'Arctic', highlights:['Aurora','Dog Sledding','Santa Village'], bestTime:'Dec–Mar', from:'$620', slug:'lapland' },
-  // PACIFIC
   { name:'Sydney', country:'Australia', region:'Pacific', highlights:['Opera House','Harbour','Beaches'], bestTime:'Sep–Nov', from:'$740', slug:'sydney' },
   { name:'Bora Bora', country:'French Polynesia', region:'Pacific', highlights:['Lagoon','Overwater Bungalows','Snorkelling'], bestTime:'May–Oct', from:'$1,200', slug:'bora-bora' },
   { name:'Hawaii', country:'USA', region:'Pacific', highlights:['Volcanoes','Beaches','Surfing'], bestTime:'Apr–Jun', from:'$680', slug:'hawaii' },
@@ -82,17 +77,6 @@ export default function MapExplorer() {
     const matchSearch = search === '' || d.name.toLowerCase().includes(search.toLowerCase()) || d.country.toLowerCase().includes(search.toLowerCase())
     return matchRegion && matchSearch
   })
-
-  /* 🚀 FREE GOOGLE MAP SOURCE (No API Key Required) */
-  const getMapSrc = () => {
-    if (selected) {
-      const query = encodeURIComponent(`${selected.name}, ${selected.country}`);
-      // Searches for the city name and uses a hybrid/satellite view
-      return `https://maps.google.com/maps?q=$`
-    }
-    // Default world view if nothing is selected
-    return `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=$`
-  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
@@ -140,16 +124,8 @@ export default function MapExplorer() {
           </div>
           
           <div className="map-container-responsive" style={{ width: '100%', background: '#0a0c10', position: 'relative' }}>
-            {/* 🚀 GOOGLE MAPS EMBED */}
-            <iframe
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              src={getMapSrc()}
-            ></iframe>
+            {/* 🚀 REAL GOOGLE MAPS INJECTED HERE INSTEAD OF IFRAME */}
+            <MapExplorerComponent selectedCityName={selected ? selected.name : null} />
           </div>
         </div>
       </div>
@@ -251,7 +227,6 @@ export default function MapExplorer() {
 
       <div style={{ height: 60 }} />
       
-      {/* 🚀 CSS added for perfect map sizing */}
       <style>{`
         .map-container-responsive {
           height: 350px;
