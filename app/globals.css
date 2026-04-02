@@ -109,3 +109,13 @@ img, video { max-width: 100%; height: auto; display: block; }
   .dest-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .dest-grid a:first-child { grid-column: span 2 !important; }
 }
+
+/* --- FIX FOR ROGUE CALENDAR DATA OVERFLOW --- */
+body > span, 
+body > div:last-of-type:not([id]) {
+  display: none !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
