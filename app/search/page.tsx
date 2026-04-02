@@ -1,27 +1,29 @@
 'use client'
-import { useState } from 'react'
 import Link from 'next/link'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 
-const affiliateLinks = {
-  hotels: 'https://booking.tp.st/bs6F38oi',
-  cars: 'https://getrentacar.tp.st/CvPLu5ev',
-  transfers: 'https://kiwitaxi.tp.st/pthb6f1z',
-}
+const navigationHub = [
+  { 
+    label: 'Search Flights', 
+    href: '/', // Points to your homepage at app/page.tsx
+    desc: 'Compare 1,200+ airlines with live results directly on our homepage' 
+  },
+  { 
+    label: 'Find Hotels', 
+    href: '/hotels', // Points to app/hotels/page.tsx
+    desc: '28 million+ properties worldwide with Booking.com' 
+  },
+  { 
+    label: 'Rent a Car', 
+    href: '/car-rentals', // Points to app/car-rentals/page.tsx
+    desc: 'Worldwide car rentals and private transport options' 
+  },
+]
 
-export default function SearchPage() {
-  const [activeTab, setActiveTab] = useState<'flights' | 'hotels' | 'cars' | 'transfers'>('flights')
-
-  const tabs = [
-    { key: 'flights' as const, icon: '✈', label: 'Flights' },
-    { key: 'hotels' as const, icon: '🏨', label: 'Hotels' },
-    { key: 'cars' as const, icon: '🚗', label: 'Car Rentals' },
-    { key: 'transfers' as const, icon: '🚌', label: 'Transfers' },
-  ]
-
+export default function SearchHubPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -36,133 +38,27 @@ export default function SearchPage() {
             Search Everything<br /><em style={{ color: gold }}>In One Place</em>
           </h1>
           <p style={{ color: muted, fontSize: '1rem', lineHeight: 1.8, maxWidth: 480 }}>
-            Flights with live results on huuboi.com. Hotels, cars and transfers via our trusted partners.
+            Pick a category below to access our dedicated search engines for flights, stays, and road travel.
           </p>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ background: '#0d0c0a', borderBottom: '1px solid rgba(200,169,110,0.1)', position: 'sticky', top: 72, zIndex: 50 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(20px,5vw,60px)', display: 'flex', overflowX: 'auto' }}>
-          {tabs.map(tab => (
-            <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', padding: '18px 24px', background: 'none', border: 'none', color: activeTab === tab.key ? gold : muted, borderBottom: activeTab === tab.key ? `2px solid ${gold}` : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.2s', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span>{tab.icon}</span>{tab.label}
-            </button>
-          ))}
         </div>
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(32px,5vw,60px) clamp(20px,5vw,60px)' }}>
 
-        {/* FLIGHTS TAB — Travelpayouts White Label Widget */}
-        <div style={{ display: activeTab === 'flights' ? 'block' : 'none' }}>
-          <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 20, fontFamily: "'DM Sans',sans-serif" }}>
-            Search and compare 1,200+ airlines. Live prices load below — results stay on huuboi.com.
-          </p>
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,3vw,24px)', marginBottom: 24, minHeight: 400 }}>
-            {/* White Label search box — injected by wl_id=15518 script in layout.tsx */}
-            <div id="tpwl-search" />
-            {/* White Label results — injected by wl_id=15518 script in layout.tsx */}
-            <div id="tpwl-tickets" />
-          </div>
-        </div>
-
-        {/* HOTELS TAB */}
-        <div style={{ display: activeTab === 'hotels' ? 'block' : 'none' }}>
-          <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 24, fontFamily: "'DM Sans',sans-serif" }}>
-            Search 28 million+ properties worldwide via our partner Booking.com — best prices with free cancellation on most bookings.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 2, marginBottom: 24 }}>
-            {[
-              { label: 'Search All Hotels', href: affiliateLinks.hotels, desc: 'Booking.com · 28M+ properties worldwide' },
-              { label: 'Luxury Resorts', href: affiliateLinks.hotels, desc: 'Five-star hotels & resorts' },
-              { label: 'Safari Lodges', href: affiliateLinks.hotels, desc: 'Africa · Asia · Americas' },
-              { label: 'Boutique Hotels', href: affiliateLinks.hotels, desc: 'Handpicked independent stays' },
-            ].map(item => (
-              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-                style={{ textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.12)', padding: '20px 22px', display: 'block', transition: 'border-color 0.2s' }}
+        {/* Navigation Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16, marginBottom: 40 }}>
+          {navigationHub.map(item => (
+            <Link key={item.label} href={item.href} style={{ textDecoration: 'none' }}>
+              <div 
+                style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.12)', padding: '30px 24px', display: 'block', transition: 'border-color 0.2s', height: '100%' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.12)')}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', color: gold, marginBottom: 6 }}>🏨 {item.label}</div>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: muted }}>{item.desc}</div>
-              </a>
-            ))}
-          </div>
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px 24px' }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 8 }}>WHY WE USE BOOKING.COM FOR HOTELS</div>
-            <p style={{ color: muted, fontSize: '0.85rem', margin: 0, fontFamily: "'DM Sans',sans-serif", lineHeight: 1.7 }}>
-              28 million+ properties. Free cancellation on most bookings. Best price guarantee. Your booking is confirmed instantly with 24/7 support.
-            </p>
-          </div>
-        </div>
-
-        {/* CARS TAB — Localrent White Label Widget */}
-        <div style={{ display: activeTab === 'cars' ? 'block' : 'none' }}>
-          <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 24, fontFamily: "'DM Sans',sans-serif" }}>
-            Compare car rentals worldwide. Search below — default is Dubai, but you can search any city.
-          </p>
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,3vw,24px)', marginBottom: 24, minHeight: 300 }}>
-            {/* Localrent Search Widget — Dubai default */}
-            <script
-              src="https://static.localrent.com/widget/v3/app.js"
-              async
-              data-mrc="true"
-              data-affiliate="14849"
-              data-apikey="hello_huuboi_com"
-              data-apisign="aaa0d2e76663ac7e0c143065815dbefd"
-              data-country="14"
-              data-city="62821"
-              data-border="false"
-              data-gearbox="true"
-              data-lang="en"
-              data-background="dark"
-              data-logo="false"
-              data-class="cars"
-              data-marker="HUUBOI-CARS"
-            />
-          </div>
-          {/* Localrent White Label Booking Engine */}
-          <script
-            src="https://static.localrent.com/booking/v2/wl/app.js"
-            async
-            data-mrc-wl="true"
-            data-affiliate="14849"
-            data-country="14"
-            data-city="62821"
-            data-routing="on"
-            data-class="CARS"
-            data-id="HUUBOI-"
-            data-marker="HUUBOI-CARS"
-            data-zindex="10"
-          />
-          <a href={affiliateLinks.cars} target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-block', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none' }}>
-            SEARCH ALL CAR RENTALS →
-          </a>
-        </div>
-
-        {/* TRANSFERS TAB */}
-        <div style={{ display: activeTab === 'transfers' ? 'block' : 'none' }}>
-          <p style={{ color: muted, fontSize: '0.9rem', marginBottom: 24, fontFamily: "'DM Sans',sans-serif" }}>
-            Book airport pickups and hotel transfers in 120+ countries. Fixed prices, no surprises.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 2, marginBottom: 24 }}>
-            {[
-              { label: 'Airport to Hotel', href: affiliateLinks.transfers, desc: 'Kiwitaxi · Fixed prices · Instant confirmation' },
-              { label: 'Hotel to Airport', href: affiliateLinks.transfers, desc: 'Return transfers · All major airports' },
-              { label: 'City to City', href: affiliateLinks.transfers, desc: 'Private transfers between cities' },
-              { label: 'Group Transfers', href: affiliateLinks.transfers, desc: 'Minivans & coaches for groups' },
-            ].map(item => (
-              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-                style={{ textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.12)', padding: '20px 22px', display: 'block', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.12)')}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', color: gold, marginBottom: 6 }}>🚌 {item.label}</div>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: muted }}>{item.desc}</div>
-              </a>
-            ))}
-          </div>
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.12)')}
+              >
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.15em', color: gold, marginBottom: 8 }}>{item.label} →</div>
+                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.85rem', color: muted, lineHeight: 1.6 }}>{item.desc}</div>
+              </div>
+            </Link>
+          ))}
         </div>
 
         {/* Bottom strip */}
