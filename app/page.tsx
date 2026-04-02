@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Script from 'next/script' // Clean Next.js script handling
 
 const destinations = [
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
@@ -62,22 +61,45 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!mounted) return
-    const timer = setTimeout(() => setLoading(false), 3000)
-    return () => clearTimeout(timer)
+
+    // Fallback timer to hide loader if widget takes too long
+    const timer = setTimeout(() => setLoading(false), 5000)
+
+    const scriptId = "tpwl-script-tag";
+    const existingScript = document.getElementById(scriptId);
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.async = true;
+      script.type = "module";
+      script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
+      
+      // All the optimization bypasses from your snippet
+      script.setAttribute("data-noptimize", "1");
+      script.setAttribute("data-cfasync", "false");
+      script.setAttribute("data-wpfc-render", "false");
+      script.setAttribute("seraph-accel-crit", "1");
+      script.setAttribute("data-no-defer", "1");
+      
+      script.onload = () => {
+        setLoading(false);
+      };
+      
+      document.head.appendChild(script);
+    } else {
+      setLoading(false);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [mounted]);
 
   const tabs = [{ label: 'Flights', icon: '✈', link: '/' }]
 
   return (
     <>
-      {/* 1. Safe Execution of Script using Native Next.js Script handling */}
-      <Script 
-        src="https://tpwidg.com/wl_web/main.js?wl_id=15518"
-        type="module"
-        strategy="afterInteractive"
-        onLoad={() => setLoading(false)}
-      />
-
       <style>{`
         .dest-grid-home {
           display: grid;
@@ -246,8 +268,8 @@ export default function HomePage() {
             ))}
           </div>
           
-          {/* SECURED CONTAINER: Styled to give the loading portal space */}
-          <div style={{ padding: '24px', minHeight: '600px', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
+          {/* SECURED CONTAINER: Styled with natural-height scaling so it never spills into footer */}
+          <div style={{ padding: '24px', minHeight: '300px', display: 'flex', flexDirection: 'column', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
             {loading && (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', color: 'rgba(245,239,228,0.60)', fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
                 LOADING SECURE SEARCH PORTAL...
@@ -255,8 +277,8 @@ export default function HomePage() {
             )}
             
             {/* Travel Payouts will inject form and tickets safely in here */}
-            <div id="tpwl-search" style={{ minHeight: '150px' }}></div>
-            <div id="tpwl-tickets" style={{ minHeight: '400px', marginTop: '20px' }}></div>
+            <div id="tpwl-search" style={{ minHeight: '150px', width: '100%' }}></div>
+            <div id="tpwl-tickets" style={{ minHeight: '100px', width: '100%', marginTop: '20px' }}></div>
           </div>
 
           {/* LIGHTWEIGHT PROMO CARDS */}
