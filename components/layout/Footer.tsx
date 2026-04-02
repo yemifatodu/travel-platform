@@ -10,7 +10,7 @@ export function Footer() {
   ]
   return (
     /* 🚀 Reduced top/bottom padding to tighten the container height */
-    <footer style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(32px,5vw,55px) clamp(20px,5vw,60px) clamp(20px,3vw,30px)' }}>
+    <footer className="main-footer" style={{ background: '#080807', borderTop: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(32px,5vw,55px) clamp(20px,5vw,60px) clamp(20px,3vw,30px)' }}>
       <style>{`
         .footer-grid {
           display: grid;
@@ -32,17 +32,23 @@ export function Footer() {
           }
         }
         @media (max-width: 640px) {
+          /* 📱 Scaled the mobile layout down to ~4/5 height */
+          .main-footer {
+            padding: clamp(25px, 4vw, 40px) 16px clamp(15px, 2vw, 25px) !important;
+          }
           .footer-grid {
             grid-template-columns: 1fr 1fr; 
-            gap: 32px 28px; 
+            gap: 24px 20px; 
+            margin-bottom: 24px;
           }
           .brand-col {
             grid-column: span 2; 
-            margin-bottom: 16px;
+            margin-bottom: 8px;
           }
           .footer-bottom {
             flex-direction: column;
             align-items: flex-start;
+            padding-top: 15px !important;
           }
         }
       `}</style>
