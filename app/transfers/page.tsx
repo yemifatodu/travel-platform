@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const gold = '#C8A96E'
@@ -28,12 +28,23 @@ const popular = [
 ]
 
 export default function TransfersPage() {
+  const [mounted, setMounted] = useState(false)
+
+  // Wait until the browser environment is ready (Hydration)
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     // Function to safely inject scripts into specific target elements
-    // Fixed with explicit string types to stop the TypeScript errors
     const loadWidget = (src: string, targetId: string) => {
       const container = document.getElementById(targetId);
       if (container && container.childNodes.length === 0) {
+        // Erase any un-intended text nodes left behind to avoid bottom of footer errors
+        container.innerHTML = '';
+        
         const script = document.createElement('script');
         script.src = src;
         script.async = true;
@@ -42,18 +53,18 @@ export default function TransfersPage() {
       }
     };
 
-    // Load Widget 1 into container 1
+    // Load Widget 1 (Transfer Type: Any) into container 1
     loadWidget(
-      'https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&language=en&theme=9&powered_by=true&campaign_id=1&promo_id=1486',
+      'https://tpwidg.com/content?trs=508095&powered_by=true&shmarker=710879&language=en&display_currency=USD&transfer_type=any&hide_form_extras=true&hide_external_links=true&disable_currency_selector=true&campaign_id=1&promo_id=691',
       'widget-container-1'
     );
 
-    // Load Widget 2 into container 2
+    // Load Widget 2 (Limit 10) into container 2
     loadWidget(
-      'https://tpwidg.com/content?trs=508095&powered_by=true&shmarker=710879&language=en&display_currency=USD&transfer_type=any&hide_form_extras=true&hide_external_links=true&disable_currency_selector=true&campaign_id=1&promo_id=691',
+      'https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=en&powered_by=true&transfer_options_limit=10&transfer_options=MCR&disable_currency_selector=false&hide_form_extras=false&hide_external_links=false&campaign_id=1&promo_id=3879',
       'widget-container-2'
     );
-  }, []);
+  }, [mounted]);
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
@@ -91,22 +102,22 @@ export default function TransfersPage() {
             SEARCH & BOOK YOUR TRANSFER
           </div>
           
-          {/* Flex boxes for desktop and mobile */}
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
+          {/* Stacked Layout using CSS Grid with 1 Column */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24, width: '100%', maxWidth: 800, margin: '0 auto' }}>
             
             {/* Wrapper for Widget 1 */}
-            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 400 }}>
+            <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 150 }}>
               <div id="widget-container-1"></div>
             </div>
 
             {/* Wrapper for Widget 2 */}
-            <div style={{ flex: '1 1 300px', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 400 }}>
+            <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(16px,2vw,24px)', minHeight: 150 }}>
               <div id="widget-container-2"></div>
             </div>
 
           </div>
 
-          <p style={{ color: dim, fontSize: '0.75rem', marginTop: 10, fontFamily: "'DM Sans',sans-serif" }}>
+          <p style={{ color: dim, fontSize: '0.75rem', marginTop: 15, fontFamily: "'DM Sans',sans-serif", textAlign: 'center' }}>
             Powered by Kiwitaxi · 120+ countries · Instant confirmation · USD pricing
           </p>
         </div>

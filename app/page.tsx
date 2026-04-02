@@ -52,8 +52,15 @@ const testimonials = [
 
 export default function HomePage() {
   const [activeTab] = useState(0)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     // 1. Safe Execution of Travel Payouts Script strictly for flight operations
     const existingScript = document.querySelector('script[src*="wl_id=15518"]');
 
@@ -118,7 +125,7 @@ export default function HomePage() {
     return () => {
       if (style.parentNode) style.parentNode.removeChild(style);
     };
-  }, []);
+  }, [mounted]);
 
   const tabs = [{ label: 'Flights', icon: '✈', link: '/' }]
 
@@ -160,8 +167,25 @@ export default function HomePage() {
              text-align: center;
           }
           
-          .responsive-flex-cards {
+          /* FIX 1: Responsive clicker boxes set to 1/2 width and scaled down height on mobile */
+          .responsive-flex-cards a {
+            flex: 0 0 calc(50% - 8px) !important;
+            padding: 10px !important;
             flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px;
+          }
+          .responsive-flex-cards a div span {
+            font-size: 1.1rem !important;
+          }
+          .responsive-flex-cards a div div {
+            font-size: 0.6rem !important;
+          }
+          .responsive-flex-cards a p {
+            display: none !important;
+          }
+          .responsive-flex-cards a > span {
+            display: none !important;
           }
           
           .test-grid-container {
@@ -204,7 +228,7 @@ export default function HomePage() {
             ['194+','Countries'],
             ['27K+','Travellers'],
             ['400+','Packages'],
-            ['24/7','Support']
+            ['24/support','Support']
           ].map(([num, label]) => (
             <div key={num} style={{ flex: 1, padding: '12px 0', borderRight: '1px solid rgba(200,169,110,0.1)', textAlign: 'center' }}>
               <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1rem,2vw,1.4rem)', fontWeight: 600, color: '#C8A96E' }}>{num}</div>
@@ -261,8 +285,8 @@ export default function HomePage() {
             ))}
           </div>
           
-          <div style={{ padding: '15px' }}>
-            {/* These targets allow your White Label script to map search fields directly onto the page */}
+          {/* FIX 2: Layout height lock guarding the footer from script hydration spills */}
+          <div style={{ padding: '15px', minHeight: '120px', overflow: 'hidden' }}>
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
           </div>
@@ -273,8 +297,8 @@ export default function HomePage() {
             {/* Hotels Card */}
             <Link href="/hotels" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🏨</div>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}>FIND HOTEL DEALS</div>
+                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}><span>🏨</span></div>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}><div>FIND HOTEL DEALS</div></div>
                 <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', margin: 0 }}>Book premium stays globally at highly competitive rates.</p>
               </div>
               <span style={{ color: '#C8A96E', fontSize: '1rem' }}>→</span>
@@ -283,8 +307,8 @@ export default function HomePage() {
             {/* Transfers Card */}
             <Link href="/transfers" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🚖</div>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}>AIRPORT TRANSFERS</div>
+                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}><span>🚖</span></div>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}><div>AIRPORT TRANSFERS</div></div>
                 <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', margin: 0 }}>Skip the long airport lines. Search & book verified rides.</p>
               </div>
               <span style={{ color: '#C8A96E', fontSize: '1rem' }}>→</span>
@@ -306,11 +330,11 @@ export default function HomePage() {
             <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
 
-          {/* Placeholder box */}
+          {/* FIX 3: Custom placeholder styling for the tourism site image */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '30px', textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '150px' }}>
-             <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏛️</div>
-             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C8A96E' }}>[ PLACEHOLDER: BURJ KHALIFA / LONDON BRIDGE IMAGE ]</div>
-             <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', marginTop: '5px' }}>Replace this box with a high-resolution banner of world wonders.</p>
+             <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏞️</div>
+             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C8A96E' }}>IMAGE PLACEHOLDER FOR TOURISM SITE</div>
+             <p style={{ fontSize: '0.65rem', color: 'rgba(245,239,228,0.55)', marginTop: '5px' }}>Replace this with a full bleed hero photograph or a carousel of world wonders.</p>
           </div>
 
           <div className="dest-grid-home">
