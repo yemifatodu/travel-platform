@@ -161,16 +161,6 @@ export default function ToursPage() {
       container1.appendChild(script1);
     }
 
-    // SCRIPT 2
-    const container2 = document.getElementById('tour-widget-container-2');
-    if (container2 && container2.innerHTML === '') {
-      const script2 = document.createElement('script');
-      script2.async = true;
-      script2.charset = 'utf-8';
-      script2.src = "https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=260932&category=4&amount=3&powered_by=true&campaign_id=137&promo_id=4497";
-      container2.appendChild(script2);
-    }
-
     // SCRIPT 3
     const container3 = document.getElementById('tour-widget-container-3');
     if (container3 && container3.innerHTML === '') {
@@ -224,14 +214,6 @@ export default function ToursPage() {
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
-
-        {/* SCRIPT 2 Container */}
-        <div style={{ marginBottom: 'clamp(48px,7vw,80px)', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px,3vw,40px)' }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>BROWSE POPULAR ACTIVITES</div>
-          
-          {/* INJECTION POINT */}
-          <div id="tour-widget-container-2" style={{ minHeight: '120px' }} />
-        </div>
 
         {/* Featured experiences */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
