@@ -53,6 +53,7 @@ const testimonials = [
 export default function HomePage() {
   const [activeTab] = useState(0)
   const [mounted, setMounted] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setMounted(true)
@@ -60,6 +61,9 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!mounted) return
+
+    // Fallback timer to hide loader if widget fails to load
+    const timer = setTimeout(() => setLoading(false), 3000)
 
     // 1. Safe Execution of Travel Payouts Script strictly for flight operations
     const existingScript = document.querySelector('script[src*="wl_id=15518"]');
@@ -69,7 +73,10 @@ export default function HomePage() {
       script.async = true;
       script.type = "module";
       script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
+      script.onload = () => setLoading(false);
       document.head.appendChild(script);
+    } else {
+      setLoading(false);
     }
 
     // 2. Inject CSS to maintain branding controls
@@ -123,6 +130,7 @@ export default function HomePage() {
     document.head.appendChild(style);
 
     return () => {
+      clearTimeout(timer);
       if (style.parentNode) style.parentNode.removeChild(style);
     };
   }, [mounted]);
@@ -285,8 +293,13 @@ export default function HomePage() {
             ))}
           </div>
           
-          {/* SECURED CONTAINER: Hydration lock stops script content from shifting the page */}
-          <div style={{ padding: '15px', minHeight: '150px', maxHeight: '150px', overflow: 'hidden', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px' }}>
+          {/* SECURED CONTAINER: Auto-adjusts height to prevent spill-over */}
+          <div style={{ padding: '15px', minHeight: '80px', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
+            {loading && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50px', color: 'rgba(245,239,228,0.60)', fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
+                LOADING SECURE SEARCH PORTAL...
+              </div>
+            )}
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
           </div>
