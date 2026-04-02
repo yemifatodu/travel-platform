@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Script from 'next/script' // Clean Next.js script handling
 
 const destinations = [
   { name: 'Serengeti', country: 'Tanzania', region: 'Africa', slug: 'serengeti', gradient: 'linear-gradient(160deg,#1a1200,#2d2000,#3d2c00)' },
@@ -61,84 +62,22 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!mounted) return
-
-    // Fallback timer to hide loader if widget fails to load
     const timer = setTimeout(() => setLoading(false), 3000)
-
-    // 1. Safe Execution of Travel Payouts Script strictly for flight operations
-    const existingScript = document.querySelector('script[src*="wl_id=15518"]');
-
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.async = true;
-      script.type = "module";
-      script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
-      script.onload = () => setLoading(false);
-      document.head.appendChild(script);
-    } else {
-      setLoading(false);
-    }
-
-    // 2. Inject CSS to maintain branding controls
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .tpwl-widget .wl-tabs__item--hotels, 
-      .tpwl-widget [data-tab="hotels"],
-      .tpwl-widget .mewtwo-hotels-checkbox { 
-        display: none !important; 
-      }
-
-      #tpwl-search, #tpwl-main-form {
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        background: #FDFBF7 !important; 
-        padding: 10px 15px !important; 
-        border-radius: 8px !important;
-        min-height: 50px !important; 
-      }
-
-      .tpwl-widget .wl-ticket, 
-      .tpwl-widget .wl-card {
-        background: #FFFFFF !important; 
-        border: 1px solid rgba(200, 169, 110, 0.25) !important;
-        max-height: 120px !important; 
-        overflow: hidden !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-      }
-
-      .tpwl-widget button[type="submit"],
-      .tpwl-widget .wl-button--primary {
-        background: #C8A96E !important;
-        color: #080807 !important;
-        font-family: 'Bebas Neue', sans-serif !important;
-        letter-spacing: 0.1em !important;
-      }
-      
-      #tpwl-search label, 
-      #tpwl-search span, 
-      #tpwl-search .mewtwo-placeholder-label {
-        color: #1C1B18 !important;
-      }
-      
-      .tpwl-widget .wl-ticket *, 
-      .tpwl-widget .wl-card *,
-      .tpwl-widget .wl-ticket__price,
-      .tpwl-widget .wl-ticket__flight-title {
-        color: #080807 !important; 
-      }
-    `;
-    document.head.appendChild(style);
-
-    return () => {
-      clearTimeout(timer);
-      if (style.parentNode) style.parentNode.removeChild(style);
-    };
+    return () => clearTimeout(timer)
   }, [mounted]);
 
   const tabs = [{ label: 'Flights', icon: '✈', link: '/' }]
 
   return (
     <>
+      {/* 1. Safe Execution of Script using Native Next.js Script handling */}
+      <Script 
+        src="https://tpwidg.com/wl_web/main.js?wl_id=15518"
+        type="module"
+        strategy="afterInteractive"
+        onLoad={() => setLoading(false)}
+      />
+
       <style>{`
         .dest-grid-home {
           display: grid;
@@ -155,11 +94,26 @@ export default function HomePage() {
           grid-template-columns: repeat(3, 1fr);
           gap: 20px;
         }
+
+        /* Essential Widget CSS Overrides: Safe & un-stifled */
+        .tpwl-widget .wl-tabs__item--hotels, 
+        .tpwl-widget [data-tab="hotels"],
+        .tpwl-widget .mewtwo-hotels-checkbox { 
+          display: none !important; 
+        }
+
+        .tpwl-widget button[type="submit"],
+        .tpwl-widget .wl-button--primary {
+          background: #C8A96E !important;
+          color: #080807 !important;
+          font-family: 'Bebas Neue', sans-serif !important;
+          letter-spacing: 0.1em !important;
+        }
+
         @media (max-width: 768px) {
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .test-grid { grid-template-columns: 1fr; }
-          #tpwl-search, #tpwl-main-form { max-width: 100% !important; } 
           
           .mobile-hero-container {
              min-height: auto !important;
@@ -175,7 +129,6 @@ export default function HomePage() {
              text-align: center;
           }
           
-          /* Responsive clicker boxes set to 1/2 width and scaled down height on mobile */
           .responsive-flex-cards a {
             flex: 0 0 calc(50% - 8px) !important;
             padding: 10px !important;
@@ -293,15 +246,17 @@ export default function HomePage() {
             ))}
           </div>
           
-          {/* SECURED CONTAINER: Auto-adjusts height to prevent spill-over */}
-          <div style={{ padding: '15px', minHeight: '80px', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
+          {/* SECURED CONTAINER: Styled to give the loading portal space */}
+          <div style={{ padding: '24px', minHeight: '600px', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
             {loading && (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50px', color: 'rgba(245,239,228,0.60)', fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', color: 'rgba(245,239,228,0.60)', fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
                 LOADING SECURE SEARCH PORTAL...
               </div>
             )}
-            <div id="tpwl-search"></div>
-            <div id="tpwl-tickets"></div>
+            
+            {/* Travel Payouts will inject form and tickets safely in here */}
+            <div id="tpwl-search" style={{ minHeight: '150px' }}></div>
+            <div id="tpwl-tickets" style={{ minHeight: '400px', marginTop: '20px' }}></div>
           </div>
 
           {/* LIGHTWEIGHT PROMO CARDS */}
