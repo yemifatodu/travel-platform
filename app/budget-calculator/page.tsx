@@ -16,9 +16,9 @@ const includeOptions = [
 
 // Base daily costs per person per style (USD)
 const styleCosts: Record<string, { flights: [number,number], hotel: [number,number], food: [number,number], activities: [number,number], transport: [number,number], insurance: [number,number], visa: [number,number], shopping: [number,number] }> = {
-  'Budget':        { flights:[300,600],   hotel:[20,60],    food:[15,35],   activities:[10,25],  transport:[5,15],   insurance:[3,6],   visa:[20,50],  shopping:[10,30]  },
-  'Mid-Range':     { flights:[600,1200],  hotel:[80,180],   food:[40,80],   activities:[30,70],  transport:[15,35],  insurance:[5,10],  visa:[30,60],  shopping:[30,80]  },
-  'Luxury':        { flights:[1200,2500], hotel:[200,500],  food:[80,180],  activities:[80,200], transport:[40,100], insurance:[8,18],  visa:[40,80],  shopping:[80,200] },
+  'Budget':        { flights:[300,600],   hotel:[20,60],    food:[15,35],   activities:[10,25],  transport:[5,15],   insurance:[3,6],    visa:[20,50],  shopping:[10,30]  },
+  'Mid-Range':     { flights:[600,1200],  hotel:[80,180],   food:[40,80],   activities:[30,70],  transport:[15,35],  insurance:[5,10],   visa:[30,60],  shopping:[30,80]  },
+  'Luxury':        { flights:[1200,2500], hotel:[200,500],  food:[80,180],  activities:[80,200], transport:[40,100], insurance:[8,18],   visa:[40,80],  shopping:[80,200] },
   'Ultra-Luxury':  { flights:[3000,8000], hotel:[500,2000], food:[200,500], activities:[200,600],transport:[100,300],insurance:[15,40], visa:[50,120], shopping:[200,600]},
 }
 
@@ -92,7 +92,9 @@ export default function BudgetCalculator() {
 
   const calculate = async () => {
     if (!form.destination.trim()) { setError('Please enter a destination'); return }
-    setLoading(true); setError(''); setBudget(null)
+    setLoading(true)
+    setError('')
+    setBudget(null)
 
     // Try AI first, fall back to built-in calculator
     try {
@@ -215,8 +217,10 @@ export default function BudgetCalculator() {
           {/* Row 1: Destination + Days + Travellers */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 20, marginBottom: 28 }}>
             <div>
-              <label style={labelStyle}>DESTINATION</label>
+              <label style={labelStyle} htmlFor="destination-input">DESTINATION</label>
               <input
+                id="destination-input"
+                name="destination"
                 placeholder="e.g. Bali, Paris, Dubai, Lagos"
                 value={form.destination}
                 onChange={e => setForm(f => ({ ...f, destination: e.target.value }))}
