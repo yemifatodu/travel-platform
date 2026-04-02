@@ -167,7 +167,7 @@ export default function HomePage() {
              text-align: center;
           }
           
-          /* FIX 1: Responsive clicker boxes set to 1/2 width and scaled down height on mobile */
+          /* Responsive clicker boxes set to 1/2 width and scaled down height on mobile */
           .responsive-flex-cards a {
             flex: 0 0 calc(50% - 8px) !important;
             padding: 10px !important;
@@ -285,8 +285,8 @@ export default function HomePage() {
             ))}
           </div>
           
-          {/* FIX 2: Layout height lock guarding the footer from script hydration spills */}
-          <div style={{ padding: '15px', minHeight: '120px', overflow: 'hidden' }}>
+          {/* SECURED CONTAINER: Hydration lock stops script content from shifting the page */}
+          <div style={{ padding: '15px', minHeight: '150px', maxHeight: '150px', overflow: 'hidden', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px' }}>
             <div id="tpwl-search"></div>
             <div id="tpwl-tickets"></div>
           </div>
@@ -330,7 +330,6 @@ export default function HomePage() {
             <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.70)', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
 
-          {/* FIX 3: Custom placeholder styling for the tourism site image */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '30px', textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '150px' }}>
              <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏞️</div>
              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C8A96E' }}>IMAGE PLACEHOLDER FOR TOURISM SITE</div>
