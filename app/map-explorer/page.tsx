@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import MapExplorerComponent from '@/components/MapExplorer' // 👈 Importing your new map!
+import MapExplorerComponent from '@/components/MapExplorer' 
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -19,7 +19,6 @@ const regionColors: Record<string, string> = {
 }
 
 const destinations = [
-  // (Your massive list of 43 destinations remains untouched here...)
   { name:'Lagos', country:'Nigeria', region:'Africa', highlights:['Nightlife','Culture','Beaches'], bestTime:'Nov–Feb', from:'$320', slug:'lagos' },
   { name:'Cairo', country:'Egypt', region:'Africa', highlights:['Pyramids','Nile','History'], bestTime:'Oct–Apr', from:'$280', slug:'cairo' },
   { name:'Cape Town', country:'South Africa', region:'Africa', highlights:['Table Mountain','Winelands','Beaches'], bestTime:'Nov–Mar', from:'$480', slug:'cape-town' },
@@ -98,7 +97,7 @@ export default function MapExplorer() {
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Filters & Accessible Search */}
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', marginBottom: 20 }}>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {regions.map(r => (
@@ -108,8 +107,19 @@ export default function MapExplorer() {
               </button>
             ))}
           </div>
-          <input placeholder="Search destination..." value={search} onChange={e => setSearch(e.target.value)}
-            style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', color: cream, padding: '7px 16px', fontSize: '0.85rem', outline: 'none', fontFamily: "'DM Sans',sans-serif", width: 200 }} />
+          
+          {/* Label Fix: Associated Label for Accessibility */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <label htmlFor="dest-search" style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', border: '0' }}>Search destination</label>
+            <input 
+              id="dest-search"
+              name="destination_query"
+              placeholder="Search destination..." 
+              value={search} 
+              onChange={e => setSearch(e.target.value)}
+              style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', color: cream, padding: '7px 16px', fontSize: '0.85rem', outline: 'none', fontFamily: "'DM Sans',sans-serif", width: 200 }} 
+            />
+          </div>
         </div>
       </div>
 
@@ -124,7 +134,6 @@ export default function MapExplorer() {
           </div>
           
           <div className="map-container-responsive" style={{ width: '100%', background: '#0a0c10', position: 'relative' }}>
-            {/* 🚀 REAL GOOGLE MAPS INJECTED HERE INSTEAD OF IFRAME */}
             <MapExplorerComponent selectedCityName={selected ? selected.name : null} />
           </div>
         </div>
@@ -216,10 +225,11 @@ export default function MapExplorer() {
               <Link href="/ai-planner" style={{ background: gold, color: '#080807', padding: '12px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 PLAN TRIP TO {selected.name.toUpperCase()}
               </Link>
-              <a href="https://aviasales.tp.st/4CRDbzuv" target="_blank" rel="noopener noreferrer"
-                style={{ background: 'transparent', border: `1px solid ${gold}`, color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              
+              {/* Replace Affiliate Link with Internal Huuboi Flights Landing Page */}
+              <Link href="/flights" style={{ background: 'transparent', border: `1px solid ${gold}`, color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 SEARCH FLIGHTS →
-              </a>
+              </Link>
             </div>
           </div>
         )}
