@@ -36,79 +36,325 @@ const destinations = [
 ]
 
 const regions = ['All', 'Middle East', 'Africa', 'Asia', 'Europe', 'Americas', 'Arctic']
+
 const regionColors: Record<string, string> = {
-  'Middle East': 'C8A96E', Africa: '4ade80', Asia: '60a5fa',
-  Europe: 'f472b6', Americas: 'fb923c', Arctic: 'a78bfa'
+  'Middle East': 'C8A96E',
+  Africa: '4ade80',
+  Asia: '60a5fa',
+  Europe: 'f472b6',
+  Americas: 'fb923c',
+  Arctic: 'a78bfa'
 }
 
 export default function DestinationsPage() {
   const [activeRegion, setActiveRegion] = useState('All')
-  const gold = '#C8A96E', ink = '#080807', cream = '#F5EFE4'
 
-  const filtered = activeRegion === 'All' ? destinations : destinations.filter(d => d.region === activeRegion)
+  const gold = '#C8A96E'
+  const ink = '#080807'
+  const cream = '#F5EFE4'
+
+  const filtered =
+    activeRegion === 'All'
+      ? destinations
+      : destinations.filter(d => d.region === activeRegion)
 
   return (
-    <div style={{ minHeight: '100vh', background: ink, paddingTop: 100 }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        background: ink,
+        paddingTop: 'clamp(80px, 10vw, 100px)',
+      }}
+    >
 
       {/* Hero */}
-      <div style={{ padding: '60px 60px 40px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.35em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ width: 32, height: 1, background: gold, display: 'inline-block' }} />
+      <div
+        style={{
+          padding: 'clamp(32px,5vw,60px) clamp(20px,5vw,60px) 40px',
+          maxWidth: 1200,
+          margin: '0 auto',
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '0.7rem',
+            letterSpacing: '0.35em',
+            color: gold,
+            marginBottom: 16,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            flexWrap: 'wrap',
+          }}
+        >
+          <span
+            style={{
+              width: 32,
+              height: 1,
+              background: gold,
+              display: 'inline-block',
+            }}
+          />
           SIX CONTINENTS · {destinations.length} DESTINATIONS
         </div>
-        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem,7vw,6rem)', fontWeight: 300, color: cream, lineHeight: 0.95, marginBottom: 20 }}>
+
+        <h1
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 'clamp(3rem,7vw,6rem)',
+            fontWeight: 300,
+            color: cream,
+            lineHeight: 0.95,
+            marginBottom: 20,
+          }}
+        >
           Explore the <em style={{ color: gold }}>World</em>
         </h1>
-        <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '1rem', maxWidth: 520, lineHeight: 1.8 }}>
+
+        <p
+          style={{
+            color: 'rgba(245,239,228,0.55)',
+            fontSize: 'clamp(0.95rem,2vw,1rem)',
+            maxWidth: 520,
+            lineHeight: 1.8,
+          }}
+        >
           Handpicked destinations across every continent — from Arctic wilderness to tropical paradise.
         </p>
       </div>
 
       {/* Region Filter */}
-      <div style={{ padding: '0 60px', maxWidth: 1200, margin: '0 auto', marginBottom: 48 }}>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
+      <div
+        style={{
+          padding: '0 clamp(20px,5vw,60px)',
+          maxWidth: 1200,
+          margin: '0 auto',
+          marginBottom: 48,
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            gap: 8,
+            flexWrap: 'wrap',
+          }}
+        >
           {regions.map(region => (
-            <button key={region} onClick={() => setActiveRegion(region)} style={{
-              fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em',
-              padding: '9px 22px', cursor: 'pointer', transition: 'all 0.2s', border: 'none',
-              background: activeRegion === region ? gold : 'transparent',
-              color: activeRegion === region ? ink : 'rgba(245,239,228,0.5)',
-              outline: activeRegion === region ? 'none' : '1px solid rgba(200,169,110,0.2)',
-            }}>
-              {region === 'All' ? `ALL (${destinations.length})` : region}
+            <button
+              key={region}
+              onClick={() => setActiveRegion(region)}
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '0.68rem',
+                letterSpacing: '0.15em',
+                padding: '8px 16px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                border: 'none',
+                background: activeRegion === region ? gold : 'transparent',
+                color:
+                  activeRegion === region
+                    ? ink
+                    : 'rgba(245,239,228,0.5)',
+                outline:
+                  activeRegion === region
+                    ? 'none'
+                    : '1px solid rgba(200,169,110,0.2)',
+              }}
+            >
+              {region === 'All'
+                ? `ALL (${destinations.length})`
+                : region}
             </button>
           ))}
         </div>
       </div>
 
       {/* Destinations Grid */}
-      <div style={{ padding: '0 60px 120px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
+      <div
+        style={{
+          padding: '0 clamp(20px,5vw,60px) 120px',
+          maxWidth: 1200,
+          margin: '0 auto',
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 16,
+          }}
+        >
           {filtered.map(dest => {
             const color = regionColors[dest.region] || 'C8A96E'
+
             return (
-              <Link key={dest.slug} href={`/destinations/${dest.slug}`} style={{ textDecoration: 'none' }}>
-                <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '36px 32px', transition: 'all 0.3s', cursor: 'pointer', height: '100%' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = `#${color}50`; el.style.transform = 'translateY(-4px)'; el.style.background = `#${color}08` }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(200,169,110,0.1)'; el.style.transform = 'translateY(0)'; el.style.background = '#111110' }}
+              <Link
+                key={dest.slug}
+                href={`/destinations/${dest.slug}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <div
+                  style={{
+                    background: '#111110',
+                    border: '1px solid rgba(200,169,110,0.1)',
+                    padding: '28px 24px',
+                    transition: 'all 0.3s',
+                    cursor: 'pointer',
+                    height: '100%',
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.borderColor = `#${color}50`
+                    el.style.transform = 'translateY(-4px)'
+                    el.style.background = `#${color}08`
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.borderColor =
+                      'rgba(200,169,110,0.1)'
+                    el.style.transform = 'translateY(0)'
+                    el.style.background = '#111110'
+                  }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
-                    <span style={{ fontSize: '2.2rem' }}>{dest.emoji}</span>
-                    <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.58rem', letterSpacing: '0.15em', color: `#${color}`, border: `1px solid #${color}40`, padding: '3px 10px' }}>{dest.region}</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      marginBottom: 20,
+                      gap: 12,
+                    }}
+                  >
+                    <span style={{ fontSize: '2.2rem' }}>
+                      {dest.emoji}
+                    </span>
+
+                    <span
+                      style={{
+                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontSize: '0.58rem',
+                        letterSpacing: '0.15em',
+                        color: `#${color}`,
+                        border: `1px solid #${color}40`,
+                        padding: '3px 10px',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {dest.region}
+                    </span>
                   </div>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.62rem', letterSpacing: '0.2em', color: 'rgba(245,239,228,0.4)', marginBottom: 8 }}>{dest.country}</div>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 600, color: cream, marginBottom: 8, lineHeight: 1 }}>{dest.name}</h3>
-                  <p style={{ fontSize: '0.82rem', color: 'rgba(245,239,228,0.5)', fontStyle: 'italic', marginBottom: 24, lineHeight: 1.5 }}>{dest.tagline}</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(200,169,110,0.08)', paddingTop: 20 }}>
+
+                  <div
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: '0.62rem',
+                      letterSpacing: '0.2em',
+                      color: 'rgba(245,239,228,0.4)',
+                      marginBottom: 8,
+                    }}
+                  >
+                    {dest.country}
+                  </div>
+
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: 'clamp(1.5rem,4vw,1.8rem)',
+                      fontWeight: 600,
+                      color: cream,
+                      marginBottom: 8,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {dest.name}
+                  </h3>
+
+                  <p
+                    style={{
+                      fontSize: '0.82rem',
+                      color: 'rgba(245,239,228,0.5)',
+                      fontStyle: 'italic',
+                      marginBottom: 24,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {dest.tagline}
+                  </p>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: 16,
+                      borderTop: '1px solid rgba(200,169,110,0.08)',
+                      paddingTop: 20,
+                    }}
+                  >
                     <div>
-                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.3)', marginBottom: 4 }}>FROM</div>
-                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.3rem', fontWeight: 600, color: gold }}>${dest.from.toLocaleString()}</div>
+                      <div
+                        style={{
+                          fontFamily: "'Bebas Neue', sans-serif",
+                          fontSize: '0.55rem',
+                          letterSpacing: '0.15em',
+                          color: 'rgba(245,239,228,0.3)',
+                          marginBottom: 4,
+                        }}
+                      >
+                        FROM
+                      </div>
+
+                      <div
+                        style={{
+                          fontFamily: "'Cormorant Garamond', serif",
+                          fontSize: '1.3rem',
+                          fontWeight: 600,
+                          color: gold,
+                        }}
+                      >
+                        ${dest.from.toLocaleString()}
+                      </div>
                     </div>
+
                     <div>
-                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(245,239,228,0.3)', marginBottom: 4 }}>DURATION</div>
-                      <div style={{ fontSize: '0.82rem', color: 'rgba(245,239,228,0.6)' }}>{dest.nights} nights</div>
+                      <div
+                        style={{
+                          fontFamily: "'Bebas Neue', sans-serif",
+                          fontSize: '0.55rem',
+                          letterSpacing: '0.15em',
+                          color: 'rgba(245,239,228,0.3)',
+                          marginBottom: 4,
+                        }}
+                      >
+                        DURATION
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: '0.82rem',
+                          color: 'rgba(245,239,228,0.6)',
+                        }}
+                      >
+                        {dest.nights} nights
+                      </div>
                     </div>
-                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, borderBottom: '1px solid rgba(200,169,110,0.3)', paddingBottom: 2 }}>EXPLORE →</div>
+
+                    <div
+                      style={{
+                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontSize: '0.62rem',
+                        letterSpacing: '0.12em',
+                        color: gold,
+                        borderBottom:
+                          '1px solid rgba(200,169,110,0.3)',
+                        paddingBottom: 2,
+                      }}
+                    >
+                      EXPLORE →
+                    </div>
                   </div>
                 </div>
               </Link>
