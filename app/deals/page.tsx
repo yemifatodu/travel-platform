@@ -18,7 +18,7 @@ const deals = [
     desc: 'Return flights from Lagos to Dubai with Emirates or Air Peace. Includes 30kg checked baggage.',
     from: '$380',
     was: '$590',
-    link: 'https://www.aviasales.com/?marker=710879&locale=en',
+    link: '/flights
     expires: 'Limited time',
   },
   {
@@ -118,7 +118,7 @@ const deals = [
 ]
 
 const categories = [
-  { icon: '✈', label: 'Flight Deals', link: 'https://www.aviasales.com/?marker=710879&locale=en' },
+  { icon: '✈', label: 'Flight Deals', link: '/flights },
   { icon: '🏨', label: 'Hotel Deals', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FHotels&camref=1110lBk7p' },
   { icon: '📦', label: 'Package Deals', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p' },
   { icon: '🦁', label: 'Safari Deals', link: '/request-trip' },

@@ -14,7 +14,7 @@ export default function Page() {
       items: [
         {
           q: 'How do I book a flight, hotel or package on HUUBOI?',
-          a: 'Use the search tabs at the top of the homepage. Enter your details and click the search button — you will be directed to our trusted partner\'s website (such as Expedia, Booking.com or Aviasales) where you can complete your booking securely.',
+          a: 'Use the search tabs at the top of the homepage. Enter your details and click the search button — you will be directed to our trusted partner\'s website (such as Expedia, Booking.com or our booking partners\) where you can complete your booking securely.',
         },
         {
           q: 'Does HUUBOI process bookings directly?',

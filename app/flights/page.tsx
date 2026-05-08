@@ -74,13 +74,13 @@ export default function FlightsPage() {
                 style={{ background: gold, color: '#080807', padding: '14px 32px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', textDecoration: 'none', display: 'inline-block' }}>
                 ✈ SEARCH FLIGHTS NOW
               </Link>
-              <a href="https://www.aviasales.com/?marker=710879&locale=en" target="_blank" rel="noopener noreferrer"
+              <a href="/flights target="_blank" rel="noopener noreferrer"
                 style={{ border: '1px solid rgba(200,169,110,0.35)', color: gold, padding: '14px 24px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.15em', textDecoration: 'none', display: 'inline-block' }}>
-                SEARCH VIA AVIASALES →
+                SEARCH FLIGHTS →
               </a>
             </div>
             <p style={{ color: dim, fontSize: '0.72rem', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
-              Powered by Aviasales · 1,200+ airlines · Results in English
+              Powered by Huuboi · 1,200+ airlines · Results in English
             </p>
           </div>
         </div>
