@@ -142,7 +142,6 @@ const esimStyles = `
     min-height: 100vh;
   }
   
-  /* UPDATED HERO: Flex container for split screen */
   .esim-hero {
     padding: 80px 24px 60px;
     background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.12) 0%, transparent 70%);
@@ -156,7 +155,6 @@ const esimStyles = `
     justify-content: space-between;
     align-items: center;
     gap: 40px;
-    text-align: left;
   }
 
   .esim-hero-left {
@@ -188,10 +186,8 @@ const esimStyles = `
     color: rgba(245,239,228,0.6);
     line-height: 1.7;
     font-weight: 300;
-    margin: 0;
   }
   
-  /* UPDATED BADGES: Stacking them vertically on the right */
   .esim-hero-right {
     flex-shrink: 0;
     width: 280px;
@@ -212,10 +208,10 @@ const esimStyles = `
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.15em;
     border-radius: 2px;
-    text-align: left;
     display: flex;
     align-items: center;
     gap: 10px;
+    backdrop-filter: blur(5px);
   }
   
   .esim-body {
@@ -223,12 +219,14 @@ const esimStyles = `
     margin: 0 auto;
     padding: 48px 24px;
   }
+
   .esim-tabs {
     display: flex;
     gap: 4px;
     margin-bottom: 32px;
     border-bottom: 1px solid var(--border);
   }
+
   .esim-tab {
     background: none;
     border: none;
@@ -241,6 +239,7 @@ const esimStyles = `
     position: relative;
     transition: color 0.2s;
   }
+
   .esim-tab.active { color: var(--gold); }
   .esim-tab.active::after {
     content: '';
@@ -251,40 +250,39 @@ const esimStyles = `
     height: 2px;
     background: var(--gold);
   }
-  .esim-tab:hover { color: var(--cream); }
+
   .esim-search-wrap {
     margin-bottom: 32px;
     position: relative;
   }
+
   .esim-search {
     width: 100%;
     background: rgba(245,239,228,0.04);
     border: 1px solid var(--border);
     color: var(--cream);
     font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 300;
     padding: 14px 20px 14px 48px;
     outline: none;
-    transition: border-color 0.2s;
   }
+
   .esim-search:focus { border-color: var(--gold); }
-  .esim-search::placeholder { color: rgba(245,239,228,0.3); }
+
   .esim-search-icon {
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: rgba(200,169,110,0.5);
-    font-size: 1.1rem;
-    pointer-events: none;
   }
-    .esim-grid {
+
+  .esim-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 6px;
     margin-bottom: 48px;
   }
+
   .esim-country-card {
     background: rgba(245,239,228,0.03);
     border: 1px solid var(--border);
@@ -294,122 +292,71 @@ const esimStyles = `
     display: flex;
     align-items: center;
     gap: 10px;
-    text-align: left;
   }
+
   .esim-country-card:hover {
     border-color: rgba(200,169,110,0.5);
     background: rgba(200,169,110,0.06);
   }
+
   .esim-country-card.active {
     border-color: var(--gold);
     background: rgba(200,169,110,0.1);
   }
+
   .esim-country-flag { flex-shrink: 0; width: 32px; height: 24px; display: flex; align-items: center; justify-content: center; }
 
   .esim-country-name {
     font-size: 0.78rem;
     color: var(--cream-dim);
-    font-weight: 400;
-    line-height: 1.2;
     flex: 1;
   }
+
   .esim-country-count {
     font-size: 0.62rem;
     color: var(--gold);
     font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.1em;
-    white-space: nowrap;
   }
+
   .esim-detail {
     border: 1px solid var(--border);
-    background: rgba(245,239,228,0.02);
+    background: rgba(245, 239, 228, 0.02);
+    backdrop-filter: blur(10px);
     padding: 40px;
     margin-bottom: 48px;
     scroll-margin-top: 20px;
   }
-  .esim-detail-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
-  .esim-detail-flag { font-size: 3rem; }
-  .esim-detail-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--cream);
-  }
-  .esim-detail-subtitle {
-    font-size: 0.8rem;
-    color: rgba(245,239,228,0.4);
-    margin-top: 4px;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.15em;
-  }
+
   .esim-plans-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 16px;
   }
+
   .esim-plan-card {
     border: 1px solid var(--border);
     background: rgba(245,239,228,0.03);
     padding: 24px;
     transition: border-color 0.2s;
     position: relative;
-    overflow: hidden;
   }
-  .esim-plan-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
+
   .esim-plan-card:hover { border-color: rgba(200,169,110,0.4); }
-  .esim-plan-card:hover::before { opacity: 1; }
-  .esim-plan-period {
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.2em;
-    font-size: 0.75rem;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
+
   .esim-plan-data {
     font-family: 'Cormorant Garamond', serif;
     font-size: 2.2rem;
-    font-weight: 300;
     color: var(--cream);
-    line-height: 1;
     margin-bottom: 4px;
   }
-  .esim-plan-throttle {
-    font-size: 0.7rem;
-    color: rgba(245,239,228,0.35);
-    margin-bottom: 16px;
-  }
-  .esim-plan-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 16px 0;
-  }
+
   .esim-plan-price {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.8rem;
-    font-weight: 600;
     color: var(--gold-light);
     margin-bottom: 16px;
   }
-  .esim-plan-price span {
-    font-size: 1rem;
-    color: rgba(200,169,110,0.6);
-    font-weight: 300;
-  }
+
   .esim-buy-btn {
     display: block;
     width: 100%;
@@ -418,22 +365,20 @@ const esimStyles = `
     color: var(--gold);
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.2em;
-    font-size: 0.85rem;
     padding: 12px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     transition: all 0.2s;
   }
+
   .esim-buy-btn:hover {
     background: var(--gold);
     color: var(--ink);
+    transform: translateY(-2px);
   }
-  .esim-loading {
-    text-align: center;
-    padding: 80px 24px;
-    color: rgba(245,239,228,0.4);
-  }
+
+  .esim-loading { text-align: center; padding: 80px 24px; }
   .esim-loading-spinner {
     width: 40px;
     height: 40px;
@@ -444,55 +389,15 @@ const esimStyles = `
     margin: 0 auto 16px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .esim-empty {
-    text-align: center;
-    padding: 48px;
-    color: rgba(245,239,228,0.3);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-  }
-  .esim-coverage {
-    margin-top: 16px;
-    font-size: 0.75rem;
-    color: rgba(245,239,228,0.35);
-    line-height: 1.5;
-  }
-  .esim-coverage strong {
-    color: rgba(245,239,228,0.5);
-    font-weight: 400;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.1em;
-    font-size: 0.7rem;
-  }
 
-  /* MEDIA QUERIES: Collapse back to stack on mobile */
   @media (max-width: 768px) {
-    .esim-hero-inner {
-      flex-direction: column;
-      text-align: center;
-      gap: 32px;
-    }
-    .esim-hero-left {
-      max-width: 100%;
-    }
-    .esim-hero-right {
-      width: 100%;
-      max-width: 320px;
-    }
-    .esim-badge {
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .esim-detail { padding: 24px 16px; }
-    .esim-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-    .esim-plans-grid { grid-template-columns: 1fr; }
+    .esim-hero-inner { flex-direction: column; text-align: center; }
+    .esim-hero-right { width: 100%; max-width: 320px; }
+    .esim-badge { justify-content: center; }
   }
 `;
 
-export default function EsimPage() {
+export default function EsimPage({ defaultCountry }: { defaultCountry?: string }) {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -505,14 +410,21 @@ export default function EsimPage() {
     fetch(YESIM_API)
       .then(r => r.json())
       .then(data => {
-        setPlans(Array.isArray(data) ? data : []);
+        const plansData = Array.isArray(data) ? data : [];
+        setPlans(plansData);
         setLoading(false);
+        
+        // Auto-select country if prop is provided (e.g., from an article page)
+        if (defaultCountry) {
+          const group = countryGroups.find(g => g.code.toLowerCase() === defaultCountry.toLowerCase());
+          if (group) handleSelect(group);
+        }
       })
       .catch(() => {
         setError('Could not load plans. Please try again.');
         setLoading(false);
       });
-  }, []);
+  }, [defaultCountry]);
 
   const countryGroups: CountryGroup[] = (() => {
     const map = new Map<string, CountryGroup>();
@@ -520,6 +432,7 @@ export default function EsimPage() {
       const isGlobal = plan.planName.toLowerCase().includes('global') || plan.planName.toLowerCase().includes('day pass');
       const isRegional = !plan.country_code && !isGlobal;
       const isSingleCountry = !!plan.country_code;
+      
       if (isSingleCountry) {
         const code = plan.country_code!.toUpperCase();
         const info = COUNTRY_MAP[code];
@@ -548,6 +461,7 @@ export default function EsimPage() {
   const countriesOnly = countryGroups.filter(g => !g.isRegional);
   const regionalOnly = countryGroups.filter(g => g.isRegional && !g.name.toLowerCase().includes('global') && !g.name.toLowerCase().includes('day'));
   const globalOnly = countryGroups.filter(g => g.isRegional && (g.name.toLowerCase().includes('global') || g.name.toLowerCase().includes('day')));
+  
   const currentList = activeTab === 'country' ? countriesOnly : activeTab === 'regional' ? regionalOnly : globalOnly;
   const filtered = search.trim() ? currentList.filter(g => g.name.toLowerCase().includes(search.toLowerCase())) : currentList;
 
@@ -563,136 +477,77 @@ export default function EsimPage() {
       <style dangerouslySetInnerHTML={{ __html: esimStyles }} />
       <div className="esim-page">
         <div className="esim-hero">
-          
-          {/* New Flex container wraps content */}
           <div className="esim-hero-inner">
-            
-            {/* Left side: Heading and copy */}
             <div className="esim-hero-left">
               <p className="label">✦ HUUBOI eSIM STORE ✦</p>
               <h1>Stay Connected<br /><span>Anywhere on Earth</span></h1>
-              <p>Instant eSIMs for 150+ destinations. No roaming fees. No physical SIM. Activate in minutes.</p>
+              <p>Instant eSIMs for 150+ destinations. No roaming fees. Activate in minutes directly via huuboi.com.</p>
             </div>
-
-            {/* Right side: Stacked Badges */}
             <div className="esim-hero-right">
               <div className="esim-badges">
                 <span className="esim-badge">📶 150+ Countries</span>
                 <span className="esim-badge">⚡ Instant Activation</span>
                 <span className="esim-badge">🔒 No Roaming Fees</span>
-                <span className="esim-badge">📱 eSIM Compatible Phones</span>
+                <span className="esim-badge">📱 Direct Setup</span>
               </div>
             </div>
-
           </div>
         </div>
 
         <div className="esim-body">
-          {loading && (
+          {loading ? (
             <div className="esim-loading">
               <div className="esim-loading-spinner"></div>
-              <p>Loading live plans...</p>
+              <p>Fetching live travel plans...</p>
             </div>
-          )}
-          {error && <div className="esim-empty">{error}</div>}
-
-          {!loading && !error && (
+          ) : (
             <>
               <div className="esim-tabs">
-                <button className={`esim-tab ${activeTab === 'country' ? 'active' : ''}`} onClick={() => { setActiveTab('country'); setSelected(null); setSearch(''); }}>
-                  Countries ({countriesOnly.length})
-                </button>
-                <button className={`esim-tab ${activeTab === 'regional' ? 'active' : ''}`} onClick={() => { setActiveTab('regional'); setSelected(null); setSearch(''); }}>
-                  Regional
-                </button>
-                <button className={`esim-tab ${activeTab === 'global' ? 'active' : ''}`} onClick={() => { setActiveTab('global'); setSelected(null); setSearch(''); }}>
-                  Global
-                </button>
+                <button className={`esim-tab ${activeTab === 'country' ? 'active' : ''}`} onClick={() => setActiveTab('country')}>Countries</button>
+                <button className={`esim-tab ${activeTab === 'regional' ? 'active' : ''}`} onClick={() => setActiveTab('regional')}>Regional</button>
+                <button className={`esim-tab ${activeTab === 'global' ? 'active' : ''}`} onClick={() => setActiveTab('global')}>Global</button>
               </div>
 
-              {activeTab === 'country' && (
-                <div className="esim-search-wrap">
-                  <span className="esim-search-icon">🔍</span>
-                  <input
-                    className="esim-search"
-                    type="text"
-                    placeholder="Search country..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                  />
-                </div>
-              )}
-
-              {filtered.length === 0 && (
-                <div className="esim-empty">No destinations found for &quot;{search}&quot;</div>
-              )}
+              <div className="esim-search-wrap">
+                <span className="esim-search-icon">🔍</span>
+                <input
+                  className="esim-search"
+                  type="text"
+                  placeholder="Search destination..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
 
               <div className="esim-grid">
                 {filtered.map(group => (
-                  <div
-                    key={group.code}
-                    className={`esim-country-card ${selected?.code === group.code ? 'active' : ''}`}
-                    onClick={() => handleSelect(group)}
-                  >
+                  <div key={group.code} className={`esim-country-card ${selected?.code === group.code ? 'active' : ''}`} onClick={() => handleSelect(group)}>
                     <div className="esim-country-flag">
-  {group.code.length === 2 ? (
-    <img
-      src={`https://flagcdn.com/32x24/${group.code.toLowerCase()}.png`}
-      alt={group.name}
-      width={32}
-      height={24}
-      style={{ display: 'inline-block', borderRadius: 2, objectFit: 'cover' }}
-      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-    />
-  ) : (
-    <span style={{ fontSize: '1.4rem' }}>{group.flag}</span>
-  )}
-</div>
+                      {group.code.length === 2 ? (
+                        <img
+                          src={`https://flagcdn.com/32x24/${group.code.toLowerCase()}.png`}
+                          alt={group.name}
+                          width={32} height={24}
+                          onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
+                        />
+                      ) : <span>{group.flag}</span>}
+                    </div>
                     <div className="esim-country-name">{group.name}</div>
-                    <div className="esim-country-count">{group.plans.length} plan{group.plans.length !== 1 ? 's' : ''}</div>
+                    <div className="esim-country-count">{group.plans.length}</div>
                   </div>
                 ))}
               </div>
 
               {selected && (
                 <div className="esim-detail" ref={detailRef}>
-                  <div className="esim-detail-header">
-                    <div className="esim-detail-flag">{selected.flag}</div>
-                    <div>
-                      <div className="esim-detail-title">{selected.name}</div>
-                      <div className="esim-detail-subtitle">
-                        {selected.plans.length} available plan{selected.plans.length !== 1 ? 's' : ''} · Data only · Powered by Yesim
-                      </div>
-                    </div>
-                  </div>
                   <div className="esim-plans-grid">
-                    {selected.plans
-                      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
-                      .map((plan, i) => (
-                        <div key={i} className="esim-plan-card">
-                          <div className="esim-plan-period">{formatPeriod(plan.period)}</div>
-                          <div className="esim-plan-data">
-                            {formatData(plan.capacity, plan.dataUnit, plan.capacityInfo)}
-                          </div>
-                          {plan.capacityInfo && (
-                            <div className="esim-plan-throttle">*After fair use, speeds may be reduced</div>
-                          )}
-                          <hr className="esim-plan-divider" />
-                          <div className="esim-plan-price">
-                            €{parseFloat(plan.price).toFixed(2)} <span>EUR</span>
-                          </div>
-                          <a href={buildBuyLink(plan)} target="_blank" rel="noopener noreferrer" className="esim-buy-btn">
-                            Get This eSIM →
-                          </a>
-                          {selected.isRegional && plan.coverages.length > 1 && (
-                            <div className="esim-coverage">
-                              <strong>Covers:</strong>{' '}
-                              {plan.coverages.slice(0, 8).map(c => COUNTRY_MAP[c.code]?.name || c.code).join(', ')}
-                              {plan.coverages.length > 8 && ` +${plan.coverages.length - 8} more`}
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                    {selected.plans.sort((a,b) => parseFloat(a.price) - parseFloat(b.price)).map((plan, i) => (
+                      <div key={i} className="esim-plan-card">
+                        <div className="esim-plan-data">{formatData(plan.capacity, plan.dataUnit, plan.capacityInfo)}</div>
+                        <div className="esim-plan-price">€{parseFloat(plan.price).toFixed(2)}</div>
+                        <a href={buildBuyLink(plan)} target="_blank" rel="noopener noreferrer" className="esim-buy-btn">Reserve eSIM</a>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
