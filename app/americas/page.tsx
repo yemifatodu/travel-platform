@@ -95,7 +95,7 @@ const destinations = [
     highlights: ['Tango', 'Palermo Soho', 'La Boca', 'Recoleta Cemetery', 'Steak Dinner', 'San Telmo Market'],
     bestTime: 'Oct–Dec · Mar–May', duration: '5–7 nights', from: '$280',
     description: 'Buenos Aires is South America\'s most sophisticated city — European architecture, passionate tango, the world\'s finest beef, and a café culture that makes Paris look hurried. The city seduces slowly and thoroughly.',
-    experiences: ['Tango show at Café de los Angelitos or El Viejo Almacén', 'Recoleta Cemetery — Eva Perón\'s tomb and extraordinary mausoleums', 'San Telmo Sunday antiques market and tango in the streets', 'Palermo Soho boutiques and restaurant dinner', 'La Boca neighbourhood and Caminito street art', 'Asado (Argentine barbecue) dinner at a parrilla', 'Day trip to Tigre Delta and the Paraná River'],
+    experiences: ['Tango show at Café de los Angelitos or El Viejo Almacén', 'Recoleta Cemetery — Eva Perón\'s tomb and extraordinary mausoleums', 'San Telmo Sunday antiques market and tango in the streets', 'Palermo Soho boutiques and restaurant dinner', 'La Boca neighbourhood and Caminito street art', 'Asado (Argentine barbecue) dinner at a parrilla', 'Day trip to Tigre Delta and the Paradox River'],
     hotels: ['Palacio Duhau Park Hyatt', 'Faena Hotel Buenos Aires', 'Hotel Madero', 'Alvear Palace Hotel'],
   },
   {
@@ -126,7 +126,7 @@ const routes = [
   { title: 'Brazilian Adventure', days: '12 days', cities: 'São Paulo → Salvador → Pantanal → Amazon → Rio de Janeiro', desc: 'Brazil\'s full diversity — urban culture, Afro-Brazilian heritage, wildlife and the marvelous city.' },
 ]
 
-export default function AmericasPage() 
+export default function AmericasPage() {
   const [selectedDest, setSelectedDest] = useState<typeof destinations[0] | null>(null)
   const [activeTab, setActiveTab] = useState<'destinations' | 'experiences' | 'guide'>('destinations')
 
@@ -148,7 +148,7 @@ export default function AmericasPage()
             From the Arctic tundra to Patagonia's glaciers, from Manhattan's skyline to the Amazon's cathedral forests — the Americas contain more geographical and cultural diversity than any other landmass on earth.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="/flights target="_blank" rel="noopener noreferrer"
+            <a href="/flights" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-block' }}>
               ✈ SEARCH FLIGHTS
             </a>
@@ -255,7 +255,7 @@ export default function AmericasPage()
                       </div>
                     </div>
                     <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <a href="/flights target="_blank" rel="noopener noreferrer"
+                      <a href="/flights" target="_blank" rel="noopener noreferrer"
                         style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-block' }}>
                         ✈ SEARCH FLIGHTS
                       </a>
@@ -443,3 +443,4 @@ export default function AmericasPage()
     </div>
   )
 }
+

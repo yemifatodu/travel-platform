@@ -20,11 +20,12 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
   if (!post) {
     return (
-      <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 120, textAlign: 'center', padding: '120px 24px' }}>
+      <div style={{ minHeight: '100vh', background: '#080807', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '120px 24px' }}>
         <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '3rem', fontWeight: 300, color: cream, marginBottom: 24 }}>Article not found</h1>
         <Link href="/blog" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: gold, textDecoration: 'none' }}>← BACK TO JOURNAL</Link>
       </div>
     )
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 80 }}>
@@ -82,7 +83,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
         {/* Booking CTAs */}
         <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 8 }}>
-          <a href="/flights target="_blank" rel="noopener noreferrer"
+          <a href="/flights" target="_blank" rel="noopener noreferrer"
             style={{ background: 'transparent', border: '1px solid rgba(200,169,110,0.25)', color: gold, padding: '14px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
             ✈ SEARCH FLIGHTS
           </a>
@@ -127,4 +128,3 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
     </div>
   )
 }
-
