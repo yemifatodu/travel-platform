@@ -126,7 +126,7 @@ const routes = [
   { title: 'Brazilian Adventure', days: '12 days', cities: 'São Paulo → Salvador → Pantanal → Amazon → Rio de Janeiro', desc: 'Brazil\'s full diversity — urban culture, Afro-Brazilian heritage, wildlife and the marvelous city.' },
 ]
 
-export default function AmericasPage() {
+export default function AmericasPage() 
   const [selectedDest, setSelectedDest] = useState<typeof destinations[0] | null>(null)
   const [activeTab, setActiveTab] = useState<'destinations' | 'experiences' | 'guide'>('destinations')
 

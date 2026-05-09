@@ -25,7 +25,6 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         <Link href="/blog" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', color: gold, textDecoration: 'none' }}>← BACK TO JOURNAL</Link>
       </div>
     )
-  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 80 }}>

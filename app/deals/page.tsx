@@ -18,7 +18,7 @@ const deals = [
     desc: 'Return flights from Lagos to Dubai with Emirates or Air Peace. Includes 30kg checked baggage.',
     from: '$380',
     was: '$590',
-    link: '/flights
+    link: '/flights'
     expires: 'Limited time',
   },
   {
