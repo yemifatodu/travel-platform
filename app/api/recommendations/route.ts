@@ -21,3 +21,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Recommendation failed' }, { status: 500 })
   }
 }
+
+
+
+

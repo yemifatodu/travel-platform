@@ -13,7 +13,7 @@ const navigationHub = [
   },
   { 
     label: 'Find Hotels', 
-    href: '/hotels', // Points to app/hotels/page.tsx
+    href: '/hotel', // Points to app/hotels/page.tsx
     desc: '28 million+ properties worldwide with Booking.com' 
   },
   { 
@@ -76,3 +76,7 @@ export default function SearchHubPage() {
     </div>
   )
 }
+
+
+
+

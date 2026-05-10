@@ -39,3 +39,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Price prediction failed' }, { status: 500 })
   }
 }
+
+
+
+

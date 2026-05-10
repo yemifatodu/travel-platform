@@ -7,8 +7,8 @@ const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
 const quickLinks = [
-  { icon: '✈', label: 'Search Flights', href: '/flights', desc: 'Compare 1,200+ airlines' },
-  { icon: '🏨', label: 'Search Hotels', href: '/hotels', desc: '28M+ properties worldwide' },
+  { icon: '✈', label: 'Search Flights', href: 'https://tpwidg.com/wl_web/main.js?wl_id=15518', desc: 'Compare 1,200+ airlines' },
+  { icon: '🏨', label: 'Search Hotels', href: '/hotel', desc: '28M+ properties worldwide' },
   { icon: '🎯', label: 'Browse Experiences', href: '/tours', desc: '300,000+ tours & activities' },
   { icon: '🚗', label: 'Rent a Car', href: '/car-rentals', desc: '900+ rental suppliers' },
   { icon: '📱', label: 'Get a Travel eSIM', href: '/esim', desc: 'Data in 150+ countries' },
@@ -123,3 +123,7 @@ export default function DashboardPage() {
     </div>
   )
 }
+
+
+
+

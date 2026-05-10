@@ -169,7 +169,7 @@ export default function FlightsPage() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
-          {[{ label: 'Search All Services', href: '/search' }, { label: 'Hotels', href: '/hotels' }, { label: 'Travel eSIM', href: '/esim' }, { label: 'Visa Requirements', href: '/visa-requirements' }].map(link => (
+          {[{ label: 'Search All Services', href: '/search' }, { label: 'Hotels', href: '/hotel' }, { label: 'Travel eSIM', href: '/esim' }, { label: 'Visa Requirements', href: '/visa-requirements' }].map(link => (
             <Link key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '18px 20px', transition: 'border-color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
@@ -183,3 +183,7 @@ export default function FlightsPage() {
     </div>
   )
 }
+
+
+
+

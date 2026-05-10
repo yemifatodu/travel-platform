@@ -227,7 +227,7 @@ export default function MapExplorer() {
               </Link>
               
               {/* Replace Affiliate Link with Internal Huuboi Flights Landing Page */}
-              <Link href="/flights" style={{ background: 'transparent', border: `1px solid ${gold}`, color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              <Link href="/" style={{ background: 'transparent', border: `1px solid ${gold}`, color: gold, padding: '11px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.15em', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
                 SEARCH FLIGHTS →
               </Link>
             </div>
@@ -250,3 +250,7 @@ export default function MapExplorer() {
     </div>
   )
 }
+
+
+
+

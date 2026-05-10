@@ -224,7 +224,7 @@ export default function AfricaSafari() {
 
         <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
           <a
-            href="/flights"
+            href="/"
             target="_blank"
             rel="noopener noreferrer"
             style={{ background: gold, color: '#000', padding: '12px 24px', textDecoration: 'none' }}
@@ -272,3 +272,6 @@ export default function AfricaSafari() {
     </div>
   )
 }
+
+
+

@@ -126,3 +126,7 @@ export default function MapExplorerComponent({ selectedCityName }: MapProps) {
     </GoogleMap>
   );
 }
+
+
+
+

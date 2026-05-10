@@ -119,3 +119,7 @@ async function generateItinerary(destination: string, days: number, budget: stri
   if (!res.ok) throw new Error(data.error?.message || 'OpenAI API error')
   return JSON.parse(data.choices[0].message.content)
 }
+
+
+
+

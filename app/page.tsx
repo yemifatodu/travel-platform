@@ -285,7 +285,7 @@ export default function HomePage() {
           <div className="responsive-flex-cards" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: '20px' }}>
             
             {/* Hotels Card */}
-            <Link href="/hotels" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Link href="/hotel" style={{ flex: '1 1 300px', textDecoration: 'none', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}><span>🏨</span></div>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: '#C8A96E' }}><div>FIND HOTEL DEALS</div></div>
@@ -439,3 +439,7 @@ export default function HomePage() {
     </>
   )
 }
+
+
+
+

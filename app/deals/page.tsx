@@ -18,7 +18,7 @@ const deals = [
     desc: 'Return flights from Lagos to Dubai with Emirates or Air Peace. Includes 30kg checked baggage.',
     from: '$380',
     was: '$590',
-    link: '/flights',
+    link: 'https://tpwidg.com/wl_web/main.js?wl_id=15518',
     expires: 'Limited time',
   },
   {
@@ -118,7 +118,7 @@ const deals = [
 ]
 
 const categories = [
-  { icon: '✈', label: 'Flight Deals', link: '/flights' },
+  { icon: '✈', label: 'Flight Deals', link: 'https://tpwidg.com/wl_web/main.js?wl_id=15518' },
   { icon: '🏨', label: 'Hotel Deals', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FHotels&camref=1110lBk7p' },
   { icon: '📦', label: 'Package Deals', link: 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p' },
   { icon: '🦁', label: 'Safari Deals', link: '/request-trip' },
@@ -237,8 +237,8 @@ export default function DealsPage() {
         {/* Related */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
           {[
-            { label: 'Flights', href: '/flights' },
-            { label: 'Hotels', href: '/hotels' },
+            { label: 'Flights', href: 'https://tpwidg.com/wl_web/main.js?wl_id=15518' },
+            { label: 'Hotels', href: '/hotel' },
             { label: 'Tours & Experiences', href: '/tours' },
             { label: 'Request a Trip', href: '/request-trip' },
           ].map(link => (
@@ -256,3 +256,6 @@ export default function DealsPage() {
     </div>
   )
 }
+
+
+

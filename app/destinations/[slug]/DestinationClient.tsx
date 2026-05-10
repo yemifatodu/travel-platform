@@ -124,3 +124,5 @@ export function DestinationClient({ dest, slug }: { dest: DestinationData; slug:
     </div>
   )
 }
+
+

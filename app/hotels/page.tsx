@@ -174,7 +174,7 @@ export default function HotelsPage() {
         {/* Related */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
           {[
-            { label: 'Flights', href: '/flights' },
+            { label: 'Flights', href: 'https://tpwidg.com/wl_web/main.js?wl_id=15518' },
             { label: 'Tours & Experiences', href: '/tours' },
             { label: 'Airport Transfers', href: '/transfers' },
             { label: 'Travel eSIM', href: '/esim' },
@@ -193,3 +193,7 @@ export default function HotelsPage() {
     </div>
   )
 }
+
+
+
+

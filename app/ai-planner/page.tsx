@@ -304,9 +304,12 @@ export default function AIPlanner() {
       )}
 
       {/* FIXED CTA */}
-      <a href="/flights" target="_blank" rel="noopener noreferrer">
+      <a href="/" target="_blank" rel="noopener noreferrer">
         Flights
       </a>
     </div>
   )
 }
+
+
+

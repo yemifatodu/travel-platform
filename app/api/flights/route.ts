@@ -15,3 +15,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ flights: data })
   } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }) }
 }
+
+
+
+

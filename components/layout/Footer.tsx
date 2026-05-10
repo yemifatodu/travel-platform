@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export function Footer() {
   const cols = [
-    { title: 'Explore', links: [['Flights','/flights'],['Hotels','/hotels'],['Packages','/packages'],['Tours','/tours'],['Car Rentals','/car-rentals'],['Deals','/deals']] },
+    { title: 'Explore', links: [['Flights','https://tpwidg.com/wl_web/main.js?wl_id=15518'],['Hotels','/hotel'],['Packages','/packages'],['Tours','/tours'],['Car Rentals','/car-rentals'],['Deals','/deals']] },
     { title: 'Destinations', links: [['Africa & Safari','/africa-safari'],['Middle East','/middle-east'],['Asia & Far East','/asia'],['Europe','/europe'],['Americas','/americas'],['Pacific','/pacific']] },
     { title: 'Tools', links: [['AI Trip Planner','/ai-planner'],['Budget Calculator','/budget-calculator'],['Price Alerts','/price-alerts'],['Map Explorer','/map-explorer'],['Travel Guides','/travel-guides'],['Blog','/blog']] },
     { title: 'Support', links: [['About Us','/about'],['Contact','/contact'],['Help Center','/help'],['Privacy Policy','/privacy-policy'],['Terms','/terms'],['Refund Policy','/refund-policy']] },
@@ -106,3 +106,7 @@ export function Footer() {
     </footer>
   )
 }
+
+
+
+

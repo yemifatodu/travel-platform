@@ -60,3 +60,5 @@ export default function DestinationPage({ params }: { params: { slug: string } }
   }
   return <DestinationClient dest={dest} slug={params.slug} />
 }
+
+

@@ -12,3 +12,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ hotels: data })
   } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }) }
 }
+
+
+
+

@@ -15,3 +15,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ booking }, { status: 201 })
   } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }) }
 }
+
+
+
+
