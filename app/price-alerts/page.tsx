@@ -241,11 +241,7 @@ export default function PriceAlerts() {
   const getBookingLink = () => {
     if (form.trip_type === 'hotel') return 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p&creativeref=1100l68075&adref=PZnDB3QOfb'
     if (form.trip_type === 'package') return 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p&creativeref=1100l68075&adref=PZRpNWOv8b'
-    return '/flights
-  }
-
-  return (
-    <div style={{ minHeight: '100vh', background: ink, paddingTop: 100 }}>
+    return '/''100vh', background: ink, paddingTop: 100 }}>
       <div style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px,8vw,80px) clamp(20px,5vw,40px)' }}>
 
         {/* Header */}
@@ -462,6 +458,8 @@ export default function PriceAlerts() {
     </div>
   )
 }
+
+
 
 
 

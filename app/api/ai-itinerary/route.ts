@@ -123,3 +123,5 @@ async function generateItinerary(destination: string, days: number, budget: stri
 
 
 
+
+

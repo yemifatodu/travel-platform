@@ -132,7 +132,6 @@ export default function PacificPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
-
       {/* Hero */}
       <div style={{ background: 'linear-gradient(160deg,#080a10,#081018,#080810)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(ellipse 70% 60% at 60% 50%, rgba(123,155,200,0.08) 0%, transparent 70%)' }} />
@@ -148,7 +147,7 @@ export default function PacificPage() {
             The world's largest ocean. The planet's most isolated islands. Ancient cultures that navigated by stars. Active volcanoes building new land. Lagoons so blue they look painted. The Pacific rewards those who make the journey.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="/flights target="_blank" rel="noopener noreferrer"
+            <a href="/flights" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-block' }}>
               ✈ SEARCH FLIGHTS
             </a>
@@ -178,7 +177,6 @@ export default function PacificPage() {
 
       {/* Content */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(40px,6vw,80px) clamp(20px,5vw,60px)' }}>
-
         {/* Tabs */}
         <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(200,169,110,0.15)', marginBottom: 48 }}>
           {[
@@ -255,7 +253,7 @@ export default function PacificPage() {
                       </div>
                     </div>
                     <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <a href="/flights target="_blank" rel="noopener noreferrer"
+                      <a href="/flights" target="_blank" rel="noopener noreferrer"
                         style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-block' }}>
                         ✈ SEARCH FLIGHTS
                       </a>
@@ -344,7 +342,6 @@ export default function PacificPage() {
               </h2>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-
               {/* Practical */}
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 24 }}>PACIFIC ESSENTIALS</div>
@@ -364,86 +361,10 @@ export default function PacificPage() {
                   ))}
                 </div>
               </div>
-
-              {/* Budget */}
-              <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>BUDGET GUIDE (PER PERSON / DAY)</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 2 }}>
-                  {[
-                    { dest: 'Bora Bora', range: '$400–800/day', note: 'Ultra luxury' },
-                    { dest: 'Cook Islands', range: '$200–500/day', note: 'Remote premium' },
-                    { dest: 'Sydney / Melbourne', range: 'A$150–350/day', note: 'Major cities' },
-                    { dest: 'Queenstown NZ', range: 'NZ$150–350/day', note: 'Adventure premium' },
-                    { dest: 'French Polynesia', range: '$250–600/day', note: 'Resort dependent' },
-                    { dest: 'Great Barrier Reef', range: 'A$150–400/day', note: 'Liveaboard extra' },
-                    { dest: 'Fiji', range: '$100–300/day', note: 'Best Pacific value' },
-                    { dest: 'Hawaii', range: '$150–350/day', note: 'US prices apply' },
-                  ].map(item => (
-                    <div key={item.dest} style={{ background: '#1C1B18', padding: '14px 16px' }}>
-                      <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: dim, marginBottom: 3 }}>{item.dest}</div>
-                      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', color: gold, fontWeight: 600, marginBottom: 2 }}>{item.range}</div>
-                      <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.1em', color: dim }}>{item.note}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Visa */}
-              <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>VISA OVERVIEW</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
-                  {[
-                    { heading: 'Australia', body: 'ETA (AUD $20) or eVisitor (free for EU) instantly online. Nigerian and most African nationals require a Tourist Visa (AUD $150) — apply at immi.homeaffairs.gov.au with bank statements and strong ties evidence. Australia is strict.' },
-                    { heading: 'New Zealand', body: 'NZeTA (NZD $17–23) for eligible nationalities. Most require a Visitor Visa (NZD $211). Nigeria and most African passports require full visa application — apply at immigration.govt.nz well ahead.' },
-                    { heading: 'French Polynesia', body: 'Part of France — EU passport holders enter freely. UK, US, Canadian and most Western nationalities enter visa-free for 90 days. Most African nationals require a French visa — apply through the French Embassy.' },
-                    { heading: 'Fiji & Pacific Islands', body: 'Fiji is visa-free for most nationalities for 4 months including many African passports. Hawaii is USA — ESTA or B1/B2 visa rules apply. Cook Islands visa-free for most nationalities for 31 days.' },
-                  ].map(item => (
-                    <div key={item.heading}>
-                      <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.18em', color: gold, marginBottom: 8 }}>{item.heading}</div>
-                      <p style={{ color: muted, fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>{item.body}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
             </div>
           </div>
         )}
-
-        {/* eSIM */}
-        <div style={{ marginTop: 48, background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-          <div>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4 }}>📱 PACIFIC TRAVEL ESIM</div>
-            <p style={{ color: muted, fontSize: '0.88rem', margin: 0 }}>Stay connected across Australia, New Zealand, Fiji, French Polynesia, Hawaii and every island in between</p>
-          </div>
-          <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-            GET PACIFIC ESIM
-          </Link>
-        </div>
-
-        {/* Related */}
-        <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
-          {[
-            { label: 'Asia & Far East', href: '/asia' },
-            { label: 'The Americas', href: '/americas' },
-            { label: 'Travel Guides', href: '/travel-guides' },
-            { label: 'Visa Requirements', href: '/visa-requirements' },
-          ].map(link => (
-            <Link key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
-              <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '18px 20px', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.35)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', color: gold }}>EXPLORE {link.label.toUpperCase()} →</div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
       </div>
     </div>
   )
 }
-
-
-
-
