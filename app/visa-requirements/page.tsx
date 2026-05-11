@@ -1,121 +1,90 @@
 'use client'
 
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Script from 'next/script'
-
-declare global {
-  interface Window {
-    VHQVisaRequiredWidget: any
-  }
-}
+import Link from 'next/link'
 
 export default function VisaPage() {
+  const gold = '#C8A96E'
+  const ink = '#080807'
+  const cream = '#F5EFE4'
+  const muted = 'rgba(245,239,228,0.60)'
 
-  useEffect(() => {
+  const handleWidgetInit = () => {
     if (typeof window !== 'undefined') {
-      window.VHQVisaRequiredWidget = window.VHQVisaRequiredWidget || []
-      window.VHQVisaRequiredWidget.push([
-        'init',
+      // We cast window to 'any' to bypass the TypeScript error
+      const win = window as any;
+      win.VHQVisaRequiredWidget = win.VHQVisaRequiredWidget || [];
+      win.VHQVisaRequiredWidget.push([
+        "init",
         {
-          containerId: 'vhq-visa-required-widget',
-          language: 'en',
-          residency: null,
-          nationality: null,
-          purpose: 'tourism',
-        },
-      ])
+          "containerId": "vhq-visa-required-widget",
+          "language": "en",
+          "residency": null,
+          "nationality": null,
+          "purpose": "tourism"
+        }
+      ]);
     }
-  }, [])
+  }
 
   return (
-    <>
-      <Script
+    <div style={{ minHeight: '100vh', background: ink, color: cream, paddingTop: '120px' }}>
+      <Script 
         src="https://www.visahq.com/scripts/visa-required-widget/1.1.4/loader-bundle.js"
         strategy="afterInteractive"
+        onLoad={handleWidgetInit}
       />
 
-      {/* Standard CSS injection to avoid Vercel Build Errors */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .visa-shell {
-          max-width: 950px;
-          margin: 60px auto;
-          padding: 28px;
-          background: #0b0b0b;
-          border-radius: 22px;
-          color: #f5efe4;
-          font-family: Inter, sans-serif;
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .visa-header { margin-bottom: 24px; }
-        .visa-header h1 { font-size: 34px; margin-bottom: 8px; font-weight: 700; }
-        .visa-header p { opacity: 0.65; font-size: 15px; }
-
-        .visa-filters { display: flex; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
-        .visa-filters input {
-          flex: 1;
-          min-width: 220px;
-          padding: 14px 16px;
-          border-radius: 14px;
-          border: 1px solid rgba(255,255,255,0.08);
-          background: #111;
-          color: white;
-          outline: none;
-        }
-
-        .visa-filters button {
-          padding: 14px 20px;
-          border-radius: 14px;
-          border: none;
-          background: #c8a96e;
-          color: #000;
-          font-weight: 700;
-          cursor: pointer;
-        }
-
-        .visa-widget-container {
-          background: #101010;
-          border-radius: 18px;
-          overflow: hidden;
-          padding: 10px;
-          border: 1px solid rgba(255,255,255,0.05);
-        }
-
         #vhq-visa-required-widget iframe {
           border: none !important;
           width: 100% !important;
           min-height: 700px !important;
-          border-radius: 14px !important;
+          background: transparent !important;
         }
-
-        @media (max-width: 768px) {
-          .visa-shell { margin: 20px; padding: 20px; }
-          .visa-filters { flex-direction: column; }
-          .visa-filters button { width: 100%; }
+        .widget-holder {
+          background: #111110;
+          border: 1px solid rgba(200,169,110,0.15);
+          border-radius: 4px;
+          overflow: hidden;
+          padding: 20px;
         }
       `}} />
 
-      <div className="visa-shell" style={{ marginTop: '100px' }}>
-        <div className="visa-header">
-          <h1 style={{ color: '#c8a96e' }}>Visa Requirements Checker</h1>
-          <p>Instant travel visa information worldwide via <strong>huuboi.com</strong></p>
+      <div style={{ maxWidth: '950px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.3em', color: gold, marginBottom: '16px' }}>
+            HUUBOI GLOBAL ACCESS
+          </div>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 300, marginBottom: '20px', lineHeight: 1 }}>
+            Visa <em style={{ color: gold }}>Requirements</em>
+          </h1>
+          <p style={{ color: muted, maxWidth: '550px', margin: '0 auto', lineHeight: 1.8 }}>
+            Access real-time documentation requirements for over 200 countries. Huuboi (huuboi.com) makes international travel planning seamless and secure.
+          </p>
         </div>
 
-        <div className="visa-filters">
-          <input placeholder="Your nationality" />
-          <input placeholder="Destination country" />
-          <button>Check Visa</button>
+        <div className="widget-holder">
+          <div id="vhq-visa-required-widget">
+            <div style={{ padding: '100px 0', textAlign: 'center', fontFamily: "'Bebas Neue',sans-serif", color: gold, fontSize: '0.8rem', letterSpacing: '0.2em' }}>
+              LOADING VISA INTELLIGENCE...
+            </div>
+          </div>
         </div>
 
-        <div className="visa-widget-container">
-          <div id="vhq-visa-required-widget"></div>
+        {/* Brand Visibility Section */}
+        <div style={{ marginTop: '60px', textAlign: 'center', borderTop: '1px solid rgba(245,239,228,0.05)', paddingTop: '40px', paddingBottom: '80px' }}>
+          <p style={{ color: muted, fontSize: '0.9rem', marginBottom: '24px' }}>
+            Need help? Contact our travel desk at <strong>hello@huuboi.com</strong>
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
+            <Link href="/flights" style={{ color: gold, fontSize: '0.7rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.15em', textDecoration: 'none' }}>BOOK FLIGHTS</Link>
+            <Link href="/hotels" style={{ color: gold, fontSize: '0.7rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.15em', textDecoration: 'none' }}>HOTEL RESERVATIONS</Link>
+            <Link href="/cars" style={{ color: gold, fontSize: '0.7rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.15em', textDecoration: 'none' }}>CAR RENTALS</Link>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
-
-
-
-
-
