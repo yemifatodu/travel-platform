@@ -201,7 +201,6 @@ export default function PriceAlerts() {
       })
       const data = await res.json()
       if (data.prediction) {
-        // Map AI response to our format
         const p = data.prediction
         setPrediction({
           recommendation: p.recommendation?.replace(/_/g, ' ').toUpperCase() || 'BOOK SOON',
@@ -224,7 +223,7 @@ export default function PriceAlerts() {
     } catch {}
 
     // Built-in engine fallback
-    await new Promise(r => setTimeout(r, 900)) // natural loading feel
+    await new Promise(r => setTimeout(r, 900))
     setPrediction(buildPrediction(form.origin, form.destination, form.travel_date, form.trip_type))
     setLoading(false)
   }
@@ -237,13 +236,16 @@ export default function PriceAlerts() {
     }
   }
 
-  // Booking links based on type
+  // Booking links based on type — FIXED
   const getBookingLink = () => {
     if (form.trip_type === 'hotel') return 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1110lBk7p&creativeref=1100l68075&adref=PZnDB3QOfb'
     if (form.trip_type === 'package') return 'https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com%2FVacation-Packages&camref=1110lBk7p&creativeref=1100l68075&adref=PZRpNWOv8b'
-    return '/''100vh', background: ink, paddingTop: 100 }}>
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px,8vw,80px) clamp(20px,5vw,40px)' }}>
+    return 'https://skyscanner.com'
+  }
 
+  return (
+    <div style={{ minHeight: '100vh', background: ink, paddingTop: 100 }}>
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px,8vw,80px) clamp(20px,5vw,40px)' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 60 }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
@@ -261,7 +263,6 @@ export default function PriceAlerts() {
 
         {/* Form */}
         <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,4vw,48px)', marginBottom: 32 }}>
-
           {/* Trip type selector */}
           <div style={{ marginBottom: 28 }}>
             <label style={labelStyle}>WHAT ARE YOU SEARCHING FOR?</label>
@@ -324,7 +325,6 @@ export default function PriceAlerts() {
         {/* Results */}
         {prediction && (
           <div style={{ display: 'grid', gap: 16 }}>
-
             {/* Main Verdict */}
             <div style={{ background: '#111110', border: `2px solid ${prediction.recColor}40`, padding: 'clamp(28px,4vw,48px)', textAlign: 'center' }}>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.25em', color: dim, marginBottom: 16 }}>
@@ -432,7 +432,6 @@ export default function PriceAlerts() {
                 </Link>
               </div>
             </div>
-
           </div>
         )}
 
@@ -453,14 +452,7 @@ export default function PriceAlerts() {
             ))}
           </div>
         )}
-
       </div>
     </div>
   )
 }
-
-
-
-
-
-
