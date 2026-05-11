@@ -141,11 +141,13 @@ const esimStyles = `
     font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
   }
+  
   .esim-hero {
     padding: 80px 24px 60px;
     background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.12) 0%, transparent 70%);
     border-bottom: 1px solid var(--border);
   }
+  
   .esim-hero-inner {
     max-width: 1200px;
     margin: 0 auto;
@@ -154,10 +156,12 @@ const esimStyles = `
     align-items: center;
     gap: 40px;
   }
+
   .esim-hero-left {
     flex: 1;
     max-width: 600px;
   }
+
   .esim-hero .label {
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.3em;
@@ -165,6 +169,7 @@ const esimStyles = `
     color: var(--gold);
     margin-bottom: 16px;
   }
+  
   .esim-hero h1 {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -173,22 +178,27 @@ const esimStyles = `
     color: var(--cream);
     margin-bottom: 20px;
   }
+  
   .esim-hero h1 span { color: var(--gold); font-style: italic; }
+  
   .esim-hero p {
     font-size: 1rem;
     color: rgba(245,239,228,0.6);
     line-height: 1.7;
     font-weight: 300;
   }
+  
   .esim-hero-right {
     flex-shrink: 0;
     width: 280px;
   }
+
   .esim-badges {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+  
   .esim-badge {
     background: var(--muted);
     border: 1px solid var(--border);
@@ -203,17 +213,20 @@ const esimStyles = `
     gap: 10px;
     backdrop-filter: blur(5px);
   }
+  
   .esim-body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 48px 24px;
   }
+
   .esim-tabs {
     display: flex;
     gap: 4px;
     margin-bottom: 32px;
     border-bottom: 1px solid var(--border);
   }
+
   .esim-tab {
     background: none;
     border: none;
@@ -226,6 +239,7 @@ const esimStyles = `
     position: relative;
     transition: color 0.2s;
   }
+
   .esim-tab.active { color: var(--gold); }
   .esim-tab.active::after {
     content: '';
@@ -236,10 +250,12 @@ const esimStyles = `
     height: 2px;
     background: var(--gold);
   }
+
   .esim-search-wrap {
     margin-bottom: 32px;
     position: relative;
   }
+
   .esim-search {
     width: 100%;
     background: rgba(245,239,228,0.04);
@@ -249,7 +265,9 @@ const esimStyles = `
     padding: 14px 20px 14px 48px;
     outline: none;
   }
+
   .esim-search:focus { border-color: var(--gold); }
+
   .esim-search-icon {
     position: absolute;
     left: 16px;
@@ -257,12 +275,14 @@ const esimStyles = `
     transform: translateY(-50%);
     color: rgba(200,169,110,0.5);
   }
+
   .esim-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 6px;
     margin-bottom: 48px;
   }
+
   .esim-country-card {
     background: rgba(245,239,228,0.03);
     border: 1px solid var(--border);
@@ -273,25 +293,31 @@ const esimStyles = `
     align-items: center;
     gap: 10px;
   }
+
   .esim-country-card:hover {
     border-color: rgba(200,169,110,0.5);
     background: rgba(200,169,110,0.06);
   }
+
   .esim-country-card.active {
     border-color: var(--gold);
     background: rgba(200,169,110,0.1);
   }
+
   .esim-country-flag { flex-shrink: 0; width: 32px; height: 24px; display: flex; align-items: center; justify-content: center; }
+
   .esim-country-name {
     font-size: 0.78rem;
     color: var(--cream-dim);
     flex: 1;
   }
+
   .esim-country-count {
     font-size: 0.62rem;
     color: var(--gold);
     font-family: 'Bebas Neue', sans-serif;
   }
+
   .esim-detail {
     border: 1px solid var(--border);
     background: rgba(245, 239, 228, 0.02);
@@ -300,11 +326,13 @@ const esimStyles = `
     margin-bottom: 48px;
     scroll-margin-top: 20px;
   }
+
   .esim-plans-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 16px;
   }
+
   .esim-plan-card {
     border: 1px solid var(--border);
     background: rgba(245,239,228,0.03);
@@ -312,19 +340,23 @@ const esimStyles = `
     transition: border-color 0.2s;
     position: relative;
   }
+
   .esim-plan-card:hover { border-color: rgba(200,169,110,0.4); }
+
   .esim-plan-data {
     font-family: 'Cormorant Garamond', serif;
     font-size: 2.2rem;
     color: var(--cream);
     margin-bottom: 4px;
   }
+
   .esim-plan-price {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.8rem;
     color: var(--gold-light);
     margin-bottom: 16px;
   }
+
   .esim-buy-btn {
     display: block;
     width: 100%;
@@ -339,11 +371,13 @@ const esimStyles = `
     text-decoration: none;
     transition: all 0.2s;
   }
+
   .esim-buy-btn:hover {
     background: var(--gold);
     color: var(--ink);
     transform: translateY(-2px);
   }
+
   .esim-loading { text-align: center; padding: 80px 24px; }
   .esim-loading-spinner {
     width: 40px;
@@ -355,6 +389,7 @@ const esimStyles = `
     margin: 0 auto 16px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+
   @media (max-width: 768px) {
     .esim-hero-inner { flex-direction: column; text-align: center; }
     .esim-hero-right { width: 100%; max-width: 320px; }
@@ -378,12 +413,18 @@ export default function EsimPage() {
         const plansData = Array.isArray(data) ? data : [];
         setPlans(plansData);
         setLoading(false);
+        
+        // Auto-select country if prop is provided (e.g., from an article page)
+        if (defaultCountry) {
+          const group = countryGroups.find(g => g.code.toLowerCase() === defaultCountry.toLowerCase());
+          if (group) handleSelect(group);
+        }
       })
       .catch(() => {
         setError('Could not load plans. Please try again.');
         setLoading(false);
       });
-  }, []);
+  }, [defaultCountry]);
 
   const countryGroups: CountryGroup[] = (() => {
     const map = new Map<string, CountryGroup>();
@@ -391,7 +432,7 @@ export default function EsimPage() {
       const isGlobal = plan.planName.toLowerCase().includes('global') || plan.planName.toLowerCase().includes('day pass');
       const isRegional = !plan.country_code && !isGlobal;
       const isSingleCountry = !!plan.country_code;
-     
+      
       if (isSingleCountry) {
         const code = plan.country_code!.toUpperCase();
         const info = COUNTRY_MAP[code];
@@ -420,7 +461,7 @@ export default function EsimPage() {
   const countriesOnly = countryGroups.filter(g => !g.isRegional);
   const regionalOnly = countryGroups.filter(g => g.isRegional && !g.name.toLowerCase().includes('global') && !g.name.toLowerCase().includes('day'));
   const globalOnly = countryGroups.filter(g => g.isRegional && (g.name.toLowerCase().includes('global') || g.name.toLowerCase().includes('day')));
- 
+  
   const currentList = activeTab === 'country' ? countriesOnly : activeTab === 'regional' ? regionalOnly : globalOnly;
   const filtered = search.trim() ? currentList.filter(g => g.name.toLowerCase().includes(search.toLowerCase())) : currentList;
 
@@ -431,124 +472,96 @@ export default function EsimPage() {
 
   const buildBuyLink = (plan: Plan) => `${plan.directLink}?partner=${PARTNER_ID}`;
 
-return (
-  <>
-    <style dangerouslySetInnerHTML={{ __html: esimStyles }} />
-
-    <div className="esim-page">
-      <div className="esim-hero">
-        <div className="esim-hero-inner">
-          <div className="esim-hero-left">
-            <p className="label">✦ HUUBOI eSIM STORE ✦</p>
-            <h1>
-              Stay Connected<br />
-              <span>Anywhere on Earth</span>
-            </h1>
-            <p>
-              Instant eSIMs for 150+ destinations. No roaming fees. Activate in minutes directly via huuboi.com.
-            </p>
-          </div>
-
-          <div className="esim-hero-right">
-            <div className="esim-badges">
-              <span className="esim-badge">📶 150+ Countries</span>
-              <span className="esim-badge">⚡ Instant Activation</span>
-              <span className="esim-badge">🔒 No Roaming Fees</span>
-              <span className="esim-badge">📱 Direct Setup</span>
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: esimStyles }} />
+      <div className="esim-page">
+        <div className="esim-hero">
+          <div className="esim-hero-inner">
+            <div className="esim-hero-left">
+              <p className="label">✦ HUUBOI eSIM STORE ✦</p>
+              <h1>Stay Connected<br /><span>Anywhere on Earth</span></h1>
+              <p>Instant eSIMs for 150+ destinations. No roaming fees. Activate in minutes directly via huuboi.com.</p>
+            </div>
+            <div className="esim-hero-right">
+              <div className="esim-badges">
+                <span className="esim-badge">📶 150+ Countries</span>
+                <span className="esim-badge">⚡ Instant Activation</span>
+                <span className="esim-badge">🔒 No Roaming Fees</span>
+                <span className="esim-badge">📱 Direct Setup</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="esim-body">
-        {loading ? (
-          <div className="esim-loading">
-            <div className="esim-loading-spinner"></div>
-            <p>Fetching live travel plans...</p>
-          </div>
-        ) : error ? (
-          <div className="esim-loading">
-            <p style={{ color: "#e87070" }}>{error}</p>
-          </div>
-        ) : (
-          <>
-            <div className="esim-tabs">
-              <button className={`esim-tab ${activeTab === "country" ? "active" : ""}`} onClick={() => setActiveTab("country")}>
-                Countries
-              </button>
-
-              <button className={`esim-tab ${activeTab === "regional" ? "active" : ""}`} onClick={() => setActiveTab("regional")}>
-                Regional
-              </button>
-
-              <button className={`esim-tab ${activeTab === "global" ? "active" : ""}`} onClick={() => setActiveTab("global")}>
-                Global
-              </button>
+        <div className="esim-body">
+          {loading ? (
+            <div className="esim-loading">
+              <div className="esim-loading-spinner"></div>
+              <p>Fetching live travel plans...</p>
             </div>
+          ) : (
+            <>
+              <div className="esim-tabs">
+                <button className={`esim-tab ${activeTab === 'country' ? 'active' : ''}`} onClick={() => setActiveTab('country')}>Countries</button>
+                <button className={`esim-tab ${activeTab === 'regional' ? 'active' : ''}`} onClick={() => setActiveTab('regional')}>Regional</button>
+                <button className={`esim-tab ${activeTab === 'global' ? 'active' : ''}`} onClick={() => setActiveTab('global')}>Global</button>
+              </div>
 
-            <div className="esim-search-wrap">
-              <span className="esim-search-icon">🔍</span>
-              <input
-                className="esim-search"
-                type="text"
-                placeholder="Search destination..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
+              <div className="esim-search-wrap">
+                <span className="esim-search-icon">🔍</span>
+                <input
+                  className="esim-search"
+                  type="text"
+                  placeholder="Search destination..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
 
-            <div className="esim-grid">
-              {filtered.map((group) => (
-                <div
-                  key={group.code}
-                  className={`esim-country-card ${selected?.code === group.code ? "active" : ""}`}
-                  onClick={() => handleSelect(group)}
-                >
-                  <div className="esim-country-flag">
-                    {group.code.length === 2 ? (
-                      <img
-                        src={`https://flagcdn.com/32x24/${group.code.toLowerCase()}.png`}
-                        alt={group.name}
-                        width={32}
-                        height={24}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "0";
-                        }}
-                      />
-                    ) : (
-                      <span>{group.flag}</span>
-                    )}
+              <div className="esim-grid">
+                {filtered.map(group => (
+                  <div key={group.code} className={`esim-country-card ${selected?.code === group.code ? 'active' : ''}`} onClick={() => handleSelect(group)}>
+                    <div className="esim-country-flag">
+                      {group.code.length === 2 ? (
+                        <img
+                          src={`https://flagcdn.com/32x24/${group.code.toLowerCase()}.png`}
+                          alt={group.name}
+                          width={32} height={24}
+                          onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
+                        />
+                      ) : <span>{group.flag}</span>}
+                    </div>
+                    <div className="esim-country-name">{group.name}</div>
+                    <div className="esim-country-count">{group.plans.length}</div>
                   </div>
+                ))}
+              </div>
 
-                  <div className="esim-country-name">{group.name}</div>
-                  <div className="esim-country-count">{group.plans.length}</div>
-                </div>
-              ))}
-            </div>
-
-            {selected && (
-              <div className="esim-detail" ref={detailRef}>
-                <div className="esim-plans-grid">
-                  {selected.plans
-                    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
-                    .map((plan, i) => (
+              {selected && (
+                <div className="esim-detail" ref={detailRef}>
+                  <div className="esim-plans-grid">
+                    {selected.plans.sort((a,b) => parseFloat(a.price) - parseFloat(b.price)).map((plan, i) => (
                       <div key={i} className="esim-plan-card">
-                        <div className="esim-plan-data">
-                          {formatData(plan.capacity, plan.dataUnit, plan.capacityInfo)}
-                        </div>
-
-                        <div className="esim-plan-price">
-                          €{parseFloat(plan.price).toFixed(2)}
-                        </div>
+                        <div className="esim-plan-data">{formatData(plan.capacity, plan.dataUnit, plan.capacityInfo)}</div>
+                        <div className="esim-plan-price">€{parseFloat(plan.price).toFixed(2)}</div>
+                        <a href={buildBuyLink(plan)} target="_blank" rel="noopener noreferrer" className="esim-buy-btn">Reserve eSIM</a>
                       </div>
                     ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 }
+
+
+
+
+
+
+const defaultCountry = 'Us';
