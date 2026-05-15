@@ -362,7 +362,7 @@ export default function EsimPage() {
       const response = await fetch('/api/esim/plans');
       const result = await response.json();
       if (result.success) {
-        setPlans(result.data);
+        setPlans(result.plans || result.data || []);
       }
     } catch (error) {
       console.error('Error fetching plans:', error);
@@ -429,9 +429,8 @@ export default function EsimPage() {
     return flags[countryCode] || '🌍';
   };
 
-  const filteredPlans = searchQuery
-    ? plans.filter(p => p.country_name.toLowerCase().includes(searchQuery.toLowerCase()))
-    : plans;
+  const filteredPlans = plans && searchQuery ? plans.filter(p => p.country_name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : (plans || []);
 
   return (
     <>
@@ -473,7 +472,8 @@ export default function EsimPage() {
             </div>
           ) : (
             <div className="esim-plans-grid">
-              {filteredPlans.slice(0, 30).map((plan) => (
+              {Array.isArray(filteredPlans) && (filteredPlans || []).slice(0, 30)
+              .map((plan) => (
                 <div key={plan.id} className="esim-plan-card">
                   <div className="esim-plan-country">
                     <span className="esim-plan-flag">{getFlagEmoji(plan.country_code)}</span>
@@ -564,3 +564,5 @@ export default function EsimPage() {
     </>
   );
 }
+
+
