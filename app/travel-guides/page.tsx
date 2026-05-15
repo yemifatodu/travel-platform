@@ -219,7 +219,7 @@ export default function TravelGuides() {
   const [openGuide, setOpenGuide] = useState<string | null>(null)
   const [search, setSearch] = useState('')
 
-  const filtered = guides.filter(g => {
+  const filtered = (guides || []).filter(g => {
     const matchRegion = activeRegion === 'All' || g.region === activeRegion
     const matchCategory = activeCategory === 'All' || g.category === activeCategory
     const matchSearch = search === '' || g.title.toLowerCase().includes(search.toLowerCase()) || g.destination.toLowerCase().includes(search.toLowerCase())
@@ -305,7 +305,7 @@ export default function TravelGuides() {
             <div>
               <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.25em', color: gold, marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid rgba(200,169,110,0.1)' }}>MORE GUIDES</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 8 }}>
-                {guides.filter(g => g.slug !== currentGuide.slug).slice(0, 4).map(g => (
+                {(guides || []).filter(g => g.slug !== currentGuide.slug).slice(0, 4).map(g => (
                   <button key={g.slug} onClick={() => { setOpenGuide(g.slug); window.scrollTo(0, 0) }}
                     style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '16px', cursor: 'pointer', textAlign: 'left' }}>
                     <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: gold, marginBottom: 6 }}>{g.region}</div>
@@ -401,6 +401,8 @@ export default function TravelGuides() {
     </div>
   )
 }
+
+
 
 
 

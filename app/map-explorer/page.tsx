@@ -71,7 +71,7 @@ export default function MapExplorer() {
   const [activeRegion, setActiveRegion] = useState('All')
   const [search, setSearch] = useState('')
 
-  const filtered = destinations.filter(d => {
+  const filtered = (destinations || []).filter(d => {
     const matchRegion = activeRegion === 'All' || d.region === activeRegion
     const matchSearch = search === '' || d.name.toLowerCase().includes(search.toLowerCase()) || d.country.toLowerCase().includes(search.toLowerCase())
     return matchRegion && matchSearch
@@ -210,7 +210,7 @@ export default function MapExplorer() {
               <div>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.18em', color: gold, marginBottom: 8 }}>NEARBY IN {selected.region.toUpperCase()}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {destinations.filter(d => d.region === selected.region && d.slug !== selected.slug).slice(0, 4).map(d => (
+                  {(destinations || []).filter(d => d.region === selected.region && d.slug !== selected.slug).slice(0, 4).map(d => (
                     <button key={d.slug} onClick={() => setSelected(d)}
                       style={{ background: 'transparent', border: '1px solid rgba(200,169,110,0.1)', color: muted, padding: '9px 12px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.1em', cursor: 'pointer', textAlign: 'left', display: 'flex', justifyContent: 'space-between' }}>
                       <span>{d.name}, {d.country}</span>
@@ -250,6 +250,8 @@ export default function MapExplorer() {
     </div>
   )
 }
+
+
 
 
 
