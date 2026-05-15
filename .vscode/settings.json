@@ -1,1 +1,14 @@
-{"css.lint.unknownAtRules": "ignore"}
+{
+  "files.watcherExclude": {
+    "**/huuboi-esim/**": true,
+    "**/.app/**": true
+  },
+  "search.exclude": {
+    "**/huuboi-esim/**": true,
+    "**/.app/**": true
+  },
+  "typescript.tsserver.exclude": [
+    "huuboi-esim/**",
+    ".app/**"
+  ]
+}
