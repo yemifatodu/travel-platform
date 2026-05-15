@@ -44,6 +44,6 @@ export async function DELETE(
 ) {
   return NextResponse.json({
     success: true,
-    message: Order  deleted successfully
+    message: 'Order ' + params.id + ' deleted successfully'
   })
 }
