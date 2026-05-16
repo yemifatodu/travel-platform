@@ -34,16 +34,36 @@ export default function EsimPage() {
   }, []);
 
   const fetchPlans = async () => {
+    setLoading(true);
+    let allPlans: Plan[] = [];
+    let offset = 0;
+    const limit = 500;
+    let hasMore = true;
+    
     try {
-      const response = await fetch("/api/esim/plans?limit=500");
-      const result = await response.json();
-      if (result.success && result.data) {
-        setPlans(result.data);
-      } else if (result.plans) {
-        setPlans(result.plans);
-      } else {
-        setPlans([]);
+      while (hasMore) {
+        const response = await fetch(`/api/esim/plans?limit=${limit}&offset=${offset}`);
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          allPlans = [...allPlans, ...result.data];
+          hasMore = result.pagination?.has_more || false;
+          offset = result.pagination?.next_offset || offset + limit;
+          console.log(`Fetched ${allPlans.length} plans so far...`);
+        } else if (result.plans) {
+          allPlans = [...allPlans, ...result.plans];
+          hasMore = false;
+        } else {
+          hasMore = false;
+        }
+        
+        // Safety limit to prevent too many requests
+        if (offset >= 3000) break;
       }
+      
+      setPlans(allPlans);
+      const uniqueCountries = new Set(allPlans.map(p => p.country_name));
+      console.log(`✅ Loaded ${allPlans.length} plans from ${uniqueCountries.size} countries`);
     } catch (error) {
       console.error("Error fetching plans:", error);
       setPlans([]);
@@ -111,7 +131,7 @@ export default function EsimPage() {
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ width: 40, height: 40, border: `2px solid ${dim}`, borderTopColor: gold, borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 20px" }}></div>
-            <p style={{ color: muted }}>Loading eSIM plans...</p>
+            <p style={{ color: muted }}>Loading eSIM plans from 200+ countries...</p>
           </div>
         </div>
         <style>{`
@@ -220,7 +240,7 @@ export default function EsimPage() {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-            {filteredCountries.map((country) => (
+            {filteredCountries.slice(0, 50).map((country) => (
               <div key={country} style={{ background: "#0a0a08", border: `1px solid ${dim}`, borderRadius: 12, overflow: "hidden" }}>
                 {/* Country Header */}
                 <div style={{ 
@@ -247,7 +267,7 @@ export default function EsimPage() {
                   gap: 16, 
                   padding: 24 
                 }}>
-                  {plansByCountry[country].map((plan) => (
+                  {plansByCountry[country].slice(0, 10).map((plan) => (
                     <div key={plan.id} style={{ 
                       background: "#111110", 
                       border: `1px solid ${dim}`,
@@ -304,13 +324,23 @@ export default function EsimPage() {
                     </div>
                   ))}
                 </div>
+                {plansByCountry[country].length > 10 && (
+                  <div style={{ padding: "12px 24px", textAlign: "center", borderTop: `1px solid ${dim}` }}>
+                    <span style={{ color: dim, fontSize: "0.75rem" }}>+ {plansByCountry[country].length - 10} more plans available</span>
+                  </div>
+                )}
               </div>
             ))}
+            {filteredCountries.length > 50 && (
+              <div style={{ textAlign: "center", padding: "20px", color: muted }}>
+                Showing first 50 countries. Use search to find more.
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Purchase Modal */}
+      {/* Purchase Modal - same as before */}
       {modalOpen && selectedPlan && (
         <div style={{ 
           position: "fixed", 
