@@ -240,7 +240,7 @@ export default function EsimPage() {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-            {filteredCountries.slice(0, 50).map((country) => (
+            {filteredCountries.map((country) => (
               <div key={country} style={{ background: "#0a0a08", border: `1px solid ${dim}`, borderRadius: 12, overflow: "hidden" }}>
                 {/* Country Header */}
                 <div style={{ 
@@ -482,3 +482,4 @@ export default function EsimPage() {
     </div>
   );
 }
+
