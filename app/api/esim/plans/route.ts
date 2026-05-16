@@ -1,66 +1,52 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
-export async function GET() {
-  const mockPlans = [
-    {
-      id: '1',
-      name: 'USA eSIM',
-      country_name: 'United States',
-      data_amount: '5 GB',
-      validity_days: 30,
-      retail_price: 19.99,
-      currency: 'USD',
-      description: 'Perfect for short trips to the US',
-      image: '/images/esim/usa.jpg',
-      popular: true
-    },
-    {
-      id: '2',
-      name: 'Europe eSIM', 
-      country_name: 'Europe (30+ countries)',
-      data_amount: '10 GB',
-      validity_days: 30,
-      retail_price: 29.99,
-      currency: 'USD',
-      description: 'Coverage across 30+ European countries',
-      image: '/images/esim/europe.jpg',
-      popular: true
-    },
-    {
-      id: '3',
-      name: 'Global eSIM',
-      country_name: 'Worldwide',
-      data_amount: '20 GB', 
-      validity_days: 60,
-      retail_price: 49.99,
-      currency: 'USD',
-      description: 'Worldwide coverage in 100+ countries',
-      image: '/images/esim/global.jpg',
-      popular: false
+const API_BASE_URL = process.env.ESIM_API_URL || "https://cccktfactlzxuprpyhgh.supabase.co/functions/v1";
+const API_KEY = process.env.NEXT_PUBLIC_ESIM_API_KEY || "";
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const queryParams = new URLSearchParams();
+    
+    // Forward query parameters
+    const params = ["search", "country", "dataMin", "dataMax", "priceMax", "validityMin", "limit", "offset"];
+    params.forEach(param => {
+      const value = searchParams.get(param);
+      if (value) queryParams.append(param, value);
+    });
+    
+    const queryString = queryParams.toString();
+    const url = `${API_BASE_URL}/api-plans${queryString ? "?" + queryString : ""}`;
+    
+    const response = await fetch(url, {
+      headers: {
+        "x-api-key": API_KEY,
+        "Content-Type": "application/json",
+      },
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      return NextResponse.json(
+        { success: false, error: data.error || "Failed to fetch plans" },
+        { status: response.status }
+      );
     }
-  ]
-  
-  return NextResponse.json({ 
-    success: true, 
-    data: mockPlans
-  })
+    
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error fetching eSIM plans:", error);
+    return NextResponse.json(
+      { success: false, error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: Request) {
-  try {
-    const body = await request.json()
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Order placed successfully',
-      order: {
-        id: Math.random().toString(36).substr(2, 9),
-        ...body
-      }
-    }, { status: 201 })
-  } catch (error) {
-    return NextResponse.json({ 
-      success: false, 
-      error: 'Invalid request body' 
-    }, { status: 400 })
-  }
+  return NextResponse.json(
+    { success: false, error: "Method not allowed. Use /api/esim/orders to create orders." },
+    { status: 405 }
+  );
 }

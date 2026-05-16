@@ -1,37 +1,42 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-const API_BASE = 'https://cccktfactlzxuprpyhgh.supabase.co/functions/v1';
-const API_KEY = process.env.ESIM_API_KEY;
+const API_BASE_URL = process.env.ESIM_API_URL || "https://cccktfactlzxuprpyhgh.supabase.co/functions/v1";
+const API_KEY = process.env.NEXT_PUBLIC_ESIM_API_KEY || "";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    let offset = 0;
-    let allPlans = [];
-    let hasMore = true;
-
-    while (hasMore) {
-      const response = await fetch(
-        `${API_BASE}/api-plans?limit=1000&offset=${offset}`,
-        { headers: { 'x-api-key': API_KEY! } }
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: "Plan ID is required" },
+        { status: 400 }
       );
-      const result = await response.json();
-      
-      if (result.success) {
-        allPlans.push(...result.data);
-        hasMore = result.pagination?.has_more || false;
-        offset = result.pagination?.next_offset || offset + 1000;
-      } else {
-        break;
-      }
     }
-
-    return NextResponse.json({ success: true, data: allPlans });
+    
+    const response = await fetch(`${API_BASE_URL}/api-plan-details/${id}`, {
+      headers: {
+        "x-api-key": API_KEY,
+        "Content-Type": "application/json",
+      },
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      return NextResponse.json(
+        { success: false, error: data.error || "Failed to fetch plan details" },
+        { status: response.status }
+      );
+    }
+    
+    return NextResponse.json(data);
   } catch (error) {
-    console.error('Error fetching plans:', error);
+    console.error("Error fetching plan details:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch plans' },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }
 }
-
