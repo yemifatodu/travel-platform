@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const API_BASE_URL = process.env.ESIM_API_URL || "https://cccktfactlzxuprpyhgh.supabase.co/functions/v1";
 const API_KEY = process.env.NEXT_PUBLIC_ESIM_API_KEY || "";
 
@@ -8,7 +10,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const queryParams = new URLSearchParams();
     
-    // Forward query parameters
     const params = ["search", "country", "dataMin", "dataMax", "priceMax", "validityMin", "limit", "offset"];
     params.forEach(param => {
       const value = searchParams.get(param);
@@ -42,11 +43,4 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
-}
-
-export async function POST(request: Request) {
-  return NextResponse.json(
-    { success: false, error: "Method not allowed. Use /api/esim/orders to create orders." },
-    { status: 405 }
-  );
 }
