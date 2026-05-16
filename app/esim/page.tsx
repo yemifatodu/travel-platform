@@ -13,6 +13,11 @@ interface Plan {
   description?: string;
 }
 
+const gold = "#C8A96E";
+const cream = "#F5EFE4";
+const muted = "rgba(245,239,228,0.60)";
+const dim = "rgba(245,239,228,0.35)";
+
 export default function EsimPage() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +35,7 @@ export default function EsimPage() {
 
   const fetchPlans = async () => {
     try {
-      const response = await fetch("/api/esim/plans?limit=50");
+      const response = await fetch("/api/esim/plans?limit=500");
       const result = await response.json();
       if (result.success && result.data) {
         setPlans(result.data);
@@ -47,12 +52,20 @@ export default function EsimPage() {
     }
   };
 
-  const filteredPlans = plans && searchQuery
-    ? plans.filter(p => 
-        p.country_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  // Group plans by country
+  const plansByCountry = plans.reduce((acc, plan) => {
+    if (!acc[plan.country_name]) {
+      acc[plan.country_name] = [];
+    }
+    acc[plan.country_name].push(plan);
+    return acc;
+  }, {} as Record<string, Plan[]>);
+
+  const filteredCountries = searchQuery
+    ? Object.keys(plansByCountry).filter(country =>
+        country.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : plans || [];
+    : Object.keys(plansByCountry);
 
   const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,82 +107,274 @@ export default function EsimPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-          <p className="mt-4">Loading eSIM plans...</p>
+      <div style={{ minHeight: "100vh", background: "#080807", paddingTop: 90 }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ width: 40, height: 40, border: `2px solid ${dim}`, borderTopColor: gold, borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 20px" }}></div>
+            <p style={{ color: muted }}>Loading eSIM plans...</p>
+          </div>
         </div>
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">HUUBOI eSIM Store</h1>
-        <p className="text-xl text-gray-600">Stay connected anywhere on Earth</p>
-        <div className="mt-4 flex justify-center gap-4 text-sm">
-          <span className="px-3 py-1 bg-gray-100 rounded">📶 200+ Countries</span>
-          <span className="px-3 py-1 bg-gray-100 rounded">⚡ Instant Activation</span>
-          <span className="px-3 py-1 bg-gray-100 rounded">🔒 No Roaming Fees</span>
+    <div style={{ minHeight: "100vh", background: "#080807", paddingTop: 90 }}>
+      {/* Hero Section */}
+      <div style={{ 
+        background: "linear-gradient(160deg,#080807,#0d0c0a,#0a0c10)", 
+        borderBottom: `1px solid ${dim}`,
+        padding: "clamp(40px,8vw,80px) clamp(20px,5vw,60px)"
+      }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ 
+            fontFamily: "'Bebas Neue',sans-serif", 
+            fontSize: "0.7rem", 
+            letterSpacing: "0.3em", 
+            color: gold, 
+            marginBottom: 20, 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            gap: 12 
+          }}>
+            <span style={{ width: 40, height: 1, background: gold, display: "inline-block" }} />
+            HUUBOI eSIM
+            <span style={{ width: 40, height: 1, background: gold, display: "inline-block" }} />
+          </div>
+          <h1 style={{ 
+            fontFamily: "'Cormorant Garamond',serif", 
+            fontSize: "clamp(2.5rem,6vw,5rem)", 
+            fontWeight: 300, 
+            color: cream, 
+            lineHeight: 0.92, 
+            marginBottom: 20 
+          }}>
+            Stay Connected<br />
+            <em style={{ color: gold }}>Anywhere on Earth</em>
+          </h1>
+          <p style={{ color: muted, fontSize: "clamp(0.9rem,1.5vw,1.1rem)", maxWidth: 640, margin: "0 auto", lineHeight: 1.85 }}>
+            Instant eSIMs for 200+ destinations. No roaming fees. Activate in minutes.
+          </p>
+          
+          {/* Features */}
+          <div style={{ display: "flex", justifyContent: "center", gap: "clamp(16px,3vw,32px)", marginTop: 40, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: "1.5rem" }}>📶</span>
+              <span style={{ color: muted, fontSize: "0.85rem" }}>200+ Countries</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: "1.5rem" }}>⚡</span>
+              <span style={{ color: muted, fontSize: "0.85rem" }}>Instant Activation</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: "1.5rem" }}>🔒</span>
+              <span style={{ color: muted, fontSize: "0.85rem" }}>No Roaming Fees</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: "1.5rem" }}>📱</span>
+              <span style={{ color: muted, fontSize: "0.85rem" }}>Direct Setup</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-md mx-auto mb-8">
+      {/* Search Section */}
+      <div style={{ maxWidth: 600, margin: "0 auto", padding: "clamp(30px,5vw,50px) clamp(20px,5vw,40px)" }}>
         <input
           type="text"
           placeholder="Search destination..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          style={{
+            width: "100%",
+            padding: "14px 20px",
+            background: "#111110",
+            border: `1px solid ${dim}`,
+            borderRadius: 8,
+            color: cream,
+            fontSize: "1rem",
+            outline: "none",
+            transition: "all 0.2s"
+          }}
+          onFocus={(e) => e.currentTarget.style.borderColor = gold}
+          onBlur={(e) => e.currentTarget.style.borderColor = dim}
         />
+        <div style={{ marginTop: 12, textAlign: "center" }}>
+          <span style={{ color: muted, fontSize: "0.85rem" }}>
+            Found {filteredCountries.length} countries with eSIM plans
+          </span>
+        </div>
       </div>
 
-      {filteredPlans.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">No eSIM plans found.</p>
-        </div>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPlans.map((plan) => (
-            <div key={plan.id} className="border rounded-lg p-6 shadow-sm hover:shadow-md transition">
-              <h3 className="text-xl font-semibold mb-2">{plan.country_name}</h3>
-              <div className="text-2xl font-bold text-blue-600 mb-4">
-                ${plan.retail_price} {plan.currency}
+      {/* Plans Section */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 clamp(20px,5vw,40px) clamp(60px,8vw,100px)" }}>
+        {filteredCountries.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "60px 20px" }}>
+            <p style={{ color: muted }}>No eSIM plans found for "{searchQuery}".</p>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+            {filteredCountries.map((country) => (
+              <div key={country} style={{ background: "#0a0a08", border: `1px solid ${dim}`, borderRadius: 12, overflow: "hidden" }}>
+                {/* Country Header */}
+                <div style={{ 
+                  background: "#111110", 
+                  padding: "16px 24px", 
+                  borderBottom: `1px solid ${dim}`,
+                  borderLeft: `3px solid ${gold}`
+                }}>
+                  <h2 style={{ 
+                    fontFamily: "'Cormorant Garamond',serif", 
+                    fontSize: "clamp(1.5rem,3vw,2rem)", 
+                    fontWeight: 400, 
+                    color: cream, 
+                    margin: 0 
+                  }}>
+                    {country}
+                  </h2>
+                </div>
+                
+                {/* Plan Cards */}
+                <div style={{ 
+                  display: "grid", 
+                  gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", 
+                  gap: 16, 
+                  padding: 24 
+                }}>
+                  {plansByCountry[country].map((plan) => (
+                    <div key={plan.id} style={{ 
+                      background: "#111110", 
+                      border: `1px solid ${dim}`,
+                      borderRadius: 8,
+                      padding: 16,
+                      transition: "all 0.2s",
+                      cursor: "pointer"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = gold;
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = dim;
+                      e.currentTarget.style.transform = "translateY(0)";
+                    }}>
+                      <div style={{ fontSize: "1.75rem", fontWeight: "bold", color: gold, marginBottom: 12 }}>
+                        ${plan.retail_price} <span style={{ fontSize: "0.85rem", color: muted }}>{plan.currency}</span>
+                      </div>
+                      <div style={{ color: cream, fontSize: "0.9rem", marginBottom: 8 }}>
+                        {plan.data_amount}
+                      </div>
+                      <div style={{ color: muted, fontSize: "0.8rem", marginBottom: 16 }}>
+                        {plan.validity_days} days validity
+                      </div>
+                      <button
+                        onClick={() => {
+                          setSelectedPlan(plan);
+                          setModalOpen(true);
+                        }}
+                        style={{
+                          width: "100%",
+                          padding: "10px 16px",
+                          background: "transparent",
+                          border: `1px solid ${gold}`,
+                          borderRadius: 6,
+                          color: gold,
+                          fontSize: "0.85rem",
+                          fontWeight: 500,
+                          cursor: "pointer",
+                          transition: "all 0.2s"
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = gold;
+                          e.currentTarget.style.color = "#080807";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "transparent";
+                          e.currentTarget.style.color = gold;
+                        }}
+                      >
+                        Get eSIM
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="text-gray-600 mb-4">
-                <div>{plan.data_amount}</div>
-                <div>{plan.validity_days} days validity</div>
-              </div>
-              <button
-                onClick={() => {
-                  setSelectedPlan(plan);
-                  setModalOpen(true);
-                }}
-                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                Get eSIM
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
 
+      {/* Purchase Modal */}
       {modalOpen && selectedPlan && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h2 className="text-2xl font-bold mb-4">Complete Purchase</h2>
-            <div className="mb-4 p-3 bg-gray-100 rounded text-center">
-              <strong>{selectedPlan.data_amount}</strong> • {selectedPlan.validity_days} days
-              <div className="text-xl font-bold text-blue-600">${selectedPlan.retail_price} {selectedPlan.currency}</div>
+        <div style={{ 
+          position: "fixed", 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          bottom: 0, 
+          background: "rgba(8,8,7,0.95)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000,
+          padding: "20px"
+        }}>
+          <div style={{ 
+            background: "#0a0a08", 
+            border: `1px solid ${gold}`,
+            borderRadius: 12,
+            maxWidth: 500,
+            width: "100%",
+            padding: "clamp(24px,5vw,40px)"
+          }}>
+            <h2 style={{ 
+              fontFamily: "'Cormorant Garamond',serif", 
+              fontSize: "clamp(1.5rem,3vw,2rem)", 
+              color: gold, 
+              marginBottom: 20,
+              fontWeight: 400
+            }}>
+              Complete Purchase
+            </h2>
+            
+            <div style={{ 
+              background: "#111110", 
+              border: `1px solid ${dim}`,
+              borderRadius: 8,
+              padding: 16,
+              textAlign: "center",
+              marginBottom: 24
+            }}>
+              <div style={{ color: cream, fontSize: "1rem", marginBottom: 8 }}>
+                {selectedPlan.data_amount} • {selectedPlan.validity_days} days
+              </div>
+              <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: gold }}>
+                ${selectedPlan.retail_price} {selectedPlan.currency}
+              </div>
             </div>
+            
             <form onSubmit={handleOrderSubmit}>
               <input
                 type="text"
                 placeholder="Full Name"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                className="w-full mb-3 px-3 py-2 border rounded"
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  background: "#111110",
+                  border: `1px solid ${dim}`,
+                  borderRadius: 6,
+                  color: cream,
+                  marginBottom: 12,
+                  outline: "none"
+                }}
                 required
               />
               <input
@@ -177,7 +382,16 @@ export default function EsimPage() {
                 placeholder="Email"
                 value={customerEmail}
                 onChange={(e) => setCustomerEmail(e.target.value)}
-                className="w-full mb-3 px-3 py-2 border rounded"
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  background: "#111110",
+                  border: `1px solid ${dim}`,
+                  borderRadius: 6,
+                  color: cream,
+                  marginBottom: 12,
+                  outline: "none"
+                }}
                 required
               />
               <input
@@ -185,19 +399,50 @@ export default function EsimPage() {
                 placeholder="Phone (optional)"
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
-                className="w-full mb-4 px-3 py-2 border rounded"
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  background: "#111110",
+                  border: `1px solid ${dim}`,
+                  borderRadius: 6,
+                  color: cream,
+                  marginBottom: 20,
+                  outline: "none"
+                }}
               />
               <button
                 type="submit"
                 disabled={orderStatus === "processing"}
-                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  background: gold,
+                  border: "none",
+                  borderRadius: 6,
+                  color: "#080807",
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "opacity 0.2s",
+                  opacity: orderStatus === "processing" ? 0.6 : 1
+                }}
               >
                 {orderStatus === "processing" ? "Processing..." : orderStatus === "success" ? "Success!" : "Confirm Order"}
               </button>
             </form>
+            
             <button
               onClick={() => setModalOpen(false)}
-              className="w-full mt-3 text-gray-500 hover:text-gray-700"
+              style={{
+                width: "100%",
+                marginTop: 12,
+                padding: "10px 16px",
+                background: "transparent",
+                border: `1px solid ${dim}`,
+                borderRadius: 6,
+                color: muted,
+                cursor: "pointer"
+              }}
             >
               Cancel
             </button>
