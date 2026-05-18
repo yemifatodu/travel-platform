@@ -1,60 +1,44 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const API_BASE = 'https://cccktfactlzxuprpyhgh.supabase.co/functions/v1';
-const API_KEY = process.env.ESIM_API_KEY;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
+  apiVersion: "2025-02-24.acacia",
+});
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { plan_id, amount, customer_name, customer_email, customer_phone } = await request.json();
+    const { amount, currency = "usd", planId, customerEmail, customerName } = await request.json();
 
-    // Fetch plan details
-    const plansResponse = await fetch(`${API_BASE}/api-plans?limit=1000`, {
-      headers: { 'x-api-key': API_KEY! }
-    });
-    const plansData = await plansResponse.json();
-    const plan = plansData.data.find((p: any) => p.id === plan_id);
-
-    if (!plan) {
+    if (!amount || amount <= 0) {
       return NextResponse.json(
-        { error: 'Plan not found' },
-        { status: 404 }
+        { error: "Invalid amount" },
+        { status: 400 }
       );
     }
 
-    // Create Stripe Checkout Session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: plan.title,
-              description: `${plan.data_amount} - ${plan.validity_days} days - ${plan.country_name}`,
-              images: ['https://www.huuboi.com/android-chrome-512x512.png'],
-            },
-            unit_amount: Math.round(plan.retail_price * 100),
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/esim/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/esim/checkout?plan_id=${plan_id}`,
-      customer_email: customer_email,
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(amount * 100),
+      currency: currency.toLowerCase(),
       metadata: {
-        plan_id: plan.id,
-        customer_name: customer_name,
-        customer_phone: customer_phone || '',
+        planId: planId || "",
+        customerEmail: customerEmail || "",
+        customerName: customerName || "",
+      },
+      receipt_email: customerEmail,
+      automatic_payment_methods: {
+        enabled: true,
       },
     });
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({
+      success: true,
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
+    });
   } catch (error) {
-    console.error('Stripe error:', error);
+    console.error("Stripe error:", error);
     return NextResponse.json(
-      { error: 'Failed to create payment session' },
+      { error: error instanceof Error ? error.message : "Payment creation failed" },
       { status: 500 }
     );
   }
