@@ -9,14 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^9.2.0",
     "@react-google-maps/api": "^2.20.8",
+    "@stripe/react-stripe-js": "^6.4.0",
+    "@stripe/stripe-js": "^9.6.0",
     "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/supabase-js": "^2.39.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.263.1",
     "next": "^14.2.35",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "stripe": "^22.1.1"
   },
   "devDependencies": {
     "@types/node": "^20",
