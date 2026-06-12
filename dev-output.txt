@@ -1,0 +1,11 @@
+
+> travel-platform@0.1.0 dev
+> next dev
+
+ ΓÜá Port 3000 is in use, trying 3001 instead.
+  Γû▓ Next.js 14.2.35
+  - Local:        http://localhost:3001
+  - Environments: .env.local
+
+ Γ£ô Starting...
+ Γ£ô Ready in 4.1s

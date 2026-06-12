@@ -1,0 +1,26 @@
+export const maldivesDestinations = [
+  {
+    slug: 'maldives',
+    name: 'Maldives',
+    country: 'Maldives',
+    region: 'Maldives',
+    tagline: 'The Ultimate Overwater Escape',
+    gradient: 'linear-gradient(160deg,#001428,#002040,#002c58)',
+    image: '/images/asia/maldives.jpg',
+    highlights: ['Overwater Bungalows', 'Snorkelling', 'Private Islands', 'Sunset Cruises', 'Underwater Dining'],
+    bestTime: 'Nov–Apr',
+    duration: '5–7 nights',
+    from: '$1,800',
+    description: "The Maldives is the world's most beautiful island nation — 1,200 coral islands scattered across the Indian Ocean, impossibly turquoise water, white sandbanks, and overwater bungalows that define tropical luxury. Each resort is on its own private island — you arrive by seaplane (10-45 minutes from Malé, the capital) or speedboat (15-60 minutes). Overwater bungalows were invented in the Maldives (the first was at Soneva Fushi in 1995) — you can step directly from your deck into the lagoon, and the best bungalows have glass floors so you can watch fish swim beneath your bed. Snorkeling is incredible — you can swim with sea turtles, reef sharks (harmless blacktips), eagle rays, moray eels, and thousands of tropical fish. Manta rays (seasonal) are found at cleaning stations in several atolls (Hanifaru Bay in Baa Atoll is a UNESCO biosphere reserve). Whale sharks (the world's largest fish, up to 12 meters long, 20,000 kilograms) are seen year-round in South Ari Atoll — you can snorkel with them (keep 3 meters distance, no touching). The Maldives has underwater restaurants — Ithaa at Conrad Maldives is 5 meters below sea level, with 180-degree views of the reef, serving European-Asian fusion cuisine. Sunset cruises are a nightly ritual — dhoni (traditional Maldivian wooden boats) take you into the lagoon for dolphin watching (spinner dolphins, common dolphins) and a view of the setting sun. The Maldives is one of the world's top diving destinations — over 100 liveaboard boats offer 7-14 night trips, visiting the best dive sites (Fish Factory, Manta Point, The Shark Tank).",
+    experiences: [
+      'Snorkelling with manta rays and whale sharks',
+      'Overwater villa sunrise from your deck',
+      'Private sandbank picnic',
+      'Sunset dolphin cruise',
+      'Underwater restaurant dining',
+      'Scuba diving in Hanifaru Bay',
+    ],
+    camps: ['Soneva Jani', 'Gili Lankanfushi', 'Conrad Maldives', 'St. Regis Maldives', 'Cheval Blanc Randheli'],
+    unesco: false,
+  },
+]

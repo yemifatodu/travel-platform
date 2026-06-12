@@ -1,0 +1,26 @@
+export const singaporeDestinations = [
+  {
+    slug: 'singapore',
+    name: 'Singapore',
+    country: 'Singapore',
+    region: 'Singapore',
+    tagline: 'Asia\'s Ultra-Modern Garden City',
+    gradient: 'linear-gradient(160deg,#001a20,#002c34,#003e48)',
+    image: '/images/asia/singapore.jpg',
+    highlights: ['Marina Bay Sands', 'Gardens by the Bay', 'Hawker Centres', 'Sentosa', 'Orchard Road'],
+    bestTime: 'Feb–Apr · Nov–Jan',
+    duration: '4–5 nights',
+    from: '$680',
+    description: "Singapore is what happens when a city-state has a vision — immaculate gardens, world-class architecture, genuinely extraordinary food, and everything works perfectly. It is Asia condensed into one gleaming island. Marina Bay Sands is the most recognizable landmark — the three hotel towers hold a 340-meter-long sky park with the world's longest elevated swimming pool (hotel guests only, but the observation deck is open to everyone). Gardens by the Bay is a 101-hectare nature park — the Supertree Grove (18 vertical gardens, 25-50 meters tall) has a light and sound show at 7:45pm and 8:45pm nightly. The Cloud Forest (35-meter-high indoor waterfall) and Flower Dome (the world's largest glass greenhouse) are must-sees. Singapore's hawker centres are a UNESCO Intangible Cultural Heritage — Maxwell Food Centre (best chicken rice at Tian Tian), Lau Pa Sat (satay street after 7pm), and Chinatown Complex (cheapest Michelin-starred meal in the world at Hong Kong Soya Sauce Chicken Rice & Noodle, $2.50). Sentosa Island is Singapore's resort island — Universal Studios Singapore, S.E.A. Aquarium (one of the world's largest, 100,000 marine animals), and the tallest indoor waterfall. Orchard Road is Singapore's shopping street — 2.2 kilometers of malls, luxury brands, and department stores. Singapore's public transport is world-class — the MRT (subway) is clean, efficient, and air-conditioned, and you can use your credit card or Apple Pay to tap in (no need to buy a ticket).",
+    experiences: [
+      'Supertree Grove at Gardens by the Bay — light show at 7:45pm',
+      'Marina Bay Sands infinity pool (hotel guests only)',
+      'Hawker centre lunch — Maxwell or Lau Pa Sat',
+      'Singapore Botanic Gardens — UNESCO rainforest in the city',
+      'Little India and Kampong Glam heritage walk',
+      'Sentosa Island — cable car and Universal Studios',
+    ],
+    camps: ['Marina Bay Sands', 'Raffles Singapore', 'The Fullerton Bay', 'Capella Sentosa', 'Mandarin Oriental'],
+    unesco: true,
+  },
+]

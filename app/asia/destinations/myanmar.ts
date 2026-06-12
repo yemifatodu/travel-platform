@@ -1,0 +1,26 @@
+export const myanmarDestinations = [
+  {
+    slug: 'bagan',
+    name: 'Bagan',
+    country: 'Myanmar',
+    region: 'Myanmar',
+    tagline: 'The Temple Plain of a Thousand Pagodas',
+    gradient: 'linear-gradient(160deg,#1c1400,#2c2000,#3c2c00)',
+    image: '/images/asia/bagan.jpg',
+    highlights: ['Sunrise Balloons', 'Ananda Temple', 'Shwezigon Pagoda', 'Dhammayangyi Temple', 'Sulamani Temple', 'E-bike'],
+    bestTime: 'Nov–Feb',
+    duration: '3–4 nights',
+    from: '$420',
+    description: "Bagan is a 26-square-mile plain of 2,200 ancient temples — the remains of a 10th-13th century kingdom of 10,000+ Buddhist pagodas, the 'Angkor of Myanmar'. Sunrise is the most magical time in Bagan — hot air balloons (October-March) float over the temple plain as the sun rises, and you can climb a temple (not all are open, the 'Bagan Viewing Tower' is the best but touristy) to watch the balloons pass by. Ananda Temple is the most beautiful temple in Bagan — a 51-meter-high, whitewashed gilded pagoda with 4 standing Buddha statues (9.5 meters tall), and the corridor has 1,000 glazed tiles of the Jataka (Buddha's life stories). Shwezigon Pagoda is the prototype for all later Myanmar pagodas — a gold-covered solid stupa (48 meters high) with a bamboo and wood monastery behind it (the monks will talk to visitors). Dhammayangyi Temple is the largest temple in Bagan (77 meters wide) — built by King Narathu (a patricide who murdered his father), the brickwork is the best in Bagan (the joints are too tight for a needle). Sulamani Temple is the finest example of Myanmar's transitional architecture — the ground floor has murals from 13th-century to the Konbaung period (17th-19th century). E-bikes (electric scooters) are the best way to explore Bagan — rent for $8-12 per day, charge overnight (the battery lasts 60-80 kilometers), and you can visit 10-15 temples per day. Bagan is a UNESCO World Heritage site (2019) — you can no longer climb any temple for sunrise (except the Bagan Viewing Tower), which has reduced the 'magic' but preserved the ruins.",
+    experiences: [
+      'Hot air balloon sunrise',
+      'Ananda 9.5m Buddhas',
+      'Shwezigon gilded stupa',
+      'Dhammayangji brickwork',
+      'Sulamani temple murals',
+      'E-bike sunset temple',
+    ],
+    camps: ['Aureum Palace Hotel', 'Bagan Lodge', 'Bagan Thiripyitsaya Sanctuary', 'Areindmar Hotel', 'The Hotel Win Unity'],
+    unesco: true,
+  },
+]
