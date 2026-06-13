@@ -193,7 +193,7 @@ export default function EuropePage() {
                 style={{ background: '#111110', border: `1px solid ${selectedDest?.slug === dest.slug ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'hidden', transition: 'border-color 0.2s' }}>
 
                 {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
-                <div style={{ height: 220, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: selectedDest?.slug === dest.slug ? 320 : 180, position: 'relative', overflow: 'hidden', transition: 'height 0.4s ease' }}>
                   <picture>
                     {/* Mobile: up to 480px */}
                     <source
@@ -485,6 +485,7 @@ function Car({ size = 24, strokeWidth = 1.5, color = '#C8A96E' }: { size?: numbe
     </svg>
   )
 }
+
 
 
 

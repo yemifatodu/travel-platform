@@ -326,7 +326,7 @@ export default function MiddleEastPage() {
                 }}>
 
                 {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
-                <div style={{ height: 220, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: selectedDest?.slug === dest.slug ? 320 : 180, position: 'relative', overflow: 'hidden', transition: 'height 0.4s ease' }}>
                   <picture>
                     {/* Mobile: up to 480px */}
                     <source
@@ -698,6 +698,7 @@ export default function MiddleEastPage() {
     </div>
   )
 }
+
 
 
 
