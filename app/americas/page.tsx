@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-import React from 'react'
 import Link from 'next/link'
 import { americasDestinations } from './destinations'
 import {
@@ -517,6 +516,7 @@ export default function AmericasPage() {
     </div>
   )
 }
+
 
 
 

@@ -489,3 +489,4 @@ function Car({ size = 24, strokeWidth = 1.5, color = '#C8A96E' }: { size?: numbe
 
 
 
+
