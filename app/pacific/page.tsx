@@ -191,13 +191,49 @@ export default function PacificPage() {
               <div key={dest.slug}
                 onClick={() => setSelectedDest(selectedDest?.slug === dest.slug ? null : dest)}
                 style={{ background: '#111110', border: `1px solid ${selectedDest?.slug === dest.slug ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'hidden', transition: 'border-color 0.2s' }}>
-                <div style={{ background: dest.gradient, height: 130, position: 'relative' }}>
+
+                {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
+                <div style={{ height: 130, position: 'relative', overflow: 'hidden' }}>
+                  <picture>
+                    {/* Mobile: up to 480px */}
+                    <source
+                      srcSet={`/images/pacific/${dest.slug}-mobile.webp`}
+                      media="(max-width: 480px)"
+                      type="image/webp"
+                    />
+                    {/* Tablet: 481px to 1024px */}
+                    <source
+                      srcSet={`/images/pacific/${dest.slug}-tablet.webp`}
+                      media="(max-width: 1024px)"
+                      type="image/webp"
+                    />
+                    {/* Desktop: 1025px and above */}
+                    <source
+                      srcSet={`/images/pacific/${dest.slug}-desktop.webp`}
+                      type="image/webp"
+                    />
+                    {/* Fallback JPG */}
+                    <img
+                      src={`/images/pacific/${dest.slug}.jpg`}
+                      alt={dest.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement
+                        img.style.display = 'none';
+                        (img.parentElement?.parentElement as HTMLElement).style.background = dest.gradient
+                      }}
+                    />
+                  </picture>
+                  {/* Gradient overlay for text readability */}
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.75) 0%,transparent 60%)' }} />
-                  <div style={{ position: 'absolute', bottom: 14, left: 18, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {/* Country label */}
+                  <div style={{ position: 'absolute', bottom: 14, left: 18, display: 'flex', alignItems: 'center', gap: 6, zIndex: 2 }}>
                     <MapPin size={12} strokeWidth={1.5} color={gold} />
                     <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: gold }}>{dest.country}</div>
                   </div>
                 </div>
+                {/* ── END RESPONSIVE IMAGE CARD HEADER ── */}
+
                 <div style={{ padding: '20px 22px 22px' }}>
                   <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 300, color: cream, marginBottom: 4, lineHeight: 1 }}>{dest.name}</h3>
                   <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, marginBottom: 10 }}>{dest.tagline}</p>
