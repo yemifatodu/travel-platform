@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ResponsiveImage from '@/components/ResponsiveImage'
 import Link from 'next/link'
 import { asiaDestinations } from './destinations'
@@ -202,7 +202,7 @@ export default function AsiaPage() {
                 style={{ background: '#111110', border: `1px solid ${selectedDest?.slug === dest.slug ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'hidden', transition: 'border-color 0.2s' }}>
 
                 {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
-                <div style={{ height: 130, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: 220, position: 'relative', overflow: 'hidden' }}>
                   <picture>
                     {/* Mobile: up to 480px */}
                     <source
@@ -512,3 +512,4 @@ export default function AsiaPage() {
     </div>
   )
 }
+

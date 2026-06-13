@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ResponsiveImage from '@/components/ResponsiveImage'
 import Link from 'next/link'
 import { middleEastDestinations } from './destinations'
@@ -326,7 +326,7 @@ export default function MiddleEastPage() {
                 }}>
 
                 {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
-                <div style={{ height: 130, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: 220, position: 'relative', overflow: 'hidden' }}>
                   <picture>
                     {/* Mobile: up to 480px */}
                     <source
@@ -698,3 +698,4 @@ export default function MiddleEastPage() {
     </div>
   )
 }
+
