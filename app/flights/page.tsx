@@ -1,55 +1,132 @@
 'use client'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { Plane, Calendar, CalendarDays, RefreshCw, Luggage, Clock, Smartphone } from 'lucide-react'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
+// Elegant circular badge to replace flag emojis with a luxury aesthetic
+const FlagBadge = ({ code }: { code: string }) => (
+  <div style={{
+    width: 28,
+    height: 28,
+    borderRadius: '50%',
+    border: `1px solid ${gold}`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: "'Bebas Neue',sans-serif",
+    fontSize: '0.6rem',
+    letterSpacing: '0.05em',
+    color: gold,
+    background: 'rgba(200,169,110,0.05)',
+    flexShrink: 0
+  }}>
+    {code}
+  </div>
+);
+
 const popularRoutes = [
-  { origin: 'Lagos', to: 'Dubai', code: 'LOS → DXB', from_flag: '🇳🇬', to_flag: '🇦🇪', price: '$380' },
-  { origin: 'Lagos', to: 'London', code: 'LOS → LHR', from_flag: '🇳🇬', to_flag: '🇬🇧', price: '$520' },
-  { origin: 'Lagos', to: 'New York', code: 'LOS → JFK', from_flag: '🇳🇬', to_flag: '🇺🇸', price: '$680' },
-  { origin: 'Lagos', to: 'Nairobi', code: 'LOS → NBO', from_flag: '🇳🇬', to_flag: '🇰🇪', price: '$290' },
-  { origin: 'London', to: 'Bali', code: 'LHR → DPS', from_flag: '🇬🇧', to_flag: '🇮🇩', price: '$620' },
-  { origin: 'Dubai', to: 'Maldives', code: 'DXB → MLE', from_flag: '🇦🇪', to_flag: '🇲🇻', price: '$180' },
-  { origin: 'London', to: 'Cape Town', code: 'LHR → CPT', from_flag: '🇬🇧', to_flag: '🇿🇦', price: '$580' },
-  { origin: 'New York', to: 'Paris', code: 'JFK → CDG', from_flag: '🇺🇸', to_flag: '🇫🇷', price: '$420' },
-  { origin: 'Dubai', to: 'Bangkok', code: 'DXB → BKK', from_flag: '🇦🇪', to_flag: '🇹🇭', price: '$220' },
-  { origin: 'London', to: 'Tokyo', code: 'LHR → NRT', from_flag: '🇬🇧', to_flag: '🇯🇵', price: '$680' },
-  { origin: 'Lagos', to: 'Accra', code: 'LOS → ACC', from_flag: '🇳🇬', to_flag: '🇬🇭', price: '$120' },
-  { origin: 'London', to: 'Santorini', code: 'LHR → JTR', from_flag: '🇬🇧', to_flag: '🇬🇷', price: '$180' },
+  { origin: 'Lagos', to: 'Dubai', code: 'LOS → DXB', from_code: 'NG', to_code: 'AE', price: '$380' },
+  { origin: 'Lagos', to: 'London', code: 'LOS → LHR', from_code: 'NG', to_code: 'GB', price: '$520' },
+  { origin: 'Lagos', to: 'New York', code: 'LOS → JFK', from_code: 'NG', to_code: 'US', price: '$680' },
+  { origin: 'Lagos', to: 'Nairobi', code: 'LOS → NBO', from_code: 'NG', to_code: 'KE', price: '$290' },
+  { origin: 'London', to: 'Bali', code: 'LHR → DPS', from_code: 'GB', to_code: 'ID', price: '$620' },
+  { origin: 'Dubai', to: 'Maldives', code: 'DXB → MLE', from_code: 'AE', to_code: 'MV', price: '$180' },
+  { origin: 'London', to: 'Cape Town', code: 'LHR → CPT', from_code: 'GB', to_code: 'ZA', price: '$580' },
+  { origin: 'New York', to: 'Paris', code: 'JFK → CDG', from_code: 'US', to_code: 'FR', price: '$420' },
+  { origin: 'Dubai', to: 'Bangkok', code: 'DXB → BKK', from_code: 'AE', to_code: 'TH', price: '$220' },
+  { origin: 'London', to: 'Tokyo', code: 'LHR → NRT', from_code: 'GB', to_code: 'JP', price: '$680' },
+  { origin: 'Lagos', to: 'Accra', code: 'LOS → ACC', from_code: 'NG', to_code: 'GH', price: '$120' },
+  { origin: 'London', to: 'Santorini', code: 'LHR → JTR', from_code: 'GB', to_code: 'GR', price: '$180' },
 ]
 
 const airlines = [
-  { name: 'Emirates', hub: 'Dubai', icon: '🇦🇪' },
-  { name: 'Ethiopian Airlines', hub: 'Addis Ababa', icon: '🇪🇹' },
-  { name: 'Kenya Airways', hub: 'Nairobi', icon: '🇰🇪' },
-  { name: 'British Airways', hub: 'London', icon: '🇬🇧' },
-  { name: 'Qatar Airways', hub: 'Doha', icon: '🇶🇦' },
-  { name: 'Turkish Airlines', hub: 'Istanbul', icon: '🇹🇷' },
-  { name: 'Air France', hub: 'Paris', icon: '🇫🇷' },
-  { name: 'Singapore Airlines', hub: 'Singapore', icon: '🇸🇬' },
+  { name: 'Emirates', hub: 'Dubai', code: 'AE' },
+  { name: 'Ethiopian Airlines', hub: 'Addis Ababa', code: 'ET' },
+  { name: 'Kenya Airways', hub: 'Nairobi', code: 'KE' },
+  { name: 'British Airways', hub: 'London', code: 'GB' },
+  { name: 'Qatar Airways', hub: 'Doha', code: 'QA' },
+  { name: 'Turkish Airlines', hub: 'Istanbul', code: 'TR' },
+  { name: 'Air France', hub: 'Paris', code: 'FR' },
+  { name: 'Singapore Airlines', hub: 'Singapore', code: 'SG' },
 ]
 
 const tips = [
-  { icon: '📅', tip: 'Book 6–8 weeks ahead for international flights. Last-minute prices can be 2–3x higher.' },
-  { icon: '🗓', tip: 'Tuesday and Wednesday are consistently the cheapest days to fly.' },
-  { icon: '🔁', tip: 'Check nearby airports — flying from a secondary airport can save hundreds.' },
-  { icon: '🧳', tip: 'Budget airlines add bags to the base fare. Always check the total price including luggage.' },
-  { icon: '⏰', tip: 'Early morning and late night flights are usually cheaper and less likely to be delayed.' },
-  { icon: '📱', tip: 'Get a travel eSIM before you land so you can navigate without roaming charges.' },
+  { icon: Calendar, tip: 'Book 6–8 weeks ahead for international flights. Last-minute prices can be 2–3x higher.' },
+  { icon: CalendarDays, tip: 'Tuesday and Wednesday are consistently the cheapest days to fly.' },
+  { icon: RefreshCw, tip: 'Check nearby airports — flying from a secondary airport can save hundreds.' },
+  { icon: Luggage, tip: 'Budget airlines add bags to the base fare. Always check the total price including luggage.' },
+  { icon: Clock, tip: 'Early morning and late night flights are usually cheaper and less likely to be delayed.' },
+  { icon: Smartphone, tip: 'Get a travel eSIM before you land so you can navigate without roaming charges.' },
 ]
 
-
-
 export default function FlightsPage() {
-  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    // Fallback timer to hide loader if widget takes too long
+    const timer = setTimeout(() => setLoading(false), 5000)
+    const scriptId = "tpwl-script-tag";
+    const existingScript = document.getElementById(scriptId);
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.async = true;
+      script.type = "module";
+      script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
+     
+      // Optimization bypasses
+      script.setAttribute("data-noptimize", "1");
+      script.setAttribute("data-cfasync", "false");
+      script.setAttribute("data-wpfc-render", "false");
+      script.setAttribute("seraph-accel-crit", "1");
+      script.setAttribute("data-no-defer", "1");
+     
+      script.onload = () => {
+        setLoading(false);
+      };
+     
+      document.head.appendChild(script);
+    } else {
+      setLoading(false);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [mounted]);
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+      
+      {/* Widget CSS Overrides */}
+      <style>{`
+        .tpwl-widget .wl-tabs__item--hotels,
+        .tpwl-widget [data-tab="hotels"],
+        .tpwl-widget .mewtwo-hotels-checkbox {
+          display: none !important;
+        }
+
+        .tpwl-widget button[type="submit"],
+        .tpwl-widget .wl-button--primary {
+          background: #C8A96E !important;
+          color: #080807 !important;
+          font-family: 'Bebas Neue', sans-serif !important;
+          letter-spacing: 0.1em !important;
+        }
+      `}</style>
 
       {/* Hero with search CTA */}
       <div style={{ background: 'linear-gradient(160deg,#080810,#0a0808,#080a08)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
@@ -67,7 +144,7 @@ export default function FlightsPage() {
             Compare flights across 1,200+ airlines worldwide. Live prices, instant results — all on huuboi.com.
           </p>
 
-          {/* Search box CTA */}
+          {/* Search box with integrated widget */}
           <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(24px,3vw,36px)', maxWidth: 680 }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 16 }}>
               SEARCH LIVE FLIGHT PRICES
@@ -77,41 +154,17 @@ export default function FlightsPage() {
               Search and compare 1,200+ airlines with live prices. Results load directly on huuboi.com — no redirects.
             </p>
 
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <Link
-                href="/search"
-                style={{
-                  background: gold,
-                  color: '#080807',
-                  padding: '14px 32px',
-                  fontFamily: "'Bebas Neue',sans-serif",
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.2em',
-                  textDecoration: 'none',
-                  display: 'inline-block'
-                }}
-              >
-                ✈ SEARCH FLIGHTS NOW
-              </Link>
-
-              {/* FIXED LINK BELOW (THIS WAS BREAKING JSX) */}
-              <a
-                href="/flights"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  border: '1px solid rgba(200,169,110,0.35)',
-                  color: gold,
-                  padding: '14px 24px',
-                  fontFamily: "'Bebas Neue',sans-serif",
-                  fontSize: '0.72rem',
-                  letterSpacing: '0.15em',
-                  textDecoration: 'none',
-                  display: 'inline-block'
-                }}
-              >
-                SEARCH FLIGHTS →
-              </a>
+            {/* WIDGET CONTAINER */}
+            <div style={{ padding: '24px', minHeight: '300px', display: 'flex', flexDirection: 'column', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
+              {loading && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', color: 'rgba(245,239,228,0.60)', fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
+                  LOADING SECURE SEARCH PORTAL...
+                </div>
+              )}
+             
+              {/* Travel Payouts injects form and tickets safely in here */}
+              <div id="tpwl-search" style={{ minHeight: '150px', width: '100%' }}></div>
+              <div id="tpwl-tickets" style={{ minHeight: '100px', width: '100%', marginTop: '20px' }}></div>
             </div>
 
             <p style={{ color: dim, fontSize: '0.72rem', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
@@ -146,11 +199,13 @@ export default function FlightsPage() {
               <Link key={route.code} href="/search" style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', cursor: 'pointer' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                    <span style={{ fontSize: '1.3rem' }}>{route.from_flag}</span>
-                    <div style={{ flex: 1, height: 1, background: 'rgba(200,169,110,0.2)', position: 'relative' }}>
-                      <span style={{ position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)', fontSize: '0.7rem' }}>✈</span>
+                    <FlagBadge code={route.from_code} />
+                    <div style={{ flex: 1, height: 1, background: 'rgba(200,169,110,0.2)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ color: gold }}>
+                        <Plane size={14} strokeWidth={1.5} />
+                      </div>
                     </div>
-                    <span style={{ fontSize: '1.3rem' }}>{route.to_flag}</span>
+                    <FlagBadge code={route.to_code} />
                   </div>
 
                   <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: dim, marginBottom: 4 }}>
@@ -170,7 +225,53 @@ export default function FlightsPage() {
           </div>
         </div>
 
-        {/* (rest of your code stays EXACTLY the same — no structural changes needed) */}
+        {/* Airlines */}
+        <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>
+              TRUSTED CARRIERS
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>
+              Top <em style={{ color: gold }}>Airlines</em>
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 2 }}>
+            {airlines.map(airline => (
+              <div key={airline.name} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+                <FlagBadge code={airline.code} />
+                <div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', color: cream, fontWeight: 600, lineHeight: 1.2 }}>{airline.name}</div>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', color: dim, marginTop: 2 }}>HUB: {airline.hub.toUpperCase()}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Tips */}
+        <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>
+              EXPERT ADVICE
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>
+              Booking <em style={{ color: gold }}>Tips</em>
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
+            {tips.map((item, i) => {
+              const IconComp = item.icon;
+              return (
+                <div key={i} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '24px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                  <div style={{ color: gold, flexShrink: 0, marginTop: 2 }}>
+                    <IconComp size={20} strokeWidth={1.5} />
+                  </div>
+                  <p style={{ color: muted, fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>{item.tip}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
       </div>
     </div>
