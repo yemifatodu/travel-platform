@@ -6,7 +6,7 @@ export function Footer() {
     {
       title: 'Explore',
       links: [
-        ['Flights', 'https://www.huuboi.com'],
+        ['Flights', '/flights'],
         ['Hotels', '/hotels'],
         ['Packages', '/packages'],
         ['Tours', '/tours'],
