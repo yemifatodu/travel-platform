@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import PersistentFlightWidget from '@/components/PersistentFlightWidget' // Added for persistent flight search
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -59,9 +60,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
+        
+        {/* This keeps the flight widget alive across all page navigations */}
+        <PersistentFlightWidget />
+        
         <GoogleAnalytics gaId="G-W0BFREJ16D" />
       </body>
     </html>
   )
-}// force-redeploy 20260530173107
+}
+// force-redeploy 20260530173107
 // force-redeploy 20260531103406

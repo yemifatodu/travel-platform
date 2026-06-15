@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Plane, Calendar, CalendarDays, RefreshCw, Luggage, Clock, Smartphone } from 'lucide-react'
 
@@ -8,41 +8,16 @@ const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-// Elegant circular badge to replace flag emojis with a luxury aesthetic
 const FlagBadge = ({ code }: { code: string }) => (
   <div style={{
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    border: `1px solid ${gold}`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: "'Bebas Neue',sans-serif",
-    fontSize: '0.6rem',
-    letterSpacing: '0.05em',
-    color: gold,
-    background: 'rgba(200,169,110,0.05)',
-    flexShrink: 0
+    width: 28, height: 28, borderRadius: '50%', border: `1px solid ${gold}`,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.05em',
+    color: gold, background: 'rgba(200,169,110,0.05)', flexShrink: 0
   }}>
     {code}
   </div>
 );
-
-const popularRoutes = [
-  { origin: 'Lagos', to: 'Dubai', code: 'LOS → DXB', from_code: 'NG', to_code: 'AE', price: '$380' },
-  { origin: 'Lagos', to: 'London', code: 'LOS → LHR', from_code: 'NG', to_code: 'GB', price: '$520' },
-  { origin: 'Lagos', to: 'New York', code: 'LOS → JFK', from_code: 'NG', to_code: 'US', price: '$680' },
-  { origin: 'Lagos', to: 'Nairobi', code: 'LOS → NBO', from_code: 'NG', to_code: 'KE', price: '$290' },
-  { origin: 'London', to: 'Bali', code: 'LHR → DPS', from_code: 'GB', to_code: 'ID', price: '$620' },
-  { origin: 'Dubai', to: 'Maldives', code: 'DXB → MLE', from_code: 'AE', to_code: 'MV', price: '$180' },
-  { origin: 'London', to: 'Cape Town', code: 'LHR → CPT', from_code: 'GB', to_code: 'ZA', price: '$580' },
-  { origin: 'New York', to: 'Paris', code: 'JFK → CDG', from_code: 'US', to_code: 'FR', price: '$420' },
-  { origin: 'Dubai', to: 'Bangkok', code: 'DXB → BKK', from_code: 'AE', to_code: 'TH', price: '$220' },
-  { origin: 'London', to: 'Tokyo', code: 'LHR → NRT', from_code: 'GB', to_code: 'JP', price: '$680' },
-  { origin: 'Lagos', to: 'Accra', code: 'LOS → ACC', from_code: 'NG', to_code: 'GH', price: '$120' },
-  { origin: 'London', to: 'Santorini', code: 'LHR → JTR', from_code: 'GB', to_code: 'GR', price: '$180' },
-]
 
 const airlines = [
   { name: 'Emirates', hub: 'Dubai', code: 'AE' },
@@ -65,60 +40,18 @@ const tips = [
 ]
 
 export default function FlightsPage() {
-  const [mounted, setMounted] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!mounted) return
-
-    // Fallback timer to hide loader if widget takes too long
-    const timer = setTimeout(() => setLoading(false), 5000)
-    const scriptId = "tpwl-script-tag";
-    const existingScript = document.getElementById(scriptId);
-
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.id = scriptId;
-      script.async = true;
-      script.type = "module";
-      script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
-     
-      // Optimization bypasses
-      script.setAttribute("data-noptimize", "1");
-      script.setAttribute("data-cfasync", "false");
-      script.setAttribute("data-wpfc-render", "false");
-      script.setAttribute("seraph-accel-crit", "1");
-      script.setAttribute("data-no-defer", "1");
-     
-      script.onload = () => {
-        setLoading(false);
-      };
-     
-      document.head.appendChild(script);
-    } else {
-      setLoading(false);
-    }
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [mounted]);
+  // We no longer need loading states for the widget, as it's persistent and instant!
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       
-      {/* Widget CSS Overrides */}
+      {/* Global Widget CSS Overrides */}
       <style>{`
         .tpwl-widget .wl-tabs__item--hotels,
         .tpwl-widget [data-tab="hotels"],
         .tpwl-widget .mewtwo-hotels-checkbox {
           display: none !important;
         }
-
         .tpwl-widget button[type="submit"],
         .tpwl-widget .wl-button--primary {
           background: #C8A96E !important;
@@ -126,9 +59,50 @@ export default function FlightsPage() {
           font-family: 'Bebas Neue', sans-serif !important;
           letter-spacing: 0.1em !important;
         }
+
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+          display: flex;
+          width: max-content;
+          animation: marquee 40s linear infinite;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+        .airline-card {
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .airline-card:hover {
+          transform: scale(1.05);
+          border-color: #C8A96E !important;
+          box-shadow: 0 0 20px rgba(200, 169, 110, 0.25);
+          z-index: 10;
+          background: #181612 !important;
+        }
+
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .tip-card {
+          opacity: 0;
+          animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tip-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(200, 169, 110, 0.5) !important;
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        .tip-card:hover .tip-icon {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 8px rgba(200, 169, 110, 0.4));
+        }
+        .tip-icon { transition: all 0.3s ease; }
       `}</style>
 
-      {/* Hero with search CTA */}
+      {/* Hero Section */}
       <div style={{ background: 'linear-gradient(160deg,#080810,#0a0808,#080a08)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -144,8 +118,7 @@ export default function FlightsPage() {
             Compare flights across 1,200+ airlines worldwide. Live prices, instant results — all on huuboi.com.
           </p>
 
-          {/* Search box with integrated widget */}
-          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(24px,3vw,36px)', maxWidth: 680 }}>
+          <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', padding: 'clamp(24px,3vw,36px)', width: '100%' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 16 }}>
               SEARCH LIVE FLIGHT PRICES
             </div>
@@ -154,17 +127,13 @@ export default function FlightsPage() {
               Search and compare 1,200+ airlines with live prices. Results load directly on huuboi.com — no redirects.
             </p>
 
-            {/* WIDGET CONTAINER */}
-            <div style={{ padding: '24px', minHeight: '300px', display: 'flex', flexDirection: 'column', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative' }}>
-              {loading && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', color: 'rgba(245,239,228,0.60)', fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
-                  LOADING SECURE SEARCH PORTAL...
-                </div>
-              )}
-             
-              {/* Travel Payouts injects form and tickets safely in here */}
-              <div id="tpwl-search" style={{ minHeight: '150px', width: '100%' }}></div>
-              <div id="tpwl-tickets" style={{ minHeight: '100px', width: '100%', marginTop: '20px' }}></div>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <Link href="/flights" style={{ background: gold, color: '#080807', padding: '14px 32px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <Plane size={16} strokeWidth={1.5} /> SEARCH FLIGHTS NOW
+              </Link>
+              <a href="/flights" target="_blank" rel="noopener noreferrer" style={{ border: '1px solid rgba(200,169,110,0.35)', color: gold, padding: '14px 24px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.15em', textDecoration: 'none', display: 'inline-block' }}>
+                SEARCH FLIGHTS →
+              </a>
             </div>
 
             <p style={{ color: dim, fontSize: '0.72rem', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
@@ -174,102 +143,63 @@ export default function FlightsPage() {
         </div>
       </div>
 
+      {/* Main Content Area */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* Popular routes */}
+        {/* 1. AIRLINES (Animated Infinite Marquee) */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-            <div>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>
-                POPULAR ROUTES
-              </div>
-
-              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>
-                Most Searched <em style={{ color: gold }}>Routes</em>
-              </h2>
-            </div>
-
-            <Link href="/search" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: muted, textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.3)', paddingBottom: 3 }}>
-              SEARCH ALL ROUTES →
-            </Link>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>TRUSTED CARRIERS</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>Top <em style={{ color: gold }}>Airlines</em></h2>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: 2 }}>
-            {popularRoutes.map(route => (
-              <Link key={route.code} href="/search" style={{ textDecoration: 'none' }}>
-                <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', cursor: 'pointer' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                    <FlagBadge code={route.from_code} />
-                    <div style={{ flex: 1, height: 1, background: 'rgba(200,169,110,0.2)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <div style={{ color: gold }}>
-                        <Plane size={14} strokeWidth={1.5} />
-                      </div>
-                    </div>
-                    <FlagBadge code={route.to_code} />
-                  </div>
-
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: dim, marginBottom: 4 }}>
-                    {route.code}
-                  </div>
-
-                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', color: cream, fontWeight: 600, marginBottom: 2 }}>
-                    {route.origin} → {route.to}
-                  </div>
-
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.1em', color: gold, marginTop: 8 }}>
-                    FROM {route.price}
+          <div style={{ overflow: 'hidden', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', padding: '10px 0' }}>
+            <div className="marquee-track">
+              {[...airlines, ...airlines].map((airline, i) => (
+                <div key={`${airline.name}-${i}`} className="airline-card" style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 30px', display: 'flex', alignItems: 'center', gap: 14, marginRight: 2, cursor: 'pointer', minWidth: '240px' }}>
+                  <FlagBadge code={airline.code} />
+                  <div>
+                    <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', color: cream, fontWeight: 600, lineHeight: 1.2 }}>{airline.name}</div>
+                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', color: dim, marginTop: 2 }}>HUB: {airline.hub.toUpperCase()}</div>
                   </div>
                 </div>
-              </Link>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Airlines */}
+        {/* 2. TIPS (Animated Staggered Fade + Gold Script Text) */}
         <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
           <div style={{ marginBottom: 32 }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>
-              TRUSTED CARRIERS
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>
-              Top <em style={{ color: gold }}>Airlines</em>
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 2 }}>
-            {airlines.map(airline => (
-              <div key={airline.name} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px', display: 'flex', alignItems: 'center', gap: 14 }}>
-                <FlagBadge code={airline.code} />
-                <div>
-                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', color: cream, fontWeight: 600, lineHeight: 1.2 }}>{airline.name}</div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', color: dim, marginTop: 2 }}>HUB: {airline.hub.toUpperCase()}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Tips */}
-        <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
-          <div style={{ marginBottom: 32 }}>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>
-              EXPERT ADVICE
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>
-              Booking <em style={{ color: gold }}>Tips</em>
-            </h2>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>EXPERT ADVICE</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>Booking <em style={{ color: gold }}>Tips</em></h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
             {tips.map((item, i) => {
               const IconComp = item.icon;
               return (
-                <div key={i} style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '24px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                  <div style={{ color: gold, flexShrink: 0, marginTop: 2 }}>
-                    <IconComp size={20} strokeWidth={1.5} />
+                <div key={i} className="tip-card" style={{ animationDelay: `${i * 0.15}s`, background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '24px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                  <div className="tip-icon" style={{ color: gold, flexShrink: 0, marginTop: 2 }}>
+                    <IconComp size={22} strokeWidth={1.5} />
                   </div>
-                  <p style={{ color: muted, fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>{item.tip}</p>
+                  <p style={{ color: gold, fontSize: '1.1rem', lineHeight: 1.6, margin: 0, fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500 }}>
+                    {item.tip}
+                  </p>
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* 3. FLIGHT SEARCH WIDGET CONTAINER */}
+        <div style={{ marginBottom: 'clamp(48px,7vw,80px)' }}>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 10 }}>LIVE FLIGHT SEARCH</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 300, color: cream }}>Find Your <em style={{ color: gold }}>Flight</em></h2>
+          </div>
+          
+          <div style={{ padding: '24px', minHeight: '300px', display: 'flex', flexDirection: 'column', background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', borderRadius: '8px', position: 'relative', width: '100%' }}>
+            <div id="tpwl-search" style={{ minHeight: '150px', width: '100%' }}></div>
+            <div id="tpwl-tickets" style={{ minHeight: '100px', width: '100%', marginTop: '20px' }}></div>
           </div>
         </div>
 
