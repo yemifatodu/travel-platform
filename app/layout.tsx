@@ -1,9 +1,10 @@
+// app/layout.tsx
 import type { Metadata, Viewport } from 'next'
 import "./globals.css";
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import PersistentFlightWidget from '@/components/PersistentFlightWidget' // Added for persistent flight search
+import FlightWidgetInitializer from '@/components/FlightWidgetInitializer' // Import the new component
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -20,9 +21,7 @@ export const metadata: Metadata = {
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     other: [
       { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
       { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
@@ -60,14 +59,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
-        
-        {/* This keeps the flight widget alive across all page navigations */}
-        <PersistentFlightWidget />
-        
         <GoogleAnalytics gaId="G-W0BFREJ16D" />
+        
+        {/* This keeps the widget alive in the background forever */}
+        <FlightWidgetInitializer />
       </body>
     </html>
   )
 }
-// force-redeploy 20260530173107
-// force-redeploy 20260531103406

@@ -1,10 +1,8 @@
-// components/FlightWidgetInitializer.tsx
 'use client'
 import { useEffect } from 'react'
 
 export default function FlightWidgetInitializer() {
   useEffect(() => {
-    // Inject the script exactly once when the app first loads
     if (!document.getElementById('tpwl-script-tag')) {
       const script = document.createElement('script');
       script.id = 'tpwl-script-tag';
@@ -21,8 +19,6 @@ export default function FlightWidgetInitializer() {
   }, []);
 
   return (
-    // This container lives at the bottom of the body, hidden.
-    // The flights page will "borrow" it and move it into the hero section.
     <div id="flight-widget-home" style={{ display: 'none', width: '100%' }}>
       <div id="tpwl-search" style={{ width: '100%' }}></div>
       <div id="tpwl-tickets" style={{ width: '100%', marginTop: '20px' }}></div>

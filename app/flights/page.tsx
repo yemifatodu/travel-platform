@@ -1,3 +1,4 @@
+// app/flights/page.tsx
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -8,7 +9,6 @@ const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-// Airline logos from Clearbit CDN
 const airlines = [
   { name: 'Emirates', hub: 'Dubai', code: 'AE', logo: 'https://logo.clearbit.com/emirates.com' },
   { name: 'Ethiopian Airlines', hub: 'Addis Ababa', code: 'ET', logo: 'https://logo.clearbit.com/ethiopianairlines.com' },
@@ -45,51 +45,33 @@ const AirlineLogo = ({ airline }: { airline: typeof airlines[0] }) => {
 
 export default function FlightsPage() {
   const [mounted, setMounted] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [isRefreshing, setIsRefreshing] = useState(false)
   const [clickedCard, setClickedCard] = useState<string | null>(null)
 
   useEffect(() => { setMounted(true) }, [])
 
-  // Function to inject the widget script
-  const injectWidget = () => {
-    const scriptId = "tpwl-script-tag";
-    const existingScript = document.getElementById(scriptId);
-    
-    if (existingScript) existingScript.remove();
-
-    setLoading(true);
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.async = true;
-    script.type = "module";
-    script.src = "https://tpwidg.com/wl_web/main.js?wl_id=15518";
-    script.setAttribute("data-noptimize", "1");
-    script.setAttribute("data-cfasync", "false");
-    script.setAttribute("data-wpfc-render", "false");
-    script.setAttribute("seraph-accel-crit", "1");
-    script.setAttribute("data-no-defer", "1");
-    
-    script.onload = () => setLoading(false);
-    document.head.appendChild(script);
-  }
-
-  // Initial load
+  // ==========================================
+  // THE MAGIC: "DOM PARKING" FOR THE WIDGET
+  // ==========================================
   useEffect(() => {
     if (!mounted) return;
-    injectWidget();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted]);
 
-  // Manual Refresh Handler
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    // Small delay to let the UI update and show the spinning icon
-    setTimeout(() => {
-      injectWidget();
-      setIsRefreshing(false);
-    }, 300);
-  };
+    const home = document.getElementById('flight-widget-home');
+    const target = document.getElementById('flight-widget-target');
+    
+    if (home && target) {
+      // 1. Move the persistent widget into the hero section
+      target.appendChild(home);
+      home.style.display = 'block';
+    }
+
+    // 2. Cleanup: When leaving the page, move it back to the body to keep it alive
+    return () => {
+      if (home) {
+        document.body.appendChild(home);
+        home.style.display = 'none';
+      }
+    };
+  }, [mounted]);
 
   // Mobile scroll animation for airline cards
   useEffect(() => {
@@ -141,12 +123,9 @@ export default function FlightsPage() {
         .tip-card:hover { transform: translateY(-6px); border-color: rgba(200, 169, 110, 0.5) !important; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
         .tip-card:hover .tip-icon { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(200, 169, 110, 0.4)); }
         .tip-icon { transition: all 0.3s ease; }
-        
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .spinning { animation: spin 1s linear infinite; }
       `}</style>
 
-      {/* HERO SECTION & LIVE WIDGET */}
+      {/* HERO SECTION */}
       <div style={{ background: 'linear-gradient(160deg,#080810,#0a0808,#080a08)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,100px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -162,35 +141,17 @@ export default function FlightsPage() {
             Compare flights across 1,200+ airlines worldwide. Live prices, instant results — all on huuboi.com.
           </p>
 
-          {/* WIDGET CONTAINER WITH REFRESH BUTTON */}
-          <div style={{ position: 'relative', background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(20px, 3vw, 32px)', borderRadius: '8px', width: '100%', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
-            
-            {/* Refresh Button */}
-            <button 
-              onClick={handleRefresh}
-              disabled={isRefreshing || loading}
-              title="Refresh Flight Widget"
-              style={{
-                position: 'absolute', top: 16, right: 16, zIndex: 20,
-                background: (isRefreshing || loading) ? 'rgba(200,169,110,0.1)' : 'transparent',
-                border: '1px solid rgba(200,169,110,0.3)', borderRadius: '6px', padding: '8px',
-                cursor: (isRefreshing || loading) ? 'not-allowed' : 'pointer', color: gold,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => { if (!isRefreshing && !loading) { e.currentTarget.style.background = gold; e.currentTarget.style.color = '#080807'; e.currentTarget.style.borderColor = gold; } }}
-              onMouseLeave={(e) => { if (!isRefreshing && !loading) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = gold; e.currentTarget.style.borderColor = 'rgba(200,169,110,0.3)'; } }}
-            >
-              <RefreshCw size={18} strokeWidth={1.5} className={isRefreshing || loading ? 'spinning' : ''} />
-            </button>
-
-            {(loading || isRefreshing) && (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', color: dim, fontSize: '0.75rem', fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em' }}>
-                {isRefreshing ? 'RELOADING SEARCH PORTAL...' : 'LOADING SECURE SEARCH PORTAL...'}
-              </div>
-            )}
-            
-            <div id="tpwl-search" style={{ minHeight: '150px', width: '100%' }}></div>
-            <div id="tpwl-tickets" style={{ minHeight: '100px', width: '100%', marginTop: '20px' }}></div>
+          {/* WIDGET CONTAINER (The target for the DOM parking) */}
+          <div style={{ 
+            background: '#111110', 
+            border: '1px solid rgba(200,169,110,0.15)', 
+            padding: 'clamp(20px, 3vw, 32px)', 
+            borderRadius: '8px', 
+            width: '100%', 
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)' 
+          }}>
+            {/* The persistent widget will be moved inside this div */}
+            <div id="flight-widget-target" style={{ width: '100%' }}></div>
           </div>
         </div>
       </div>
