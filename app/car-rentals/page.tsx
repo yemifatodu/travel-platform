@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const gold = '#C8A96E'
@@ -53,141 +53,91 @@ const tips = [
   { icon: <MapIcon />, tip: 'Download offline maps before picking up. Mobile data can be patchy in remote areas and roaming charges expensive without an eSIM.' },
 ]
 
-// YOUR SAVED WIDGET URLS
-const WIDGET_URL_1 = "https://tpwidg.com/content?currency=USD&trs=508095&shmarker=710879&locale=en&powered_by=true&transfer_options_limit=10&transfer_options=MCR&disable_currency_selector=true&hide_form_extras=true&hide_external_links=true&campaign_id=1&promo_id=3879"
-const WIDGET_URL_2 = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&powered_by=true&border_radius=5&plain=true&show_logo=true&color_background=%23ffca28&color_button=%2355a539&color_text=%23000000&color_input_text=%23000000&color_button_text=%23ffffff&promo_id=4480&campaign_id=10"
-
 export default function CarRentalsPage() {
+  const [mounted, setMounted] = useState(false)
 
+  useEffect(() => { setMounted(true) }, [])
+
+  // ==========================================
+  // 1. DOM PARKING FOR CAR WIDGETS
+  // ==========================================
   useEffect(() => {
-    // Add containment CSS - scoped to prevent spill-over to other pages
-    const style = document.createElement('style');
-    style.id = 'car-rentals-containment';
-    style.textContent = `
-      /* Contain widget overflow - prevents spill-over */
-      #car-rent-widget-container-1,
-      #car-rent-widget-container-3 {
-        contain: layout style paint !important;
-        overflow: hidden !important;
-        position: relative !important;
-        isolation: isolate !important;
-      }
-      
-      /* Force any modals/dropdowns from widgets to stay inside container */
-      #car-rent-widget-container-1 > *,
-      #car-rent-widget-container-3 > * {
-        contain: layout style paint !important;
-      }
-      
-      /* If Travelpayouts injects modals outside container, hide them on other pages */
-      body:not([data-car-rentals-active]) [class*="tp-widget"] [class*="modal"],
-      body:not([data-car-rentals-active]) [class*="tp-widget"] [class*="dropdown"],
-      body:not([data-car-rentals-active]) [class*="tp-widget"] [role="dialog"],
-      body:not([data-car-rentals-active]) [class*="tp-"],
-      body:not([data-car-rentals-active]) [id*="travelpayouts"] {
-        display: none !important;
-        pointer-events: none !important;
-      }
-      
-      /* Style inputs inside widgets */
-      #car-rent-widget-container-1 input,
-      #car-rent-widget-container-3 input {
-        background: #1a1a1a !important;
-        border: 1px solid rgba(200,169,110,0.3) !important;
-        color: #F5EFE4 !important;
-        padding: 10px !important;
-        border-radius: 4px !important;
-      }
-    `;
-    document.head.appendChild(style);
+    if (!mounted) return;
 
-    // Mark page as active for CSS scoping
-    document.body.setAttribute('data-car-rentals-active', 'true');
+    const home1 = document.getElementById('car-widget-home-1');
+    const home3 = document.getElementById('car-widget-home-3');
+    const target1 = document.getElementById('car-rent-widget-container-1');
+    const target3 = document.getElementById('car-rent-widget-container-3');
+    
+    if (home1 && target1) {
+      target1.appendChild(home1);
+      home1.style.display = 'block';
+    }
+    if (home3 && target3) {
+      target3.appendChild(home3);
+      home3.style.display = 'block';
+    }
 
-    // Helper: Inject script with retry logic and error handling
-    const injectWidget = (containerId: string, src: string, label: string) => {
-      const tryInject = () => {
-        const container = document.getElementById(containerId);
-        if (!container) {
-          console.warn(`⏳ Waiting for ${containerId}...`);
-          return false;
-        }
-        if (container.innerHTML.trim() !== '' || container.querySelector(`script[src="${src}"]`)) {
-          console.log(`✅ ${label} already loaded or container not empty`);
-          return true;
-        }
-        
-        const script = document.createElement('script');
-        script.async = true;
-        script.charset = 'utf-8';
-        script.src = src;
-        script.onload = () => console.log(`✅ ${label} loaded successfully`);
-        script.onerror = () => {
-          console.error(`❌ ${label} failed to load`);
-          container.innerHTML = `<p style="color:${gold};font-size:0.8rem;text-align:center">Widget unavailable. <a href="/help" style="color:${gold};text-decoration:underline">Get help</a></p>`;
-        };
-        container.appendChild(script);
-        return true;
-      };
-
-      // Try immediately, then retry every 500ms up to 5 times
-      if (!tryInject()) {
-        let attempts = 0;
-        const interval = setInterval(() => {
-          attempts++;
-          if (tryInject() || attempts >= 5) {
-            clearInterval(interval);
-            if (attempts >= 5) {
-              console.error(`❌ ${label} failed after 5 attempts`);
-              const container = document.getElementById(containerId);
-              if (container) {
-                container.innerHTML = `<p style="color:${gold};font-size:0.8rem;text-align:center">Loading error. <button onclick="window.location.reload()" style="background:${gold};color:#080807;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;margin-top:8px">Retry</button></p>`;
-              }
-            }
-          }
-        }, 500);
-      }
-    };
-
-    // ✅ WIDGET 1: Top Transfer/Whitelist Widget (YOUR SAVED URL)
-    injectWidget(
-      'car-rent-widget-container-1',
-      WIDGET_URL_1,
-      'Transfer/Whitelist Widget #1'
-    );
-
-    // ✅ WIDGET 2: Car Rental Search (YOUR SAVED URL - FIXED)
-    injectWidget(
-      'car-rent-widget-container-3',
-      WIDGET_URL_2,
-      'Car Rental Search Widget #2'
-    );
-
-    // Cleanup function
     return () => {
-      // Remove containment CSS
-      const styleEl = document.getElementById('car-rentals-containment');
-      if (styleEl) styleEl.remove();
-      
-      // Remove page marker
-      document.body.removeAttribute('data-car-rentals-active');
-      
-      // Remove injected scripts and reset containers
-      ['car-rent-widget-container-1', 'car-rent-widget-container-3'].forEach(id => {
-        const container = document.getElementById(id);
-        if (container) {
-          container.querySelectorAll('script[src*="tpwidg.com"]').forEach(s => s.remove());
-          // Only clear if no Travelpayouts widget is actively rendering
-          if (!container.querySelector('.tp-widget, [class*="travelpayouts"]')) {
-            container.innerHTML = '';
-          }
-        }
-      });
+      if (home1) {
+        document.body.appendChild(home1);
+        home1.style.display = 'none';
+      }
+      if (home3) {
+        document.body.appendChild(home3);
+        home3.style.display = 'none';
+      }
     };
-  }, []);
+  }, [mounted]);
+
+  // ==========================================
+  // 2. SCROLL ANIMATIONS
+  // ==========================================
+  useEffect(() => {
+    if (!mounted) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('animate-in')
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    )
+    const elements = document.querySelectorAll('.scroll-animate')
+    elements.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [mounted])
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+      
+      {/* Animations CSS */}
+      <style>{`
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .scroll-animate { opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        
+        .tip-card { 
+          opacity: 0; 
+          animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; 
+        }
+        .tip-card:hover { 
+          transform: translateY(-6px); 
+          border-color: rgba(200, 169, 110, 0.5) !important; 
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); 
+        }
+        .tip-card:hover .tip-icon { 
+          transform: scale(1.1); 
+          filter: drop-shadow(0 0 8px rgba(200, 169, 110, 0.4)); 
+        }
+        .tip-icon { transition: all 0.3s ease; }
+
+        .related-card { transition: border-color 0.3s ease, transform 0.3s ease; }
+        .related-card:hover { 
+          border-color: rgba(200,169,110,0.4) !important; 
+          transform: translateY(-4px); 
+        }
+      `}</style>
 
       {/* Hero */}
       <div style={{ background: 'linear-gradient(160deg,#0a0808,#100c08,#080a10)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)' }}>
@@ -203,7 +153,7 @@ export default function CarRentalsPage() {
             Compare car rental prices from 900+ suppliers worldwide. Economy to luxury, city runabouts to 4WD safari vehicles — find the right car at the right price.
           </p>
 
-          {/* WIDGET 1 Container - Transfer/Whitelist */}
+          {/* WIDGET 1 Container */}
           <div style={{ 
             background: '#111110', 
             border: '1px solid rgba(200,169,110,0.2)', 
@@ -212,19 +162,15 @@ export default function CarRentalsPage() {
             position: 'relative', 
             zIndex: 1,
             contain: 'layout style paint',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            borderRadius: '8px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
           }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.2em', color: gold, marginBottom: 20 }}>SEARCH RENTALS & TRANSFERS</div>
             
-            {/* INJECTION POINT */}
             <div 
               id="car-rent-widget-container-1" 
-              style={{ 
-                minHeight: '100px', 
-                position: 'relative',
-                contain: 'layout style paint',
-                overflow: 'hidden'
-              }} 
+              style={{ minHeight: '100px', position: 'relative', contain: 'layout style paint', overflow: 'hidden' }} 
             />
 
             <p style={{ color: dim, fontSize: '0.75rem', textAlign: 'center', marginTop: 12, fontFamily: "'DM Sans',sans-serif" }}>
@@ -236,21 +182,21 @@ export default function CarRentalsPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
 
-        {/* Tips - SVG Icons */}
-        <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginBottom: 'clamp(48px,7vw,80px)' }}>
+        {/* Tips - Now with staggered scroll animations and hover effects */}
+        <div className="scroll-animate" style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(28px,4vw,48px)', marginBottom: 'clamp(48px,7vw,80px)', borderRadius: '8px' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 28 }}>RENTAL TIPS</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
             {tips.map((item, i) => (
-              <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                <span style={{ flexShrink: 0, marginTop: '2px' }}>{item.icon}</span>
-                <p style={{ color: muted, fontSize: '0.87rem', lineHeight: 1.75, margin: 0 }}>{item.tip}</p>
+              <div key={i} className="tip-card" style={{ animationDelay: `${i * 0.15}s`, background: '#1C1B18', border: '1px solid rgba(200,169,110,0.1)', padding: '24px', display: 'flex', gap: 16, alignItems: 'flex-start', borderRadius: '8px' }}>
+                <span className="tip-icon" style={{ flexShrink: 0, marginTop: '2px', color: gold }}>{item.icon}</span>
+                <p style={{ color: gold, fontSize: '1.05rem', lineHeight: 1.6, margin: 0, fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500 }}>{item.tip}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* eSIM strip - SVG Icon */}
-        <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 'clamp(48px,7vw,80px)' }}>
+        {/* eSIM strip - Now with scroll animation */}
+        <div className="scroll-animate" style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 'clamp(48px,7vw,80px)', borderRadius: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <PhoneIcon />
             <div>
@@ -258,13 +204,13 @@ export default function CarRentalsPage() {
               <p style={{ color: muted, fontSize: '0.88rem', margin: 0 }}>Get a travel eSIM — offline maps, navigation and local data without roaming fees</p>
             </div>
           </div>
-          <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.18em', background: gold, color: '#080807', padding: '12px 28px', textDecoration: 'none', whiteSpace: 'nowrap', borderRadius: '4px' }}>
             GET ESIM
           </Link>
         </div>
 
-        {/* WIDGET 3 Container - Car Rental Search */}
-        <div style={{ 
+        {/* WIDGET 3 Container - Now with scroll animation */}
+        <div className="scroll-animate" style={{ 
           background: '#111110', 
           border: '1px solid rgba(200,169,110,0.15)', 
           padding: 'clamp(20px,3vw,40px)', 
@@ -272,24 +218,19 @@ export default function CarRentalsPage() {
           position: 'relative', 
           zIndex: 1,
           contain: 'layout style paint',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          borderRadius: '8px'
         }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20, textAlign: 'center' }}>COMPARE MORE RATES</div>
           
-          {/* INJECTION POINT */}
           <div 
             id="car-rent-widget-container-3" 
-            style={{ 
-              minHeight: '100px', 
-              position: 'relative',
-              contain: 'layout style paint',
-              overflow: 'hidden'
-            }} 
+            style={{ minHeight: '100px', position: 'relative', contain: 'layout style paint', overflow: 'hidden' }} 
           />
         </div>
 
-        {/* Related Links - CSS-only hover */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
+        {/* Related Links - Now with hover lift animation */}
+        <div className="scroll-animate" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
           {[
             { label: 'Airport Transfers', href: '/transfers' },
             { label: 'Travel Insurance', href: '/help' },
@@ -297,10 +238,11 @@ export default function CarRentalsPage() {
             { label: 'Budget Calculator', href: '/budget-calculator' },
           ].map(link => (
             <Link key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
-              <div className="car-rental-related-card" style={{ 
+              <div className="related-card" style={{ 
                 background: '#111110', 
                 border: '1px solid rgba(200,169,110,0.1)', 
-                padding: '18px 20px' 
+                padding: '18px 20px',
+                borderRadius: '8px'
               }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: gold }}>{link.label} →</div>
               </div>
@@ -309,16 +251,6 @@ export default function CarRentalsPage() {
         </div>
 
       </div>
-
-      {/* CSS for related card hover (scoped) */}
-      <style jsx>{`
-        .car-rental-related-card {
-          transition: border-color 0.2s ease;
-        }
-        .car-rental-related-card:hover {
-          border-color: rgba(200,169,110,0.35) !important;
-        }
-      `}</style>
     </div>
   )
 }

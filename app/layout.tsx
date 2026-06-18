@@ -4,7 +4,8 @@ import "./globals.css";
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import FlightWidgetInitializer from '@/components/FlightWidgetInitializer' // Import the new component
+import FlightWidgetInitializer from '@/components/FlightWidgetInitializer'
+import CarWidgetInitializer from '@/components/CarWidgetInitializer' // Added for car rentals
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -61,8 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <GoogleAnalytics gaId="G-W0BFREJ16D" />
         
-        {/* This keeps the widget alive in the background forever */}
+        {/* Persistent widget initializers */}
         <FlightWidgetInitializer />
+        <CarWidgetInitializer />
       </body>
     </html>
   )
