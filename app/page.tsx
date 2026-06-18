@@ -8,7 +8,6 @@ const ink = '#080807'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-// Icons
 const PlaneIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
@@ -82,20 +81,19 @@ const testimonials = [
   { name: 'Yuki T.', location: 'Tokyo, Japan', text: "Booked the Serengeti package and I'm still in awe. The great migration was beyond anything I imagined.", rating: 5 },
 ]
 
+// ── SERVICE STRIP — confirmed stats ──
 const services = [
   { label: 'flight', stat: '194+', statLabel: 'COUNTRIES', href: '/flights' },
-  { label: 'hotel', stat: '27K+', statLabel: 'TRAVELLERS', href: '/hotel' },
-  { label: 'car rental', stat: null, statLabel: null, href: '/transfers' },
-  { label: 'visa', stat: '400+', statLabel: 'PACKAGES', href: '/visa-requirements' },
-  { label: 'esim', stat: '24/7', statLabel: 'SUPPORT', href: '/esim' },
-  { label: 'packages', stat: null, statLabel: null, href: '/packages' },
+  { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel' },
+  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers' },
+  { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements' },
+  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim' },
+  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/packages' },
 ]
 
-// Scroll-triggered fade-up hook
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
-
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -106,15 +104,12 @@ function useScrollReveal() {
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
-
   return { ref, visible }
 }
 
-// Animated destination card
 function DestCard({ dest }: { dest: typeof destinations[0] }) {
   const { ref, visible } = useScrollReveal()
   const [hovered, setHovered] = useState(false)
-
   return (
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
@@ -127,40 +122,13 @@ function DestCard({ dest }: { dest: typeof destinations[0] }) {
         onMouseLeave={() => setHovered(false)}
       >
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.92) 0%,rgba(8,8,7,0.2) 65%,transparent 100%)' }} />
-        {/* Hover overlay */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'rgba(200,169,110,0.08)',
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.3s ease'
-        }} />
-        {/* Scale effect on hover */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          transform: hovered ? 'scale(1.05)' : 'scale(1)',
-          transition: 'transform 0.5s ease',
-          background: dest.gradient,
-          zIndex: -1
-        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(200,169,110,0.08)', opacity: hovered ? 1 : 0, transition: 'opacity 0.3s ease' }} />
+        <div style={{ position: 'absolute', inset: 0, transform: hovered ? 'scale(1.05)' : 'scale(1)', transition: 'transform 0.5s ease', background: dest.gradient, zIndex: -1 }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '14px' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.15em', color: gold, marginBottom: 2 }}>{dest.region}</div>
-          <div style={{
-            fontFamily: "'Cormorant Garamond',serif",
-            fontSize: 'clamp(0.95rem,2vw,1.3rem)',
-            fontWeight: 600, color: cream, lineHeight: 1.1,
-            transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-            transition: 'transform 0.3s ease'
-          }}>{dest.name}</div>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(0.95rem,2vw,1.3rem)', fontWeight: 600, color: cream, lineHeight: 1.1, transform: hovered ? 'translateY(-4px)' : 'translateY(0)', transition: 'transform 0.3s ease' }}>{dest.name}</div>
           <div style={{ fontSize: '0.62rem', color: muted, marginTop: 2 }}>{dest.country}</div>
-          {/* Arrow appears on hover */}
-          <div style={{
-            fontFamily: "'Bebas Neue',sans-serif",
-            fontSize: '0.55rem', letterSpacing: '0.15em', color: gold,
-            marginTop: 6,
-            opacity: hovered ? 1 : 0,
-            transform: hovered ? 'translateY(0)' : 'translateY(6px)',
-            transition: 'opacity 0.3s ease, transform 0.3s ease'
-          }}>EXPLORE →</div>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: gold, marginTop: 6, opacity: hovered ? 1 : 0, transform: hovered ? 'translateY(0)' : 'translateY(6px)', transition: 'opacity 0.3s ease, transform 0.3s ease' }}>EXPLORE →</div>
         </div>
       </Link>
     </div>
@@ -169,27 +137,16 @@ function DestCard({ dest }: { dest: typeof destinations[0] }) {
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false)
-
   useEffect(() => { setMounted(true) }, [])
 
   return (
     <>
       <style>{`
-        .dest-grid-home {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-        }
-        .pkg-grid-home {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 8px;
-        }
-        .test-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-        }
+        .dest-grid-home { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .pkg-grid-home { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+        /* ── SERVICE STRIP ── */
         .service-strip {
           display: grid;
           grid-template-columns: repeat(6, 1fr);
@@ -197,17 +154,65 @@ export default function HomePage() {
         }
         .service-item {
           border-right: 1px solid rgba(200,169,110,0.1);
-          padding: 18px 12px;
+          padding: 22px 10px;
           text-align: center;
           text-decoration: none;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 4px;
-          transition: background 0.25s;
+          justify-content: center;
+          gap: 6px;
+          min-height: 92px;
+          transition: background 0.25s, transform 0.25s;
+          position: relative;
+          overflow: hidden;
         }
         .service-item:last-child { border-right: none; }
-        .service-item:hover { background: rgba(200,169,110,0.06); }
+        .service-item:hover {
+          background: rgba(200,169,110,0.08);
+          transform: translateY(-3px);
+        }
+        .service-item::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 50%;
+          width: 0; height: 2px;
+          background: #C8A96E;
+          transition: width 0.3s ease, left 0.3s ease;
+        }
+        .service-item:hover::after {
+          width: 60%;
+          left: 20%;
+        }
+        .service-label {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+          font-style: italic;
+          color: #F5EFE4;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .service-stat-wrap {
+          display: flex;
+          align-items: baseline;
+          gap: 5px;
+          flex-wrap: nowrap;
+        }
+        .service-stat {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(0.8rem, 1.3vw, 0.95rem);
+          font-weight: 600;
+          color: #C8A96E;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .service-stat-label {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: clamp(0.42rem, 0.75vw, 0.5rem);
+          letter-spacing: 0.14em;
+          color: rgba(245,239,228,0.35);
+          white-space: nowrap;
+        }
 
         @media (max-width: 900px) {
           .service-strip { grid-template-columns: repeat(3, 1fr); }
@@ -216,12 +221,27 @@ export default function HomePage() {
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .test-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 480px) {
           .service-strip { grid-template-columns: repeat(2, 1fr); }
           .service-item:nth-child(2n) { border-right: none; }
+          .service-item { padding: 18px 8px; min-height: 80px; }
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ── HERO TEXT POSITIONING ── */
+        .hero-content {
+          padding-top: clamp(70px,9vh,100px);
+          padding-bottom: clamp(20px,3vh,32px);
+        }
+        @media (max-width: 900px) {
+          .hero-content {
+            padding-top: clamp(60px,8vh,90px);
+            padding-bottom: clamp(40px,7vh,64px);
+          }
+          .hero-buttons-wrap {
+            margin-top: clamp(24px,5vh,48px) !important;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -230,147 +250,62 @@ export default function HomePage() {
       `}</style>
 
       {/* ── HERO — full viewport, video background ── */}
-      <section style={{
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        minHeight: 600,
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
-        {/* VIDEO BACKGROUND */}
-        <video
-          autoPlay muted loop playsInline
-          poster="/images/hero-poster.jpg"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            zIndex: 0,
-          }}
-        >
+      <section style={{ position: 'relative', width: '100%', height: '100vh', minHeight: 600, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        <video autoPlay muted loop playsInline poster="/images/hero-poster.jpg"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}>
           <source src="/videos/hero.webm" type="video/webm" />
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
 
-        {/* EDGE FADES — fades video into ink color on all 4 sides */}
-        {/* Top fade */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '180px', background: `linear-gradient(to bottom, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
-        {/* Bottom fade */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '260px', background: `linear-gradient(to top, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
-        {/* Left fade */}
-        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '200px', background: `linear-gradient(to right, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
-        {/* Right fade */}
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '200px', background: `linear-gradient(to left, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
-        {/* Centre darkening overlay — keeps text readable */}
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(8,8,7,0.45)', zIndex: 1, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '160px', background: `linear-gradient(to bottom, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '240px', background: `linear-gradient(to top, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '180px', background: `linear-gradient(to right, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '180px', background: `linear-gradient(to left, ${ink} 0%, transparent 100%)`, zIndex: 1, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(8,8,7,0.42)', zIndex: 1, pointerEvents: 'none' }} />
 
-        {/* HERO CONTENT — sits above all overlays */}
-        <div style={{
-          position: 'relative',
-          zIndex: 2,
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: 'clamp(100px,12vh,140px) clamp(24px,6vw,80px) clamp(60px,8vh,100px)',
+        {/* HERO CONTENT — text pushed up, more video visible below */}
+        <div className="hero-content" style={{
+          position: 'relative', zIndex: 2, flex: 1,
+          display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
+          padding: 'clamp(70px,9vh,100px) clamp(24px,6vw,80px) clamp(20px,3vh,32px)',
           maxWidth: 700,
         }}>
-          <div style={{
-            fontFamily: "'Bebas Neue',sans-serif",
-            fontSize: '0.6rem',
-            letterSpacing: '0.28em',
-            color: gold,
-            marginBottom: 20,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-          }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.28em', color: gold, marginBottom: 18, display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ width: 28, height: 1, background: gold, display: 'inline-block' }} />
             LUXURY GLOBAL TRAVEL
           </div>
 
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond',serif",
-            fontSize: 'clamp(2.8rem,7vw,7rem)',
-            fontWeight: 300,
-            lineHeight: 0.9,
-            color: cream,
-            marginBottom: 24,
-            letterSpacing: '-0.01em',
-          }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2.6rem,6.5vw,6.5rem)', fontWeight: 300, lineHeight: 0.9, color: cream, marginBottom: 20, letterSpacing: '-0.01em' }}>
             The World<br/>
             <em style={{ fontStyle: 'italic', color: gold }}>Awaits</em><br/>
             You
           </h1>
 
-          <p style={{
-            fontSize: 'clamp(0.82rem,1.5vw,0.95rem)',
-            color: 'rgba(245,239,228,0.75)',
-            maxWidth: 420,
-            lineHeight: 1.75,
-            marginBottom: 36,
-            fontWeight: 300,
-          }}>
+          <p style={{ fontSize: 'clamp(0.8rem,1.4vw,0.92rem)', color: 'rgba(245,239,228,0.75)', maxWidth: 400, lineHeight: 1.7, marginBottom: 0, fontWeight: 300 }}>
             Bespoke journeys crafted for the discerning traveller.<br/>
             Six continents. Infinite stories. One platform.
           </p>
 
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <Link href="/destinations" style={{
-              fontFamily: "'Bebas Neue',sans-serif",
-              fontSize: '0.72rem',
-              letterSpacing: '0.2em',
-              background: gold,
-              color: ink,
-              padding: '14px 32px',
-              textDecoration: 'none',
-              display: 'inline-block',
-            }}>
+          {/* Buttons pushed down with extra margin so more video shows between text and buttons */}
+          <div className="hero-buttons-wrap" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 'clamp(40px,9vh,64px)' }}>
+            <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', background: gold, color: ink, padding: '14px 32px', textDecoration: 'none', display: 'inline-block' }}>
               EXPLORE DESTINATIONS
             </Link>
-            <Link href="/ai-planner" style={{
-              fontFamily: "'Bebas Neue',sans-serif",
-              fontSize: '0.72rem',
-              letterSpacing: '0.2em',
-              border: '1px solid rgba(200,169,110,0.55)',
-              color: gold,
-              padding: '14px 32px',
-              textDecoration: 'none',
-              display: 'inline-block',
-              backdropFilter: 'blur(4px)',
-            }}>
+            <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', border: '1px solid rgba(200,169,110,0.55)', color: gold, padding: '14px 32px', textDecoration: 'none', display: 'inline-block', backdropFilter: 'blur(4px)' }}>
               AI TRIP PLANNER
             </Link>
           </div>
         </div>
 
-        {/* SERVICE STRIP — pinned to bottom of hero */}
-        <div className="service-strip" style={{
-          position: 'relative',
-          zIndex: 2,
-          background: 'rgba(8,8,7,0.88)',
-          backdropFilter: 'blur(12px)',
-        }}>
+        {/* SERVICE STRIP */}
+        <div className="service-strip" style={{ position: 'relative', zIndex: 2, background: 'rgba(8,8,7,0.88)', backdropFilter: 'blur(12px)' }}>
           {services.map((s) => (
-            <Link key={s.label} href={s.href} className="service-item" style={{ textDecoration: 'none' }}>
-              <div style={{
-                fontFamily: "'Cormorant Garamond',serif",
-                fontSize: 'clamp(0.85rem,1.5vw,1.15rem)',
-                fontStyle: 'italic',
-                color: cream,
-                lineHeight: 1,
-              }}>
-                {s.label}
-              </div>
+            <Link key={s.label} href={s.href} className="service-item">
+              <div className="service-label">{s.label}</div>
               {s.stat && (
-                <div style={{ textAlign: 'center', marginTop: 2 }}>
-                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(0.75rem,1.2vw,0.9rem)', fontWeight: 600, color: gold, lineHeight: 1 }}>{s.stat}</div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.42rem', letterSpacing: '0.18em', color: dim, marginTop: 1 }}>{s.statLabel}</div>
+                <div className="service-stat-wrap">
+                  <span className="service-stat">{s.stat}</span>
+                  <span className="service-stat-label">{s.statLabel}</span>
                 </div>
               )}
             </Link>
@@ -413,7 +348,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── DESTINATIONS — animated cards ── */}
+      {/* ── DESTINATIONS ── */}
       <section style={{ background: ink, padding: 'clamp(40px,5vw,64px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 28 }}>
@@ -425,12 +360,9 @@ export default function HomePage() {
             </div>
             <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: muted, textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
           </div>
-
           <div className="dest-grid-home">
-            {destinations.map((dest, i) => (
-              <div key={dest.slug} style={{ transitionDelay: `${(i % 3) * 80}ms` }}>
-                <DestCard dest={dest} />
-              </div>
+            {destinations.map((dest) => (
+              <DestCard key={dest.slug} dest={dest} />
             ))}
           </div>
         </div>
