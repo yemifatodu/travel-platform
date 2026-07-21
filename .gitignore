@@ -8,3 +8,7 @@ build/
 .env*.local
 .DS_Store
 *.pem
+# Local backup files from editing sessions
+*.bak
+*.bak[0-9]*
+*.bak-*
