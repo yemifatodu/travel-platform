@@ -15,8 +15,8 @@ const cream = '#F5F5F0'
 const muted = '#A0A095'
 const dim = '#60605A'
 
-// Region keys for filter (all European countries)
-const regionKeys = ['All', 'France', 'Italy', 'Spain', 'Portugal', 'United Kingdom', 'Germany', 'Switzerland', 'Austria', 'Netherlands', 'Greece', 'Iceland']
+// Preferred display order for country groups
+const countryOrder = ['France', 'Italy', 'Spain', 'Portugal', 'United Kingdom', 'Germany', 'Switzerland', 'Austria', 'Netherlands', 'Greece', 'Iceland']
 
 const europeTypes = [
   { icon: Building2, title: 'Art & Culture', desc: 'The Louvre, Uffizi, Prado, Rijksmuseum — Europe holds more of the world\'s great art than anywhere else on earth.' },
@@ -34,15 +34,14 @@ const multiCityRoutes = [
   { title: 'Iberian Peninsula', days: '10 days', cities: 'Madrid → Seville → Córdoba → Lisbon → Porto', desc: 'Moorish palaces and extraordinary food from Spain to Portugal.' },
 ]
 
-// Helper component for expandable description
 function ExpandableDescription({ description }: { description: string }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const shortDescription = description.substring(0, 120)
-  
+
   if (description.length <= 120) {
     return <p style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.7, marginBottom: 14 }}>{description}</p>
   }
-  
+
   return (
     <div style={{ marginBottom: 14 }}>
       <p style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.7, margin: 0 }}>
@@ -54,51 +53,219 @@ function ExpandableDescription({ description }: { description: string }) {
           setIsExpanded(!isExpanded)
         }}
         style={{
-          background: 'none',
-          border: 'none',
-          color: gold,
-          fontSize: '0.65rem',
-          fontFamily: "'Bebas Neue',sans-serif",
-          letterSpacing: '0.1em',
-          cursor: 'pointer',
-          padding: '6px 0 0 0',
-          marginTop: 4,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
+          background: 'none', border: 'none', color: gold, fontSize: '0.65rem',
+          fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em', cursor: 'pointer',
+          padding: '6px 0 0 0', marginTop: 4, display: 'flex', alignItems: 'center', gap: 4,
         }}
       >
         {isExpanded ? (
-          <>
-            <ChevronUp size={12} strokeWidth={1.5} color={gold} />
-            READ LESS
-          </>
+          <><ChevronUp size={12} strokeWidth={1.5} color={gold} /> READ LESS</>
         ) : (
-          <>
-            <ChevronDown size={12} strokeWidth={1.5} color={gold} />
-            READ MORE
-          </>
+          <><ChevronDown size={12} strokeWidth={1.5} color={gold} /> READ MORE</>
         )}
       </button>
     </div>
   )
 }
 
+function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; selectedDest: any; setSelectedDest: (d: any) => void }) {
+  const isOpen = selectedDest?.slug === dest.slug
+  return (
+    <div
+      onClick={() => setSelectedDest(isOpen ? null : dest)}
+      style={{ background: '#111110', border: `1px solid ${isOpen ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'visible', transition: 'border-color 0.2s' }}>
+
+      <div style={{ height: isOpen ? 320 : 180, position: 'relative', overflow: 'hidden', transition: 'height 0.4s ease' }}>
+        <picture>
+          <source srcSet={`/images/europe/${dest.slug}-mobile.webp`} media="(max-width: 480px)" type="image/webp" />
+          <source srcSet={`/images/europe/${dest.slug}-tablet.webp`} media="(max-width: 1024px)" type="image/webp" />
+          <source srcSet={`/images/europe/${dest.slug}-desktop.webp`} type="image/webp" />
+          <img
+            src={`/images/europe/${dest.slug}.jpg`}
+            alt={dest.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement
+              img.style.display = 'none';
+              (img.parentElement?.parentElement as HTMLElement).style.background = dest.gradient
+            }}
+          />
+        </picture>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.75) 0%,transparent 60%)' }} />
+        <div style={{ position: 'absolute', bottom: 14, left: 18, display: 'flex', alignItems: 'center', gap: 6, zIndex: 2 }}>
+          <MapPin size={12} strokeWidth={1.5} color={gold} />
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: gold }}>{dest.country}</div>
+        </div>
+      </div>
+
+      <div style={{ padding: '20px 22px 22px' }}>
+        <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 300, color: cream, marginBottom: 4 }}>{dest.name}</h3>
+        <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, marginBottom: 10 }}>{dest.tagline}</p>
+
+        <ExpandableDescription description={dest.description} />
+
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
+          {dest.highlights.map((h: string) => (
+            <span key={h} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.15)', color: gold, padding: '3px 10px' }}>{h}</span>
+          ))}
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2, marginBottom: 14 }}>
+          {[
+            { label: 'BEST TIME', value: dest.bestTime, icon: Sun },
+            { label: 'STAY', value: dest.duration, icon: Bed },
+            { label: 'FROM', value: dest.from, icon: DollarSign },
+          ].map(s => {
+            const IconComp = s.icon
+            return (
+              <div key={s.label} style={{ background: '#1C1B18', padding: '10px 12px' }}>
+                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.15em', color: dim, marginBottom: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <IconComp size={10} strokeWidth={1.5} color={dim} />
+                  {s.label}
+                </div>
+                <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.88rem', color: s.label === 'FROM' ? gold : cream, fontWeight: 600 }}>{s.value}</div>
+              </div>
+            )
+          })}
+        </div>
+        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.15em', color: isOpen ? muted : gold, display: 'flex', alignItems: 'center', gap: 6 }}>
+          {isOpen ? (
+            <><ChevronUp size={14} strokeWidth={1.5} color={muted} /> CLICK TO CLOSE</>
+          ) : (
+            <><ChevronDown size={14} strokeWidth={1.5} color={gold} /> SEE DETAILS</>
+          )}
+        </div>
+      </div>
+
+      {isOpen && (
+        <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', padding: '22px 22px 26px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Star size={12} strokeWidth={1.5} color={gold} />
+                EXPERIENCES
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {dest.experiences.map((exp: string, i: number) => (
+                  <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <span style={{ color: gold, fontSize: '0.6rem', marginTop: 2 }}>✦</span>
+                    <span style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.5 }}>{exp}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Building2 size={12} strokeWidth={1.5} color={gold} />
+                TOP HOTELS
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {dest.camps.map((hotel: string, i: number) => (
+                  <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: cream, borderBottom: '1px solid rgba(200,169,110,0.06)', paddingBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Bed size={10} strokeWidth={1.5} color={gold} />
+                    {hotel}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <Link href="/flights" target="_blank" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Plane size={14} strokeWidth={1.5} color="#080807" />
+              SEARCH FLIGHTS
+            </Link>
+            <Link href="/hotels" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Bed size={14} strokeWidth={1.5} color={gold} />
+              BOOK HOTEL
+            </Link>
+            <Link href="/cars" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Car size={14} strokeWidth={1.5} color={muted} />
+              RENT CAR
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function EuropePage() {
-  const [selectedRegion, setSelectedRegion] = useState('All')
   const [selectedDest, setSelectedDest] = useState<any>(null)
   const [activeTab, setActiveTab] = useState<'destinations' | 'experiences' | 'guide'>('destinations')
+  const [openCountries, setOpenCountries] = useState<Set<string>>(new Set())
 
-  const filtered = europeDestinations.filter(
-    (d) => selectedRegion === 'All' || d.country === selectedRegion
-  )
+  const toggleCountry = (country: string) => {
+    setOpenCountries(prev => {
+      const next = new Set(prev)
+      if (next.has(country)) next.delete(country)
+      else next.add(country)
+      return next
+    })
+  }
 
-  // Get unique countries for stats
   const uniqueCountries = [...new Set(europeDestinations.map(d => d.country))]
   const unescoCount = europeDestinations.filter(d => d.unesco === true).length
 
+  const orderedCountries = [
+    ...countryOrder.filter(c => uniqueCountries.includes(c)),
+    ...uniqueCountries.filter(c => !countryOrder.includes(c)),
+  ]
+
+  const groupedByCountry = orderedCountries.map(country => ({
+    country,
+    items: europeDestinations.filter(d => d.country === country),
+  })).filter(g => g.items.length > 0)
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+
+      <style>{`
+        .region-accordion-list { display: flex; flex-direction: column; gap: 10px; }
+        .region-accordion-item {
+          background: #111110;
+          border: 1px solid rgba(200,169,110,0.15);
+          border-radius: 8px;
+          overflow: hidden;
+          transition: border-color 0.25s ease;
+        }
+        .region-accordion-item.is-open { border-color: rgba(200,169,110,0.4); }
+        .region-header {
+          width: 100%;
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 18px 22px;
+          text-align: left;
+          transition: background 0.2s ease;
+        }
+        .region-header:hover { background: rgba(200,169,110,0.05); }
+        .region-header-left { display: flex; align-items: baseline; gap: 14px; }
+        .region-name {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+          font-weight: 400;
+          color: #F5F5F0;
+        }
+        .region-count {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 0.6rem;
+          letter-spacing: 0.15em;
+          color: rgba(200,169,110,0.6);
+        }
+        .region-body { padding: 4px 22px 22px; animation: regionOpen 0.35s ease; }
+        @keyframes regionOpen {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .region-dest-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(340px,1fr)); gap: 2px; }
+        @media (max-width: 480px) {
+          .region-header { padding: 15px 16px; }
+          .region-body { padding: 4px 16px 16px; }
+        }
+      `}</style>
 
       {/* Hero */}
       <div style={{ background: 'linear-gradient(160deg,#080810,#0e0818,#100a08)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,120px) clamp(20px,5vw,60px)', position: 'relative', overflow: 'hidden' }}>
@@ -128,7 +295,6 @@ export default function EuropePage() {
           </div>
         </div>
 
-        {/* Stats - Dynamic */}
         <div style={{ maxWidth: 1200, margin: '48px auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 2, position: 'relative', zIndex: 1 }}>
           {[
             { num: europeDestinations.length.toString(), label: 'Destinations', icon: MapPin },
@@ -151,10 +317,8 @@ export default function EuropePage() {
         </div>
       </div>
 
-      {/* Content Area */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(40px,6vw,80px) clamp(20px,5vw,60px)' }}>
-        
-        {/* Tabs */}
+
         <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(200,169,110,0.15)', marginBottom: 48, overflowX: 'auto' }}>
           {[
             { key: 'destinations', label: 'Destinations', icon: MapPin },
@@ -172,167 +336,36 @@ export default function EuropePage() {
           })}
         </div>
 
-        {/* Region Filter - only on Destinations tab */}
+        {/* DESTINATIONS TAB — country accordion */}
         {activeTab === 'destinations' && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 1, marginBottom: 32, background: '#111110', border: '1px solid rgba(200,169,110,0.1)' }}>
-            {regionKeys.map(region => (
-              <button key={region} onClick={() => setSelectedRegion(region)}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', background: selectedRegion === region ? gold : 'transparent', color: selectedRegion === region ? '#080807' : muted, border: 'none', padding: '12px 24px', cursor: 'pointer', transition: 'all 0.2s' }}>
-                {region}
-              </button>
-            ))}
+          <div className="region-accordion-list">
+            {groupedByCountry.map(group => {
+              const isOpen = openCountries.has(group.country)
+              return (
+                <div key={group.country} className={`region-accordion-item${isOpen ? ' is-open' : ''}`}>
+                  <button className="region-header" onClick={() => toggleCountry(group.country)}>
+                    <div className="region-header-left">
+                      <span className="region-name">{group.country}</span>
+                      <span className="region-count">{group.items.length} DESTINATION{group.items.length > 1 ? 'S' : ''}</span>
+                    </div>
+                    {isOpen ? <ChevronUp size={18} strokeWidth={1.5} color={gold} /> : <ChevronDown size={18} strokeWidth={1.5} color={gold} />}
+                  </button>
+                  {isOpen && (
+                    <div className="region-body">
+                      <div className="region-dest-grid">
+                        {group.items.map(dest => (
+                          <DestinationCard key={dest.slug} dest={dest} selectedDest={selectedDest} setSelectedDest={setSelectedDest} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         )}
 
-        {/* ── DESTINATIONS TAB ── */}
-        {activeTab === 'destinations' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))', gap: 2 }}>
-            {filtered.map(dest => (
-              <div key={dest.slug}
-                onClick={() => setSelectedDest(selectedDest?.slug === dest.slug ? null : dest)}
-                style={{ background: '#111110', border: `1px solid ${selectedDest?.slug === dest.slug ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'visible', transition: 'border-color 0.2s' }}>
-
-                {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
-                <div style={{ height: selectedDest?.slug === dest.slug ? 320 : 180, position: 'relative', overflow: 'hidden', transition: 'height 0.4s ease' }}>
-                  <picture>
-                    {/* Mobile: up to 480px */}
-                    <source
-                      srcSet={`/images/europe/${dest.slug}-mobile.webp`}
-                      media="(max-width: 480px)"
-                      type="image/webp"
-                    />
-                    {/* Tablet: 481px to 1024px */}
-                    <source
-                      srcSet={`/images/europe/${dest.slug}-tablet.webp`}
-                      media="(max-width: 1024px)"
-                      type="image/webp"
-                    />
-                    {/* Desktop: 1025px and above */}
-                    <source
-                      srcSet={`/images/europe/${dest.slug}-desktop.webp`}
-                      type="image/webp"
-                    />
-                    {/* Fallback JPG */}
-                    <img
-                      src={`/images/europe/${dest.slug}.jpg`}
-                      alt={dest.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      onError={(e) => {
-                        const img = e.currentTarget as HTMLImageElement
-                        img.style.display = 'none';
-                        (img.parentElement?.parentElement as HTMLElement).style.background = dest.gradient
-                      }}
-                    />
-                  </picture>
-                  {/* Gradient overlay for text readability */}
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.75) 0%,transparent 60%)' }} />
-                  {/* Country label */}
-                  <div style={{ position: 'absolute', bottom: 14, left: 18, display: 'flex', alignItems: 'center', gap: 6, zIndex: 2 }}>
-                    <MapPin size={12} strokeWidth={1.5} color={gold} />
-                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: gold }}>{dest.country}</div>
-                  </div>
-                </div>
-                {/* ── END RESPONSIVE IMAGE CARD HEADER ── */}
-
-                <div style={{ padding: '20px 22px 22px' }}>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 300, color: cream, marginBottom: 4 }}>{dest.name}</h3>
-                  <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, marginBottom: 10 }}>{dest.tagline}</p>
-                  
-                  <ExpandableDescription description={dest.description} />
-
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-                    {dest.highlights.map((h: string) => (
-                      <span key={h} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.15)', color: gold, padding: '3px 10px' }}>{h}</span>
-                    ))}
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2, marginBottom: 14 }}>
-                    {[
-                      { label: 'BEST TIME', value: dest.bestTime, icon: Sun },
-                      { label: 'STAY', value: dest.duration, icon: Bed },
-                      { label: 'FROM', value: dest.from, icon: DollarSign },
-                    ].map(s => {
-                      const IconComp = s.icon
-                      return (
-                        <div key={s.label} style={{ background: '#1C1B18', padding: '10px 12px' }}>
-                          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.15em', color: dim, marginBottom: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <IconComp size={10} strokeWidth={1.5} color={dim} />
-                            {s.label}
-                          </div>
-                          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.88rem', color: s.label === 'FROM' ? gold : cream, fontWeight: 600 }}>{s.value}</div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.15em', color: selectedDest?.slug === dest.slug ? muted : gold, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    {selectedDest?.slug === dest.slug ? (
-                      <>
-                        <ChevronUp size={14} strokeWidth={1.5} color={muted} />
-                        CLICK TO CLOSE
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown size={14} strokeWidth={1.5} color={gold} />
-                        SEE DETAILS
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                {selectedDest?.slug === dest.slug && (
-                  <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', padding: '22px 22px 26px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
-                      <div>
-                        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <Star size={12} strokeWidth={1.5} color={gold} />
-                          EXPERIENCES
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          {dest.experiences.map((exp: string, i: number) => (
-                            <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                              <span style={{ color: gold, fontSize: '0.6rem', marginTop: 2 }}>✦</span>
-                              <span style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.5 }}>{exp}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <Building2 size={12} strokeWidth={1.5} color={gold} />
-                          TOP HOTELS
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                          {dest.camps.map((hotel: string, i: number) => (
-                            <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: cream, borderBottom: '1px solid rgba(200,169,110,0.06)', paddingBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-                              <Bed size={10} strokeWidth={1.5} color={gold} />
-                              {hotel}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <Link href="/flights" target="_blank" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                        <Plane size={14} strokeWidth={1.5} color="#080807" />
-                        SEARCH FLIGHTS
-                      </Link>
-                      <Link href="/hotels" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                        <Bed size={14} strokeWidth={1.5} color={gold} />
-                        BOOK HOTEL
-                      </Link>
-                      <Link href="/cars" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                        <Car size={14} strokeWidth={1.5} color={muted} />
-                        RENT CAR
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* ── EXPERIENCES TAB ── */}
+        {/* EXPERIENCES TAB */}
         {activeTab === 'experiences' && (
           <div>
             <div style={{ marginBottom: 48 }}>
@@ -378,7 +411,7 @@ export default function EuropePage() {
           </div>
         )}
 
-        {/* ── PLANNING GUIDE TAB ── */}
+        {/* PLANNING GUIDE TAB */}
         {activeTab === 'guide' && (
           <div>
             <div style={{ marginBottom: 48 }}>
@@ -427,7 +460,6 @@ export default function EuropePage() {
           </div>
         )}
 
-        {/* Global Travel Tools Strip */}
         <div style={{ marginTop: 48, background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <Wifi size={32} strokeWidth={1.2} color={gold} />
@@ -442,7 +474,6 @@ export default function EuropePage() {
           </Link>
         </div>
 
-        {/* Footer Related Links */}
         <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
           {[
             { label: 'Africa & Safari', href: '/africa-safari', icon: Compass },
@@ -485,9 +516,3 @@ function Car({ size = 24, strokeWidth = 1.5, color = '#C8A96E' }: { size?: numbe
     </svg>
   )
 }
-
-
-
-
-
-

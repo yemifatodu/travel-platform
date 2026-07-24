@@ -14,10 +14,8 @@ const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-
-// Region keys for filter
-const regionKeys = ['All', 'East Africa', 'Southern Africa', 'West Africa', 'North Africa', 'Central Africa']
-
+// Preferred display order for region groups
+const regionOrder = ['East Africa', 'Southern Africa', 'West Africa', 'North Africa', 'Central Africa']
 
 const safariTypes = [
   { icon: Compass, title: 'Big Five Safari', desc: 'Lion, leopard, elephant, buffalo, rhino — the ultimate safari goal. Best in Serengeti, Masai Mara, Kruger.' },
@@ -28,7 +26,6 @@ const safariTypes = [
   { icon: Wind, title: 'Hot Air Balloon', desc: 'Sunrise over the Serengeti or Masai Mara — champagne breakfast in the bush.' },
 ]
 
-
 const planningTips = [
   { icon: Bug, tip: 'Malaria is present in most safari regions. Take prophylaxis, use repellent, sleep under nets. Consult a travel clinic 6–8 weeks before departure.' },
   { icon: Syringe, tip: 'Yellow fever vaccination required if traveling from endemic countries. Hepatitis A, Typhoid, and Tetanus recommended for all travelers.' },
@@ -38,16 +35,14 @@ const planningTips = [
   { icon: Smartphone, tip: 'Mobile coverage exists in most camps but slow. Download offline maps. eSIM works well in South Africa, Kenya, Tanzania, Rwanda.' },
 ]
 
-
-// Helper component for expandable description
 function ExpandableDescription({ description }: { description: string }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const shortDescription = description.substring(0, 120)
-  
+
   if (description.length <= 120) {
     return <p style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.7, marginBottom: 14 }}>{description}</p>
   }
-  
+
   return (
     <div style={{ marginBottom: 14 }}>
       <p style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.7, margin: 0 }}>
@@ -59,50 +54,202 @@ function ExpandableDescription({ description }: { description: string }) {
           setIsExpanded(!isExpanded)
         }}
         style={{
-          background: 'none',
-          border: 'none',
-          color: gold,
-          fontSize: '0.65rem',
-          fontFamily: "'Bebas Neue',sans-serif",
-          letterSpacing: '0.1em',
-          cursor: 'pointer',
-          padding: '6px 0 0 0',
-          marginTop: 4,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
+          background: 'none', border: 'none', color: gold, fontSize: '0.65rem',
+          fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em', cursor: 'pointer',
+          padding: '6px 0 0 0', marginTop: 4, display: 'flex', alignItems: 'center', gap: 4,
         }}
       >
         {isExpanded ? (
-          <>
-            <ChevronUp size={12} strokeWidth={1.5} color={gold} />
-            READ LESS
-          </>
+          <><ChevronUp size={12} strokeWidth={1.5} color={gold} /> READ LESS</>
         ) : (
-          <>
-            <ChevronDown size={12} strokeWidth={1.5} color={gold} />
-            READ MORE
-          </>
+          <><ChevronDown size={12} strokeWidth={1.5} color={gold} /> READ MORE</>
         )}
       </button>
     </div>
   )
 }
 
+function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; selectedDest: any; setSelectedDest: (d: any) => void }) {
+  const isOpen = selectedDest?.slug === dest.slug
+  return (
+    <div
+      onClick={() => setSelectedDest(isOpen ? null : dest)}
+      style={{ background: '#111110', border: `1px solid ${isOpen ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'visible', transition: 'border-color 0.2s' }}>
+
+      <div style={{ height: isOpen ? 320 : 180, position: 'relative', overflow: 'hidden', transition: 'height 0.4s ease' }}>
+        <picture>
+          <source srcSet={`/images/africa/${dest.slug}-mobile.webp`} media="(max-width: 480px)" type="image/webp" />
+          <source srcSet={`/images/africa/${dest.slug}-tablet.webp`} media="(max-width: 1024px)" type="image/webp" />
+          <source srcSet={`/images/africa/${dest.slug}-desktop.webp`} type="image/webp" />
+          <img
+            src={`/images/africa/${dest.slug}.jpg`}
+            alt={dest.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement
+              img.style.display = 'none';
+              (img.parentElement?.parentElement as HTMLElement).style.background = dest.gradient
+            }}
+          />
+        </picture>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.75) 0%,transparent 60%)' }} />
+        <div style={{ position: 'absolute', bottom: 14, left: 18, display: 'flex', alignItems: 'center', gap: 6, zIndex: 2 }}>
+          <MapPin size={12} strokeWidth={1.5} color={gold} />
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: gold }}>{dest.country}</div>
+        </div>
+      </div>
+
+      <div style={{ padding: '20px 22px 22px' }}>
+        <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 300, color: cream, marginBottom: 4 }}>{dest.name}</h3>
+        <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, marginBottom: 10 }}>{dest.tagline}</p>
+
+        <ExpandableDescription description={dest.description} />
+
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
+          {dest.highlights.map((h: string) => (
+            <span key={h} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.15)', color: gold, padding: '3px 10px' }}>{h}</span>
+          ))}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2, marginBottom: 14 }}>
+          {[
+            { label: 'BEST TIME', value: dest.bestTime },
+            { label: 'STAY', value: dest.duration },
+            { label: 'FROM', value: dest.from },
+          ].map(s => (
+            <div key={s.label} style={{ background: '#1C1B18', padding: '10px 12px' }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.15em', color: dim, marginBottom: 3 }}>{s.label}</div>
+              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.88rem', color: s.label === 'FROM' ? gold : cream, fontWeight: 600 }}>{s.value}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.15em', color: isOpen ? muted : gold, display: 'flex', alignItems: 'center', gap: 6 }}>
+          {isOpen ? (
+            <><ChevronUp size={14} strokeWidth={1.5} color={muted} /> CLICK TO CLOSE</>
+          ) : (
+            <><ChevronDown size={14} strokeWidth={1.5} color={gold} /> SEE DETAILS</>
+          )}
+        </div>
+      </div>
+      {isOpen && (
+        <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', padding: '22px 22px 26px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12 }}>EXPERIENCES</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {dest.experiences.map((exp: string, i: number) => (
+                  <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <span style={{ color: gold, fontSize: '0.6rem', marginTop: 2 }}>✦</span>
+                    <span style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.5 }}>{exp}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12 }}>TOP CAMPS & LODGES</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {dest.camps.map((camp: string, i: number) => (
+                  <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: cream, borderBottom: '1px solid rgba(200,169,110,0.06)', paddingBottom: 6 }}>{camp}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <a href="/" target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Plane size={14} strokeWidth={1.5} /> SEARCH FLIGHTS
+            </a>
+            <Link href="/ai-planner"
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none' }}>
+              PLAN THIS SAFARI
+            </Link>
+            <Link href="/budget-calculator"
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none' }}>
+              ESTIMATE BUDGET
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function AfricaSafariPage() {
-  const [selectedRegion, setSelectedRegion] = useState('All')
   const [selectedDest, setSelectedDest] = useState<any>(null)
   const [activeTab, setActiveTab] = useState<'destinations' | 'types' | 'guide'>('destinations')
+  const [openRegions, setOpenRegions] = useState<Set<string>>(new Set())
 
+  const toggleRegion = (region: string) => {
+    setOpenRegions(prev => {
+      const next = new Set(prev)
+      if (next.has(region)) next.delete(region)
+      else next.add(region)
+      return next
+    })
+  }
 
-  const filtered = safariDestinations.filter(
-    (d) => selectedRegion === 'All' || d.region === selectedRegion
-  )
+  const uniqueRegions = [...new Set(safariDestinations.map(d => d.region))]
 
+  const orderedRegions = [
+    ...regionOrder.filter(r => uniqueRegions.includes(r)),
+    ...uniqueRegions.filter(r => !regionOrder.includes(r)),
+  ]
+
+  const groupedByRegion = orderedRegions.map(region => ({
+    region,
+    items: safariDestinations.filter(d => d.region === region),
+  })).filter(g => g.items.length > 0)
 
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+
+      <style>{`
+        .region-accordion-list { display: flex; flex-direction: column; gap: 10px; }
+        .region-accordion-item {
+          background: #111110;
+          border: 1px solid rgba(200,169,110,0.15);
+          border-radius: 8px;
+          overflow: hidden;
+          transition: border-color 0.25s ease;
+        }
+        .region-accordion-item.is-open { border-color: rgba(200,169,110,0.4); }
+        .region-header {
+          width: 100%;
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 18px 22px;
+          text-align: left;
+          transition: background 0.2s ease;
+        }
+        .region-header:hover { background: rgba(200,169,110,0.05); }
+        .region-header-left { display: flex; align-items: baseline; gap: 14px; }
+        .region-name {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+          font-weight: 400;
+          color: #F5EFE4;
+        }
+        .region-count {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 0.6rem;
+          letter-spacing: 0.15em;
+          color: rgba(200,169,110,0.6);
+        }
+        .region-body { padding: 4px 22px 22px; animation: regionOpen 0.35s ease; }
+        @keyframes regionOpen {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .region-dest-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(340px,1fr)); gap: 2px; }
+        @media (max-width: 480px) {
+          .region-header { padding: 15px 16px; }
+          .region-body { padding: 4px 16px 16px; }
+        }
+      `}</style>
+
       {/* Hero Section */}
       <div style={{
         background: 'linear-gradient(160deg,#0a0800,#0e1008,#080a05)',
@@ -135,8 +282,6 @@ export default function AfricaSafariPage() {
           </div>
         </div>
 
-
-        {/* Stats */}
         <div style={{ maxWidth: 1200, margin: '48px auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 2, position: 'relative', zIndex: 1 }}>
           {[
             { num: '46', label: 'Featured Destinations' },
@@ -153,12 +298,8 @@ export default function AfricaSafariPage() {
         </div>
       </div>
 
-
-      {/* Main Content */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(40px,6vw,80px) clamp(20px,5vw,60px)' }}>
 
-
-        {/* Tabs */}
         <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(200,169,110,0.15)', marginBottom: 48 }}>
           {[
             { key: 'destinations', label: 'Destinations' },
@@ -172,151 +313,34 @@ export default function AfricaSafariPage() {
           ))}
         </div>
 
-
-        {/* Region Filter - only show on Destinations tab */}
+        {/* DESTINATIONS TAB — region accordion */}
         {activeTab === 'destinations' && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 1, marginBottom: 32, background: '#111110', border: '1px solid rgba(200,169,110,0.1)' }}>
-            {regionKeys.map(region => (
-              <button key={region} onClick={() => setSelectedRegion(region)}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', background: selectedRegion === region ? gold : 'transparent', color: selectedRegion === region ? '#080807' : muted, border: 'none', padding: '12px 24px', cursor: 'pointer', transition: 'all 0.2s' }}>
-                {region}
-              </button>
-            ))}
-          </div>
-        )}
-
-
-        {/* DESTINATIONS TAB */}
-        {activeTab === 'destinations' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))', gap: 2 }}>
-            {filtered.map(dest => (
-              <div key={dest.slug}
-                onClick={() => setSelectedDest(selectedDest?.slug === dest.slug ? null : dest)}
-                style={{ background: '#111110', border: `1px solid ${selectedDest?.slug === dest.slug ? gold : 'rgba(200,169,110,0.1)'}`, cursor: 'pointer', overflow: 'visible', transition: 'border-color 0.2s' }}>
-
-                {/* ── RESPONSIVE IMAGE CARD HEADER ── */}
-                <div style={{ height: selectedDest?.slug === dest.slug ? 320 : 180, position: 'relative', overflow: 'hidden', transition: 'height 0.4s ease' }}>
-                  <picture>
-                    {/* Mobile: up to 480px */}
-                    <source
-                      srcSet={`/images/africa/${dest.slug}-mobile.webp`}
-                      media="(max-width: 480px)"
-                      type="image/webp"
-                    />
-                    {/* Tablet: 481px to 1024px */}
-                    <source
-                      srcSet={`/images/africa/${dest.slug}-tablet.webp`}
-                      media="(max-width: 1024px)"
-                      type="image/webp"
-                    />
-                    {/* Desktop: 1025px and above */}
-                    <source
-                      srcSet={`/images/africa/${dest.slug}-desktop.webp`}
-                      type="image/webp"
-                    />
-                    {/* Fallback JPG */}
-                    <img
-                      src={`/images/africa/${dest.slug}.jpg`}
-                      alt={dest.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      onError={(e) => {
-                        const img = e.currentTarget as HTMLImageElement
-                        img.style.display = 'none';
-                        (img.parentElement?.parentElement as HTMLElement).style.background = dest.gradient
-                      }}
-                    />
-                  </picture>
-                  {/* Gradient overlay for text readability */}
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(8,8,7,0.75) 0%,transparent 60%)' }} />
-                  {/* Country label */}
-                  <div style={{ position: 'absolute', bottom: 14, left: 18, display: 'flex', alignItems: 'center', gap: 6, zIndex: 2 }}>
-                    <MapPin size={12} strokeWidth={1.5} color={gold} />
-                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: gold }}>{dest.country}</div>
-                  </div>
-                </div>
-                {/* ── END RESPONSIVE IMAGE CARD HEADER ── */}
-
-                <div style={{ padding: '20px 22px 22px' }}>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 300, color: cream, marginBottom: 4 }}>{dest.name}</h3>
-                  <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.12em', color: gold, marginBottom: 10 }}>{dest.tagline}</p>
-                  
-                  <ExpandableDescription description={dest.description} />
-                  
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-                    {dest.highlights.map((h: string) => (
-                      <span key={h} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.55rem', letterSpacing: '0.1em', background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.15)', color: gold, padding: '3px 10px' }}>{h}</span>
-                    ))}
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2, marginBottom: 14 }}>
-                    {[
-                      { label: 'BEST TIME', value: dest.bestTime },
-                      { label: 'STAY', value: dest.duration },
-                      { label: 'FROM', value: dest.from },
-                    ].map(s => (
-                      <div key={s.label} style={{ background: '#1C1B18', padding: '10px 12px' }}>
-                        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.5rem', letterSpacing: '0.15em', color: dim, marginBottom: 3 }}>{s.label}</div>
-                        <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.88rem', color: s.label === 'FROM' ? gold : cream, fontWeight: 600 }}>{s.value}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.15em', color: selectedDest?.slug === dest.slug ? muted : gold, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    {selectedDest?.slug === dest.slug ? (
-                      <>
-                        <ChevronUp size={14} strokeWidth={1.5} color={muted} />
-                        CLICK TO CLOSE
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown size={14} strokeWidth={1.5} color={gold} />
-                        SEE DETAILS
-                      </>
-                    )}
-                  </div>
-                </div>
-                {selectedDest?.slug === dest.slug && (
-                  <div style={{ borderTop: '1px solid rgba(200,169,110,0.1)', padding: '22px 22px 26px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
-                      <div>
-                        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12 }}>EXPERIENCES</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          {dest.experiences.map((exp: string, i: number) => (
-                            <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                              <span style={{ color: gold, fontSize: '0.6rem', marginTop: 2 }}>✦</span>
-                              <span style={{ color: muted, fontSize: '0.85rem', lineHeight: 1.5 }}>{exp}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: gold, marginBottom: 12 }}>TOP CAMPS & LODGES</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                          {dest.camps.map((camp: string, i: number) => (
-                            <div key={i} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '0.95rem', color: cream, borderBottom: '1px solid rgba(200,169,110,0.06)', paddingBottom: 6 }}>{camp}</div>
-                          ))}
-                        </div>
+          <div className="region-accordion-list">
+            {groupedByRegion.map(group => {
+              const isOpen = openRegions.has(group.region)
+              return (
+                <div key={group.region} className={`region-accordion-item${isOpen ? ' is-open' : ''}`}>
+                  <button className="region-header" onClick={() => toggleRegion(group.region)}>
+                    <div className="region-header-left">
+                      <span className="region-name">{group.region}</span>
+                      <span className="region-count">{group.items.length} DESTINATION{group.items.length > 1 ? 'S' : ''}</span>
+                    </div>
+                    {isOpen ? <ChevronUp size={18} strokeWidth={1.5} color={gold} /> : <ChevronDown size={18} strokeWidth={1.5} color={gold} />}
+                  </button>
+                  {isOpen && (
+                    <div className="region-body">
+                      <div className="region-dest-grid">
+                        {group.items.map(dest => (
+                          <DestinationCard key={dest.slug} dest={dest} selectedDest={selectedDest} setSelectedDest={setSelectedDest} />
+                        ))}
                       </div>
                     </div>
-                    <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <a href="/" target="_blank" rel="noopener noreferrer"
-                        style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                        <Plane size={14} strokeWidth={1.5} /> SEARCH FLIGHTS
-                      </a>
-                      <Link href="/ai-planner"
-                        style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none' }}>
-                        PLAN THIS SAFARI
-                      </Link>
-                      <Link href="/budget-calculator"
-                        style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none' }}>
-                        ESTIMATE BUDGET
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              )
+            })}
           </div>
         )}
-
 
         {/* SAFARI TYPES TAB */}
         {activeTab === 'types' && (
@@ -346,7 +370,6 @@ export default function AfricaSafariPage() {
           </div>
         )}
 
-
         {/* PLANNING GUIDE TAB */}
         {activeTab === 'guide' && (
           <div>
@@ -373,7 +396,6 @@ export default function AfricaSafariPage() {
                 </div>
               </div>
 
-
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>BUDGET GUIDE (PER PERSON / DAY)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 2 }}>
@@ -391,7 +413,6 @@ export default function AfricaSafariPage() {
                   ))}
                 </div>
               </div>
-
 
               <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.15)', padding: 'clamp(24px,3vw,40px)' }}>
                 <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>WHEN TO GO</div>
@@ -414,8 +435,6 @@ export default function AfricaSafariPage() {
           </div>
         )}
 
-
-        {/* eSIM Strip */}
         <div style={{ marginTop: 48, background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.2)', padding: '22px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -428,8 +447,6 @@ export default function AfricaSafariPage() {
           </Link>
         </div>
 
-
-        {/* Related Destinations */}
         <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
           {[
             { label: 'Middle East', href: '/middle-east' },
@@ -450,9 +467,3 @@ export default function AfricaSafariPage() {
     </div>
   )
 }
-
-
-
-
-
-

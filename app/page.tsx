@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
+import { Building2, Car, Shield, Smartphone, Package, ChevronUp, ChevronDown } from 'lucide-react'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -76,6 +76,8 @@ const regionHubs: Record<string, string> = {
   'Pacific': '/pacific',
 }
 
+const regionOrder = ['Africa', 'Middle East', 'Asia', 'Europe', 'Americas']
+
 const testimonials = [
   { name: 'Sarah M.', location: 'London, UK', text: 'The Patagonia expedition was flawlessly organised. Every detail was handled — from the remote trekking lodges to the private glacier tours.', rating: 5 },
   { name: 'Ahmed K.', location: 'Dubai, UAE', text: 'A truly luxurious experience. The team understood exactly what I needed — discretion, quality, and unforgettable moments.', rating: 5 },
@@ -141,6 +143,20 @@ export default function HomePage() {
   const sidebarMode = pastStrip && !nearFooter
   const stripRef = useRef<HTMLDivElement>(null)
   const footerSentinelRef = useRef<HTMLDivElement>(null)
+  const [openRegions, setOpenRegions] = useState<Set<string>>(new Set())
+
+  const toggleRegion = (region: string) => {
+    setOpenRegions(prev => {
+      const next = new Set(prev)
+      if (next.has(region)) next.delete(region)
+      else next.add(region)
+      return next
+    })
+  }
+
+  const groupedDestinations = regionOrder
+    .map(region => ({ region, items: destinations.filter(d => d.region === region) }))
+    .filter(g => g.items.length > 0)
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -161,7 +177,6 @@ export default function HomePage() {
   }, [mounted]);
 
   // ── SIDEBAR TOGGLE — appears once service row scrolls under navbar, hides again near footer ──
-  // Debounced to prevent flicker from IntersectionObserver firing rapidly near boundary edges during scroll.
   useEffect(() => {
     if (!mounted) return;
     const stripEl = stripRef.current;
@@ -294,7 +309,6 @@ export default function HomePage() {
           white-space: nowrap;
         }
 
-        /* ── SIDEBAR MODE — fixed vertical rail on the left ── */
         .service-sidebar {
           position: fixed;
           left: 0;
@@ -357,6 +371,63 @@ export default function HomePage() {
           transition: padding-left 0.3s ease;
         }
 
+        /* ── REGION ACCORDION ── */
+        .region-accordion-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .region-accordion-item {
+          background: #111110;
+          border: 1px solid rgba(200,169,110,0.15);
+          border-radius: 8px;
+          overflow: hidden;
+          transition: border-color 0.25s ease;
+        }
+        .region-accordion-item.is-open {
+          border-color: rgba(200,169,110,0.4);
+        }
+        .region-header {
+          width: 100%;
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 18px 22px;
+          text-align: left;
+          transition: background 0.2s ease;
+        }
+        .region-header:hover {
+          background: rgba(200,169,110,0.05);
+        }
+        .region-header-left {
+          display: flex;
+          align-items: baseline;
+          gap: 14px;
+        }
+        .region-name {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+          font-weight: 400;
+          color: #F5EFE4;
+        }
+        .region-count {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 0.6rem;
+          letter-spacing: 0.15em;
+          color: rgba(200,169,110,0.6);
+        }
+        .region-body {
+          padding: 4px 22px 22px;
+          animation: regionOpen 0.35s ease;
+        }
+        @keyframes regionOpen {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 900px) {
           .service-strip { grid-template-columns: repeat(3, 1fr); }
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
@@ -369,6 +440,8 @@ export default function HomePage() {
           .service-item { padding: 14px 8px; min-height: 84px; }
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
           .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
+          .region-header { padding: 15px 16px; }
+          .region-body { padding: 4px 16px 16px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -547,7 +620,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── DESTINATIONS ── */}
+        {/* ── DESTINATIONS — region accordion, multi-open ── */}
         <section style={{ background: ink, padding: 'clamp(40px,5vw,64px) clamp(20px,5vw,60px)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 28 }}>
@@ -559,10 +632,31 @@ export default function HomePage() {
               </div>
               <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.15em', color: muted, textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 2, whiteSpace: 'nowrap' }}>VIEW ALL 194 →</Link>
             </div>
-            <div className="dest-grid-home">
-              {destinations.map((dest) => (
-                <DestCard key={dest.slug} dest={dest} />
-              ))}
+
+            <div className="region-accordion-list">
+              {groupedDestinations.map(group => {
+                const isOpen = openRegions.has(group.region)
+                return (
+                  <div key={group.region} className={`region-accordion-item${isOpen ? ' is-open' : ''}`}>
+                    <button className="region-header" onClick={() => toggleRegion(group.region)}>
+                      <div className="region-header-left">
+                        <span className="region-name">{group.region}</span>
+                        <span className="region-count">{group.items.length} DESTINATIONS</span>
+                      </div>
+                      {isOpen ? <ChevronUp size={18} strokeWidth={1.5} color={gold} /> : <ChevronDown size={18} strokeWidth={1.5} color={gold} />}
+                    </button>
+                    {isOpen && (
+                      <div className="region-body">
+                        <div className="dest-grid-home">
+                          {group.items.map((dest) => (
+                            <DestCard key={dest.slug} dest={dest} />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
