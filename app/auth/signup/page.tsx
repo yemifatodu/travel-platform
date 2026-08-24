@@ -1,9 +1,13 @@
 'use client'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-export default function SignupPage() {
+function SignupForm() {
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect') || '/dashboard'
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -18,7 +22,7 @@ export default function SignupPage() {
     const supabase = createClient()
     const { error } = await supabase.auth.signUp({
       email, password,
-      options: { data: { full_name: name }, emailRedirectTo: `${window.location.origin}/dashboard` }
+      options: { data: { full_name: name }, emailRedirectTo: `${window.location.origin}${redirect}` }
     })
     if (error) { setError(error.message); setLoading(false) }
     else setSuccess('Account created! Check your email to verify your account.')
@@ -27,7 +31,7 @@ export default function SignupPage() {
 
   const handleGoogle = async () => {
     const supabase = createClient()
-    await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${window.location.origin}/dashboard` } })
+    await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${window.location.origin}${redirect}` } })
   }
 
   return (
@@ -81,11 +85,19 @@ export default function SignupPage() {
 
           <div style={{ textAlign: 'center', marginTop: 28 }}>
             <span style={{ color: 'rgba(245,239,228,0.4)', fontSize: '0.85rem' }}>Already have an account? </span>
-            <Link href="/auth/login" style={{ color: '#C8A96E', fontSize: '0.85rem', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)' }}>Sign in</Link>
+            <Link href={`/auth/login${redirect !== '/dashboard' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} style={{ color: '#C8A96E', fontSize: '0.85rem', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)' }}>Sign in</Link>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignupForm />
+    </Suspense>
   )
 }
 

@@ -2,12 +2,23 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServerClient } from '@/lib/supabase/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2026-05-27.dahlia',
-})
-
 export async function POST(req: NextRequest) {
   try {
+    // Instantiated inside the handler (not at module scope) so a missing key
+    // returns a proper JSON error instead of crashing the route at import
+    // time — which Next.js surfaces as an HTML error page, breaking the
+    // client's res.json() call with "Unexpected token '<'".
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not set — cannot start checkout.')
+      return NextResponse.json(
+        { error: 'Payments are not configured yet. Add STRIPE_SECRET_KEY to .env.local.' },
+        { status: 500 }
+      )
+    }
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2026-05-27.dahlia',
+    })
+
     const supabase = createServerClient()
     const {
       data: { user },

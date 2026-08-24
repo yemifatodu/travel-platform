@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import DateField from '../components/DateField'
 
@@ -64,16 +65,80 @@ export default function RoomsAndBooking({
   initialCheckOut?: string
   initialGuests?: number
 }) {
-  const [selectedRoomId, setSelectedRoomId] = useState(rooms[0]?.id ?? '')
-  const [checkIn, setCheckIn] = useState(initialCheckIn || todayISO())
-  const [checkOut, setCheckOut] = useState(initialCheckOut || tomorrowISO())
-  const [guests, setGuests] = useState(initialGuests || 2)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const isResuming = searchParams.get('resume') === '1'
+  const resumeAttempted = useRef(false)
+
+  const [selectedRoomId, setSelectedRoomId] = useState(
+    (isResuming && searchParams.get('room')) || rooms[0]?.id || ''
+  )
+  const [checkIn, setCheckIn] = useState((isResuming && searchParams.get('checkIn')) || initialCheckIn || todayISO())
+  const [checkOut, setCheckOut] = useState((isResuming && searchParams.get('checkOut')) || initialCheckOut || tomorrowISO())
+  const [guests, setGuests] = useState(
+    (isResuming && Number(searchParams.get('guests'))) || initialGuests || 2
+  )
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const selectedRoom = rooms.find((r) => r.id === selectedRoomId) ?? rooms[0]
   const nights = useMemo(() => nightsBetween(checkIn, checkOut), [checkIn, checkOut])
   const total = selectedRoom ? nights * selectedRoom.base_price : 0
+
+  async function startCheckout(room: Room, ci: string, co: string, g: number) {
+    const n = nightsBetween(ci, co)
+    const res = await fetch('/api/hotel-bookings/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        hotel_id: hotelId,
+        hotel_name: hotelName,
+        hotel_slug: hotelSlug,
+        room_id: room.id,
+        room_name: room.name,
+        check_in: ci,
+        check_out: co,
+        guests: g,
+        nights: n,
+        unit_price: room.base_price,
+        total_price: n * room.base_price,
+        currency: room.currency,
+      }),
+    })
+    const data = await res.json()
+    if (!res.ok || !data.url) throw new Error(data.error || 'Could not start checkout.')
+    window.location.href = data.url
+  }
+
+  // If we just came back from auth with resume=1, and a session now exists,
+  // pick up exactly where the guest left off and go straight to Stripe —
+  // no second click required.
+  useEffect(() => {
+    if (!isResuming || resumeAttempted.current || !selectedRoom) return
+    resumeAttempted.current = true
+
+    ;(async () => {
+      const supabase = createClientComponentClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
+      // Strip resume params from the URL either way, so a refresh or back
+      // navigation doesn't re-trigger checkout automatically.
+      router.replace(`/hotel/${hotelSlug}`)
+
+      if (!user) return // still not authenticated somehow; let them click normally
+
+      setLoading(true)
+      try {
+        await startCheckout(selectedRoom, checkIn, checkOut, guests)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Something went wrong resuming your booking.')
+        setLoading(false)
+      }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isResuming, selectedRoom])
 
   async function handleBook() {
     setError(null)
@@ -96,32 +161,12 @@ export default function RoomsAndBooking({
       } = await supabase.auth.getUser()
 
       if (!user) {
-        window.location.href = `/auth/login?redirect=${encodeURIComponent(`/hotel/${hotelSlug}`)}`
+        const resumeUrl = `/hotel/${hotelSlug}?resume=1&room=${selectedRoom.id}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`
+        window.location.href = `/auth/login?redirect=${encodeURIComponent(resumeUrl)}`
         return
       }
 
-      const res = await fetch('/api/hotel-bookings/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          hotel_id: hotelId,
-          hotel_name: hotelName,
-          hotel_slug: hotelSlug,
-          room_id: selectedRoom.id,
-          room_name: selectedRoom.name,
-          check_in: checkIn,
-          check_out: checkOut,
-          guests,
-          nights,
-          unit_price: selectedRoom.base_price,
-          total_price: total,
-          currency: selectedRoom.currency,
-        }),
-      })
-
-      const data = await res.json()
-      if (!res.ok || !data.url) throw new Error(data.error || 'Could not start checkout.')
-      window.location.href = data.url
+      await startCheckout(selectedRoom, checkIn, checkOut, guests)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
       setLoading(false)

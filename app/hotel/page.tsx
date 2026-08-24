@@ -41,15 +41,23 @@ type Hotel = {
   rooms: Room[]
 }
 
+const PAGE_SIZE = 6
+
 async function getHotels(params: {
   destination?: string
   adults?: string
   children?: string
-}): Promise<Hotel[]> {
+  page?: string
+}): Promise<{ hotels: Hotel[]; totalCount: number; page: number; totalPages: number }> {
   const supabase = createServerClient()
+  const page = Math.max(1, parseInt(params.page || '1', 10) || 1)
+
   let query = supabase
     .from('hotels')
-    .select('id, name, slug, category, star_rating, description, address, cover_image, avg_rating, review_count, is_featured, rooms(id, base_price, currency, max_occupancy)')
+    .select(
+      'id, name, slug, category, star_rating, description, address, cover_image, avg_rating, review_count, is_featured, rooms(id, base_price, currency, max_occupancy)',
+      { count: 'exact' }
+    )
     .eq('is_published', true)
 
   if (params.destination) {
@@ -58,26 +66,34 @@ async function getHotels(params: {
     )
   }
 
-  const { data, error } = await query
+  // Guest-count filtering happens client-side below (rooms vary per hotel),
+  // so we can't push it into the DB range/count — meaning pagination against
+  // a guest filter is approximate. Good enough for now; revisit if guest
+  // filtering needs to be exact at scale (would mean a rooms-first query).
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
+
+  const { data, error, count } = await query
     .order('is_featured', { ascending: false })
     .order('avg_rating', { ascending: false })
-    .limit(24)
+    .range(from, to)
 
   if (error) {
     console.error('Failed to load hotels:', error.message)
-    return []
+    return { hotels: [], totalCount: 0, page: 1, totalPages: 1 }
   }
 
   let hotels = (data ?? []) as Hotel[]
 
-  // Guest count isn't a DB filter (rooms vary per hotel), so filter in JS:
-  // only show hotels that have at least one room sleeping enough guests.
   const totalGuests = (parseInt(params.adults || '0', 10) || 0) + (parseInt(params.children || '0', 10) || 0)
   if (totalGuests > 0) {
     hotels = hotels.filter((h) => h.rooms.some((r: any) => (r.max_occupancy ?? 2) >= totalGuests))
   }
 
-  return hotels
+  const totalCount = count ?? hotels.length
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
+
+  return { hotels, totalCount, page, totalPages }
 }
 
 function lowestNightlyRate(rooms: Room[]): { amount: number; currency: string } | null {
@@ -94,11 +110,22 @@ function maxCapacity(rooms: Room[]): number | null {
 export default async function HotelBrowsePage({
   searchParams,
 }: {
-  searchParams: { destination?: string; checkIn?: string; checkOut?: string; adults?: string; children?: string }
+  searchParams: { destination?: string; checkIn?: string; checkOut?: string; adults?: string; children?: string; page?: string }
 }) {
-  const hotels = await getHotels(searchParams)
+  const { hotels, totalCount, page, totalPages } = await getHotels(searchParams)
   const { destination = '', checkIn = '', checkOut = '', adults = '', children = '' } = searchParams
   const hasFilters = Boolean(destination || checkIn || checkOut || adults || children)
+
+  function pageHref(targetPage: number) {
+    const params = new URLSearchParams()
+    if (destination) params.set('destination', destination)
+    if (checkIn) params.set('checkIn', checkIn)
+    if (checkOut) params.set('checkOut', checkOut)
+    if (adults) params.set('adults', adults)
+    if (children) params.set('children', children)
+    if (targetPage > 1) params.set('page', String(targetPage))
+    return `/hotel${params.toString() ? `?${params.toString()}` : ''}`
+  }
 
   return (
     <div style={{ background: '#080807', minHeight: '100vh' }}>
@@ -106,14 +133,16 @@ export default async function HotelBrowsePage({
       <div
         style={{
           position: 'relative',
-          minHeight: 420,
+          minHeight: 480,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
           padding: '96px 24px 64px',
-          background:
-            'linear-gradient(rgba(8,8,7,0.75), rgba(8,8,7,0.9)), radial-gradient(circle at 30% 20%, #1C1B18, #080807 70%)',
+          backgroundImage:
+            "linear-gradient(rgba(8,8,7,0.55), rgba(8,8,7,0.85)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         <div>
@@ -141,37 +170,10 @@ export default async function HotelBrowsePage({
           >
             Find Your Perfect <em style={{ fontStyle: 'italic', color: gold }}>Dream Stay</em>
           </h1>
-          <p style={{ color: muted, fontSize: '1.1rem', maxWidth: 620, margin: '0 auto 24px', fontWeight: 300 }}>
+          <p style={{ color: muted, fontSize: '1.1rem', maxWidth: 620, margin: '0 auto', fontWeight: 300 }}>
             Discover extraordinary hotels, luxury resorts, and unique accommodations worldwide.
             Book with confidence, stay with comfort, and create unforgettable memories.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-            {[
-              ['🔍', 'Smart Search'],
-              ['🌍', 'Global Destinations'],
-              ['📅', 'Flexible Booking'],
-              ['🛡️', '24/7 Support'],
-            ].map(([icon, label]) => (
-              <span
-                key={label}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  fontFamily: "'Bebas Neue',sans-serif",
-                  fontSize: '0.7rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: muted,
-                  border: '1px solid rgba(200,169,110,0.2)',
-                  borderRadius: 999,
-                  padding: '6px 14px',
-                }}
-              >
-                <span aria-hidden="true">{icon}</span> {label}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -197,7 +199,11 @@ export default async function HotelBrowsePage({
         >
           Latest Destinations
         </h2>
-        <p style={{ color: muted, fontSize: '0.95rem' }}>Most recent stays added by our hosts</p>
+        <p style={{ color: muted, fontSize: '0.95rem' }}>
+          {totalCount > 0
+            ? `${totalCount} stay${totalCount !== 1 ? 's' : ''} available${totalPages > 1 ? ` · Page ${page} of ${totalPages}` : ''}`
+            : 'Most recent stays added by our hosts'}
+        </p>
       </div>
 
       {/* Hotel grid */}
@@ -380,6 +386,87 @@ export default async function HotelBrowsePage({
                 </Link>
               )
             })}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginTop: 48, flexWrap: 'wrap' }}>
+            <Link
+              href={pageHref(Math.max(1, page - 1))}
+              aria-disabled={page <= 1}
+              style={{
+                pointerEvents: page <= 1 ? 'none' : 'auto',
+                opacity: page <= 1 ? 0.35 : 1,
+                fontFamily: "'Bebas Neue',sans-serif",
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: cream,
+                border: '1px solid rgba(200,169,110,0.25)',
+                borderRadius: 6,
+                padding: '9px 16px',
+                textDecoration: 'none',
+              }}
+            >
+              ‹ Prev
+            </Link>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+              .reduce<(number | 'ellipsis')[]>((acc, p, i, arr) => {
+                if (i > 0 && p - (arr[i - 1] as number) > 1) acc.push('ellipsis')
+                acc.push(p)
+                return acc
+              }, [])
+              .map((p, i) =>
+                p === 'ellipsis' ? (
+                  <span key={`ellipsis-${i}`} style={{ color: dim, padding: '0 4px' }}>
+                    …
+                  </span>
+                ) : (
+                  <Link
+                    key={p}
+                    href={pageHref(p)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minWidth: 36,
+                      height: 36,
+                      borderRadius: 6,
+                      fontSize: '0.85rem',
+                      textDecoration: 'none',
+                      color: p === page ? '#080807' : cream,
+                      background: p === page ? gold : 'transparent',
+                      border: p === page ? 'none' : '1px solid rgba(200,169,110,0.2)',
+                      fontWeight: p === page ? 600 : 400,
+                    }}
+                  >
+                    {p}
+                  </Link>
+                )
+              )}
+
+            <Link
+              href={pageHref(Math.min(totalPages, page + 1))}
+              aria-disabled={page >= totalPages}
+              style={{
+                pointerEvents: page >= totalPages ? 'none' : 'auto',
+                opacity: page >= totalPages ? 0.35 : 1,
+                fontFamily: "'Bebas Neue',sans-serif",
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: cream,
+                border: '1px solid rgba(200,169,110,0.25)',
+                borderRadius: 6,
+                padding: '9px 16px',
+                textDecoration: 'none',
+              }}
+            >
+              Next ›
+            </Link>
           </div>
         )}
       </div>

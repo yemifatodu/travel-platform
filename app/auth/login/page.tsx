@@ -1,9 +1,13 @@
 'use client'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect') || '/dashboard'
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -21,13 +25,13 @@ export default function LoginPage() {
       setLoading(false)
     } else {
       setSuccess('Signed in! Redirecting...')
-      setTimeout(() => window.location.href = '/dashboard', 1000)
+      setTimeout(() => window.location.href = redirect, 1000)
     }
   }
 
   const handleGoogle = async () => {
     const supabase = createClient()
-    await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${window.location.origin}/dashboard` } })
+    await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${window.location.origin}${redirect}` } })
   }
 
   return (
@@ -73,11 +77,19 @@ export default function LoginPage() {
 
           <div style={{ textAlign: 'center', marginTop: 28 }}>
             <span style={{ color: 'rgba(245,239,228,0.4)', fontSize: '0.85rem' }}>Don't have an account? </span>
-            <Link href="/auth/signup" style={{ color: '#C8A96E', fontSize: '0.85rem', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)' }}>Sign up free</Link>
+            <Link href={`/auth/signup${redirect !== '/dashboard' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} style={{ color: '#C8A96E', fontSize: '0.85rem', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)' }}>Sign up free</Link>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   )
 }
 
