@@ -7,6 +7,26 @@ export type Database = {
         Insert: any
         Update: any
       }
+      hotels: {
+        Row: any
+        Insert: any
+        Update: any
+      }
+      rooms: {
+        Row: any
+        Insert: any
+        Update: any
+      }
+      reviews: {
+        Row: any
+        Insert: any
+        Update: any
+      }
+      bookings: {
+        Row: any
+        Insert: any
+        Update: any
+      }
       // Add other tables as needed
     }
   }

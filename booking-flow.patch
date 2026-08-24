@@ -1,0 +1,574 @@
+diff --git a/app/hotel/[slug]/page.tsx b/app/hotel/[slug]/page.tsx
+index 5d428b4..f878b4f 100644
+--- a/app/hotel/[slug]/page.tsx
++++ b/app/hotel/[slug]/page.tsx
+@@ -1,6 +1,7 @@
+ import type { Metadata } from 'next'
+ import { notFound } from 'next/navigation'
+ import { createServerClient } from '@/lib/supabase/server'
++import BookingWidget from './BookingWidget'
+ 
+ export const dynamic = 'force-dynamic'
+ 
+@@ -63,10 +64,18 @@ export async function generateMetadata({ params }: { params: { slug: string } })
+   }
+ }
+ 
+-export default async function HotelDetailPage({ params }: { params: { slug: string } }) {
++export default async function HotelDetailPage({
++  params,
++  searchParams,
++}: {
++  params: { slug: string }
++  searchParams: { booking?: string; booking_id?: string }
++}) {
+   const hotel = await getHotel(params.slug)
+   if (!hotel) notFound()
+ 
++  const bookingStatus = searchParams.booking
++
+   return (
+     <div style={{ background: '#080807', minHeight: '100vh' }}>
+       {/* Cover */}
+@@ -108,6 +117,41 @@ export default async function HotelDetailPage({ params }: { params: { slug: stri
+       </div>
+ 
+       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px 96px', display: 'grid', gridTemplateColumns: '1fr', gap: 48 }}>
++        {bookingStatus === 'success' && (
++          <div
++            style={{
++              background: 'rgba(200,169,110,0.08)',
++              border: '1px solid rgba(200,169,110,0.3)',
++              borderRadius: 8,
++              padding: '16px 20px',
++            }}
++          >
++            <p style={{ color: gold, fontSize: '0.95rem', fontWeight: 500, marginBottom: 4 }}>
++              Booking confirmed
++            </p>
++            <p style={{ color: muted, fontSize: '0.85rem' }}>
++              Payment received — a confirmation has been sent to your account. We can't wait to host you.
++            </p>
++          </div>
++        )}
++        {bookingStatus === 'cancelled' && (
++          <div
++            style={{
++              background: 'rgba(224,138,122,0.08)',
++              border: '1px solid rgba(224,138,122,0.25)',
++              borderRadius: 8,
++              padding: '16px 20px',
++            }}
++          >
++            <p style={{ color: '#e08a7a', fontSize: '0.95rem', fontWeight: 500, marginBottom: 4 }}>
++              Checkout cancelled
++            </p>
++            <p style={{ color: muted, fontSize: '0.85rem' }}>
++              No payment was taken. Feel free to pick your dates again whenever you're ready.
++            </p>
++          </div>
++        )}
++
+         {/* Description */}
+         {hotel.description && (
+           <p style={{ color: muted, fontSize: '1rem', lineHeight: 1.7, maxWidth: 780, fontWeight: 300 }}>
+@@ -168,49 +212,13 @@ export default async function HotelDetailPage({ params }: { params: { slug: stri
+           ) : (
+             <div style={{ display: 'grid', gap: 16 }}>
+               {hotel.rooms.map((room) => (
+-                <div
++                <BookingWidget
+                   key={room.id}
+-                  style={{
+-                    display: 'flex',
+-                    justifyContent: 'space-between',
+-                    alignItems: 'center',
+-                    gap: 16,
+-                    background: '#111110',
+-                    border: '1px solid rgba(200,169,110,0.12)',
+-                    borderRadius: 10,
+-                    padding: '18px 20px',
+-                    flexWrap: 'wrap',
+-                  }}
+-                >
+-                  <div>
+-                    <p style={{ color: cream, fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>{room.name}</p>
+-                    <p style={{ color: dim, fontSize: '0.8rem' }}>
+-                      Sleeps {room.max_occupancy} · {room.room_type?.replace('_', ' ') ?? 'Room'}
+-                    </p>
+-                  </div>
+-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+-                    <span style={{ color: gold, fontSize: '1.1rem', fontWeight: 500 }}>
+-                      {room.currency} {room.base_price.toLocaleString()}
+-                      <span style={{ color: dim, fontSize: '0.8rem', fontWeight: 400 }}>/night</span>
+-                    </span>
+-                    <button
+-                      style={{
+-                        fontFamily: "'Bebas Neue',sans-serif",
+-                        fontSize: '0.7rem',
+-                        letterSpacing: '0.15em',
+-                        textTransform: 'uppercase',
+-                        color: '#080807',
+-                        background: gold,
+-                        border: 'none',
+-                        borderRadius: 4,
+-                        padding: '10px 20px',
+-                        cursor: 'pointer',
+-                      }}
+-                    >
+-                      Book
+-                    </button>
+-                  </div>
+-                </div>
++                  room={room}
++                  hotelId={hotel.id}
++                  hotelName={hotel.name}
++                  hotelSlug={hotel.slug}
++                />
+               ))}
+             </div>
+           )}
+diff --git a/app/api/hotel-bookings/checkout/route.ts b/app/api/hotel-bookings/checkout/route.ts
+new file mode 100644
+index 0000000..5c47445
+--- /dev/null
++++ b/app/api/hotel-bookings/checkout/route.ts
+@@ -0,0 +1,121 @@
++import { NextRequest, NextResponse } from 'next/server'
++import Stripe from 'stripe'
++import { createServerClient } from '@/lib/supabase/server'
++
++const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
++  apiVersion: '2026-05-27.dahlia',
++})
++
++export async function POST(req: NextRequest) {
++  try {
++    const supabase = createServerClient()
++    const {
++      data: { user },
++    } = await supabase.auth.getUser()
++
++    if (!user) {
++      return NextResponse.json({ error: 'Sign in required' }, { status: 401 })
++    }
++
++    const {
++      hotel_id,
++      hotel_name,
++      hotel_slug,
++      room_id,
++      room_name,
++      check_in,
++      check_out,
++      guests,
++      nights,
++      unit_price,
++      total_price,
++      currency = 'USD',
++    } = await req.json()
++
++    if (!hotel_id || !room_id || !check_in || !check_out || !total_price) {
++      return NextResponse.json({ error: 'Missing booking details' }, { status: 400 })
++    }
++    if (nights < 1) {
++      return NextResponse.json({ error: 'Check-out must be after check-in' }, { status: 400 })
++    }
++
++    // 1. Create the booking (pending / unpaid) and its line item.
++    const { data: booking, error: bookingError } = await supabase
++      .from('bookings')
++      .insert({
++        user_id: user.id,
++        status: 'pending',
++        total_price,
++        currency,
++        payment_status: 'unpaid',
++        traveller_count: guests ?? 1,
++      } as any)
++      .select()
++      .single()
++
++    if (bookingError || !booking) {
++      console.error('Booking insert failed:', bookingError?.message)
++      return NextResponse.json({ error: 'Could not create booking' }, { status: 500 })
++    }
++
++    const { error: itemError } = await supabase.from('booking_items').insert({
++      booking_id: (booking as any).id,
++      item_type: 'hotel',
++      item_id: room_id,
++      item_name: `${hotel_name} — ${room_name}`,
++      quantity: nights,
++      unit_price,
++      total_price,
++      check_in,
++      check_out,
++      details: { hotel_id, hotel_slug, room_name, guests },
++    } as any)
++
++    if (itemError) {
++      console.error('Booking item insert failed:', itemError.message)
++      return NextResponse.json({ error: 'Could not create booking item' }, { status: 500 })
++    }
++
++    // 2. Create the Stripe Checkout Session — this is the hosted payment
++    //    page the guest is redirected to.
++    const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
++
++    const session = await stripe.checkout.sessions.create({
++      mode: 'payment',
++      payment_method_types: ['card'],
++      customer_email: user.email ?? undefined,
++      line_items: [
++        {
++          price_data: {
++            currency: currency.toLowerCase(),
++            product_data: {
++              name: `${hotel_name} — ${room_name}`,
++              description: `${nights} night${nights !== 1 ? 's' : ''} · ${check_in} to ${check_out} · ${guests} guest${guests !== 1 ? 's' : ''}`,
++            },
++            unit_amount: Math.round(unit_price * 100),
++          },
++          quantity: nights,
++        },
++      ],
++      metadata: {
++        booking_id: (booking as any).id,
++        hotel_slug,
++      },
++      success_url: `${origin}/hotel/${hotel_slug}?booking=success&booking_id=${(booking as any).id}`,
++      cancel_url: `${origin}/hotel/${hotel_slug}?booking=cancelled`,
++    })
++
++    // 3. Stash the session id on the booking so the webhook can find it.
++    await (supabase.from('bookings') as any)
++      .update({ stripe_intent_id: session.id })
++      .eq('id', (booking as any).id)
++
++    return NextResponse.json({ url: session.url })
++  } catch (error) {
++    console.error('Hotel checkout error:', error)
++    return NextResponse.json(
++      { error: error instanceof Error ? error.message : 'Checkout failed' },
++      { status: 500 }
++    )
++  }
++}
+diff --git a/app/api/hotel-bookings/webhook/route.ts b/app/api/hotel-bookings/webhook/route.ts
+new file mode 100644
+index 0000000..6bc411b
+--- /dev/null
++++ b/app/api/hotel-bookings/webhook/route.ts
+@@ -0,0 +1,57 @@
++import { NextRequest, NextResponse } from 'next/server'
++import Stripe from 'stripe'
++import { createClient } from '@supabase/supabase-js'
++
++const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
++  apiVersion: '2026-05-27.dahlia',
++})
++
++// Service-role client — webhooks have no user session, so this bypasses RLS
++// deliberately, same pattern as app/api/esim/webhook/stripe/route.ts.
++const supabase = createClient(
++  process.env.NEXT_PUBLIC_SUPABASE_URL!,
++  process.env.SUPABASE_SERVICE_ROLE_KEY!
++)
++
++export async function POST(request: NextRequest) {
++  const body = await request.text()
++  const sig = request.headers.get('stripe-signature')
++
++  let event: Stripe.Event
++
++  try {
++    event = stripe.webhooks.constructEvent(body, sig!, process.env.STRIPE_WEBHOOK_SECRET!)
++  } catch (err) {
++    console.error('Hotel booking webhook signature verification failed:', err)
++    return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 })
++  }
++
++  if (event.type === 'checkout.session.completed') {
++    const session = event.data.object as Stripe.Checkout.Session
++    const bookingId = session.metadata?.booking_id
++
++    if (bookingId) {
++      const { error } = await (supabase.from('bookings') as any)
++        .update({
++          status: 'confirmed',
++          payment_status: 'paid',
++          stripe_intent_id: (session.payment_intent as string) || session.id,
++        })
++        .eq('id', bookingId)
++
++      if (error) {
++        console.error('Failed to confirm hotel booking:', error.message)
++      }
++    }
++  }
++
++  if (event.type === 'checkout.session.expired') {
++    const session = event.data.object as Stripe.Checkout.Session
++    const bookingId = session.metadata?.booking_id
++    if (bookingId) {
++      await (supabase.from('bookings') as any).update({ status: 'cancelled' }).eq('id', bookingId)
++    }
++  }
++
++  return NextResponse.json({ received: true })
++}
+diff --git a/app/hotel/[slug]/BookingWidget.tsx b/app/hotel/[slug]/BookingWidget.tsx
+new file mode 100644
+index 0000000..712066b
+--- /dev/null
++++ b/app/hotel/[slug]/BookingWidget.tsx
+@@ -0,0 +1,248 @@
++'use client'
++
++import { useState, useMemo } from 'react'
++import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
++
++const gold = '#C8A96E'
++const cream = '#F5EFE4'
++const muted = 'rgba(245,239,228,0.60)'
++const dim = 'rgba(245,239,228,0.35)'
++
++type Room = {
++  id: string
++  name: string
++  room_type: string | null
++  max_occupancy: number
++  base_price: number
++  currency: string
++}
++
++function todayISO() {
++  return new Date().toISOString().slice(0, 10)
++}
++
++function tomorrowISO() {
++  const d = new Date()
++  d.setDate(d.getDate() + 1)
++  return d.toISOString().slice(0, 10)
++}
++
++function nightsBetween(checkIn: string, checkOut: string) {
++  const ms = new Date(checkOut).getTime() - new Date(checkIn).getTime()
++  return Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)))
++}
++
++export default function BookingWidget({
++  room,
++  hotelId,
++  hotelName,
++  hotelSlug,
++}: {
++  room: Room
++  hotelId: string
++  hotelName: string
++  hotelSlug: string
++}) {
++  const [checkIn, setCheckIn] = useState(todayISO())
++  const [checkOut, setCheckOut] = useState(tomorrowISO())
++  const [guests, setGuests] = useState(2)
++  const [loading, setLoading] = useState(false)
++  const [error, setError] = useState<string | null>(null)
++
++  const nights = useMemo(() => nightsBetween(checkIn, checkOut), [checkIn, checkOut])
++  const total = nights * room.base_price
++
++  async function handleBook() {
++    setError(null)
++
++    if (nights < 1) {
++      setError('Check-out must be after check-in.')
++      return
++    }
++    if (guests > room.max_occupancy) {
++      setError(`This room sleeps up to ${room.max_occupancy} guests.`)
++      return
++    }
++
++    setLoading(true)
++    try {
++      const supabase = createClientComponentClient()
++      const {
++        data: { user },
++      } = await supabase.auth.getUser()
++
++      if (!user) {
++        // Not signed in — send to the shared login, then back here.
++        window.location.href = `/auth/login?redirect=${encodeURIComponent(
++          `/hotel/${hotelSlug}`
++        )}`
++        return
++      }
++
++      const res = await fetch('/api/hotel-bookings/checkout', {
++        method: 'POST',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({
++          hotel_id: hotelId,
++          hotel_name: hotelName,
++          hotel_slug: hotelSlug,
++          room_id: room.id,
++          room_name: room.name,
++          check_in: checkIn,
++          check_out: checkOut,
++          guests,
++          nights,
++          unit_price: room.base_price,
++          total_price: total,
++          currency: room.currency,
++        }),
++      })
++
++      const data = await res.json()
++
++      if (!res.ok || !data.url) {
++        throw new Error(data.error || 'Could not start checkout.')
++      }
++
++      // Send the guest to Stripe's own hosted payment page.
++      window.location.href = data.url
++    } catch (err) {
++      setError(err instanceof Error ? err.message : 'Something went wrong.')
++      setLoading(false)
++    }
++  }
++
++  return (
++    <div
++      style={{
++        background: '#111110',
++        border: '1px solid rgba(200,169,110,0.15)',
++        borderRadius: 10,
++        padding: '18px 20px',
++      }}
++    >
++      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
++        <div>
++          <p style={{ color: cream, fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>{room.name}</p>
++          <p style={{ color: dim, fontSize: '0.8rem' }}>
++            Sleeps {room.max_occupancy} · {room.room_type?.replace('_', ' ') ?? 'Room'}
++          </p>
++        </div>
++        <span style={{ color: gold, fontSize: '1.1rem', fontWeight: 500 }}>
++          {room.currency} {room.base_price.toLocaleString()}
++          <span style={{ color: dim, fontSize: '0.8rem', fontWeight: 400 }}>/night</span>
++        </span>
++      </div>
++
++      <div
++        style={{
++          display: 'grid',
++          gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
++          gap: 10,
++          marginTop: 16,
++        }}
++      >
++        <label style={{ fontSize: '0.7rem', color: muted }}>
++          Check-in
++          <input
++            type="date"
++            value={checkIn}
++            min={todayISO()}
++            onChange={(e) => setCheckIn(e.target.value)}
++            style={{
++              display: 'block',
++              width: '100%',
++              marginTop: 4,
++              background: '#080807',
++              border: '1px solid rgba(200,169,110,0.2)',
++              borderRadius: 6,
++              color: cream,
++              padding: '8px 10px',
++              fontSize: '0.85rem',
++              colorScheme: 'dark',
++            }}
++          />
++        </label>
++        <label style={{ fontSize: '0.7rem', color: muted }}>
++          Check-out
++          <input
++            type="date"
++            value={checkOut}
++            min={checkIn}
++            onChange={(e) => setCheckOut(e.target.value)}
++            style={{
++              display: 'block',
++              width: '100%',
++              marginTop: 4,
++              background: '#080807',
++              border: '1px solid rgba(200,169,110,0.2)',
++              borderRadius: 6,
++              color: cream,
++              padding: '8px 10px',
++              fontSize: '0.85rem',
++              colorScheme: 'dark',
++            }}
++          />
++        </label>
++        <label style={{ fontSize: '0.7rem', color: muted }}>
++          Guests
++          <input
++            type="number"
++            min={1}
++            max={room.max_occupancy}
++            value={guests}
++            onChange={(e) => setGuests(Number(e.target.value))}
++            style={{
++              display: 'block',
++              width: '100%',
++              marginTop: 4,
++              background: '#080807',
++              border: '1px solid rgba(200,169,110,0.2)',
++              borderRadius: 6,
++              color: cream,
++              padding: '8px 10px',
++              fontSize: '0.85rem',
++            }}
++          />
++        </label>
++      </div>
++
++      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, flexWrap: 'wrap', gap: 12 }}>
++        <p style={{ color: muted, fontSize: '0.85rem' }}>
++          {nights > 0 ? (
++            <>
++              {nights} night{nights !== 1 ? 's' : ''} ·{' '}
++              <span style={{ color: cream, fontWeight: 500 }}>
++                {room.currency} {total.toLocaleString()} total
++              </span>
++            </>
++          ) : (
++            'Select your dates'
++          )}
++        </p>
++        <button
++          onClick={handleBook}
++          disabled={loading || nights < 1}
++          style={{
++            fontFamily: "'Bebas Neue',sans-serif",
++            fontSize: '0.75rem',
++            letterSpacing: '0.15em',
++            textTransform: 'uppercase',
++            color: '#080807',
++            background: loading ? dim : gold,
++            border: 'none',
++            borderRadius: 4,
++            padding: '11px 24px',
++            cursor: loading || nights < 1 ? 'not-allowed' : 'pointer',
++          }}
++        >
++          {loading ? 'Redirecting…' : 'Book & Pay'}
++        </button>
++      </div>
++
++      {error && (
++        <p style={{ color: '#e08a7a', fontSize: '0.8rem', marginTop: 10 }}>{error}</p>
++      )}
++    </div>
++  )
++}
