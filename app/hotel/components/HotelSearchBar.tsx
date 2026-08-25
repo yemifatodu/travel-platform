@@ -72,7 +72,7 @@ export default function HotelSearchBar({
   }
 
   return (
-    <div style={{ maxWidth: 1000, margin: '-40px auto 0', padding: '0 24px', position: 'relative', zIndex: 2 }}>
+    <div style={{ maxWidth: 1000, margin: '-190px auto 0', padding: '0 24px', position: 'relative', zIndex: 2 }}>
       <form
         onSubmit={handleSubmit}
         style={{

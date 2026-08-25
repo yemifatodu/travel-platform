@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
 import HotelSearchBar from './components/HotelSearchBar'
+import HotelServiceStrip from './components/HotelServiceStrip'
 
 // This route reads live from Supabase, so it should never be statically
 // generated at build time (there's no data to bake in, and the build
@@ -133,16 +134,13 @@ export default async function HotelBrowsePage({
       <div
         style={{
           position: 'relative',
-          minHeight: 480,
+          minHeight: 560,
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'center',
           textAlign: 'center',
-          padding: '96px 24px 64px',
-          backgroundImage:
-            "linear-gradient(rgba(8,8,7,0.55), rgba(8,8,7,0.85)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          padding: '96px 24px 0',
+          background: 'radial-gradient(circle at 30% 20%, #1C1B18, #080807 70%)',
         }}
       >
         <div>
@@ -186,8 +184,10 @@ export default async function HotelBrowsePage({
         initialChildren={children}
       />
 
-      {/* Section heading */}
-      <div style={{ maxWidth: 1200, margin: '48px auto 0', padding: '0 24px', textAlign: 'center' }}>
+      {/* Service strip — same scroll-to-sidebar widget as the homepage */}
+      <HotelServiceStrip>
+        {/* Section heading */}
+        <div style={{ maxWidth: 1200, margin: '48px auto 0', padding: '0 24px', textAlign: 'center' }}>
         <h2
           style={{
             fontFamily: "'Cormorant Garamond',serif",
@@ -470,6 +470,7 @@ export default async function HotelBrowsePage({
           </div>
         )}
       </div>
+      </HotelServiceStrip>
     </div>
   )
 }
