@@ -2,17 +2,22 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { Plane, Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 
-const services = [
-  { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2 },
-  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers', icon: Car },
-  { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield },
-  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone },
-  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package },
+// Full source list — the strip always drops whichever entry matches the
+// current page (no point linking to where you already are) and shows the
+// rest, so the visible set adapts per page while staying at 5 items.
+const ALL_SERVICES = [
+  { label: 'flights', stat: '1,200+', statLabel: 'AIRLINES', href: '/flights', icon: Plane, matchPrefix: '/flights' },
+  { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2, matchPrefix: '/hotel' },
+  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers', icon: Car, matchPrefix: '/transfers' },
+  { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield, matchPrefix: '/visa-requirements' },
+  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone, matchPrefix: '/esim' },
+  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package, matchPrefix: '/destinations' },
 ]
 
 /**
@@ -23,6 +28,12 @@ const services = [
  * both into a single shared component at that point.
  */
 export default function HotelServiceStrip({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+  // Drop whichever service matches the current page, then take the first 5
+  // of what's left — keeps the grid at a consistent 5 columns regardless of
+  // which page you're on.
+  const services = ALL_SERVICES.filter((s) => !pathname.startsWith(s.matchPrefix)).slice(0, 5)
+
   const [mounted, setMounted] = useState(false)
   const [pastStrip, setPastStrip] = useState(false)
   const [nearFooter, setNearFooter] = useState(false)
