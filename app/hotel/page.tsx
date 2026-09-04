@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
 import HotelSearchBar from './components/HotelSearchBar'
 import HotelServiceStrip from './components/HotelServiceStrip'
+import SaveButton from './components/SaveButton'
 
 // This route reads live from Supabase, so it should never be statically
 // generated at build time (there's no data to bake in, and the build
@@ -235,18 +236,24 @@ export default async function HotelBrowsePage({
               const detailHref = `/hotel/${hotel.slug}${detailParams.toString() ? `?${detailParams.toString()}` : ''}`
 
               return (
-                <Link
-                  key={hotel.id}
-                  href={detailHref}
-                  style={{
-                    display: 'block',
-                    textDecoration: 'none',
-                    background: '#111110',
-                    borderRadius: 12,
-                    overflow: 'hidden',
-                    border: '1px solid rgba(200,169,110,0.12)',
-                  }}
-                >
+                <div key={hotel.id} style={{ position: 'relative' }}>
+                  <SaveButton
+                    hotelId={hotel.id}
+                    hotelName={hotel.name}
+                    hotelImage={hotel.cover_image}
+                    style={{ position: 'absolute', top: 144, right: 12, zIndex: 2 }}
+                  />
+                  <Link
+                    href={detailHref}
+                    style={{
+                      display: 'block',
+                      textDecoration: 'none',
+                      background: '#111110',
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      border: '1px solid rgba(200,169,110,0.12)',
+                    }}
+                  >
                   <div
                     style={{
                       height: 190,
@@ -383,7 +390,8 @@ export default async function HotelBrowsePage({
                       View Details
                     </div>
                   </div>
-                </Link>
+                  </Link>
+                </div>
               )
             })}
           </div>

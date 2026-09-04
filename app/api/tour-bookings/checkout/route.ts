@@ -29,10 +29,6 @@ async function validateCoupon(code: string, orderValue: number) {
 
 export async function POST(req: NextRequest) {
   try {
-    // Instantiated inside the handler (not at module scope) so a missing key
-    // returns a proper JSON error instead of crashing the route at import
-    // time — which Next.js surfaces as an HTML error page, breaking the
-    // client's res.json() call with "Unexpected token '<'".
     if (!process.env.STRIPE_SECRET_KEY) {
       console.error('STRIPE_SECRET_KEY is not set — cannot start checkout.')
       return NextResponse.json(
@@ -53,32 +49,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Sign in required' }, { status: 401 })
     }
 
-    const {
-      hotel_id,
-      hotel_name,
-      hotel_slug,
-      room_id,
-      room_name,
-      check_in,
-      check_out,
-      guests,
-      nights,
-      unit_price,
-      currency = 'USD',
-      coupon_code,
-    } = await req.json()
+    const { tour_id, tour_name, tour_slug, date, participants, unit_price, currency = 'USD', coupon_code } = await req.json()
 
-    if (!hotel_id || !room_id || !check_in || !check_out || !unit_price || !nights) {
+    if (!tour_id || !date || !participants || !unit_price) {
       return NextResponse.json({ error: 'Missing booking details' }, { status: 400 })
     }
-    if (nights < 1) {
-      return NextResponse.json({ error: 'Check-out must be after check-in' }, { status: 400 })
-    }
 
-    // Subtotal is always recomputed here from unit_price × nights — never
-    // trusted from the client — so a discount can't be stacked on top of an
-    // already-tampered total.
-    const subtotal = Math.round(unit_price * nights * 100) / 100
+    const subtotal = Math.round(unit_price * participants * 100) / 100
 
     let discount_amount = 0
     let applied_coupon: string | null = null
@@ -88,14 +65,10 @@ export async function POST(req: NextRequest) {
         discount_amount = result.discount_amount
         applied_coupon = result.code
       }
-      // Silently ignore an invalid/expired code rather than failing the
-      // whole checkout — the UI already validated it before this point, so
-      // a mismatch here means it expired or hit its limit in the meantime.
     }
 
     const total_price = Math.max(0, subtotal - discount_amount)
 
-    // 1. Create the booking (pending / unpaid) and its line item.
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')
       .insert({
@@ -104,7 +77,7 @@ export async function POST(req: NextRequest) {
         total_price,
         currency,
         payment_status: 'unpaid',
-        traveller_count: guests ?? 1,
+        traveller_count: participants,
         coupon_code: applied_coupon,
         discount_amount,
       } as any)
@@ -118,15 +91,15 @@ export async function POST(req: NextRequest) {
 
     const { error: itemError } = await supabase.from('booking_items').insert({
       booking_id: (booking as any).id,
-      item_type: 'hotel',
-      item_id: room_id,
-      item_name: `${hotel_name} — ${room_name}`,
-      quantity: nights,
+      item_type: 'tour',
+      item_id: tour_id,
+      item_name: tour_name,
+      quantity: participants,
       unit_price,
       total_price,
-      check_in,
-      check_out,
-      details: { hotel_id, hotel_slug, room_name, guests },
+      check_in: date,
+      check_out: date,
+      details: { tour_id, tour_slug, participants },
     } as any)
 
     if (itemError) {
@@ -134,22 +107,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Could not create booking item' }, { status: 500 })
     }
 
-    // 2. Create the Stripe Checkout Session — this is the hosted payment
-    //    page the guest is redirected to. A discount can't apply cleanly to
-    //    a unit_price × quantity line item, so when a coupon is used this
-    //    collapses to a single pre-discounted line item instead.
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    const label = `${participants} participant${participants !== 1 ? 's' : ''} · ${date}`
 
-    const nightsLabel = `${nights} night${nights !== 1 ? 's' : ''} · ${check_in} to ${check_out} · ${guests} guest${guests !== 1 ? 's' : ''}`
     const line_items = discount_amount > 0
       ? [
           {
             price_data: {
               currency: currency.toLowerCase(),
-              product_data: {
-                name: `${hotel_name} — ${room_name}`,
-                description: `${nightsLabel} · Code ${applied_coupon} applied`,
-              },
+              product_data: { name: tour_name, description: `${label} · Code ${applied_coupon} applied` },
               unit_amount: Math.round(total_price * 100),
             },
             quantity: 1,
@@ -159,13 +125,10 @@ export async function POST(req: NextRequest) {
           {
             price_data: {
               currency: currency.toLowerCase(),
-              product_data: {
-                name: `${hotel_name} — ${room_name}`,
-                description: nightsLabel,
-              },
+              product_data: { name: tour_name, description: label },
               unit_amount: Math.round(unit_price * 100),
             },
-            quantity: nights,
+            quantity: participants,
           },
         ]
 
@@ -176,21 +139,20 @@ export async function POST(req: NextRequest) {
       line_items,
       metadata: {
         booking_id: (booking as any).id,
-        hotel_slug,
+        tour_slug,
         coupon_code: applied_coupon || '',
       },
-      success_url: `${origin}/hotel/${hotel_slug}?booking=success&booking_id=${(booking as any).id}`,
-      cancel_url: `${origin}/hotel/${hotel_slug}?booking=cancelled`,
+      success_url: `${origin}/tours/${tour_slug}?booking=success&booking_id=${(booking as any).id}`,
+      cancel_url: `${origin}/tours/${tour_slug}?booking=cancelled`,
     })
 
-    // 3. Stash the session id on the booking so the webhook can find it.
     await (supabase.from('bookings') as any)
       .update({ stripe_intent_id: session.id })
       .eq('id', (booking as any).id)
 
     return NextResponse.json({ url: session.url })
   } catch (error) {
-    console.error('Hotel checkout error:', error)
+    console.error('Tour checkout error:', error)
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Checkout failed' },
       { status: 500 }

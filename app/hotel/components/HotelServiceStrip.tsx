@@ -14,7 +14,7 @@ const cream = '#F5EFE4'
 const ALL_SERVICES = [
   { label: 'flights', stat: '1,200+', statLabel: 'AIRLINES', href: '/flights', icon: Plane, matchPrefix: '/flights' },
   { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2, matchPrefix: '/hotel' },
-  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers', icon: Car, matchPrefix: '/transfers' },
+  { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car, matchPrefix: '/car-rentals' },
   { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield, matchPrefix: '/visa-requirements' },
   { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone, matchPrefix: '/esim' },
   { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package, matchPrefix: '/destinations' },

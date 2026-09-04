@@ -1,32 +1,51 @@
-'use client'
 import Link from 'next/link'
+import {
+  Plane, Building2, Car, Smartphone, Stamp, Bot, Calculator, Compass,
+  PawPrint, Landmark, Sunrise, Castle, Globe, Waves, Award,
+} from 'lucide-react'
+import { createServerClient } from '@/lib/supabase/server'
+
+export const dynamic = 'force-dynamic'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
+// All internal — every quick link here should keep visitors on huuboi.com,
+// never hand off to a third-party site or an unbuilt page.
 const quickLinks = [
-  { icon: '✈', label: 'Search Flights', href: 'https://tpwidg.com/wl_web/main.js?wl_id=15518', desc: 'Compare 1,200+ airlines' },
-  { icon: '🏨', label: 'Search Hotels', href: '/hotel', desc: '28M+ properties worldwide' },
-  { icon: '🎯', label: 'Browse Experiences', href: '/tours', desc: '300,000+ tours & activities' },
-  { icon: '🚗', label: 'Rent a Car', href: '/car-rentals', desc: '900+ rental suppliers' },
-  { icon: '📱', label: 'Get a Travel eSIM', href: '/esim', desc: 'Data in 150+ countries' },
-  { icon: '🛂', label: 'Visa Requirements', href: '/visa-requirements', desc: '75+ countries covered' },
-  { icon: '🤖', label: 'AI Trip Planner', href: '/ai-planner', desc: 'Build your itinerary' },
-  { icon: '💰', label: 'Budget Calculator', href: '/budget-calculator', desc: 'Estimate trip costs' },
+  { icon: Plane, label: 'Search Flights', href: '/flights', desc: 'Compare 1,200+ airlines' },
+  { icon: Building2, label: 'Search Hotels', href: '/hotel', desc: '28M+ properties worldwide' },
+  { icon: Car, label: 'Rent a Car', href: '/car-rentals', desc: '900+ rental suppliers' },
+  { icon: Compass, label: 'Browse Experiences', href: '/tours', desc: 'Hand-picked local tours' },
+  { icon: Smartphone, label: 'Get a Travel eSIM', href: '/esim', desc: 'Data in 150+ countries' },
+  { icon: Stamp, label: 'Visa Requirements', href: '/visa-requirements', desc: '75+ countries covered' },
+  { icon: Bot, label: 'AI Trip Planner', href: '/ai-planner', desc: 'Build your itinerary' },
+  { icon: Calculator, label: 'Budget Calculator', href: '/budget-calculator', desc: 'Estimate trip costs' },
 ]
 
 const destinations = [
-  { name: 'Africa & Safari', href: '/africa-safari', icon: '🦁' },
-  { name: 'Middle East', href: '/middle-east', icon: '🕌' },
-  { name: 'Asia & Far East', href: '/asia', icon: '⛩' },
-  { name: 'Europe', href: '/europe', icon: '🏰' },
-  { name: 'The Americas', href: '/americas', icon: '🌎' },
-  { name: 'Pacific & Oceania', href: '/pacific', icon: '🌊' },
+  { name: 'Africa & Safari', href: '/africa-safari', icon: PawPrint },
+  { name: 'Middle East', href: '/middle-east', icon: Landmark },
+  { name: 'Asia & Far East', href: '/asia', icon: Sunrise },
+  { name: 'Europe', href: '/europe', icon: Castle },
+  { name: 'The Americas', href: '/americas', icon: Globe },
+  { name: 'Pacific & Oceania', href: '/pacific', icon: Waves },
 ]
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const supabase = createServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  let profile: { full_name: string | null; loyalty_points: number | null } | null = null
+  if (user) {
+    const { data } = await supabase.from('users').select('full_name, loyalty_points').eq('id', user.id).single()
+    profile = data as { full_name: string | null; loyalty_points: number | null } | null
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
 
@@ -35,8 +54,16 @@ export default function DashboardPage() {
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ width: 32, height: 1, background: gold, display: 'inline-block' }} />
-            HUUBOI DASHBOARD
+            {profile ? `WELCOME BACK${profile.full_name ? `, ${profile.full_name.split(' ')[0].toUpperCase()}` : ''}` : 'HUUBOI DASHBOARD'}
           </div>
+          {profile && typeof profile.loyalty_points === 'number' && (
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.25)', borderRadius: 999, padding: '6px 16px', marginBottom: 20 }}>
+              <Award size={14} color={gold} strokeWidth={1.5} />
+              <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.08em', color: cream }}>
+                {profile.loyalty_points.toLocaleString()} LOYALTY POINTS
+              </span>
+            </div>
+          )}
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2.5rem,6vw,5rem)', fontWeight: 300, color: cream, lineHeight: 0.95, marginBottom: 16 }}>
             Where Would You<br /><em style={{ color: gold }}>Like to Go?</em>
           </h1>
@@ -48,11 +75,6 @@ export default function DashboardPage() {
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '14px 32px', textDecoration: 'none', display: 'inline-block' }}>
               PLAN A TRIP
             </Link>
-            <a href="https://wa.me/2347033736377?text=Hi%20HUUBOI%2C%20I%20need%20help%20planning%20a%20trip"
-              target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: '#25D366', color: '#fff', padding: '14px 32px', textDecoration: 'none', display: 'inline-block' }}>
-              💬 WHATSAPP US
-            </a>
           </div>
         </div>
       </div>
@@ -63,19 +85,24 @@ export default function DashboardPage() {
         <div style={{ marginBottom: 'clamp(40px,6vw,64px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>QUICK ACCESS</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 2 }}>
-            {quickLinks.map(item => (
-              <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
-                <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', gap: 14, alignItems: 'flex-start' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
-                  <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{item.icon}</span>
-                  <div>
-                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: cream, marginBottom: 4 }}>{item.label}</div>
-                    <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: dim }}>{item.desc}</div>
+            {quickLinks.map(item => {
+              const Icon = item.icon
+              return (
+                <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
+                  <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', gap: 14, alignItems: 'flex-start' }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
+                    <span style={{ flexShrink: 0, color: gold, display: 'flex', paddingTop: 2 }}>
+                      <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
+                    </span>
+                    <div>
+                      <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: cream, marginBottom: 4 }}>{item.label}</div>
+                      <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: dim }}>{item.desc}</div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
         </div>
 
@@ -83,16 +110,21 @@ export default function DashboardPage() {
         <div style={{ marginBottom: 'clamp(40px,6vw,64px)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>EXPLORE BY REGION</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 2 }}>
-            {destinations.map(dest => (
-              <Link key={dest.href} href={dest.href} style={{ textDecoration: 'none' }}>
-                <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', alignItems: 'center', gap: 12 }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
-                  <span style={{ fontSize: '1.3rem' }}>{dest.icon}</span>
-                  <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', color: cream }}>{dest.name}</span>
-                </div>
-              </Link>
-            ))}
+            {destinations.map(dest => {
+              const Icon = dest.icon
+              return (
+                <Link key={dest.href} href={dest.href} style={{ textDecoration: 'none' }}>
+                  <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', alignItems: 'center', gap: 12 }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
+                    <span style={{ color: gold, display: 'flex' }}>
+                      <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+                    </span>
+                    <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', color: cream }}>{dest.name}</span>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </div>
 
@@ -123,9 +155,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-
-
-
-
-
-

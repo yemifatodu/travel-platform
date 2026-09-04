@@ -80,12 +80,45 @@ export default function RoomsAndBooking({
   )
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [couponCode, setCouponCode] = useState('')
+  const [couponOpen, setCouponOpen] = useState(false)
+  const [couponStatus, setCouponStatus] = useState<{ valid: boolean; message: string; discount?: number } | null>(null)
+  const [checkingCoupon, setCheckingCoupon] = useState(false)
 
   const selectedRoom = rooms.find((r) => r.id === selectedRoomId) ?? rooms[0]
   const nights = useMemo(() => nightsBetween(checkIn, checkOut), [checkIn, checkOut])
-  const total = selectedRoom ? nights * selectedRoom.base_price : 0
+  const subtotal = selectedRoom ? nights * selectedRoom.base_price : 0
+  const discount = couponStatus?.valid ? couponStatus.discount ?? 0 : 0
+  const total = Math.max(0, subtotal - discount)
 
-  async function startCheckout(room: Room, ci: string, co: string, g: number) {
+  async function checkCoupon() {
+    if (!couponCode.trim() || !selectedRoom) return
+    setCheckingCoupon(true)
+    setCouponStatus(null)
+    try {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: couponCode.trim(), order_value: subtotal }),
+      })
+      const data = await res.json()
+      if (data.valid) {
+        setCouponStatus({
+          valid: true,
+          message: `Code applied — ${data.discount_type === 'percentage' ? `${data.discount_value}% off` : `${selectedRoom.currency} ${data.discount_value} off`}`,
+          discount: data.discount_amount,
+        })
+      } else {
+        setCouponStatus({ valid: false, message: data.error || "That code isn't valid." })
+      }
+    } catch {
+      setCouponStatus({ valid: false, message: 'Could not check that code — try again.' })
+    } finally {
+      setCheckingCoupon(false)
+    }
+  }
+
+  async function startCheckout(room: Room, ci: string, co: string, g: number, code: string | null) {
     const n = nightsBetween(ci, co)
     const res = await fetch('/api/hotel-bookings/checkout', {
       method: 'POST',
@@ -101,8 +134,8 @@ export default function RoomsAndBooking({
         guests: g,
         nights: n,
         unit_price: room.base_price,
-        total_price: n * room.base_price,
         currency: room.currency,
+        coupon_code: code,
       }),
     })
     const data = await res.json()
@@ -131,7 +164,7 @@ export default function RoomsAndBooking({
 
       setLoading(true)
       try {
-        await startCheckout(selectedRoom, checkIn, checkOut, guests)
+        await startCheckout(selectedRoom, checkIn, checkOut, guests, couponStatus?.valid ? couponCode.trim() : null)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong resuming your booking.')
         setLoading(false)
@@ -166,7 +199,7 @@ export default function RoomsAndBooking({
         return
       }
 
-      await startCheckout(selectedRoom, checkIn, checkOut, guests)
+      await startCheckout(selectedRoom, checkIn, checkOut, guests, couponStatus?.valid ? couponCode.trim() : null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
       setLoading(false)
@@ -292,22 +325,71 @@ export default function RoomsAndBooking({
           style={{ ...dateInputStyle, marginTop: 0, marginBottom: 18 }}
         />
 
+        {!couponOpen ? (
+          <button
+            type="button"
+            onClick={() => setCouponOpen(true)}
+            style={{ fontSize: '0.78rem', color: muted, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0, marginBottom: 18, display: 'block' }}
+          >
+            Have a promo code?
+          </button>
+        ) : (
+          <div style={{ marginBottom: 18 }}>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input
+                type="text"
+                value={couponCode}
+                onChange={(e) => {
+                  setCouponCode(e.target.value)
+                  setCouponStatus(null)
+                }}
+                placeholder="Promo code"
+                style={{ flex: 1, background: '#080807', border: '1px solid rgba(200,169,110,0.25)', borderRadius: 6, color: cream, padding: '9px 12px', fontSize: '0.85rem', textTransform: 'uppercase' }}
+              />
+              <button
+                type="button"
+                onClick={checkCoupon}
+                disabled={checkingCoupon || !couponCode.trim()}
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.1em', color: gold, background: 'transparent', border: '1px solid rgba(200,169,110,0.3)', borderRadius: 6, padding: '0 16px', cursor: 'pointer' }}
+              >
+                {checkingCoupon ? '...' : 'Apply'}
+              </button>
+            </div>
+            {couponStatus && (
+              <p style={{ fontSize: '0.75rem', marginTop: 6, color: couponStatus.valid ? 'rgba(160,210,170,0.9)' : '#e08a7a' }}>
+                {couponStatus.message}
+              </p>
+            )}
+          </div>
+        )}
+
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
             borderTop: '1px solid rgba(200,169,110,0.15)',
             paddingTop: 14,
             marginBottom: 16,
           }}
         >
-          <span style={{ color: muted, fontSize: '0.85rem' }}>
-            {nights > 0 ? `${selectedRoom.currency} ${selectedRoom.base_price.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}` : 'Select your dates'}
-          </span>
-          <span style={{ color: gold, fontSize: '1.3rem', fontWeight: 500 }}>
-            {nights > 0 ? `${selectedRoom.currency} ${total.toLocaleString()}` : '—'}
-          </span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: discount > 0 ? 4 : 0 }}>
+            <span style={{ color: muted, fontSize: '0.85rem' }}>
+              {nights > 0 ? `${selectedRoom.currency} ${selectedRoom.base_price.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}` : 'Select your dates'}
+            </span>
+            <span style={{ color: discount > 0 ? muted : gold, fontSize: discount > 0 ? '0.9rem' : '1.3rem', fontWeight: 500 }}>
+              {nights > 0 ? `${selectedRoom.currency} ${subtotal.toLocaleString()}` : '—'}
+            </span>
+          </div>
+          {discount > 0 && (
+            <>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'rgba(160,210,170,0.9)', marginBottom: 8 }}>
+                <span>Discount</span>
+                <span>-{selectedRoom.currency} {discount.toLocaleString()}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span style={{ color: muted, fontSize: '0.85rem' }}>Total</span>
+                <span style={{ color: gold, fontSize: '1.3rem', fontWeight: 500 }}>{selectedRoom.currency} {total.toLocaleString()}</span>
+              </div>
+            </>
+          )}
         </div>
 
         <button

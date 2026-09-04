@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import RoomsAndBooking from './RoomsAndBooking'
+import WriteReviewForm from './WriteReviewForm'
+import SaveButton from '../components/SaveButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -58,6 +60,36 @@ async function getHotel(slug: string): Promise<HotelDetail | null> {
   return data as HotelDetail
 }
 
+type Review = {
+  id: string
+  title: string | null
+  content: string
+  pros: string | null
+  cons: string | null
+  is_verified: boolean
+  created_at: string
+  users: { full_name: string | null } | null
+  ratings: { overall: number }[]
+}
+
+async function getReviews(hotelId: string): Promise<Review[]> {
+  const supabase = createServerClient()
+  const { data, error } = await supabase
+    .from('reviews')
+    .select('id, title, content, pros, cons, is_verified, created_at, users(full_name), ratings(overall)')
+    .eq('entity_type', 'hotel')
+    .eq('entity_id', hotelId)
+    .eq('is_published', true)
+    .order('created_at', { ascending: false })
+    .limit(20)
+
+  if (error) {
+    console.error('Failed to load reviews:', error.message)
+    return []
+  }
+  return (data ?? []) as unknown as Review[]
+}
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const hotel = await getHotel(params.slug)
   if (!hotel) return { title: 'Stay not found | Huuboi' }
@@ -77,6 +109,7 @@ export default async function HotelDetailPage({
   const hotel = await getHotel(params.slug)
   if (!hotel) notFound()
 
+  const reviews = await getReviews(hotel.id)
   const bookingStatus = searchParams.booking
 
   return (
@@ -98,6 +131,12 @@ export default async function HotelDetailPage({
             inset: 0,
             background: 'linear-gradient(to top, rgba(8,8,7,0.95), rgba(8,8,7,0.1))',
           }}
+        />
+        <SaveButton
+          hotelId={hotel.id}
+          hotelName={hotel.name}
+          hotelImage={hotel.cover_image}
+          style={{ position: 'absolute', top: 20, right: 20, zIndex: 2 }}
         />
         <div style={{ position: 'absolute', bottom: 32, left: 0, right: 0, maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
           {hotel.star_rating && (
@@ -284,6 +323,102 @@ export default async function HotelDetailPage({
             initialCheckOut={searchParams.checkOut}
             initialGuests={searchParams.guests ? parseInt(searchParams.guests, 10) : undefined}
           />
+        </div>
+
+        {/* Reviews */}
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 18 }}>
+            <div>
+              <p
+                style={{
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: gold,
+                  marginBottom: 6,
+                }}
+              >
+                Guest Reviews
+              </p>
+              {hotel.avg_rating && hotel.review_count ? (
+                <p style={{ color: cream, fontSize: '0.95rem' }}>
+                  <span style={{ color: gold, fontWeight: 600 }}>★ {hotel.avg_rating}</span>{' '}
+                  <span style={{ color: muted }}>
+                    · {hotel.review_count} review{hotel.review_count !== 1 ? 's' : ''}
+                  </span>
+                </p>
+              ) : (
+                <p style={{ color: muted, fontSize: '0.9rem' }}>No reviews yet — be the first to share your stay.</p>
+              )}
+            </div>
+            <WriteReviewForm hotelId={hotel.id} hotelSlug={hotel.slug} />
+          </div>
+
+          {reviews.length > 0 && (
+            <div style={{ display: 'grid', gap: 14 }}>
+              {reviews.map((review) => {
+                const rating = review.ratings?.[0]?.overall
+                return (
+                  <div
+                    key={review.id}
+                    style={{
+                      background: '#111110',
+                      border: '1px solid rgba(200,169,110,0.12)',
+                      borderRadius: 10,
+                      padding: '18px 20px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                          <span style={{ color: cream, fontSize: '0.9rem', fontWeight: 500 }}>
+                            {review.users?.full_name || 'Guest'}
+                          </span>
+                          {review.is_verified && (
+                            <span
+                              style={{
+                                fontSize: '0.62rem',
+                                color: gold,
+                                border: '1px solid rgba(200,169,110,0.35)',
+                                borderRadius: 999,
+                                padding: '1px 8px',
+                                fontFamily: "'Bebas Neue',sans-serif",
+                                letterSpacing: '0.08em',
+                              }}
+                            >
+                              Verified Stay
+                            </span>
+                          )}
+                        </div>
+                        {rating && <span style={{ color: gold, fontSize: '0.85rem' }}>{'★'.repeat(rating)}</span>}
+                      </div>
+                    </div>
+                    {review.title && (
+                      <p style={{ color: cream, fontSize: '0.95rem', fontWeight: 500, marginBottom: 6 }}>{review.title}</p>
+                    )}
+                    <p style={{ color: muted, fontSize: '0.88rem', lineHeight: 1.6, marginBottom: review.pros || review.cons ? 10 : 0 }}>
+                      {review.content}
+                    </p>
+                    {(review.pros || review.cons) && (
+                      <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: '0.8rem' }}>
+                        {review.pros && (
+                          <span style={{ color: 'rgba(160,210,170,0.85)' }}>
+                            <strong>Pros:</strong> {review.pros}
+                          </span>
+                        )}
+                        {review.cons && (
+                          <span style={{ color: 'rgba(224,138,122,0.85)' }}>
+                            <strong>Cons:</strong> {review.cons}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

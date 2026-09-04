@@ -1,0 +1,1061 @@
+diff --git a/app/dashboard/page.tsx b/app/dashboard/page.tsx
+index 60c7310..794531d 100644
+--- a/app/dashboard/page.tsx
++++ b/app/dashboard/page.tsx
+@@ -1,32 +1,50 @@
+-'use client'
+ import Link from 'next/link'
++import {
++  Plane, Building2, Car, Smartphone, Stamp, Bot, Calculator,
++  PawPrint, Landmark, Sunrise, Castle, Globe, Waves, Award,
++} from 'lucide-react'
++import { createServerClient } from '@/lib/supabase/server'
++
++export const dynamic = 'force-dynamic'
+ 
+ const gold = '#C8A96E'
+ const cream = '#F5EFE4'
+ const muted = 'rgba(245,239,228,0.60)'
+ const dim = 'rgba(245,239,228,0.35)'
+ 
++// All internal — every quick link here should keep visitors on huuboi.com,
++// never hand off to a third-party site or an unbuilt page.
+ const quickLinks = [
+-  { icon: '✈', label: 'Search Flights', href: 'https://tpwidg.com/wl_web/main.js?wl_id=15518', desc: 'Compare 1,200+ airlines' },
+-  { icon: '🏨', label: 'Search Hotels', href: '/hotel', desc: '28M+ properties worldwide' },
+-  { icon: '🎯', label: 'Browse Experiences', href: '/tours', desc: '300,000+ tours & activities' },
+-  { icon: '🚗', label: 'Rent a Car', href: '/car-rentals', desc: '900+ rental suppliers' },
+-  { icon: '📱', label: 'Get a Travel eSIM', href: '/esim', desc: 'Data in 150+ countries' },
+-  { icon: '🛂', label: 'Visa Requirements', href: '/visa-requirements', desc: '75+ countries covered' },
+-  { icon: '🤖', label: 'AI Trip Planner', href: '/ai-planner', desc: 'Build your itinerary' },
+-  { icon: '💰', label: 'Budget Calculator', href: '/budget-calculator', desc: 'Estimate trip costs' },
++  { icon: Plane, label: 'Search Flights', href: '/flights', desc: 'Compare 1,200+ airlines' },
++  { icon: Building2, label: 'Search Hotels', href: '/hotel', desc: '28M+ properties worldwide' },
++  { icon: Car, label: 'Rent a Car', href: '/car-rentals', desc: '900+ rental suppliers' },
++  { icon: Smartphone, label: 'Get a Travel eSIM', href: '/esim', desc: 'Data in 150+ countries' },
++  { icon: Stamp, label: 'Visa Requirements', href: '/visa-requirements', desc: '75+ countries covered' },
++  { icon: Bot, label: 'AI Trip Planner', href: '/ai-planner', desc: 'Build your itinerary' },
++  { icon: Calculator, label: 'Budget Calculator', href: '/budget-calculator', desc: 'Estimate trip costs' },
+ ]
+ 
+ const destinations = [
+-  { name: 'Africa & Safari', href: '/africa-safari', icon: '🦁' },
+-  { name: 'Middle East', href: '/middle-east', icon: '🕌' },
+-  { name: 'Asia & Far East', href: '/asia', icon: '⛩' },
+-  { name: 'Europe', href: '/europe', icon: '🏰' },
+-  { name: 'The Americas', href: '/americas', icon: '🌎' },
+-  { name: 'Pacific & Oceania', href: '/pacific', icon: '🌊' },
++  { name: 'Africa & Safari', href: '/africa-safari', icon: PawPrint },
++  { name: 'Middle East', href: '/middle-east', icon: Landmark },
++  { name: 'Asia & Far East', href: '/asia', icon: Sunrise },
++  { name: 'Europe', href: '/europe', icon: Castle },
++  { name: 'The Americas', href: '/americas', icon: Globe },
++  { name: 'Pacific & Oceania', href: '/pacific', icon: Waves },
+ ]
+ 
+-export default function DashboardPage() {
++export default async function DashboardPage() {
++  const supabase = createServerClient()
++  const {
++    data: { user },
++  } = await supabase.auth.getUser()
++
++  let profile: { full_name: string | null; loyalty_points: number | null } | null = null
++  if (user) {
++    const { data } = await supabase.from('users').select('full_name, loyalty_points').eq('id', user.id).single()
++    profile = data as { full_name: string | null; loyalty_points: number | null } | null
++  }
++
+   return (
+     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+ 
+@@ -35,8 +53,16 @@ export default function DashboardPage() {
+         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+             <span style={{ width: 32, height: 1, background: gold, display: 'inline-block' }} />
+-            HUUBOI DASHBOARD
++            {profile ? `WELCOME BACK${profile.full_name ? `, ${profile.full_name.split(' ')[0].toUpperCase()}` : ''}` : 'HUUBOI DASHBOARD'}
+           </div>
++          {profile && typeof profile.loyalty_points === 'number' && (
++            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(200,169,110,0.08)', border: '1px solid rgba(200,169,110,0.25)', borderRadius: 999, padding: '6px 16px', marginBottom: 20 }}>
++              <Award size={14} color={gold} strokeWidth={1.5} />
++              <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.08em', color: cream }}>
++                {profile.loyalty_points.toLocaleString()} LOYALTY POINTS
++              </span>
++            </div>
++          )}
+           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2.5rem,6vw,5rem)', fontWeight: 300, color: cream, lineHeight: 0.95, marginBottom: 16 }}>
+             Where Would You<br /><em style={{ color: gold }}>Like to Go?</em>
+           </h1>
+@@ -48,11 +74,6 @@ export default function DashboardPage() {
+               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '14px 32px', textDecoration: 'none', display: 'inline-block' }}>
+               PLAN A TRIP
+             </Link>
+-            <a href="https://wa.me/2347033736377?text=Hi%20HUUBOI%2C%20I%20need%20help%20planning%20a%20trip"
+-              target="_blank" rel="noopener noreferrer"
+-              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.2em', background: '#25D366', color: '#fff', padding: '14px 32px', textDecoration: 'none', display: 'inline-block' }}>
+-              💬 WHATSAPP US
+-            </a>
+           </div>
+         </div>
+       </div>
+@@ -63,19 +84,24 @@ export default function DashboardPage() {
+         <div style={{ marginBottom: 'clamp(40px,6vw,64px)' }}>
+           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>QUICK ACCESS</div>
+           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 2 }}>
+-            {quickLinks.map(item => (
+-              <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
+-                <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', gap: 14, alignItems: 'flex-start' }}
+-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
+-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
+-                  <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{item.icon}</span>
+-                  <div>
+-                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: cream, marginBottom: 4 }}>{item.label}</div>
+-                    <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: dim }}>{item.desc}</div>
++            {quickLinks.map(item => {
++              const Icon = item.icon
++              return (
++                <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
++                  <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', gap: 14, alignItems: 'flex-start' }}
++                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
++                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
++                    <span style={{ flexShrink: 0, color: gold, display: 'flex', paddingTop: 2 }}>
++                      <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
++                    </span>
++                    <div>
++                      <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: cream, marginBottom: 4 }}>{item.label}</div>
++                      <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: '0.78rem', color: dim }}>{item.desc}</div>
++                    </div>
+                   </div>
+-                </div>
+-              </Link>
+-            ))}
++                </Link>
++              )
++            })}
+           </div>
+         </div>
+ 
+@@ -83,16 +109,21 @@ export default function DashboardPage() {
+         <div style={{ marginBottom: 'clamp(40px,6vw,64px)' }}>
+           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.25em', color: gold, marginBottom: 20 }}>EXPLORE BY REGION</div>
+           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 2 }}>
+-            {destinations.map(dest => (
+-              <Link key={dest.href} href={dest.href} style={{ textDecoration: 'none' }}>
+-                <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', alignItems: 'center', gap: 12 }}
+-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
+-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
+-                  <span style={{ fontSize: '1.3rem' }}>{dest.icon}</span>
+-                  <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', color: cream }}>{dest.name}</span>
+-                </div>
+-              </Link>
+-            ))}
++            {destinations.map(dest => {
++              const Icon = dest.icon
++              return (
++                <Link key={dest.href} href={dest.href} style={{ textDecoration: 'none' }}>
++                  <div style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.1)', padding: '20px 22px', transition: 'border-color 0.2s', display: 'flex', alignItems: 'center', gap: 12 }}
++                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)')}
++                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.1)')}>
++                    <span style={{ color: gold, display: 'flex' }}>
++                      <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
++                    </span>
++                    <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.12em', color: cream }}>{dest.name}</span>
++                  </div>
++                </Link>
++              )
++            })}
+           </div>
+         </div>
+ 
+@@ -123,9 +154,3 @@ export default function DashboardPage() {
+     </div>
+   )
+ }
+-
+-
+-
+-
+-
+-
+diff --git a/app/dashboard/wishlist/page.tsx b/app/dashboard/wishlist/page.tsx
+index 11f9821..4e4c78a 100644
+--- a/app/dashboard/wishlist/page.tsx
++++ b/app/dashboard/wishlist/page.tsx
+@@ -1,37 +1,119 @@
+ import type { Metadata } from 'next'
+ import Link from 'next/link'
++import { createServerClient } from '@/lib/supabase/server'
++
++export const dynamic = 'force-dynamic'
++
++const gold = '#C8A96E'
++const cream = '#F5EFE4'
++const muted = 'rgba(245,239,228,0.60)'
++const dim = 'rgba(245,239,228,0.35)'
+ 
+ export const metadata: Metadata = {
+-  title: 'Wishlist',
++  title: 'Wishlist | Huuboi',
+   description: 'Your saved destinations, hotels, and travel experiences.',
+ }
+ 
+-export default function Page() {
++type WishlistItem = {
++  id: string
++  entity_type: string
++  entity_id: string
++  entity_name: string | null
++  entity_image: string | null
++  created_at: string
++}
++
++async function getWishlist(): Promise<{ items: WishlistItem[]; signedIn: boolean }> {
++  const supabase = createServerClient()
++  const {
++    data: { user },
++  } = await supabase.auth.getUser()
++
++  if (!user) return { items: [], signedIn: false }
++
++  const { data, error } = await supabase
++    .from('wishlists')
++    .select('id, entity_type, entity_id, entity_name, entity_image, created_at')
++    .eq('user_id', user.id)
++    .order('created_at', { ascending: false })
++
++  if (error) {
++    console.error('Failed to load wishlist:', error.message)
++    return { items: [], signedIn: true }
++  }
++  return { items: (data ?? []) as WishlistItem[], signedIn: true }
++}
++
++// Only 'hotel' has a real detail page today — other entity_types stored in
++// the schema (destination/tour/package/flight) fall back to a sensible
++// section link until those get their own pages.
++function hrefFor(item: WishlistItem): string {
++  if (item.entity_type === 'hotel') return `/hotel/${item.entity_id}`
++  return '/destinations'
++}
++
++export default async function WishlistPage() {
++  const { items, signedIn } = await getWishlist()
++
+   return (
+     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 120 }}>
+       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 60px' }}>
+-        {/* Header */}
+         <div style={{ marginBottom: 64 }}>
+-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: '#C8A96E', marginBottom: 16 }}>❤ NAVIGATION</div>
+-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem, 6vw, 6rem)', fontWeight: 300, color: '#F5EFE4', lineHeight: 1, marginBottom: 24 }}>Wishlist</h1>
+-          <p style={{ color: 'rgba(245,239,228,0.55)', fontSize: '1rem', maxWidth: 600, lineHeight: 1.8 }}>Your saved destinations, hotels, and travel experiences.</p>
+-        </div>
+-        {/* Coming Soon Notice */}
+-        <div style={{ border: '1px solid rgba(200,169,110,0.2)', padding: '48px', background: '#1C1B18', maxWidth: 600 }}>
+-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.65rem', letterSpacing: '0.25em', color: '#C8A96E', marginBottom: 16 }}>IN DEVELOPMENT</div>
+-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', fontWeight: 300, color: '#F5EFE4', marginBottom: 16 }}>This page is being built</h2>
+-          <p style={{ color: 'rgba(245,239,228,0.5)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 32 }}>
+-            Connect your APIs, add your content, and this page will come to life. See the README for implementation guide.
+-          </p>
+-          <Link href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', border: '1px solid #C8A96E', color: '#C8A96E', padding: '12px 28px', textDecoration: 'none', display: 'inline-block' }}>← BACK TO HOME</Link>
++          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 16 }}>YOUR SAVED STAYS</div>
++          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem, 6vw, 6rem)', fontWeight: 300, color: cream, lineHeight: 1, marginBottom: 24 }}>Wishlist</h1>
++          <p style={{ color: muted, fontSize: '1rem', maxWidth: 600, lineHeight: 1.8 }}>Your saved destinations, hotels, and travel experiences.</p>
+         </div>
++
++        {!signedIn ? (
++          <div style={{ border: '1px solid rgba(200,169,110,0.2)', padding: 48, background: '#111110', maxWidth: 600 }}>
++            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.75rem', fontWeight: 300, color: cream, marginBottom: 16 }}>Sign in to see your wishlist</h2>
++            <p style={{ color: dim, fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 28 }}>
++              Save hotels while you browse by tapping the heart icon — they'll show up here once you're signed in.
++            </p>
++            <Link href="/auth/login?redirect=/dashboard/wishlist" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', border: `1px solid ${gold}`, color: gold, padding: '12px 28px', textDecoration: 'none', display: 'inline-block' }}>
++              SIGN IN
++            </Link>
++          </div>
++        ) : items.length === 0 ? (
++          <div style={{ border: '1px solid rgba(200,169,110,0.2)', padding: 48, background: '#111110', maxWidth: 600 }}>
++            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.75rem', fontWeight: 300, color: cream, marginBottom: 16 }}>Nothing saved yet</h2>
++            <p style={{ color: dim, fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 28 }}>
++              Browse stays and tap the heart icon on any hotel to save it here for later.
++            </p>
++            <Link href="/hotel" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.7rem', letterSpacing: '0.2em', border: `1px solid ${gold}`, color: gold, padding: '12px 28px', textDecoration: 'none', display: 'inline-block' }}>
++              BROWSE STAYS
++            </Link>
++          </div>
++        ) : (
++          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20 }}>
++            {items.map((item) => (
++              <Link
++                key={item.id}
++                href={hrefFor(item)}
++                style={{ display: 'block', textDecoration: 'none', background: '#111110', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(200,169,110,0.12)' }}
++              >
++                <div
++                  style={{
++                    height: 160,
++                    backgroundImage: item.entity_image ? `url(${item.entity_image})` : undefined,
++                    backgroundColor: '#1C1B18',
++                    backgroundSize: 'cover',
++                    backgroundPosition: 'center',
++                  }}
++                />
++                <div style={{ padding: '16px 18px' }}>
++                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', color: cream, marginBottom: 4 }}>
++                    {item.entity_name || 'Saved stay'}
++                  </p>
++                  <p style={{ fontSize: '0.72rem', color: dim, fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em', textTransform: 'uppercase' }}>
++                    {item.entity_type}
++                  </p>
++                </div>
++              </Link>
++            ))}
++          </div>
++        )}
+       </div>
+     </div>
+   )
+ }
+-
+-
+-
+-
+-
+-
+diff --git a/app/hotel/[slug]/WriteReviewForm.tsx b/app/hotel/[slug]/WriteReviewForm.tsx
+new file mode 100644
+index 0000000..40b20ab
+--- /dev/null
++++ b/app/hotel/[slug]/WriteReviewForm.tsx
+@@ -0,0 +1,279 @@
++'use client'
++
++import { useState } from 'react'
++import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
++import { Star } from 'lucide-react'
++
++const gold = '#C8A96E'
++const cream = '#F5EFE4'
++const muted = 'rgba(245,239,228,0.60)'
++const dim = 'rgba(245,239,228,0.35)'
++
++function StarPicker({
++  value,
++  onChange,
++  size = 22,
++}: {
++  value: number
++  onChange: (n: number) => void
++  size?: number
++}) {
++  return (
++    <div style={{ display: 'flex', gap: 4 }}>
++      {[1, 2, 3, 4, 5].map((n) => (
++        <button
++          key={n}
++          type="button"
++          onClick={() => onChange(n)}
++          aria-label={`${n} star${n !== 1 ? 's' : ''}`}
++          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, lineHeight: 0 }}
++        >
++          <Star size={size} fill={n <= value ? gold : 'none'} color={n <= value ? gold : dim} strokeWidth={1.5} />
++        </button>
++      ))}
++    </div>
++  )
++}
++
++const inputStyle: React.CSSProperties = {
++  display: 'block',
++  width: '100%',
++  marginTop: 6,
++  background: '#080807',
++  border: '1px solid rgba(200,169,110,0.25)',
++  borderRadius: 6,
++  color: cream,
++  padding: '10px 12px',
++  fontSize: '0.9rem',
++  fontFamily: "'DM Sans',sans-serif",
++}
++
++const labelStyle: React.CSSProperties = {
++  fontSize: '0.7rem',
++  color: muted,
++  fontFamily: "'Bebas Neue',sans-serif",
++  letterSpacing: '0.1em',
++  textTransform: 'uppercase',
++  display: 'block',
++}
++
++export default function WriteReviewForm({ hotelId, hotelSlug }: { hotelId: string; hotelSlug: string }) {
++  const [open, setOpen] = useState(false)
++  const [overall, setOverall] = useState(5)
++  const [title, setTitle] = useState('')
++  const [content, setContent] = useState('')
++  const [pros, setPros] = useState('')
++  const [cons, setCons] = useState('')
++  const [showDetailed, setShowDetailed] = useState(false)
++  const [cleanliness, setCleanliness] = useState(5)
++  const [location, setLocation] = useState(5)
++  const [value, setValue] = useState(5)
++  const [service, setService] = useState(5)
++  const [loading, setLoading] = useState(false)
++  const [error, setError] = useState<string | null>(null)
++  const [success, setSuccess] = useState(false)
++
++  async function handleSubmit(e: React.FormEvent) {
++    e.preventDefault()
++    setError(null)
++
++    if (!content.trim()) {
++      setError('Please share a few words about your stay.')
++      return
++    }
++
++    setLoading(true)
++    const supabase = createClientComponentClient()
++
++    const {
++      data: { user },
++    } = await supabase.auth.getUser()
++
++    if (!user) {
++      window.location.href = `/auth/login?redirect=${encodeURIComponent(`/hotel/${hotelSlug}`)}`
++      return
++    }
++
++    try {
++      // A review is marked verified if this account has a paid booking that
++      // actually included this hotel — checked here rather than trusted from
++      // the client, since is_verified is a trust signal shown to other guests.
++      const { data: bookings } = await supabase
++        .from('bookings')
++        .select('id, booking_items!inner(details)')
++        .eq('user_id', user.id)
++        .eq('payment_status', 'paid')
++
++      const isVerified = (bookings ?? []).some((b: any) =>
++        b.booking_items?.some((item: any) => item.details?.hotel_id === hotelId)
++      )
++
++      const { data: review, error: reviewError } = await supabase
++        .from('reviews')
++        .insert({
++          user_id: user.id,
++          entity_type: 'hotel',
++          entity_id: hotelId,
++          title: title.trim() || null,
++          content: content.trim(),
++          pros: pros.trim() || null,
++          cons: cons.trim() || null,
++          is_verified: isVerified,
++        })
++        .select('id')
++        .single()
++
++      if (reviewError) throw reviewError
++
++      const { error: ratingError } = await supabase.from('ratings').insert({
++        review_id: review.id,
++        user_id: user.id,
++        entity_type: 'hotel',
++        entity_id: hotelId,
++        overall,
++        cleanliness: showDetailed ? cleanliness : null,
++        location: showDetailed ? location : null,
++        value: showDetailed ? value : null,
++        service: showDetailed ? service : null,
++      })
++
++      if (ratingError) throw ratingError
++
++      setSuccess(true)
++      setOpen(false)
++    } catch (err: any) {
++      if (err?.code === '23505') {
++        setError("You've already reviewed this stay.")
++      } else {
++        setError('Something went wrong submitting your review. Please try again.')
++      }
++    } finally {
++      setLoading(false)
++    }
++  }
++
++  if (success) {
++    return (
++      <div style={{ background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.25)', borderRadius: 10, padding: '18px 20px', color: cream, fontSize: '0.9rem' }}>
++        Thanks — your review has been posted.
++      </div>
++    )
++  }
++
++  if (!open) {
++    return (
++      <button
++        onClick={() => setOpen(true)}
++        style={{
++          fontFamily: "'Bebas Neue',sans-serif",
++          fontSize: '0.75rem',
++          letterSpacing: '0.15em',
++          textTransform: 'uppercase',
++          color: gold,
++          background: 'transparent',
++          border: '1px solid rgba(200,169,110,0.4)',
++          borderRadius: 6,
++          padding: '11px 22px',
++          cursor: 'pointer',
++        }}
++      >
++        Write a Review
++      </button>
++    )
++  }
++
++  return (
++    <form
++      onSubmit={handleSubmit}
++      style={{ background: '#111110', border: '1px solid rgba(200,169,110,0.2)', borderRadius: 10, padding: 22, display: 'grid', gap: 16 }}
++    >
++      <div>
++        <label style={labelStyle}>Overall Rating</label>
++        <div style={{ marginTop: 8 }}>
++          <StarPicker value={overall} onChange={setOverall} size={26} />
++        </div>
++      </div>
++
++      <label>
++        <span style={labelStyle}>Title (optional)</span>
++        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Sum up your stay" style={inputStyle} />
++      </label>
++
++      <label>
++        <span style={labelStyle}>Your Review</span>
++        <textarea
++          value={content}
++          onChange={(e) => setContent(e.target.value)}
++          placeholder="What was your stay like?"
++          rows={4}
++          style={{ ...inputStyle, resize: 'vertical', fontFamily: "'DM Sans',sans-serif" }}
++        />
++      </label>
++
++      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
++        <label>
++          <span style={labelStyle}>Pros (optional)</span>
++          <input type="text" value={pros} onChange={(e) => setPros(e.target.value)} style={inputStyle} />
++        </label>
++        <label>
++          <span style={labelStyle}>Cons (optional)</span>
++          <input type="text" value={cons} onChange={(e) => setCons(e.target.value)} style={inputStyle} />
++        </label>
++      </div>
++
++      {!showDetailed ? (
++        <button
++          type="button"
++          onClick={() => setShowDetailed(true)}
++          style={{ fontSize: '0.78rem', color: muted, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', textDecoration: 'underline', padding: 0 }}
++        >
++          + Add detailed ratings (cleanliness, location, value, service)
++        </button>
++      ) : (
++        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14, paddingTop: 4 }}>
++          {[
++            ['Cleanliness', cleanliness, setCleanliness],
++            ['Location', location, setLocation],
++            ['Value', value, setValue],
++            ['Service', service, setService],
++          ].map(([label, val, setter]: any) => (
++            <div key={label}>
++              <span style={{ ...labelStyle, marginBottom: 6, display: 'block' }}>{label}</span>
++              <StarPicker value={val} onChange={setter} size={16} />
++            </div>
++          ))}
++        </div>
++      )}
++
++      {error && <p style={{ color: '#e08a7a', fontSize: '0.82rem', margin: 0 }}>{error}</p>}
++
++      <div style={{ display: 'flex', gap: 10 }}>
++        <button
++          type="submit"
++          disabled={loading}
++          style={{
++            fontFamily: "'Bebas Neue',sans-serif",
++            fontSize: '0.75rem',
++            letterSpacing: '0.15em',
++            textTransform: 'uppercase',
++            color: '#080807',
++            background: loading ? dim : gold,
++            border: 'none',
++            borderRadius: 6,
++            padding: '12px 24px',
++            cursor: loading ? 'not-allowed' : 'pointer',
++          }}
++        >
++          {loading ? 'Posting…' : 'Post Review'}
++        </button>
++        <button
++          type="button"
++          onClick={() => setOpen(false)}
++          style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: muted, background: 'none', border: 'none', cursor: 'pointer' }}
++        >
++          Cancel
++        </button>
++      </div>
++    </form>
++  )
++}
+diff --git a/app/hotel/[slug]/page.tsx b/app/hotel/[slug]/page.tsx
+index 572ba51..abb8278 100644
+--- a/app/hotel/[slug]/page.tsx
++++ b/app/hotel/[slug]/page.tsx
+@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
+ import { notFound } from 'next/navigation'
+ import { createServerClient } from '@/lib/supabase/server'
+ import RoomsAndBooking from './RoomsAndBooking'
++import WriteReviewForm from './WriteReviewForm'
++import SaveButton from '../components/SaveButton'
+ 
+ export const dynamic = 'force-dynamic'
+ 
+@@ -58,6 +60,36 @@ async function getHotel(slug: string): Promise<HotelDetail | null> {
+   return data as HotelDetail
+ }
+ 
++type Review = {
++  id: string
++  title: string | null
++  content: string
++  pros: string | null
++  cons: string | null
++  is_verified: boolean
++  created_at: string
++  users: { full_name: string | null } | null
++  ratings: { overall: number }[]
++}
++
++async function getReviews(hotelId: string): Promise<Review[]> {
++  const supabase = createServerClient()
++  const { data, error } = await supabase
++    .from('reviews')
++    .select('id, title, content, pros, cons, is_verified, created_at, users(full_name), ratings(overall)')
++    .eq('entity_type', 'hotel')
++    .eq('entity_id', hotelId)
++    .eq('is_published', true)
++    .order('created_at', { ascending: false })
++    .limit(20)
++
++  if (error) {
++    console.error('Failed to load reviews:', error.message)
++    return []
++  }
++  return (data ?? []) as unknown as Review[]
++}
++
+ export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+   const hotel = await getHotel(params.slug)
+   if (!hotel) return { title: 'Stay not found | Huuboi' }
+@@ -77,6 +109,7 @@ export default async function HotelDetailPage({
+   const hotel = await getHotel(params.slug)
+   if (!hotel) notFound()
+ 
++  const reviews = await getReviews(hotel.id)
+   const bookingStatus = searchParams.booking
+ 
+   return (
+@@ -99,6 +132,12 @@ export default async function HotelDetailPage({
+             background: 'linear-gradient(to top, rgba(8,8,7,0.95), rgba(8,8,7,0.1))',
+           }}
+         />
++        <SaveButton
++          hotelId={hotel.id}
++          hotelName={hotel.name}
++          hotelImage={hotel.cover_image}
++          style={{ position: 'absolute', top: 20, right: 20, zIndex: 2 }}
++        />
+         <div style={{ position: 'absolute', bottom: 32, left: 0, right: 0, maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+           {hotel.star_rating && (
+             <span style={{ color: gold, fontSize: '0.9rem', display: 'block', marginBottom: 6 }}>
+@@ -285,6 +324,102 @@ export default async function HotelDetailPage({
+             initialGuests={searchParams.guests ? parseInt(searchParams.guests, 10) : undefined}
+           />
+         </div>
++
++        {/* Reviews */}
++        <div>
++          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 18 }}>
++            <div>
++              <p
++                style={{
++                  fontFamily: "'Bebas Neue',sans-serif",
++                  fontSize: '0.75rem',
++                  letterSpacing: '0.2em',
++                  textTransform: 'uppercase',
++                  color: gold,
++                  marginBottom: 6,
++                }}
++              >
++                Guest Reviews
++              </p>
++              {hotel.avg_rating && hotel.review_count ? (
++                <p style={{ color: cream, fontSize: '0.95rem' }}>
++                  <span style={{ color: gold, fontWeight: 600 }}>★ {hotel.avg_rating}</span>{' '}
++                  <span style={{ color: muted }}>
++                    · {hotel.review_count} review{hotel.review_count !== 1 ? 's' : ''}
++                  </span>
++                </p>
++              ) : (
++                <p style={{ color: muted, fontSize: '0.9rem' }}>No reviews yet — be the first to share your stay.</p>
++              )}
++            </div>
++            <WriteReviewForm hotelId={hotel.id} hotelSlug={hotel.slug} />
++          </div>
++
++          {reviews.length > 0 && (
++            <div style={{ display: 'grid', gap: 14 }}>
++              {reviews.map((review) => {
++                const rating = review.ratings?.[0]?.overall
++                return (
++                  <div
++                    key={review.id}
++                    style={{
++                      background: '#111110',
++                      border: '1px solid rgba(200,169,110,0.12)',
++                      borderRadius: 10,
++                      padding: '18px 20px',
++                    }}
++                  >
++                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
++                      <div>
++                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
++                          <span style={{ color: cream, fontSize: '0.9rem', fontWeight: 500 }}>
++                            {review.users?.full_name || 'Guest'}
++                          </span>
++                          {review.is_verified && (
++                            <span
++                              style={{
++                                fontSize: '0.62rem',
++                                color: gold,
++                                border: '1px solid rgba(200,169,110,0.35)',
++                                borderRadius: 999,
++                                padding: '1px 8px',
++                                fontFamily: "'Bebas Neue',sans-serif",
++                                letterSpacing: '0.08em',
++                              }}
++                            >
++                              Verified Stay
++                            </span>
++                          )}
++                        </div>
++                        {rating && <span style={{ color: gold, fontSize: '0.85rem' }}>{'★'.repeat(rating)}</span>}
++                      </div>
++                    </div>
++                    {review.title && (
++                      <p style={{ color: cream, fontSize: '0.95rem', fontWeight: 500, marginBottom: 6 }}>{review.title}</p>
++                    )}
++                    <p style={{ color: muted, fontSize: '0.88rem', lineHeight: 1.6, marginBottom: review.pros || review.cons ? 10 : 0 }}>
++                      {review.content}
++                    </p>
++                    {(review.pros || review.cons) && (
++                      <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: '0.8rem' }}>
++                        {review.pros && (
++                          <span style={{ color: 'rgba(160,210,170,0.85)' }}>
++                            <strong>Pros:</strong> {review.pros}
++                          </span>
++                        )}
++                        {review.cons && (
++                          <span style={{ color: 'rgba(224,138,122,0.85)' }}>
++                            <strong>Cons:</strong> {review.cons}
++                          </span>
++                        )}
++                      </div>
++                    )}
++                  </div>
++                )
++              })}
++            </div>
++          )}
++        </div>
+       </div>
+     </div>
+   )
+diff --git a/app/hotel/components/HotelServiceStrip.tsx b/app/hotel/components/HotelServiceStrip.tsx
+index d8aabe5..82fbba2 100644
+--- a/app/hotel/components/HotelServiceStrip.tsx
++++ b/app/hotel/components/HotelServiceStrip.tsx
+@@ -2,17 +2,22 @@
+ 
+ import { useState, useEffect, useRef } from 'react'
+ import Link from 'next/link'
+-import { Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
++import { usePathname } from 'next/navigation'
++import { Plane, Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
+ 
+ const gold = '#C8A96E'
+ const cream = '#F5EFE4'
+ 
+-const services = [
+-  { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2 },
+-  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers', icon: Car },
+-  { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield },
+-  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone },
+-  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package },
++// Full source list — the strip always drops whichever entry matches the
++// current page (no point linking to where you already are) and shows the
++// rest, so the visible set adapts per page while staying at 5 items.
++const ALL_SERVICES = [
++  { label: 'flights', stat: '1,200+', statLabel: 'AIRLINES', href: '/flights', icon: Plane, matchPrefix: '/flights' },
++  { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2, matchPrefix: '/hotel' },
++  { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car, matchPrefix: '/car-rentals' },
++  { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield, matchPrefix: '/visa-requirements' },
++  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone, matchPrefix: '/esim' },
++  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package, matchPrefix: '/destinations' },
+ ]
+ 
+ /**
+@@ -23,6 +28,12 @@ const services = [
+  * both into a single shared component at that point.
+  */
+ export default function HotelServiceStrip({ children }: { children: React.ReactNode }) {
++  const pathname = usePathname()
++  // Drop whichever service matches the current page, then take the first 5
++  // of what's left — keeps the grid at a consistent 5 columns regardless of
++  // which page you're on.
++  const services = ALL_SERVICES.filter((s) => !pathname.startsWith(s.matchPrefix)).slice(0, 5)
++
+   const [mounted, setMounted] = useState(false)
+   const [pastStrip, setPastStrip] = useState(false)
+   const [nearFooter, setNearFooter] = useState(false)
+diff --git a/app/hotel/components/SaveButton.tsx b/app/hotel/components/SaveButton.tsx
+new file mode 100644
+index 0000000..f678d3d
+--- /dev/null
++++ b/app/hotel/components/SaveButton.tsx
+@@ -0,0 +1,105 @@
++'use client'
++
++import { useState, useEffect } from 'react'
++import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
++import { Heart } from 'lucide-react'
++
++const gold = '#C8A96E'
++
++export default function SaveButton({
++  hotelId,
++  hotelName,
++  hotelImage,
++  style,
++}: {
++  hotelId: string
++  hotelName: string
++  hotelImage?: string | null
++  style?: React.CSSProperties
++}) {
++  const [saved, setSaved] = useState(false)
++  const [loading, setLoading] = useState(false)
++  const [checked, setChecked] = useState(false)
++
++  useEffect(() => {
++    let cancelled = false
++    ;(async () => {
++      const supabase = createClientComponentClient()
++      const {
++        data: { user },
++      } = await supabase.auth.getUser()
++      if (!user || cancelled) {
++        setChecked(true)
++        return
++      }
++      const { data } = await supabase
++        .from('wishlists')
++        .select('id')
++        .eq('user_id', user.id)
++        .eq('entity_type', 'hotel')
++        .eq('entity_id', hotelId)
++        .maybeSingle()
++      if (!cancelled) {
++        setSaved(!!data)
++        setChecked(true)
++      }
++    })()
++    return () => {
++      cancelled = true
++    }
++  }, [hotelId])
++
++  async function toggle(e: React.MouseEvent) {
++    e.preventDefault()
++    e.stopPropagation()
++    if (loading) return
++    setLoading(true)
++
++    const supabase = createClientComponentClient()
++    const {
++      data: { user },
++    } = await supabase.auth.getUser()
++
++    if (!user) {
++      window.location.href = `/auth/login?redirect=${encodeURIComponent(window.location.pathname)}`
++      return
++    }
++
++    if (saved) {
++      await supabase.from('wishlists').delete().eq('user_id', user.id).eq('entity_type', 'hotel').eq('entity_id', hotelId)
++      setSaved(false)
++    } else {
++      await supabase.from('wishlists').insert({
++        user_id: user.id,
++        entity_type: 'hotel',
++        entity_id: hotelId,
++        entity_name: hotelName,
++        entity_image: hotelImage || null,
++      })
++      setSaved(true)
++    }
++    setLoading(false)
++  }
++
++  return (
++    <button
++      onClick={toggle}
++      aria-label={saved ? 'Remove from wishlist' : 'Save to wishlist'}
++      disabled={!checked || loading}
++      style={{
++        display: 'flex',
++        alignItems: 'center',
++        justifyContent: 'center',
++        width: 34,
++        height: 34,
++        borderRadius: '50%',
++        border: 'none',
++        background: 'rgba(8,8,7,0.7)',
++        cursor: checked ? 'pointer' : 'default',
++        ...style,
++      }}
++    >
++      <Heart size={16} fill={saved ? gold : 'none'} color={saved ? gold : '#F5EFE4'} strokeWidth={1.75} />
++    </button>
++  )
++}
+diff --git a/app/hotel/page.tsx b/app/hotel/page.tsx
+index 4503d35..8df9330 100644
+--- a/app/hotel/page.tsx
++++ b/app/hotel/page.tsx
+@@ -3,6 +3,7 @@ import Link from 'next/link'
+ import { createServerClient } from '@/lib/supabase/server'
+ import HotelSearchBar from './components/HotelSearchBar'
+ import HotelServiceStrip from './components/HotelServiceStrip'
++import SaveButton from './components/SaveButton'
+ 
+ // This route reads live from Supabase, so it should never be statically
+ // generated at build time (there's no data to bake in, and the build
+@@ -235,18 +236,24 @@ export default async function HotelBrowsePage({
+               const detailHref = `/hotel/${hotel.slug}${detailParams.toString() ? `?${detailParams.toString()}` : ''}`
+ 
+               return (
+-                <Link
+-                  key={hotel.id}
+-                  href={detailHref}
+-                  style={{
+-                    display: 'block',
+-                    textDecoration: 'none',
+-                    background: '#111110',
+-                    borderRadius: 12,
+-                    overflow: 'hidden',
+-                    border: '1px solid rgba(200,169,110,0.12)',
+-                  }}
+-                >
++                <div key={hotel.id} style={{ position: 'relative' }}>
++                  <SaveButton
++                    hotelId={hotel.id}
++                    hotelName={hotel.name}
++                    hotelImage={hotel.cover_image}
++                    style={{ position: 'absolute', top: 144, right: 12, zIndex: 2 }}
++                  />
++                  <Link
++                    href={detailHref}
++                    style={{
++                      display: 'block',
++                      textDecoration: 'none',
++                      background: '#111110',
++                      borderRadius: 12,
++                      overflow: 'hidden',
++                      border: '1px solid rgba(200,169,110,0.12)',
++                    }}
++                  >
+                   <div
+                     style={{
+                       height: 190,
+@@ -383,7 +390,8 @@ export default async function HotelBrowsePage({
+                       View Details
+                     </div>
+                   </div>
+-                </Link>
++                  </Link>
++                </div>
+               )
+             })}
+           </div>
+diff --git a/lib/supabase/fix_reviews_ratings_rls.sql b/lib/supabase/fix_reviews_ratings_rls.sql
+new file mode 100644
+index 0000000..fbdf5f9
+--- /dev/null
++++ b/lib/supabase/fix_reviews_ratings_rls.sql
+@@ -0,0 +1,54 @@
++-- Fix: reviews and ratings were never RLS-enabled at all — same class of gap
++-- as rooms/hotels/booking_items found earlier this session, just the inverse
++-- direction: instead of blocking reads the app needs, this left both tables
++-- fully open to any anon-key write, since Postgres ignores policies entirely
++-- when RLS is off for a table. reviews already had SELECT/INSERT policies
++-- defined in schema.sql that were silently inert; ratings had none at all.
++
++ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
++ALTER TABLE public.ratings ENABLE ROW LEVEL SECURITY;
++
++CREATE POLICY "Public read ratings"
++  ON public.ratings
++  FOR SELECT
++  USING (true);
++
++CREATE POLICY "Users insert own rating"
++  ON public.ratings
++  FOR INSERT
++  WITH CHECK (auth.uid() = user_id);
++
++-- Keep hotels.avg_rating / hotels.review_count in sync automatically instead
++-- of relying on the app to recalculate correctly on every write.
++CREATE OR REPLACE FUNCTION public.recalculate_hotel_rating()
++RETURNS TRIGGER
++LANGUAGE plpgsql
++SECURITY DEFINER SET search_path = public
++AS $$
++DECLARE
++  target_hotel_id UUID;
++BEGIN
++  target_hotel_id := COALESCE(NEW.entity_id, OLD.entity_id);
++
++  UPDATE public.hotels
++  SET
++    avg_rating = (
++      SELECT ROUND(AVG(overall)::numeric, 2)
++      FROM public.ratings
++      WHERE entity_type = 'hotel' AND entity_id = target_hotel_id
++    ),
++    review_count = (
++      SELECT COUNT(*)
++      FROM public.ratings
++      WHERE entity_type = 'hotel' AND entity_id = target_hotel_id
++    )
++  WHERE id = target_hotel_id;
++
++  RETURN NEW;
++END;
++$$;
++
++DROP TRIGGER IF EXISTS on_rating_change ON public.ratings;
++CREATE TRIGGER on_rating_change
++  AFTER INSERT OR UPDATE OR DELETE ON public.ratings
++  FOR EACH ROW EXECUTE FUNCTION public.recalculate_hotel_rating();
