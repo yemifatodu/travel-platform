@@ -9,9 +9,23 @@ interface DestinationData {
   currency?: string
 }
 
+// Real, first-party bookable inventory that happens to overlap with a
+// destination guide — only 6 of 28 destinations have this today. Everywhere
+// else falls back to the affiliate section below, since there's nothing of
+// ours yet to point to.
+const OWN_INVENTORY: Record<string, { hotel?: { slug: string; name: string }; tour?: { slug: string; name: string } }> = {
+  serengeti: { hotel: { slug: 'four-seasons-safari-lodge', name: 'Four Seasons Safari Lodge' }, tour: { slug: 'serengeti-big-five-safari', name: 'Serengeti Big Five Safari' } },
+  marrakech: { tour: { slug: 'sahara-overnight-camel-trek', name: 'Sahara Overnight Camel Trek' } },
+  kyoto: { hotel: { slug: 'ritz-carlton-kyoto', name: 'The Ritz-Carlton Kyoto' }, tour: { slug: 'kyoto-temples-tea-ceremony', name: 'Kyoto Temples & Tea Ceremony' } },
+  tokyo: { hotel: { slug: 'aman-tokyo', name: 'Aman Tokyo' } },
+  maldives: { hotel: { slug: 'soneva-fushi', name: 'Soneva Fushi' }, tour: { slug: 'maldives-snorkeling-dolphin-cruise', name: 'Maldives Snorkeling & Dolphin Cruise' } },
+  santorini: { hotel: { slug: 'katikies-oia', name: 'Katikies Oia' }, tour: { slug: 'santorini-sunset-sailing', name: 'Santorini Sunset Sailing' } },
+}
+
 export function DestinationClient({ dest, slug }: { dest: DestinationData; slug: string }) {
   const gold = '#C8A96E', ink = '#080807', cream = '#F5EFE4'
   const affiliateParams = { destination: dest.name, checkIn: '', checkOut: '', guests: 2 }
+  const ownInventory = OWN_INVENTORY[slug]
 
   return (
     <div style={{ minHeight: '100vh', background: ink }}>
@@ -60,11 +74,43 @@ export function DestinationClient({ dest, slug }: { dest: DestinationData; slug:
           </div>
         </div>
 
+        {/* Book Direct — only shown where we actually have first-party inventory */}
+        {ownInventory && (
+          <div style={{ marginBottom: 80 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 12 }}>BOOKED DIRECT WITH HUUBOI</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 300, color: cream, marginBottom: 32 }}>
+              Stays & Experiences We've <em style={{ color: gold }}>Hand-Picked</em> in {dest.name}
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: ownInventory.hotel && ownInventory.tour ? 'repeat(2,1fr)' : '1fr', gap: 16 }}>
+              {ownInventory.hotel && (
+                <Link href={`/hotel/${ownInventory.hotel.slug}`} style={{ display: 'block', background: '#111110', border: '1px solid rgba(200,169,110,0.2)', borderRadius: 10, padding: '24px 28px', textDecoration: 'none' }}>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: gold, marginBottom: 8 }}>STAY</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: cream, marginBottom: 6 }}>{ownInventory.hotel.name}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(245,239,228,0.5)' }}>View rooms & book instantly →</div>
+                </Link>
+              )}
+              {ownInventory.tour && (
+                <Link href={`/tours/${ownInventory.tour.slug}`} style={{ display: 'block', background: '#111110', border: '1px solid rgba(200,169,110,0.2)', borderRadius: 10, padding: '24px 28px', textDecoration: 'none' }}>
+                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.15em', color: gold, marginBottom: 8 }}>EXPERIENCE</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: cream, marginBottom: 6 }}>{ownInventory.tour.name}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(245,239,228,0.5)' }}>View details & book instantly →</div>
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Affiliate Booking Section */}
         <div style={{ marginBottom: 80 }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 12 }}>READY TO BOOK?</div>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', color: gold, marginBottom: 12 }}>
+            {ownInventory ? 'FLIGHTS, TRANSFERS & MORE' : 'READY TO BOOK?'}
+          </div>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 300, color: cream, marginBottom: 32 }}>
-            Book Your Trip to <em style={{ color: gold }}>{dest.name}</em>
+            {ownInventory ? (
+              <>Round Out Your Trip to <em style={{ color: gold }}>{dest.name}</em></>
+            ) : (
+              <>Book Your Trip to <em style={{ color: gold }}>{dest.name}</em></>
+            )}
           </h2>
           <AffiliateSearch defaultDestination={dest.name} />
         </div>

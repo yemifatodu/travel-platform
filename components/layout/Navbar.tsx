@@ -17,6 +17,12 @@ const GlobeIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
+const CompassIcon = ({ className = '' }: { className?: string }) => (
+  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+  </svg>
+)
+
 const AfricaIcon = ({ className = '' }: { className?: string }) => (
   <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M10 3 C 12 3, 14 5, 14 8 C 14 11, 12 14, 10 16 C 8 14, 6 11, 6 8 C 65, 8 3, 10 3 Z" />
@@ -130,7 +136,8 @@ const destLinks = [
 
 // New Packages dropdown — discovery: browse by list, guide, or map
 const packagesLinks = [
-  { label: 'Packages', href: '/destinations', icon: <GlobeIcon /> },
+  { label: 'Tours & Experiences', href: '/tours', icon: <GlobeIcon /> },
+  { label: 'Destination Guides', href: '/destinations', icon: <CompassIcon /> },
   { label: 'Travel Guides', href: '/travel-guides', icon: <SparkIcon /> },
   { label: 'Map Explorer', href: '/map-explorer', icon: <WorldMapIcon /> },
 ]
@@ -311,7 +318,7 @@ export function Navbar() {
               <button className="nav-btn"
                 onClick={() => { setPackagesOpen(!packagesOpen); setDestOpen(false); setToolsOpen(false); setMoreOpen(false) }}
                 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: packagesOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
-                PACKAGES
+                EXPLORE
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s',transform: packagesOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
               {packagesOpen && (
@@ -423,7 +430,7 @@ export function Navbar() {
               </Link>
             ))}
 
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.58rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.4)', padding: '14px 0 6px'}}>PACKAGES</div>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.58rem', letterSpacing: '0.25em', color: 'rgba(200,169,110,0.4)', padding: '14px 0 6px'}}>EXPLORE</div>
             {packagesLinks.map(link => (
               <Link key={link.href} href={link.href} onClick={closeAll}
                 style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.82rem', letterSpacing: '0.15em', color: cream, textDecoration: 'none', padding: '11px 0', borderBottom: '1px solid rgba(200,169,110,0.06)' }}>

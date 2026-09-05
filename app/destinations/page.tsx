@@ -285,7 +285,7 @@ export default function DestinationsPage() {
                   <div
                     style={{
                       display: 'flex',
-                      justifyContent: 'space-between',
+                      justifyContent: 'center',
                       alignItems: 'center',
                       flexWrap: 'wrap',
                       gap: 16,
@@ -293,31 +293,6 @@ export default function DestinationsPage() {
                       paddingTop: 20,
                     }}
                   >
-                    <div>
-                      <div
-                        style={{
-                          fontFamily: "'Bebas Neue', sans-serif",
-                          fontSize: '0.55rem',
-                          letterSpacing: '0.15em',
-                          color: 'rgba(245,239,228,0.3)',
-                          marginBottom: 4,
-                        }}
-                      >
-                        FROM
-                      </div>
-
-                      <div
-                        style={{
-                          fontFamily: "'Cormorant Garamond', serif",
-                          fontSize: '1.3rem',
-                          fontWeight: 600,
-                          color: gold,
-                        }}
-                      >
-                        ${dest.from.toLocaleString()}
-                      </div>
-                    </div>
-
                     <div>
                       <div
                         style={{
