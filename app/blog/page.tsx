@@ -96,6 +96,26 @@ export default function BlogPage() {
           <p style={{ fontFamily: 'Bebas Neue, sans-serif', letterSpacing: '0.3em', fontSize: '0.8rem', color: '#C8A96E', marginBottom: 16 }}>✦ THE JOURNAL ✦</p>
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 20 }}>Stories from the Road</h1>
           <p style={{ fontSize: '1rem', color: 'rgba(245,239,228,0.6)', maxWidth: 560, margin: '0 auto' }}>Destination guides, travel tips, and inspiration from across six continents.</p>
+          <Link
+            href="/travel-guides"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              marginTop: 24,
+              fontFamily: "'Bebas Neue',sans-serif",
+              fontSize: '0.7rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: '#C8A96E',
+              border: '1px solid rgba(200,169,110,0.35)',
+              borderRadius: 999,
+              padding: '10px 22px',
+              textDecoration: 'none',
+            }}
+          >
+            Looking for our in-depth Travel Guides? →
+          </Link>
         </div>
       </div>
 

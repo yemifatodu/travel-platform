@@ -1,0 +1,196 @@
+diff --git a/app/blog/page.tsx b/app/blog/page.tsx
+index 810432d..c6a8dc6 100644
+--- a/app/blog/page.tsx
++++ b/app/blog/page.tsx
+@@ -96,6 +96,26 @@ export default function BlogPage() {
+           <p style={{ fontFamily: 'Bebas Neue, sans-serif', letterSpacing: '0.3em', fontSize: '0.8rem', color: '#C8A96E', marginBottom: 16 }}>✦ THE JOURNAL ✦</p>
+           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 300, color: '#F5EFE4', marginBottom: 20 }}>Stories from the Road</h1>
+           <p style={{ fontSize: '1rem', color: 'rgba(245,239,228,0.6)', maxWidth: 560, margin: '0 auto' }}>Destination guides, travel tips, and inspiration from across six continents.</p>
++          <Link
++            href="/travel-guides"
++            style={{
++              display: 'inline-flex',
++              alignItems: 'center',
++              gap: 8,
++              marginTop: 24,
++              fontFamily: "'Bebas Neue',sans-serif",
++              fontSize: '0.7rem',
++              letterSpacing: '0.15em',
++              textTransform: 'uppercase',
++              color: '#C8A96E',
++              border: '1px solid rgba(200,169,110,0.35)',
++              borderRadius: 999,
++              padding: '10px 22px',
++              textDecoration: 'none',
++            }}
++          >
++            Looking for our in-depth Travel Guides? →
++          </Link>
+         </div>
+       </div>
+ 
+diff --git a/app/destinations/[slug]/DestinationClient.tsx b/app/destinations/[slug]/DestinationClient.tsx
+index 764c655..d3483cc 100644
+--- a/app/destinations/[slug]/DestinationClient.tsx
++++ b/app/destinations/[slug]/DestinationClient.tsx
+@@ -40,7 +40,25 @@ export function DestinationClient({ dest, slug }: { dest: DestinationData; slug:
+             <span>{dest.region.toUpperCase()}</span>
+           </div>
+           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(4rem,8vw,8rem)', fontWeight: 300, color: cream, lineHeight: 0.9, marginBottom: 20 }}>{dest.name}</h1>
+-          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: 'rgba(245,239,228,0.6)', fontStyle: 'italic' }}>{dest.tagline}</p>
++          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: 'rgba(245,239,228,0.6)', fontStyle: 'italic', marginBottom: 20 }}>{dest.tagline}</p>
++          <Link
++            href="/map-explorer"
++            style={{
++              display: 'inline-flex',
++              alignItems: 'center',
++              gap: 6,
++              fontFamily: "'Bebas Neue',sans-serif",
++              fontSize: '0.65rem',
++              letterSpacing: '0.12em',
++              textTransform: 'uppercase',
++              color: gold,
++              textDecoration: 'none',
++              borderBottom: '1px solid rgba(200,169,110,0.4)',
++              paddingBottom: 2,
++            }}
++          >
++            View on Map Explorer →
++          </Link>
+         </div>
+       </div>
+ 
+diff --git a/app/destinations/page.tsx b/app/destinations/page.tsx
+index 47e6d3f..3c2a6df 100644
+--- a/app/destinations/page.tsx
++++ b/app/destinations/page.tsx
+@@ -117,10 +117,30 @@ export default function DestinationsPage() {
+             fontSize: 'clamp(0.95rem,2vw,1rem)',
+             maxWidth: 520,
+             lineHeight: 1.8,
++            marginBottom: 24,
+           }}
+         >
+           Handpicked destinations across every continent — from Arctic wilderness to tropical paradise.
+         </p>
++        <Link
++          href="/map-explorer"
++          style={{
++            display: 'inline-flex',
++            alignItems: 'center',
++            gap: 8,
++            fontFamily: "'Bebas Neue',sans-serif",
++            fontSize: '0.7rem',
++            letterSpacing: '0.15em',
++            textTransform: 'uppercase',
++            color: '#C8A96E',
++            border: '1px solid rgba(200,169,110,0.35)',
++            borderRadius: 999,
++            padding: '10px 22px',
++            textDecoration: 'none',
++          }}
++        >
++          Explore Them All on Our Interactive Map →
++        </Link>
+       </div>
+ 
+       {/* Region Filter */}
+diff --git a/app/hotel/components/HotelServiceStrip.tsx b/app/hotel/components/HotelServiceStrip.tsx
+index 82fbba2..151a271 100644
+--- a/app/hotel/components/HotelServiceStrip.tsx
++++ b/app/hotel/components/HotelServiceStrip.tsx
+@@ -3,7 +3,7 @@
+ import { useState, useEffect, useRef } from 'react'
+ import Link from 'next/link'
+ import { usePathname } from 'next/navigation'
+-import { Plane, Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
++import { Plane, Building2, Car, Shield, Smartphone, Compass } from 'lucide-react'
+ 
+ const gold = '#C8A96E'
+ const cream = '#F5EFE4'
+@@ -17,7 +17,7 @@ const ALL_SERVICES = [
+   { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car, matchPrefix: '/car-rentals' },
+   { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield, matchPrefix: '/visa-requirements' },
+   { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone, matchPrefix: '/esim' },
+-  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package, matchPrefix: '/destinations' },
++  { label: 'tours & experiences', stat: '400+', statLabel: 'EXPERIENCES', href: '/tours', icon: Compass, matchPrefix: '/tours' },
+ ]
+ 
+ /**
+diff --git a/app/page.tsx b/app/page.tsx
+index bf2a3b4..e7c3879 100644
+--- a/app/page.tsx
++++ b/app/page.tsx
+@@ -1,7 +1,7 @@
+ 'use client'
+ import React, { useState, useEffect, useRef } from 'react'
+ import Link from 'next/link'
+-import { Building2, Car, Shield, Smartphone, Package, ChevronUp, ChevronDown } from 'lucide-react'
++import { Building2, Car, Shield, Smartphone, Compass, ChevronUp, ChevronDown } from 'lucide-react'
+ 
+ const gold = '#C8A96E'
+ const cream = '#F5EFE4'
+@@ -86,10 +86,10 @@ const testimonials = [
+ 
+ const services = [
+   { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2 },
+-  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers', icon: Car },
++  { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car },
+   { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield },
+   { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone },
+-  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package },
++  { label: 'tours & experiences', stat: '400+', statLabel: 'EXPERIENCES', href: '/tours', icon: Compass },
+ ]
+ 
+ function useScrollReveal() {
+diff --git a/components/layout/Footer.tsx b/components/layout/Footer.tsx
+index fa67c1f..fb1588d 100644
+--- a/components/layout/Footer.tsx
++++ b/components/layout/Footer.tsx
+@@ -8,7 +8,7 @@ export function Footer() {
+       links: [
+         ['Flights', '/flights'],
+         ['Hotels', '/hotels'],
+-        ['Packages', '/packages'],
++        ['Travel Insurance', '/insurance'],
+         ['Tours', '/tours'],
+         ['Car Rentals', '/car-rentals'],
+         ['Deals', '/deals'],
+diff --git a/components/layout/Navbar.tsx b/components/layout/Navbar.tsx
+index 4b6d190..4990847 100644
+--- a/components/layout/Navbar.tsx
++++ b/components/layout/Navbar.tsx
+@@ -17,12 +17,6 @@ const GlobeIcon = ({ className = '' }: { className?: string }) => (
+   </svg>
+ )
+ 
+-const CompassIcon = ({ className = '' }: { className?: string }) => (
+-  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+-    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+-  </svg>
+-)
+-
+ const AfricaIcon = ({ className = '' }: { className?: string }) => (
+   <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+     <path d="M10 3 C 12 3, 14 5, 14 8 C 14 11, 12 14, 10 16 C 8 14, 6 11, 6 8 C 65, 8 3, 10 3 Z" />
+@@ -102,11 +96,6 @@ const BellIcon = ({ className = '' }: { className?: string }) => (
+   </svg>
+ )
+ 
+-const SparkIcon = ({ className = '' }: { className?: string }) => (
+-  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+-    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+-  </svg>
+-)
+ 
+ const PassportIcon = ({ className = '' }: { className?: string }) => (
+   <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+@@ -137,8 +126,6 @@ const destLinks = [
+ // New Packages dropdown — discovery: browse by list, guide, or map
+ const packagesLinks = [
+   { label: 'Tours & Experiences', href: '/tours', icon: <GlobeIcon /> },
+-  { label: 'Destination Guides', href: '/destinations', icon: <CompassIcon /> },
+-  { label: 'Travel Guides', href: '/travel-guides', icon: <SparkIcon /> },
+   { label: 'Map Explorer', href: '/map-explorer', icon: <WorldMapIcon /> },
+ ]
+ 

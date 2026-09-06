@@ -117,10 +117,30 @@ export default function DestinationsPage() {
             fontSize: 'clamp(0.95rem,2vw,1rem)',
             maxWidth: 520,
             lineHeight: 1.8,
+            marginBottom: 24,
           }}
         >
           Handpicked destinations across every continent — from Arctic wilderness to tropical paradise.
         </p>
+        <Link
+          href="/map-explorer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            fontFamily: "'Bebas Neue',sans-serif",
+            fontSize: '0.7rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: '#C8A96E',
+            border: '1px solid rgba(200,169,110,0.35)',
+            borderRadius: 999,
+            padding: '10px 22px',
+            textDecoration: 'none',
+          }}
+        >
+          Explore Them All on Our Interactive Map →
+        </Link>
       </div>
 
       {/* Region Filter */}

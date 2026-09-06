@@ -8,7 +8,7 @@ export function Footer() {
       links: [
         ['Flights', '/flights'],
         ['Hotels', '/hotels'],
-        ['Packages', '/packages'],
+        ['Travel Insurance', '/insurance'],
         ['Tours', '/tours'],
         ['Car Rentals', '/car-rentals'],
         ['Deals', '/deals'],

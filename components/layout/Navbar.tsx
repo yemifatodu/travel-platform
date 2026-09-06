@@ -17,12 +17,6 @@ const GlobeIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
-const CompassIcon = ({ className = '' }: { className?: string }) => (
-  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-  </svg>
-)
-
 const AfricaIcon = ({ className = '' }: { className?: string }) => (
   <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M10 3 C 12 3, 14 5, 14 8 C 14 11, 12 14, 10 16 C 8 14, 6 11, 6 8 C 65, 8 3, 10 3 Z" />
@@ -102,11 +96,6 @@ const BellIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
-const SparkIcon = ({ className = '' }: { className?: string }) => (
-  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-  </svg>
-)
 
 const PassportIcon = ({ className = '' }: { className?: string }) => (
   <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -137,8 +126,6 @@ const destLinks = [
 // New Packages dropdown — discovery: browse by list, guide, or map
 const packagesLinks = [
   { label: 'Tours & Experiences', href: '/tours', icon: <GlobeIcon /> },
-  { label: 'Destination Guides', href: '/destinations', icon: <CompassIcon /> },
-  { label: 'Travel Guides', href: '/travel-guides', icon: <SparkIcon /> },
   { label: 'Map Explorer', href: '/map-explorer', icon: <WorldMapIcon /> },
 ]
 

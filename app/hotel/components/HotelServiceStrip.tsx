@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Plane, Building2, Car, Shield, Smartphone, Package } from 'lucide-react'
+import { Plane, Building2, Car, Shield, Smartphone, Compass } from 'lucide-react'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -17,7 +17,7 @@ const ALL_SERVICES = [
   { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car, matchPrefix: '/car-rentals' },
   { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield, matchPrefix: '/visa-requirements' },
   { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone, matchPrefix: '/esim' },
-  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package, matchPrefix: '/destinations' },
+  { label: 'tours & experiences', stat: '400+', statLabel: 'EXPERIENCES', href: '/tours', icon: Compass, matchPrefix: '/tours' },
 ]
 
 /**

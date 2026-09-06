@@ -40,7 +40,25 @@ export function DestinationClient({ dest, slug }: { dest: DestinationData; slug:
             <span>{dest.region.toUpperCase()}</span>
           </div>
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(4rem,8vw,8rem)', fontWeight: 300, color: cream, lineHeight: 0.9, marginBottom: 20 }}>{dest.name}</h1>
-          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: 'rgba(245,239,228,0.6)', fontStyle: 'italic' }}>{dest.tagline}</p>
+          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.4rem', color: 'rgba(245,239,228,0.6)', fontStyle: 'italic', marginBottom: 20 }}>{dest.tagline}</p>
+          <Link
+            href="/map-explorer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              fontFamily: "'Bebas Neue',sans-serif",
+              fontSize: '0.65rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: gold,
+              textDecoration: 'none',
+              borderBottom: '1px solid rgba(200,169,110,0.4)',
+              paddingBottom: 2,
+            }}
+          >
+            View on Map Explorer →
+          </Link>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Building2, Car, Shield, Smartphone, Package, ChevronUp, ChevronDown } from 'lucide-react'
+import { Building2, Car, Shield, Smartphone, Compass, ChevronUp, ChevronDown } from 'lucide-react'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
@@ -86,10 +86,10 @@ const testimonials = [
 
 const services = [
   { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2 },
-  { label: 'car rental', stat: '24/7', statLabel: 'SERVICE', href: '/transfers', icon: Car },
+  { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car },
   { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield },
   { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone },
-  { label: 'packages', stat: '400+', statLabel: 'DESTINATIONS', href: '/destinations', icon: Package },
+  { label: 'tours & experiences', stat: '400+', statLabel: 'EXPERIENCES', href: '/tours', icon: Compass },
 ]
 
 function useScrollReveal() {
