@@ -33,6 +33,17 @@ function PaymentStep({ clientSecret, email }: { clientSecret: string; email: str
         setIsProcessing(true);
         setPaymentError(null);
 
+        // Required by Stripe: elements.submit() must run before
+        // stripe.confirmPayment(), especially when Link (the "Use this card"
+        // autofill panel) is enabled — it validates/collects the chosen
+        // payment method first.
+        const { error: submitError } = await elements.submit();
+        if (submitError) {
+            setPaymentError(submitError.message || 'Please check your payment details and try again.');
+            setIsProcessing(false);
+            return;
+        }
+
         const { error } = await stripe.confirmPayment({
             elements,
             clientSecret,

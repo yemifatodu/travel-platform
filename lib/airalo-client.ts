@@ -1,5 +1,5 @@
 import 'server-only';
-import { AiraloService } from '@yemifatodu/airalo-api';
+import { AiraloService } from './vendor/airalo-sdk';
 
 // Server-only singleton. Never import this file from client components —
 // the `server-only` import above will throw a build error if you try.
