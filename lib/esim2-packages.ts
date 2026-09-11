@@ -22,7 +22,6 @@ export async function getCachedPackages(type?: string, country?: string): Promis
         page: 1,
     });
     const flat = flattenPackages(response.data, 'USD');
-    console.log(`[esim2-packages] fetched ${flat.length} packages from Airalo in ${Date.now() - start}ms`);
 
     cache.set(cacheKey, { data: flat, expiresAt: Date.now() + CACHE_TTL_MS });
     return flat;

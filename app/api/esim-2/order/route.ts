@@ -25,11 +25,6 @@ export async function POST(req: NextRequest) {
 
     try {
         const airalo = getAiraloClient();
-        console.log('[esim/order] placing order with:', {
-            package_id: body.package_id,
-            brand_settings_name: AIRALO_BRAND_SETTINGS_NAME,
-            brand_settings_name_length: AIRALO_BRAND_SETTINGS_NAME?.length,
-        });
         const order = await airalo.createOrder({
             package_id: body.package_id,
             quantity: body.quantity || 1,
@@ -38,7 +33,6 @@ export async function POST(req: NextRequest) {
             to_email: body.email,
             sharing_option: ['link', 'pdf'],
         });
-        console.log('[esim/order] Airalo response order id:', (order as any)?.data?.id ?? order);
 
         return NextResponse.json({ order });
     } catch (error) {
