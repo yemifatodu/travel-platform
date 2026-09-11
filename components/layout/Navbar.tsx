@@ -96,7 +96,6 @@ const BellIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
-
 const PassportIcon = ({ className = '' }: { className?: string }) => (
   <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/>
@@ -134,7 +133,7 @@ const navLinks = [
   { label: 'Blog', href: '/blog' },
 ]
 
-// Tools dropdown — utility only, eSIM Store and Travel Tips removed (eSIM has its own CTA button; Travel Tips slated to merge into Travel Guides)
+// Tools dropdown — utility only
 const toolsLinks = [
   { label: 'AI Trip Planner', href: '/ai-planner', icon: <AIIcon />, desc: 'Build your itinerary' },
   { label: 'Budget Calculator', href: '/budget-calculator', icon: <CoinIcon />, desc: 'Estimate trip costs' },
@@ -280,7 +279,7 @@ export function Navbar() {
             <div ref={destRef} style={{ position: 'relative' }}>
               <button className="nav-btn"
                 onClick={() => { setDestOpen(!destOpen); setPackagesOpen(false); setToolsOpen(false); setMoreOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: destOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em',color: destOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
                 DESTINATIONS
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s',transform: destOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
@@ -304,7 +303,7 @@ export function Navbar() {
             <div ref={packagesRef} style={{ position: 'relative' }}>
               <button className="nav-btn"
                 onClick={() => { setPackagesOpen(!packagesOpen); setDestOpen(false); setToolsOpen(false); setMoreOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: packagesOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em',color: packagesOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
                 EXPLORE
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s',transform: packagesOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
@@ -328,7 +327,7 @@ export function Navbar() {
             {navLinks.map(link => (
               <Link key={link.href} href={link.href} onClick={closeAll}
                 className="nav-link"
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: muted, textDecoration: 'none', transition: 'color 0.2s', whiteSpace: 'nowrap', padding: '10px 16px' }}>
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em',color: muted, textDecoration: 'none', transition: 'color 0.2s', whiteSpace: 'nowrap', padding: '10px 16px' }}>
                 {link.label}
               </Link>
             ))}
@@ -337,7 +336,7 @@ export function Navbar() {
             <div ref={toolsRef} style={{ position: 'relative' }}>
               <button className="nav-btn"
                 onClick={() => { setToolsOpen(!toolsOpen); setDestOpen(false); setPackagesOpen(false); setMoreOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: toolsOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em',color: toolsOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
                 TOOLS
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s',transform: toolsOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
@@ -364,7 +363,7 @@ export function Navbar() {
             <div ref={moreRef} style={{ position: 'relative' }}>
               <button className="nav-btn"
                 onClick={() => { setMoreOpen(!moreOpen); setDestOpen(false); setPackagesOpen(false); setToolsOpen(false) }}
-                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em', color: moreOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
+                style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.7rem', letterSpacing: '0.16em',color: moreOpen ? gold : muted, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '10px 16px', transition: 'color 0.2s' }}>
                 MORE
                 <span style={{ fontSize: '0.48rem', transition: 'transform 0.2s',transform: moreOpen ? 'rotate(180deg)' : 'none', display: 'inline-block' }}>▼</span>
               </button>
@@ -387,7 +386,8 @@ export function Navbar() {
 
           {/* CTA buttons */}
           <div className="nav-cta-bar" style={{ alignItems: 'center', gap: 12, flexShrink: 0 }}>
-            <Link href="/esim" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.14em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.3)', padding: '8px 16px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 6 }}>
+            {/* REVERTED: eSIM link now points back to /esim-select */}
+            <Link href="/esim-select" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.65rem', letterSpacing: '0.14em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.3)', padding: '8px 16px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 6 }}>
               <PhoneIcon className="w-4 h-4" /> eSIM
             </Link>
             <Link href="/request-trip" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: ink, padding: '10px 20px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
@@ -399,9 +399,9 @@ export function Navbar() {
           <button className="nav-mobile-btn"
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, flexDirection: 'column', gap: 5, alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
-            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', opacity: menuOpen ? 0 : 1 }} />
-            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
+            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s',transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
+            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s',opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ display: 'block', width: 24, height: 2, background: gold, transition: 'all 0.3s',transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
           </button>
         </div>
 
@@ -449,7 +449,8 @@ export function Navbar() {
             ))}
 
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
-              <Link href="/esim" onClick={closeAll}
+              {/* REVERTED: Mobile eSIM link now points back to /esim-select */}
+              <Link href="/esim-select" onClick={closeAll}
                 style={{ flex: 1, textAlign: 'center', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.15em', color: gold, textDecoration: 'none', border: '1px solid rgba(200,169,110,0.35)', padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 <PhoneIcon className="w-4 h-4" /> GET eSIM
               </Link>
