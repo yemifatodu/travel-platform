@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_ESIM2!);
 
 const GOLD = '#C8A96E';
 const INK = '#080807';
@@ -32,6 +32,17 @@ function PaymentStep({ clientSecret, email }: { clientSecret: string; email: str
 
         setIsProcessing(true);
         setPaymentError(null);
+
+        // Required by Stripe: elements.submit() must run before
+        // stripe.confirmPayment(), especially when Link (the "Use this card"
+        // autofill panel) is enabled — it validates/collects the chosen
+        // payment method first.
+        const { error: submitError } = await elements.submit();
+        if (submitError) {
+            setPaymentError(submitError.message || 'Please check your payment details and try again.');
+            setIsProcessing(false);
+            return;
+        }
 
         const { error } = await stripe.confirmPayment({
             elements,

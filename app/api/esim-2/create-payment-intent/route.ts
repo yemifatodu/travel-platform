@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { findPackageById } from '@/lib/esim2-packages';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_ESIM2!, {
     apiVersion: '2026-05-27.dahlia',
 });
 

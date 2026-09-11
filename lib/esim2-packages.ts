@@ -1,4 +1,4 @@
-import { flattenPackages, FlattenedPackage } from '@yemifatodu/airalo-api';
+import { flattenPackages, FlattenedPackage } from './vendor/airalo-sdk';
 import { getAiraloClient } from './airalo-client';
 
 // Shared with app/api/esim-2/packages and app/api/esim-2/create-payment-intent

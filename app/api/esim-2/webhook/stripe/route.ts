@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { getAiraloClient, AIRALO_BRAND_SETTINGS_NAME } from '@/lib/airalo-client';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_ESIM2!, {
     apiVersion: '2026-05-27.dahlia',
 });
 
@@ -17,9 +17,19 @@ export async function POST(request: NextRequest) {
     const body = await request.text();
     const sig = request.headers.get('stripe-signature');
 
+    const secret = process.env.STRIPE_WEBHOOK_SECRET_ESIM2;
+    console.log('[esim-2/webhook] diagnostic:', {
+        secretDefined: !!secret,
+        secretLength: secret?.length,
+        secretPrefix: secret?.slice(0, 10),
+        secretSuffix: secret?.slice(-4),
+        sigHeaderPresent: !!sig,
+        bodyLength: body.length,
+    });
+
     let event: Stripe.Event;
     try {
-        event = stripe.webhooks.constructEvent(body, sig!, process.env.STRIPE_WEBHOOK_SECRET_ESIM2!);
+        event = stripe.webhooks.constructEvent(body, sig!, secret!);
     } catch (err) {
         console.error('[esim-2/webhook] signature verification failed:', err);
         return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 });
