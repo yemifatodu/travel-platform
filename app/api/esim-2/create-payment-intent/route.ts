@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: priceInCents,
             currency: pkg.currency.toLowerCase(),
-            automatic_payment_methods: { enabled: true },
+            payment_method_types: ['card'],
             metadata: {
                 package_id: pkg.package_id,
                 package_title: `${pkg.country_title} — ${pkg.is_unlimited ? 'Unlimited' : pkg.data}, ${pkg.day} days`,
