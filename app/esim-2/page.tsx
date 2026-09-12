@@ -1,7 +1,9 @@
 'use client';
 
+
 import { useEffect, useMemo, useState } from 'react';
 import { Esim2CheckoutForm } from './Esim2CheckoutForm';
+
 
 interface FlatPackage {
     package_id: string;
@@ -16,6 +18,7 @@ interface FlatPackage {
     currency: string;
 }
 
+
 // Exact HUUBOI brand palette (from tailwind.config.js) — used as literal
 // hex values here so this page renders correctly regardless of whether
 // Tailwind's class scanner has picked up this file yet.
@@ -26,11 +29,13 @@ const INK_SOFT = '#111110';
 const CREAM = '#F5EFE4';
 const CREAM_DIM = '#E0D6C4';
 
+
 // These CSS custom properties are set globally by the site's root layout
 // (see fontFamily config), so they work here without needing Tailwind.
 const FONT_DISPLAY = 'var(--font-cormorant), Georgia, serif';
 const FONT_UI = 'var(--font-bebas), sans-serif';
 const FONT_BODY = 'var(--font-dm), sans-serif';
+
 
 export default function EsimPlansPage() {
     const [packages, setPackages] = useState<FlatPackage[] | null>(null);
@@ -38,6 +43,7 @@ export default function EsimPlansPage() {
     const [query, setQuery] = useState('');
     const [selected, setSelected] = useState<FlatPackage | null>(null);
     const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
 
     function toggleCountry(country: string) {
         setExpanded(prev => {
@@ -47,6 +53,7 @@ export default function EsimPlansPage() {
             return next;
         });
     }
+
 
     useEffect(() => {
         fetch('/api/esim-2/packages')
@@ -58,6 +65,7 @@ export default function EsimPlansPage() {
             .catch(err => setError(err.message || 'Could not load plans.'));
     }, []);
 
+
     const filtered = useMemo(() => {
         if (!packages) return [];
         const q = query.trim().toLowerCase();
@@ -66,6 +74,7 @@ export default function EsimPlansPage() {
             p => p.country_title.toLowerCase().includes(q) || p.country_code.toLowerCase().includes(q),
         );
     }, [packages, query]);
+
 
     const grouped = useMemo(() => {
         const map = new Map<string, FlatPackage[]>();
@@ -80,6 +89,7 @@ export default function EsimPlansPage() {
             .map(([country, plans]) => [country, plans.sort((a, b) => a.price - b.price)] as const);
     }, [filtered]);
 
+
     // While actively searching, auto-expand every matching country so the
     // person doesn't have to click through collapsed sections to see results.
     useEffect(() => {
@@ -87,6 +97,7 @@ export default function EsimPlansPage() {
             setExpanded(new Set(grouped.map(([country]) => country)));
         }
     }, [query, grouped]);
+
 
     return (
         <main style={styles.page}>
@@ -100,6 +111,7 @@ export default function EsimPlansPage() {
                     arrives by email — ready to scan before you land.
                 </p>
 
+
                 <input
                     type="text"
                     placeholder="Search a country or region…"
@@ -108,8 +120,10 @@ export default function EsimPlansPage() {
                     style={styles.search}
                 />
 
+
                 {error && <p style={styles.error}>{error}</p>}
                 {!packages && !error && <p style={styles.loading}>Loading plans…</p>}
+
 
                 <div style={styles.groups}>
                     {grouped.map(([country, plans]) => {
@@ -155,6 +169,7 @@ export default function EsimPlansPage() {
                 </div>
             </div>
 
+
             {selected && (
                 <>
                     <div style={styles.backdrop} onClick={() => setSelected(null)} />
@@ -162,6 +177,7 @@ export default function EsimPlansPage() {
                         <button style={styles.closeBtn} onClick={() => setSelected(null)} aria-label="Close">
                             ✕
                         </button>
+
 
                         <p style={styles.drawerEyebrow}>SELECTED PLAN</p>
                         <p style={styles.checkoutTitle}>
@@ -171,6 +187,7 @@ export default function EsimPlansPage() {
                         <p style={styles.checkoutPrice}>
                             ${selected.price.toFixed(2)} {selected.currency}
                         </p>
+
 
                         <Esim2CheckoutForm
                             packageId={selected.package_id}
@@ -183,6 +200,7 @@ export default function EsimPlansPage() {
         </main>
     );
 }
+
 
 const styles: Record<string, React.CSSProperties> = {
     page: { background: INK, color: CREAM, minHeight: '100vh', padding: '64px 24px', fontFamily: FONT_BODY },
@@ -287,3 +305,7 @@ const styles: Record<string, React.CSSProperties> = {
     },
     fineprint: { fontSize: 12, color: '#8A877E', marginTop: 12 },
 };
+
+
+
+

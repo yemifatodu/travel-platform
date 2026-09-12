@@ -157,7 +157,6 @@ const tips = [
 
 export default function InsurancePage() {
   const flightCompRef = useRef<HTMLDivElement>(null)
-  const flightDelayRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (flightCompRef.current && flightCompRef.current.childElementCount === 0) {
@@ -168,24 +167,15 @@ export default function InsurancePage() {
     }
   }, [])
 
-  useEffect(() => {
-    if (flightDelayRef.current && flightDelayRef.current.childElementCount === 0) {
-      const script = document.createElement('script')
-      script.src = "https://tpwidg.com/content?trs=508095&shmarker=710879&locale=en&border_radius=5&plain=true&powered_by=true&promo_id=3408&campaign_id=86"
-      script.async = true
-      flightDelayRef.current.appendChild(script)
-    }
-  }, [])
-
   return (
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       <style>
         {
           '.insurance-widgets-row{display:flex;flex-direction:column;gap:16px;max-width:1200px;}' +
           '.insurance-widget-box{width:100%;background:#111110;border:1px solid rgba(200,169,110,0.15);padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;}' +
-          '.insurance-widget-container{flex-grow:1;min-height:200px;display:block;width:100%;}' +
+          '.insurance-widget-container{flex-grow:1;min-height:800px;display:block;width:100%;}' +
           '.insurance-widget-container > *{width:100% !important;max-width:none !important;}' +
-          '.insurance-widget-container iframe{height:auto !important;min-height:200px !important;border:none !important;}'
+          '.insurance-widget-container iframe{height:800px !important;min-height:800px !important;border:none !important;overflow:hidden !important;}'
         }
       </style>
 
@@ -218,14 +208,6 @@ export default function InsurancePage() {
                 FLIGHT COMPENSATION CLAIM
               </div>
               <div ref={flightCompRef} className="insurance-widget-container" />
-            </div>
-
-            {/* Box 2: Flight Delay / Secondary Compensation Widget */}
-            <div className="insurance-widget-box">
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.18em', color: gold, marginBottom: 16 }}>
-                CHECK DELAYED FLIGHT ELIGIBILITY
-              </div>
-              <div ref={flightDelayRef} className="insurance-widget-container" />
             </div>
 
           </div>
