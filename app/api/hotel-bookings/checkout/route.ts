@@ -66,6 +66,9 @@ export async function POST(req: NextRequest) {
       unit_price,
       currency = 'USD',
       coupon_code,
+      source = 'curated',   // NEW — tells us which flow this booking belongs to
+      hbx_hotel_code,       // NEW — only present for HBX bookings
+      hbx_rate_key,         // NEW — the HBX price token from checkrate/availability
     } = await req.json()
 
     if (!hotel_id || !room_id || !check_in || !check_out || !unit_price || !nights) {
@@ -73,6 +76,9 @@ export async function POST(req: NextRequest) {
     }
     if (nights < 1) {
       return NextResponse.json({ error: 'Check-out must be after check-in' }, { status: 400 })
+    }
+    if (source === 'hbx' && !hbx_rate_key) {
+      return NextResponse.json({ error: 'Missing HBX rate key' }, { status: 400 })
     }
 
     // Subtotal is always recomputed here from unit_price × nights — never
@@ -107,6 +113,7 @@ export async function POST(req: NextRequest) {
         traveller_count: guests ?? 1,
         coupon_code: applied_coupon,
         discount_amount,
+        source,   // NEW — the webhook reads this to know whether to call HBX
       } as any)
       .select()
       .single()
@@ -115,6 +122,10 @@ export async function POST(req: NextRequest) {
       console.error('Booking insert failed:', bookingError?.message)
       return NextResponse.json({ error: 'Could not create booking' }, { status: 500 })
     }
+
+    const nameParts = (user.user_metadata?.full_name || user.email || 'Guest').split(' ')
+    const holderName = nameParts[0] || 'Guest'
+    const holderSurname = nameParts.slice(1).join(' ') || 'Guest'
 
     const { error: itemError } = await supabase.from('booking_items').insert({
       booking_id: (booking as any).id,
@@ -126,7 +137,19 @@ export async function POST(req: NextRequest) {
       total_price,
       check_in,
       check_out,
-      details: { hotel_id, hotel_slug, room_name, guests },
+      details: {
+        hotel_id,
+        hotel_slug,
+        room_name,
+        guests,
+        ...(source === 'hbx' && {
+          source: 'hbx',
+          hbx_hotel_code,
+          hbx_rate_key,
+          holder_name: holderName,
+          holder_surname: holderSurname,
+        }),
+      },
     } as any)
 
     if (itemError) {

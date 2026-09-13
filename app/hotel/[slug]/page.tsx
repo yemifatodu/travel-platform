@@ -43,6 +43,8 @@ type HotelDetail = {
   email: string | null
   website: string | null
   rooms: Room[]
+  source: 'curated' | 'hbx'
+  hbx_hotel_code: number | null
 }
 
 async function getHotel(slug: string): Promise<HotelDetail | null> {
@@ -50,7 +52,7 @@ async function getHotel(slug: string): Promise<HotelDetail | null> {
   const { data, error } = await supabase
     .from('hotels')
     .select(
-      'id, name, slug, category, star_rating, description, address, cover_image, gallery, amenities, avg_rating, review_count, check_in_time, check_out_time, phone, email, website, rooms(id, name, room_type, description, max_occupancy, base_price, currency, images, amenities)'
+      'id, name, slug, category, star_rating, description, address, cover_image, gallery, amenities, avg_rating, review_count, check_in_time, check_out_time, phone, email, website, source, hbx_hotel_code, rooms(id, name, room_type, description, max_occupancy, base_price, currency, images, amenities)'
     )
     .eq('slug', slug)
     .eq('is_published', true)
@@ -322,6 +324,8 @@ export default async function HotelDetailPage({
             initialCheckIn={searchParams.checkIn}
             initialCheckOut={searchParams.checkOut}
             initialGuests={searchParams.guests ? parseInt(searchParams.guests, 10) : undefined}
+            source={hotel.source}
+            hbxHotelCode={hotel.hbx_hotel_code}
           />
         </div>
 

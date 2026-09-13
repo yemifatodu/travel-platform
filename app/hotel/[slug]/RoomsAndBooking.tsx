@@ -11,13 +11,38 @@ const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-type Room = {
+// Curated (static, DB-backed) room shape — unchanged from before
+type CuratedRoom = {
   id: string
   name: string
   room_type: string | null
   max_occupancy: number
   base_price: number
   currency: string
+}
+
+// Live HBX room/rate shape — returned by /api/hbx/availability
+type HbxRoom = {
+  room_code: string
+  room_name: string
+  rate_key: string
+  rate_type: 'BOOKABLE' | 'RECHECK'
+  board_name: string
+  net: number
+  selling_rate: number
+  adults: number
+  children: number
+  cancellation_policies: { amount: string; from: string }[]
+}
+
+// A single normalized shape both room types get mapped into for rendering
+type DisplayRoom = {
+  id: string               // curated room id, or hbx rate_key for HBX rooms
+  name: string
+  subtitle: string
+  price: number
+  currency: string
+  maxOccupancy?: number
 }
 
 function todayISO() {
@@ -56,28 +81,40 @@ export default function RoomsAndBooking({
   initialCheckIn,
   initialCheckOut,
   initialGuests,
+  source = 'curated',
+  hbxHotelCode,
 }: {
-  rooms: Room[]
+  rooms: CuratedRoom[]
   hotelId: string
   hotelName: string
   hotelSlug: string
   initialCheckIn?: string
   initialCheckOut?: string
   initialGuests?: number
+  source?: 'curated' | 'hbx'
+  hbxHotelCode?: number | null
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const isResuming = searchParams.get('resume') === '1'
   const resumeAttempted = useRef(false)
 
-  const [selectedRoomId, setSelectedRoomId] = useState(
-    (isResuming && searchParams.get('room')) || rooms[0]?.id || ''
-  )
   const [checkIn, setCheckIn] = useState((isResuming && searchParams.get('checkIn')) || initialCheckIn || todayISO())
   const [checkOut, setCheckOut] = useState((isResuming && searchParams.get('checkOut')) || initialCheckOut || tomorrowISO())
   const [guests, setGuests] = useState(
     (isResuming && Number(searchParams.get('guests'))) || initialGuests || 2
   )
+
+  // --- HBX-only state: live rooms fetched fresh whenever dates/guests change ---
+  const [hbxRooms, setHbxRooms] = useState<HbxRoom[]>([])
+  const [hbxCurrency, setHbxCurrency] = useState('USD')
+  const [hbxLoading, setHbxLoading] = useState(false)
+  const [hbxError, setHbxError] = useState<string | null>(null)
+
+  const [selectedRoomId, setSelectedRoomId] = useState(
+    (isResuming && searchParams.get('room')) || rooms[0]?.id || ''
+  )
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [couponCode, setCouponCode] = useState('')
@@ -85,9 +122,80 @@ export default function RoomsAndBooking({
   const [couponStatus, setCouponStatus] = useState<{ valid: boolean; message: string; discount?: number } | null>(null)
   const [checkingCoupon, setCheckingCoupon] = useState(false)
 
-  const selectedRoom = rooms.find((r) => r.id === selectedRoomId) ?? rooms[0]
   const nights = useMemo(() => nightsBetween(checkIn, checkOut), [checkIn, checkOut])
-  const subtotal = selectedRoom ? nights * selectedRoom.base_price : 0
+
+  // --- Fetch live HBX rooms whenever relevant inputs change ---
+  useEffect(() => {
+    if (source !== 'hbx' || !hbxHotelCode || nights < 1) return
+
+    let cancelled = false
+    setHbxLoading(true)
+    setHbxError(null)
+
+    fetch('/api/hbx/availability', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        hbx_hotel_code: hbxHotelCode,
+        check_in: checkIn,
+        check_out: checkOut,
+        adults: guests,
+        children: 0,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return
+        if (data.error) {
+          setHbxError(data.error)
+          setHbxRooms([])
+          return
+        }
+        setHbxRooms(data.rooms ?? [])
+        setHbxCurrency(data.currency ?? 'USD')
+        // Default-select the first available rate if nothing selected yet
+        if (data.rooms?.length && !data.rooms.some((r: HbxRoom) => r.rate_key === selectedRoomId)) {
+          setSelectedRoomId(data.rooms[0].rate_key)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setHbxError('Could not load room availability. Please try again.')
+      })
+      .finally(() => {
+        if (!cancelled) setHbxLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [source, hbxHotelCode, checkIn, checkOut, guests, nights])
+
+  // --- Normalize whichever source is active into one display shape ---
+  const displayRooms: DisplayRoom[] = useMemo(() => {
+    if (source === 'hbx') {
+      return hbxRooms.map((r) => ({
+        id: r.rate_key,
+        name: r.room_name,
+        subtitle: r.board_name,
+        price: r.selling_rate,
+        currency: hbxCurrency,
+      }))
+    }
+    return rooms.map((r) => ({
+      id: r.id,
+      name: r.name,
+      subtitle: `Sleeps ${r.max_occupancy} · ${r.room_type?.replace('_', ' ') ?? 'Room'}`,
+      price: r.base_price,
+      currency: r.currency,
+      maxOccupancy: r.max_occupancy,
+    }))
+  }, [source, hbxRooms, hbxCurrency, rooms])
+
+  const selectedRoom = displayRooms.find((r) => r.id === selectedRoomId) ?? displayRooms[0]
+  const selectedHbxRoom = source === 'hbx' ? hbxRooms.find((r) => r.rate_key === selectedRoomId) : undefined
+
+  const subtotal = selectedRoom ? nights * selectedRoom.price : 0
   const discount = couponStatus?.valid ? couponStatus.discount ?? 0 : 0
   const total = Math.max(0, subtotal - discount)
 
@@ -118,8 +226,33 @@ export default function RoomsAndBooking({
     }
   }
 
-  async function startCheckout(room: Room, ci: string, co: string, g: number, code: string | null) {
+  async function startCheckout(ci: string, co: string, g: number, code: string | null) {
+    if (!selectedRoom) return
     const n = nightsBetween(ci, co)
+
+    let finalUnitPrice = selectedRoom.price
+    let finalRateKey: string | undefined
+    let finalHbxHotelCode: number | undefined
+
+    // For HBX rooms marked RECHECK, reconfirm the price right before paying —
+    // HBX rates can drift, so we never trust a price older than this moment.
+    if (source === 'hbx' && selectedHbxRoom) {
+      finalRateKey = selectedHbxRoom.rate_key
+      finalHbxHotelCode = hbxHotelCode ?? undefined
+
+      if (selectedHbxRoom.rate_type === 'RECHECK') {
+        const checkRes = await fetch('/api/hbx/checkrate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rate_key: selectedHbxRoom.rate_key }),
+        })
+        const checkData = await checkRes.json()
+        if (!checkRes.ok) throw new Error(checkData.error || 'This rate is no longer available.')
+        finalUnitPrice = checkData.selling_rate
+        finalRateKey = checkData.rate_key
+      }
+    }
+
     const res = await fetch('/api/hotel-bookings/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -127,15 +260,20 @@ export default function RoomsAndBooking({
         hotel_id: hotelId,
         hotel_name: hotelName,
         hotel_slug: hotelSlug,
-        room_id: room.id,
-        room_name: room.name,
+        room_id: selectedRoom.id,
+        room_name: selectedRoom.name,
         check_in: ci,
         check_out: co,
         guests: g,
         nights: n,
-        unit_price: room.base_price,
-        currency: room.currency,
+        unit_price: finalUnitPrice,
+        currency: selectedRoom.currency,
         coupon_code: code,
+        source,
+        ...(source === 'hbx' && {
+          hbx_hotel_code: finalHbxHotelCode,
+          hbx_rate_key: finalRateKey,
+        }),
       }),
     })
     const data = await res.json()
@@ -143,9 +281,6 @@ export default function RoomsAndBooking({
     window.location.href = data.url
   }
 
-  // If we just came back from auth with resume=1, and a session now exists,
-  // pick up exactly where the guest left off and go straight to Stripe —
-  // no second click required.
   useEffect(() => {
     if (!isResuming || resumeAttempted.current || !selectedRoom) return
     resumeAttempted.current = true
@@ -156,15 +291,13 @@ export default function RoomsAndBooking({
         data: { user },
       } = await supabase.auth.getUser()
 
-      // Strip resume params from the URL either way, so a refresh or back
-      // navigation doesn't re-trigger checkout automatically.
       router.replace(`/hotel/${hotelSlug}`)
 
-      if (!user) return // still not authenticated somehow; let them click normally
+      if (!user) return
 
       setLoading(true)
       try {
-        await startCheckout(selectedRoom, checkIn, checkOut, guests, couponStatus?.valid ? couponCode.trim() : null)
+        await startCheckout(checkIn, checkOut, guests, couponStatus?.valid ? couponCode.trim() : null)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong resuming your booking.')
         setLoading(false)
@@ -181,8 +314,8 @@ export default function RoomsAndBooking({
       setError('Check-out must be after check-in.')
       return
     }
-    if (guests > selectedRoom.max_occupancy) {
-      setError(`This room sleeps up to ${selectedRoom.max_occupancy} guests.`)
+    if (selectedRoom.maxOccupancy && guests > selectedRoom.maxOccupancy) {
+      setError(`This room sleeps up to ${selectedRoom.maxOccupancy} guests.`)
       return
     }
 
@@ -199,15 +332,22 @@ export default function RoomsAndBooking({
         return
       }
 
-      await startCheckout(selectedRoom, checkIn, checkOut, guests, couponStatus?.valid ? couponCode.trim() : null)
+      await startCheckout(checkIn, checkOut, guests, couponStatus?.valid ? couponCode.trim() : null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
       setLoading(false)
     }
   }
 
-  if (!rooms.length || !selectedRoom) {
-    return <p style={{ color: dim, fontSize: '0.9rem' }}>No rooms currently listed for this property.</p>
+  // --- Loading / empty / error states for the HBX live-fetch path ---
+  if (source === 'hbx' && hbxLoading && displayRooms.length === 0) {
+    return <p style={{ color: dim, fontSize: '0.9rem' }}>Checking live availability…</p>
+  }
+  if (source === 'hbx' && hbxError) {
+    return <p style={{ color: '#e08a7a', fontSize: '0.9rem' }}>{hbxError}</p>
+  }
+  if (!displayRooms.length || !selectedRoom) {
+    return <p style={{ color: dim, fontSize: '0.9rem' }}>No rooms currently available for these dates.</p>
   }
 
   return (
@@ -222,7 +362,10 @@ export default function RoomsAndBooking({
     >
       {/* Room list — click to select */}
       <div style={{ display: 'grid', gap: 12 }}>
-        {rooms.map((room) => {
+        {hbxLoading && (
+          <p style={{ color: dim, fontSize: '0.8rem' }}>Refreshing availability…</p>
+        )}
+        {displayRooms.map((room) => {
           const isSelected = room.id === selectedRoomId
           return (
             <button
@@ -245,13 +388,11 @@ export default function RoomsAndBooking({
             >
               <div>
                 <p style={{ color: cream, fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>{room.name}</p>
-                <p style={{ color: dim, fontSize: '0.8rem' }}>
-                  Sleeps {room.max_occupancy} · {room.room_type?.replace('_', ' ') ?? 'Room'}
-                </p>
+                <p style={{ color: dim, fontSize: '0.8rem' }}>{room.subtitle}</p>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <span style={{ color: gold, fontSize: '1.05rem', fontWeight: 500 }}>
-                  {room.currency} {room.base_price.toLocaleString()}
+                  {room.currency} {room.price.toLocaleString()}
                   <span style={{ color: dim, fontSize: '0.75rem', fontWeight: 400 }}>/night</span>
                 </span>
                 <span
@@ -296,14 +437,12 @@ export default function RoomsAndBooking({
               whiteSpace: 'nowrap',
             }}
           >
-            {selectedRoom.currency} {selectedRoom.base_price.toLocaleString()}/night
+            {selectedRoom.currency} {selectedRoom.price.toLocaleString()}/night
           </span>
         </div>
 
         <p style={{ color: cream, fontSize: '0.95rem', fontWeight: 500, marginBottom: 2 }}>{selectedRoom.name}</p>
-        <p style={{ color: dim, fontSize: '0.8rem', marginBottom: 18 }}>
-          Sleeps {selectedRoom.max_occupancy} · {selectedRoom.room_type?.replace('_', ' ') ?? 'Room'}
-        </p>
+        <p style={{ color: dim, fontSize: '0.8rem', marginBottom: 18 }}>{selectedRoom.subtitle}</p>
 
         <p style={{ fontSize: '0.7rem', color: muted, fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>
           Select Dates
@@ -319,7 +458,7 @@ export default function RoomsAndBooking({
         <input
           type="number"
           min={1}
-          max={selectedRoom.max_occupancy}
+          max={selectedRoom.maxOccupancy ?? 10}
           value={guests}
           onChange={(e) => setGuests(Number(e.target.value))}
           style={{ ...dateInputStyle, marginTop: 0, marginBottom: 18 }}
@@ -372,7 +511,7 @@ export default function RoomsAndBooking({
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: discount > 0 ? 4 : 0 }}>
             <span style={{ color: muted, fontSize: '0.85rem' }}>
-              {nights > 0 ? `${selectedRoom.currency} ${selectedRoom.base_price.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}` : 'Select your dates'}
+              {nights > 0 ? `${selectedRoom.currency} ${selectedRoom.price.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}` : 'Select your dates'}
             </span>
             <span style={{ color: discount > 0 ? muted : gold, fontSize: discount > 0 ? '0.9rem' : '1.3rem', fontWeight: 500 }}>
               {nights > 0 ? `${selectedRoom.currency} ${subtotal.toLocaleString()}` : '—'}
