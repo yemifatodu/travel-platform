@@ -174,13 +174,18 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
               <Plane size={14} strokeWidth={1.5} color="#080807" />
               SEARCH FLIGHTS
             </Link>
-            <Link href="/hotels" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Link href="/hotel" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Bed size={14} strokeWidth={1.5} color={gold} />
               BOOK HOTEL
             </Link>
-            <Link href="/cars" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Link href="/car-rentals" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Car size={14} strokeWidth={1.5} color={muted} />
               RENT CAR
+            </Link>
+            <Link href={`/map-explorer?destination=${dest.slug}`}
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Compass size={14} strokeWidth={1.5} color={gold} />
+              VIEW ON MAP
             </Link>
           </div>
         </div>

@@ -184,6 +184,11 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
               <DollarSign size={14} strokeWidth={1.5} color={muted} />
               ESTIMATE BUDGET
             </Link>
+            <Link href={`/map-explorer?destination=${dest.slug}`}
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Compass size={14} strokeWidth={1.5} color={gold} />
+              VIEW ON MAP
+            </Link>
           </div>
         </div>
       )}

@@ -1,0 +1,141 @@
+diff --git a/app/africa-safari/page.tsx b/app/africa-safari/page.tsx
+index d61c5aa..5057e59 100644
+--- a/app/africa-safari/page.tsx
++++ b/app/africa-safari/page.tsx
+@@ -154,7 +154,7 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+             </div>
+           </div>
+           <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+-            <a href="/" target="_blank" rel="noopener noreferrer"
++            <a href="/flights" target="_blank" rel="noopener noreferrer"
+               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+               <Plane size={14} strokeWidth={1.5} /> SEARCH FLIGHTS
+             </a>
+@@ -166,6 +166,10 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none' }}>
+               ESTIMATE BUDGET
+             </Link>
++            <Link href={`/map-explorer?destination=${dest.slug}`}
++              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++              <Compass size={14} strokeWidth={1.5} color={gold} /> VIEW ON MAP
++            </Link>
+           </div>
+         </div>
+       )}
+@@ -271,7 +275,7 @@ export default function AfricaSafariPage() {
+             The world's greatest wildlife destinations — from the Great Migration in the Serengeti to gorilla trekking in Rwanda and the Okavango Delta's watery wilderness.
+           </p>
+           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+-            <a href="/" target="_blank" rel="noopener noreferrer"
++            <a href="/flights" target="_blank" rel="noopener noreferrer"
+               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+               <Plane size={14} strokeWidth={1.5} /> SEARCH AFRICA FLIGHTS
+             </a>
+diff --git a/app/americas/page.tsx b/app/americas/page.tsx
+index dba9e1b..c930f6d 100644
+--- a/app/americas/page.tsx
++++ b/app/americas/page.tsx
+@@ -166,7 +166,7 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+             </div>
+           </div>
+           <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+-            <a href="/" target="_blank" rel="noopener noreferrer"
++            <a href="/flights" target="_blank" rel="noopener noreferrer"
+               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+               <Plane size={14} strokeWidth={1.5} color="#080807" />
+               SEARCH FLIGHTS
+@@ -181,6 +181,11 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+               <DollarSign size={14} strokeWidth={1.5} color={muted} />
+               ESTIMATE BUDGET
+             </Link>
++            <Link href={`/map-explorer?destination=${dest.slug}`}
++              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++              <Compass size={14} strokeWidth={1.5} color={gold} />
++              VIEW ON MAP
++            </Link>
+           </div>
+         </div>
+       )}
+@@ -282,7 +287,7 @@ export default function AmericasPage() {
+             From the Arctic tundra to Patagonia's glaciers, from Manhattan's skyline to the Amazon's cathedral forests — the Americas contain more geographical and cultural diversity than any other landmass on earth.
+           </p>
+           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+-            <a href="/" target="_blank" rel="noopener noreferrer"
++            <a href="/flights" target="_blank" rel="noopener noreferrer"
+               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+               <Plane size={14} strokeWidth={1.5} color="#080807" />
+               SEARCH FLIGHTS
+diff --git a/app/asia/page.tsx b/app/asia/page.tsx
+index 7c8ffa3..358f69c 100644
+--- a/app/asia/page.tsx
++++ b/app/asia/page.tsx
+@@ -185,6 +185,11 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+               <DollarSign size={14} strokeWidth={1.5} color={muted} />
+               ESTIMATE BUDGET
+             </Link>
++            <Link href={`/map-explorer?destination=${dest.slug}`}
++              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++              <Compass size={14} strokeWidth={1.5} color={gold} />
++              VIEW ON MAP
++            </Link>
+           </div>
+         </div>
+       )}
+diff --git a/app/europe/page.tsx b/app/europe/page.tsx
+index 4bf8b5c..afabd39 100644
+--- a/app/europe/page.tsx
++++ b/app/europe/page.tsx
+@@ -174,14 +174,19 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+               <Plane size={14} strokeWidth={1.5} color="#080807" />
+               SEARCH FLIGHTS
+             </Link>
+-            <Link href="/hotels" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++            <Link href="/hotel" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+               <Bed size={14} strokeWidth={1.5} color={gold} />
+               BOOK HOTEL
+             </Link>
+-            <Link href="/cars" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++            <Link href="/car-rentals" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+               <Car size={14} strokeWidth={1.5} color={muted} />
+               RENT CAR
+             </Link>
++            <Link href={`/map-explorer?destination=${dest.slug}`}
++              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++              <Compass size={14} strokeWidth={1.5} color={gold} />
++              VIEW ON MAP
++            </Link>
+           </div>
+         </div>
+       )}
+diff --git a/app/middle-east/page.tsx b/app/middle-east/page.tsx
+index cbd2f1f..22e6230 100644
+--- a/app/middle-east/page.tsx
++++ b/app/middle-east/page.tsx
+@@ -188,6 +188,11 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+               <DollarSign size={14} strokeWidth={1.5} color={muted} />
+               ESTIMATE BUDGET
+             </Link>
++            <Link href={`/map-explorer?destination=${dest.slug}`}
++              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++              <Compass size={14} strokeWidth={1.5} color={gold} />
++              VIEW ON MAP
++            </Link>
+           </div>
+         </div>
+       )}
+diff --git a/app/pacific/page.tsx b/app/pacific/page.tsx
+index c77dd16..c05c252 100644
+--- a/app/pacific/page.tsx
++++ b/app/pacific/page.tsx
+@@ -184,6 +184,11 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
+               <DollarSign size={14} strokeWidth={1.5} color={muted} />
+               ESTIMATE BUDGET
+             </Link>
++            <Link href={`/map-explorer?destination=${dest.slug}`}
++              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
++              <Compass size={14} strokeWidth={1.5} color={gold} />
++              VIEW ON MAP
++            </Link>
+           </div>
+         </div>
+       )}

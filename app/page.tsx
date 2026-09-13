@@ -55,17 +55,6 @@ const destinations = [
   { name: 'Rio de Janeiro', country: 'Brazil', region: 'Americas', slug: 'rio', gradient: 'linear-gradient(160deg,#001e14,#003020,#00402a)' },
 ]
 
-const packages = [
-  { name: 'Desert & Dunes', dest: 'Dubai, UAE', duration: '7 nights', price: '$3,200', type: 'Luxury', region: 'Middle East' },
-  { name: 'Great Migration', dest: 'Serengeti, Tanzania', duration: '10 nights', price: '$5,800', type: 'Safari', region: 'Africa' },
-  { name: 'Northern Lights', dest: 'Svalbard, Norway', duration: '5 nights', price: '$5,500', type: 'Expedition', region: 'Arctic' },
-  { name: 'Temple & Blossom', dest: 'Kyoto, Japan', duration: '8 nights', price: '$3,900', type: 'Cultural', region: 'Asia' },
-  { name: 'End of the World', dest: 'Patagonia, Argentina', duration: '10 nights', price: '$4,800', type: 'Adventure', region: 'Americas' },
-  { name: 'Spice Route', dest: 'Marrakech, Morocco', duration: '6 nights', price: '$2,400', type: 'Cultural', region: 'Africa' },
-  { name: 'Ocean Horizon', dest: 'Maldives', duration: '7 nights', price: '$6,200', type: 'Luxury', region: 'Asia' },
-  { name: 'Lost City Trek', dest: 'Machu Picchu, Peru', duration: '9 nights', price: '$3,600', type: 'Adventure', region: 'Americas' },
-]
-
 const regionHubs: Record<string, string> = {
   'Africa': '/africa-safari',
   'Middle East': '/middle-east',
@@ -224,7 +213,6 @@ export default function HomePage() {
     <>
       <style>{`
         .dest-grid-home { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .pkg-grid-home { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .tpwl-widget .wl-tabs__item--hotels, .tpwl-widget [data-tab="hotels"], .tpwl-widget .mewtwo-hotels-checkbox { display: none !important; }
@@ -431,7 +419,6 @@ export default function HomePage() {
         @media (max-width: 900px) {
           .service-strip { grid-template-columns: repeat(3, 1fr); }
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
-          .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .test-grid { grid-template-columns: 1fr; }
           .service-sidebar { display: none !important; }
         }
@@ -439,7 +426,6 @@ export default function HomePage() {
           .service-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 10px 14px; }
           .service-item { padding: 14px 8px; min-height: 84px; }
           .dest-grid-home { grid-template-columns: repeat(2, 1fr); }
-          .pkg-grid-home { grid-template-columns: repeat(2, 1fr); }
           .region-header { padding: 15px 16px; }
           .region-body { padding: 4px 16px 16px; }
         }
@@ -459,7 +445,7 @@ export default function HomePage() {
         flexDirection: 'column' 
       }}>
         <video autoPlay muted loop playsInline poster="/images/hero-poster.jpg"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100vh', objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}>
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '60%', objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}>
           <source src="/videos/hero.webm" type="video/webm" />
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
@@ -513,19 +499,6 @@ export default function HomePage() {
               <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: 'italic', fontSize: 'clamp(1rem,1.8vw,1.25rem)', color: 'rgba(245,239,228,0.85)', lineHeight: 1.5, textAlign: 'right', margin: 0 }}>
                 Six continents. Infinite stories.<br/>One platform.
               </p>
-              
-              <p style={{ fontSize: 'clamp(0.8rem,1.4vw,0.92rem)', color: 'rgba(245,239,228,0.75)', maxWidth: 380, lineHeight: 1.7, marginBottom: 0, fontWeight: 300, textAlign: 'right' }}>
-                Bespoke journeys crafted for the discerning traveller.
-              </p>
-
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                <Link href="/destinations" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', background: gold, color: ink, padding: '14px 32px', textDecoration: 'none', display: 'inline-block' }}>
-                  EXPLORE DESTINATIONS
-                </Link>
-                <Link href="/ai-planner" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.72rem', letterSpacing: '0.2em', border: '1px solid rgba(200,169,110,0.55)', color: gold, padding: '14px 32px', textDecoration: 'none', display: 'inline-block', backdropFilter: 'blur(4px)' }}>
-                  AI TRIP PLANNER
-                </Link>
-              </div>
             </div>
           </div>
 
@@ -657,38 +630,6 @@ export default function HomePage() {
                   </div>
                 )
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* ── PACKAGES ── */}
-        <section style={{ background: '#0d0c0a', padding: 'clamp(40px,5vw,64px) clamp(20px,5vw,60px)' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 32 }}>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.6rem', letterSpacing: '0.25em', color: gold, marginBottom: 8 }}>HANDPICKED FOR YOU</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(1.8rem,4vw,3.2rem)', fontWeight: 300, color: cream }}>
-                Featured <em style={{ color: gold }}>Packages</em>
-              </h2>
-            </div>
-            <div className="pkg-grid-home">
-              {packages.map(pkg => (
-                <div key={pkg.name} style={{ background: '#1C1B18', border: '1px solid rgba(200,169,110,0.12)', padding: '18px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.48rem', letterSpacing: '0.15em', color: gold, border: '1px solid rgba(200,169,110,0.35)', padding: '2px 6px' }}>{pkg.type}</div>
-                    <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.48rem', letterSpacing: '0.1em', color: dim }}>{pkg.region}</div>
-                  </div>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', fontWeight: 600, color: cream, marginBottom: 4, lineHeight: 1.2 }}>{pkg.name}</h3>
-                  <p style={{ fontSize: '0.68rem', color: muted, marginBottom: 2 }}>{pkg.dest}</p>
-                  <p style={{ fontSize: '0.62rem', color: dim, marginBottom: 14 }}>{pkg.duration}</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(200,169,110,0.1)', paddingTop: 12 }}>
-                    <div>
-                      <div style={{ fontSize: '0.48rem', color: dim, fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.05em' }}>FROM</div>
-                      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', fontWeight: 600, color: gold }}>{pkg.price}</div>
-                    </div>
-                    <Link href="/request-trip" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.52rem', letterSpacing: '0.15em', color: gold, textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', paddingBottom: 1 }}>REQUEST →</Link>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>

@@ -154,7 +154,7 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
             </div>
           </div>
           <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <a href="/" target="_blank" rel="noopener noreferrer"
+            <a href="/flights" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Plane size={14} strokeWidth={1.5} /> SEARCH FLIGHTS
             </a>
@@ -165,6 +165,10 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
             <Link href="/budget-calculator"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none' }}>
               ESTIMATE BUDGET
+            </Link>
+            <Link href={`/map-explorer?destination=${dest.slug}`}
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Compass size={14} strokeWidth={1.5} color={gold} /> VIEW ON MAP
             </Link>
           </div>
         </div>
@@ -271,7 +275,7 @@ export default function AfricaSafariPage() {
             The world's greatest wildlife destinations — from the Great Migration in the Serengeti to gorilla trekking in Rwanda and the Okavango Delta's watery wilderness.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="/" target="_blank" rel="noopener noreferrer"
+            <a href="/flights" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Plane size={14} strokeWidth={1.5} /> SEARCH AFRICA FLIGHTS
             </a>

@@ -166,7 +166,7 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
             </div>
           </div>
           <div style={{ marginTop: 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <a href="/" target="_blank" rel="noopener noreferrer"
+            <a href="/flights" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', background: gold, color: '#080807', padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Plane size={14} strokeWidth={1.5} color="#080807" />
               SEARCH FLIGHTS
@@ -180,6 +180,11 @@ function DestinationCard({ dest, selectedDest, setSelectedDest }: { dest: any; s
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.2)', color: muted, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <DollarSign size={14} strokeWidth={1.5} color={muted} />
               ESTIMATE BUDGET
+            </Link>
+            <Link href={`/map-explorer?destination=${dest.slug}`}
+              style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.68rem', letterSpacing: '0.15em', border: '1px solid rgba(200,169,110,0.3)', color: gold, padding: '12px 24px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Compass size={14} strokeWidth={1.5} color={gold} />
+              VIEW ON MAP
             </Link>
           </div>
         </div>
@@ -282,7 +287,7 @@ export default function AmericasPage() {
             From the Arctic tundra to Patagonia's glaciers, from Manhattan's skyline to the Amazon's cathedral forests — the Americas contain more geographical and cultural diversity than any other landmass on earth.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="/" target="_blank" rel="noopener noreferrer"
+            <a href="/flights" target="_blank" rel="noopener noreferrer"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.78rem', letterSpacing: '0.2em', background: gold, color: '#080807', padding: '16px 36px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Plane size={14} strokeWidth={1.5} color="#080807" />
               SEARCH FLIGHTS
