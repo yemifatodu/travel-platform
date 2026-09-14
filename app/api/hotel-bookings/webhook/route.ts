@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { hbxPost } from '@/lib/hbx/client'
 
 export async function POST(request: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
+  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_HOTEL_WEBHOOK_SECRET) {
     console.error('Stripe env vars missing — cannot process hotel booking webhook.')
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
   }
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event
 
   try {
-    event = stripe.webhooks.constructEvent(body, sig!, process.env.STRIPE_WEBHOOK_SECRET)
+    event = stripe.webhooks.constructEvent(body, sig!, process.env.STRIPE_HOTEL_WEBHOOK_SECRET)
   } catch (err) {
     console.error('Hotel booking webhook signature verification failed:', err)
     return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 })
@@ -55,9 +55,9 @@ export async function POST(request: NextRequest) {
         console.error('Failed to confirm hotel booking:', error.message)
       }
 
-      // NEW — for HBX bookings, payment succeeding is only half the job.
-      // We now must actually confirm the room with HBX using the rate_key
-      // we stashed at checkout time.
+      // For HBX bookings, payment succeeding is only half the job. We now
+      // must actually confirm the room with HBX using the rate_key we
+      // stashed at checkout time.
       if (bookingRow?.source === 'hbx') {
         const { data: item } = await supabase
           .from('booking_items')
