@@ -66,9 +66,9 @@ export async function POST(req: NextRequest) {
       unit_price,
       currency = 'USD',
       coupon_code,
-      source = 'curated',   // NEW — tells us which flow this booking belongs to
-      hbx_hotel_code,       // NEW — only present for HBX bookings
-      hbx_rate_key,         // NEW — the HBX price token from checkrate/availability
+      source = 'curated',   // tells us which flow this booking belongs to
+      hbx_hotel_code,       // only present for HBX bookings
+      hbx_rate_key,         // the HBX price token from checkrate/availability
     } = await req.json()
 
     if (!hotel_id || !room_id || !check_in || !check_out || !unit_price || !nights) {
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         traveller_count: guests ?? 1,
         coupon_code: applied_coupon,
         discount_amount,
-        source,   // NEW — the webhook reads this to know whether to call HBX
+        source,   // the webhook reads this to know whether to call HBX
       } as any)
       .select()
       .single()
@@ -130,7 +130,12 @@ export async function POST(req: NextRequest) {
     const { error: itemError } = await supabase.from('booking_items').insert({
       booking_id: (booking as any).id,
       item_type: 'hotel',
-      item_id: room_id,
+      // item_id is a uuid column. Curated rooms have a real room UUID, but
+      // HBX rooms don't exist as rows in our DB — their identity lives in
+      // details.hbx_rate_key instead, so this must be null for HBX bookings
+      // or Postgres rejects the rate_key string with "invalid input syntax
+      // for type uuid".
+      item_id: source === 'hbx' ? null : room_id,
       item_name: `${hotel_name} — ${room_name}`,
       quantity: nights,
       unit_price,
