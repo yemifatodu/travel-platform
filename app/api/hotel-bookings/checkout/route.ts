@@ -33,14 +33,14 @@ export async function POST(req: NextRequest) {
     // returns a proper JSON error instead of crashing the route at import
     // time — which Next.js surfaces as an HTML error page, breaking the
     // client's res.json() call with "Unexpected token '<'".
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error('STRIPE_SECRET_KEY is not set — cannot start checkout.')
+    if (!process.env.STRIPE_TEST_SECRET_KEY) {
+      console.error('STRIPE_TEST_SECRET_KEY is not set — cannot start checkout.')
       return NextResponse.json(
-        { error: 'Payments are not configured yet. Add STRIPE_SECRET_KEY to .env.local.' },
+        { error: 'Payments are not configured yet. Add STRIPE_TEST_SECRET_KEY to .env.local.' },
         { status: 500 }
       )
     }
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY, {
       apiVersion: '2026-05-27.dahlia',
     })
 

@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { hbxPost } from '@/lib/hbx/client'
 
 export async function POST(request: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_HOTEL_WEBHOOK_SECRET) {
+  if (!process.env.STRIPE_TEST_SECRET_KEY || !process.env.STRIPE_HOTEL_WEBHOOK_SECRET) {
     console.error('Stripe env vars missing — cannot process hotel booking webhook.')
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
   }
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
   }
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY, {
     apiVersion: '2026-05-27.dahlia',
   })
 
