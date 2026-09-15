@@ -47,6 +47,13 @@ type HotelDetail = {
   hbx_hotel_code: number | null
 }
 
+type HbxContent = {
+  name: string | null
+  description: string | null
+  cover_image: string | null
+  images: { url: string; type?: { code?: string }; roomCode?: string }[] | null
+}
+
 async function getHotel(slug: string): Promise<HotelDetail | null> {
   const supabase = createServerClient()
   const { data, error } = await supabase
@@ -59,7 +66,26 @@ async function getHotel(slug: string): Promise<HotelDetail | null> {
     .single()
 
   if (error || !data) return null
-  return data as HotelDetail
+  const hotel = data as HotelDetail
+
+  if (hotel.source === 'hbx' && hotel.hbx_hotel_code) {
+    const { data: hbxContent } = await supabase
+      .from('hbx_hotel_content')
+      .select('name, description, cover_image, images')
+      .eq('hbx_hotel_code', hotel.hbx_hotel_code)
+      .single()
+
+    if (hbxContent) {
+      const content = hbxContent as HbxContent
+      hotel.description = content.description ?? hotel.description
+      hotel.cover_image = content.cover_image ?? hotel.cover_image
+      hotel.gallery = content.images
+        ? content.images.filter((img) => !img.roomCode).map((img) => img.url).slice(0, 12)
+        : hotel.gallery
+    }
+  }
+
+  return hotel
 }
 
 type Review = {
