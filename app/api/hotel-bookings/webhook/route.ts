@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     console.error('Stripe env vars missing — cannot process hotel booking webhook.')
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
   }
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY_HOTEL) {
     console.error('Supabase env vars missing — cannot process hotel booking webhook.')
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
   }
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   // deliberately, same pattern as app/api/esim/webhook/stripe/route.ts.
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY_HOTEL
   )
 
   const body = await request.text()
