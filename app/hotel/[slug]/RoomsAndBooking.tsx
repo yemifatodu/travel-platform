@@ -11,7 +11,6 @@ const cream = '#F5EFE4'
 const muted = 'rgba(245,239,228,0.60)'
 const dim = 'rgba(245,239,228,0.35)'
 
-// Curated (static, DB-backed) room shape — unchanged from before
 type CuratedRoom = {
   id: string
   name: string
@@ -21,7 +20,6 @@ type CuratedRoom = {
   currency: string
 }
 
-// Live HBX room/rate shape — returned by /api/hbx/availability
 type HbxRoom = {
   room_code: string
   room_name: string
@@ -35,14 +33,14 @@ type HbxRoom = {
   cancellation_policies: { amount: string; from: string }[]
 }
 
-// A single normalized shape both room types get mapped into for rendering
 type DisplayRoom = {
-  id: string               // curated room id, or hbx rate_key for HBX rooms
+  id: string
   name: string
   subtitle: string
   price: number
   currency: string
   maxOccupancy?: number
+  image?: string
 }
 
 function todayISO() {
@@ -83,6 +81,7 @@ export default function RoomsAndBooking({
   initialGuests,
   source = 'curated',
   hbxHotelCode,
+  hbxRoomImages,
 }: {
   rooms: CuratedRoom[]
   hotelId: string
@@ -93,6 +92,7 @@ export default function RoomsAndBooking({
   initialGuests?: number
   source?: 'curated' | 'hbx'
   hbxHotelCode?: number | null
+  hbxRoomImages?: { roomCode: string; url: string }[]
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -105,7 +105,6 @@ export default function RoomsAndBooking({
     (isResuming && Number(searchParams.get('guests'))) || initialGuests || 2
   )
 
-  // --- HBX-only state: live rooms fetched fresh whenever dates/guests change ---
   const [hbxRooms, setHbxRooms] = useState<HbxRoom[]>([])
   const [hbxCurrency, setHbxCurrency] = useState('USD')
   const [hbxLoading, setHbxLoading] = useState(false)
@@ -124,7 +123,6 @@ export default function RoomsAndBooking({
 
   const nights = useMemo(() => nightsBetween(checkIn, checkOut), [checkIn, checkOut])
 
-  // --- Fetch live HBX rooms whenever relevant inputs change ---
   useEffect(() => {
     if (source !== 'hbx' || !hbxHotelCode || nights < 1) return
 
@@ -153,7 +151,6 @@ export default function RoomsAndBooking({
         }
         setHbxRooms(data.rooms ?? [])
         setHbxCurrency(data.currency ?? 'USD')
-        // Default-select the first available rate if nothing selected yet
         if (data.rooms?.length && !data.rooms.some((r: HbxRoom) => r.rate_key === selectedRoomId)) {
           setSelectedRoomId(data.rooms[0].rate_key)
         }
@@ -171,7 +168,6 @@ export default function RoomsAndBooking({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source, hbxHotelCode, checkIn, checkOut, guests, nights])
 
-  // --- Normalize whichever source is active into one display shape ---
   const displayRooms: DisplayRoom[] = useMemo(() => {
     if (source === 'hbx') {
       return hbxRooms.map((r) => ({
@@ -180,6 +176,7 @@ export default function RoomsAndBooking({
         subtitle: r.board_name,
         price: r.selling_rate,
         currency: hbxCurrency,
+        image: hbxRoomImages?.find((img) => img.roomCode === r.room_code)?.url,
       }))
     }
     return rooms.map((r) => ({
@@ -190,7 +187,7 @@ export default function RoomsAndBooking({
       currency: r.currency,
       maxOccupancy: r.max_occupancy,
     }))
-  }, [source, hbxRooms, hbxCurrency, rooms])
+  }, [source, hbxRooms, hbxCurrency, rooms, hbxRoomImages])
 
   const selectedRoom = displayRooms.find((r) => r.id === selectedRoomId) ?? displayRooms[0]
   const selectedHbxRoom = source === 'hbx' ? hbxRooms.find((r) => r.rate_key === selectedRoomId) : undefined
@@ -234,8 +231,6 @@ export default function RoomsAndBooking({
     let finalRateKey: string | undefined
     let finalHbxHotelCode: number | undefined
 
-    // For HBX rooms marked RECHECK, reconfirm the price right before paying —
-    // HBX rates can drift, so we never trust a price older than this moment.
     if (source === 'hbx' && selectedHbxRoom) {
       finalRateKey = selectedHbxRoom.rate_key
       finalHbxHotelCode = hbxHotelCode ?? undefined
@@ -339,7 +334,6 @@ export default function RoomsAndBooking({
     }
   }
 
-  // --- Loading / empty / error states for the HBX live-fetch path ---
   if (source === 'hbx' && hbxLoading && displayRooms.length === 0) {
     return <p style={{ color: dim, fontSize: '0.9rem' }}>Checking live availability…</p>
   }
@@ -386,9 +380,25 @@ export default function RoomsAndBooking({
                 flexWrap: 'wrap',
               }}
             >
-              <div>
-                <p style={{ color: cream, fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>{room.name}</p>
-                <p style={{ color: dim, fontSize: '0.8rem' }}>{room.subtitle}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, minWidth: 200 }}>
+                {room.image && (
+                  <img
+                    src={room.image}
+                    alt={room.name}
+                    style={{
+                      width: 72,
+                      height: 56,
+                      objectFit: 'cover',
+                      borderRadius: 6,
+                      flexShrink: 0,
+                      border: '1px solid rgba(200,169,110,0.15)',
+                    }}
+                  />
+                )}
+                <div>
+                  <p style={{ color: cream, fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>{room.name}</p>
+                  <p style={{ color: dim, fontSize: '0.8rem' }}>{room.subtitle}</p>
+                </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <span style={{ color: gold, fontSize: '1.05rem', fontWeight: 500 }}>
@@ -423,6 +433,20 @@ export default function RoomsAndBooking({
           top: 24,
         }}
       >
+        {selectedRoom.image && (
+          <img
+            src={selectedRoom.image}
+            alt={selectedRoom.name}
+            style={{
+              width: '100%',
+              height: 140,
+              objectFit: 'cover',
+              borderRadius: 8,
+              marginBottom: 16,
+            }}
+          />
+        )}
+
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
           <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: gold }}>
             Booking Summary
