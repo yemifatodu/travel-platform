@@ -45,6 +45,7 @@ type HotelDetail = {
   rooms: Room[]
   source: 'curated' | 'hbx'
   hbx_hotel_code: number | null
+  hbxRoomImages?: { roomCode: string; url: string }[]
 }
 
 type HbxContent = {
@@ -82,6 +83,9 @@ async function getHotel(slug: string): Promise<HotelDetail | null> {
       hotel.gallery = content.images
         ? content.images.filter((img) => !img.roomCode).map((img) => img.url).slice(0, 12)
         : hotel.gallery
+      hotel.hbxRoomImages = content.images
+        ? content.images.filter((img) => img.roomCode).map((img) => ({ roomCode: img.roomCode!, url: img.url }))
+        : []
     }
   }
 
@@ -352,6 +356,7 @@ export default async function HotelDetailPage({
             initialGuests={searchParams.guests ? parseInt(searchParams.guests, 10) : undefined}
             source={hotel.source}
             hbxHotelCode={hotel.hbx_hotel_code}
+            hbxRoomImages={hotel.hbxRoomImages}
           />
         </div>
 
