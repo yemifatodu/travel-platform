@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
       fields: 'all',
       language: 'ENG',
       from: '1',
-      to: '2000',
+      to: '1000',
     })
     const matches = (data.destinations ?? []).filter((d: any) =>
       d.name?.content?.toLowerCase().includes(query.toLowerCase())
