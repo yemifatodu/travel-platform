@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { after } from 'next/server'
+import { waitUntil } from '@vercel/functions'
 import { createClient } from '@supabase/supabase-js'
 import { hbxGet, hbxPost } from '@/lib/hbx/client'
 
@@ -13,20 +13,21 @@ function getSupabase() {
 }
 
 function syncContentInBackground(hbxHotelCode: number, origin: string) {
-  after(async () => {
-    try {
-      const res = await fetch(`${origin}/api/hbx/sync-content`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hbx_hotel_code: hbxHotelCode }),
+  waitUntil(
+    fetch(`${origin}/api/hbx/sync-content`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hbx_hotel_code: hbxHotelCode }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error(`Background content sync returned ${res.status} for hotel ${hbxHotelCode}`)
+        }
       })
-      if (!res.ok) {
-        console.error(`Background content sync returned ${res.status} for hotel ${hbxHotelCode}`)
-      }
-    } catch (err) {
-      console.error(`Background content sync failed for hotel ${hbxHotelCode}:`, err)
-    }
-  })
+      .catch((err) => {
+        console.error(`Background content sync failed for hotel ${hbxHotelCode}:`, err)
+      })
+  )
 }
 
 export async function POST(req: NextRequest) {
