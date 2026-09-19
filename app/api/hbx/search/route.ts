@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { after } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { hbxGet, hbxPost } from '@/lib/hbx/client'
 
@@ -11,15 +12,21 @@ function getSupabase() {
   )
 }
 
-// Fire-and-forget: syncs one hotel's content in the background without
-// making the search response wait for it. Errors are logged, not thrown,
-// since this must never affect the user-facing search result.
 function syncContentInBackground(hbxHotelCode: number, origin: string) {
-  fetch(`${origin}/api/hbx/sync-content`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ hbx_hotel_code: hbxHotelCode }),
-  }).catch((err) => console.error(`Background content sync failed for hotel ${hbxHotelCode}:`, err))
+  after(async () => {
+    try {
+      const res = await fetch(`${origin}/api/hbx/sync-content`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hbx_hotel_code: hbxHotelCode }),
+      })
+      if (!res.ok) {
+        console.error(`Background content sync returned ${res.status} for hotel ${hbxHotelCode}`)
+      }
+    } catch (err) {
+      console.error(`Background content sync failed for hotel ${hbxHotelCode}:`, err)
+    }
+  })
 }
 
 export async function POST(req: NextRequest) {
@@ -40,7 +47,6 @@ export async function POST(req: NextRequest) {
     const supabase = getSupabase()
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.huuboi.com'
 
-    // Step 1 — resolve the typed destination name to an HBX destination code.
     const { data: destMatches, error: destError } = await supabase
       .from('hbx_destinations')
       .select('code, name, country_code')
@@ -57,7 +63,6 @@ export async function POST(req: NextRequest) {
 
     const destinationCode = destMatches[0].code
 
-    // Step 2 — get a bounded list of hotel codes in that destination.
     const hotelsList = await hbxGet('/hotel-content-api/1.0/hotels', {
       destinationCode,
       fields: 'code',
@@ -71,7 +76,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ hotels: [], message: `No hotels found in ${destMatches[0].name}` })
     }
 
-    // Step 3 — check live availability for those hotels.
     const availability = await hbxPost('/hotel-api/1.0/hotels', {
       stay: { checkIn: check_in, checkOut: check_out },
       occupancies: [{ rooms: 1, adults: adults ?? 2, children: children ?? 0 }],
@@ -81,9 +85,6 @@ export async function POST(req: NextRequest) {
     const availableHotels = availability.hotels?.hotels ?? []
     const availableCodes = availableHotels.map((h: any) => h.code)
 
-    // Step 4 — pull any already-cached photos for these specific hotels in
-    // one query, so search results can show real images without any extra
-    // HBX calls or added latency.
     const { data: cachedContent } = availableCodes.length
       ? await supabase
           .from('hbx_hotel_content')
@@ -97,9 +98,6 @@ export async function POST(req: NextRequest) {
       const allRates = h.rooms.flatMap((r: any) => r.rates.map((rate: any) => Number(rate.net)))
       const coverImage = cachedByCode.get(h.code) ?? null
 
-      // Self-improving cache: if we've never synced this hotel's content
-      // before, kick off a background sync now so the NEXT search or visit
-      // to this hotel will have a real photo — without slowing this response.
       if (!coverImage) {
         syncContentInBackground(h.code, origin)
       }
