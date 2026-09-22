@@ -4,6 +4,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import HotelSearchBar from './components/HotelSearchBar'
 import HotelServiceStrip from './components/HotelServiceStrip'
 import SaveButton from './components/SaveButton'
+import HbxSearchResults from './components/HbxSearchResults'
 
 // This route reads live from Supabase, so it should never be statically
 // generated at build time (there's no data to bake in, and the build
