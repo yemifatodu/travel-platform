@@ -1,6 +1,5 @@
 'use client'
 import { ServiceStrip } from '@/components/layout/ServiceStrip'
-import { ServiceStrip } from '@/components/layout/ServiceStrip'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 

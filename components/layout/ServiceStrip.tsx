@@ -24,7 +24,7 @@ interface ServiceStripProps {
   exclude?: string
 }
 
-export default function ServiceStrip({ exclude }: ServiceStripProps) {
+export function ServiceStrip({ exclude }: ServiceStripProps) {
   const pathname = usePathname()
   const [isSticky, setIsSticky] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
