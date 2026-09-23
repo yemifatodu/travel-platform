@@ -68,7 +68,9 @@ export default function TransfersPage() {
   }, [mounted]);
 
   return (
-    <ServiceStrip exclude="/transfer" /><div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+    <>
+      <ServiceStrip exclude="/transfer" />
+      <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       
       {/* Hero Section */}
       <div style={{ background: 'linear-gradient(160deg,#080810,#0a0c08,#080807)', borderBottom: '1px solid rgba(200,169,110,0.12)', padding: 'clamp(60px,10vw,100px) clamp(20px,5vw,60px)' }}>
@@ -157,7 +159,9 @@ export default function TransfersPage() {
 
       </div>
     </div>
-  )
+  
+  </>
+)
 }
 
 

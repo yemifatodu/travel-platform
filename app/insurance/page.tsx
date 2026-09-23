@@ -169,7 +169,9 @@ export default function InsurancePage() {
   }, [])
 
   return (
-    <ServiceStrip exclude="/insurance" /><div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+    <>
+      <ServiceStrip exclude="/insurance" />
+      <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       <style>
         {
           '.insurance-widgets-row{display:flex;flex-direction:column;gap:16px;max-width:1200px;}' +
@@ -318,5 +320,7 @@ export default function InsurancePage() {
 
       </div>
     </div>
-  )
+  
+  </>
+)
 }

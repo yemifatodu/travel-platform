@@ -111,7 +111,9 @@ export default function CarRentalsPage() {
   }, [mounted])
 
   return (
-    <ServiceStrip exclude="/car-rental" /><div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+    <>
+      <ServiceStrip exclude="/car-rental" />
+      <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       
       {/* Animations CSS */}
       <style>{`
@@ -254,5 +256,7 @@ export default function CarRentalsPage() {
 
       </div>
     </div>
-  )
+  
+  </>
+)
 }

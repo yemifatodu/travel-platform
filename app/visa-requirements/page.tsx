@@ -12,7 +12,9 @@ export default function VisaRequirementsPage() {
   const muted = 'rgba(245,239,228,0.60)'
 
   return (
-    <ServiceStrip exclude="/visa" /><div style={{ minHeight: '100vh', background: ink, color: cream, paddingTop: '120px' }}>
+    <>
+      <ServiceStrip exclude="/visa" />
+      <div style={{ minHeight: '100vh', background: ink, color: cream, paddingTop: '120px' }}>
       
       {/* 1. High Priority Script Loading */}
       <Script 
@@ -130,5 +132,7 @@ export default function VisaRequirementsPage() {
         </div>
       </div>
     </div>
-  )
+  
+  </>
+)
 }
