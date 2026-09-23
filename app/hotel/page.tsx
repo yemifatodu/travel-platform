@@ -186,6 +186,20 @@ export default async function HotelBrowsePage({
         initialChildren={children}
       />
 
+      {/* Live HBX availability for the searched destination, shown above
+          the curated grid below. Only renders when a destination was
+          actually typed — otherwise there's nothing meaningful to search. */}
+      {destination && (
+        <div style={{ maxWidth: 1200, margin: '32px auto 0', padding: '0 24px' }}>
+          <HbxSearchResults
+            destination={destination}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            adults={adults}
+          />
+        </div>
+      )}
+
       {/* Service strip — same scroll-to-sidebar widget as the homepage */}
       <HotelServiceStrip>
         {/* Section heading */}
