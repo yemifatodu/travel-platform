@@ -1,4 +1,6 @@
 'use client'
+import { ServiceStrip } from '@/components/layout/ServiceStrip'
+import { ServiceStrip } from '@/components/layout/ServiceStrip'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
@@ -109,7 +111,7 @@ export default function CarRentalsPage() {
   }, [mounted])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
+    <ServiceStrip exclude="/car-rental" /><div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       
       {/* Animations CSS */}
       <style>{`

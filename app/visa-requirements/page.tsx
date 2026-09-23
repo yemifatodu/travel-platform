@@ -1,4 +1,5 @@
 'use client'
+import { ServiceStrip } from '@/components/layout/ServiceStrip'
 
 import React from 'react'
 import Script from 'next/script'
@@ -11,7 +12,7 @@ export default function VisaRequirementsPage() {
   const muted = 'rgba(245,239,228,0.60)'
 
   return (
-    <div style={{ minHeight: '100vh', background: ink, color: cream, paddingTop: '120px' }}>
+    <ServiceStrip exclude="/visa" /><div style={{ minHeight: '100vh', background: ink, color: cream, paddingTop: '120px' }}>
       
       {/* 1. High Priority Script Loading */}
       <Script 
