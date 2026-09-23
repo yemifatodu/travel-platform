@@ -77,7 +77,7 @@ const services = [
   { label: 'hotel', stat: '150K+', statLabel: 'STAYS', href: '/hotel', icon: Building2 },
   { label: 'car rental', stat: '900+', statLabel: 'SUPPLIERS', href: '/car-rentals', icon: Car },
   { label: 'visa', stat: '180+', statLabel: 'VISA-FREE', href: '/visa-requirements', icon: Shield },
-  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: '/esim', icon: Smartphone },
+  { label: 'esim', stat: '3,000+', statLabel: 'PLANS', href: 'https://www.huuboi.com/esim-select', icon: Smartphone },
   { label: 'tours & experiences', stat: '400+', statLabel: 'EXPERIENCES', href: '/tours', icon: Compass },
 ]
 
