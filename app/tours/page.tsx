@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ServiceStripWrapper } from '@/components/layout/ServiceStripWrapper'
 import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
 
