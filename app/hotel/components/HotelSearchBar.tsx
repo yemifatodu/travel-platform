@@ -6,35 +6,44 @@ import DateField from './DateField'
 
 const gold = '#C8A96E'
 const cream = '#F5EFE4'
-const muted = 'rgba(245,239,228,0.60)'
+const muted = 'rgba(245,239,228,0.45)'
+
+const labelStyle: React.CSSProperties = {
+  fontSize: '0.62rem',
+  color: gold,
+  fontFamily: "'Bebas Neue',sans-serif",
+  letterSpacing: '0.18em',
+  textTransform: 'uppercase',
+  display: 'block',
+  marginBottom: 6,
+}
 
 const inputStyle: React.CSSProperties = {
   display: 'block',
   width: '100%',
-  marginTop: 6,
-  background: '#080807',
-  border: '1px solid rgba(200,169,110,0.25)',
-  borderRadius: 6,
+  background: 'transparent',
+  border: 'none',
   color: cream,
-  padding: '10px 12px',
-  fontSize: '0.9rem',
+  padding: 0,
+  fontSize: '0.92rem',
   fontFamily: "'DM Sans',sans-serif",
+  outline: 'none',
 }
 
-const labelStyle: React.CSSProperties = {
-  fontSize: '0.7rem',
-  color: muted,
-  fontFamily: "'Bebas Neue',sans-serif",
-  letterSpacing: '0.1em',
-  textTransform: 'uppercase',
+const cardStyle: React.CSSProperties = {
+  background: 'transparent',
+  border: '1px solid rgba(200,169,110,0.22)',
+  borderRadius: 6,
+  padding: '12px 16px',
+  transition: 'border-color 0.2s ease',
 }
 
 export default function HotelSearchBar({
   initialDestination = '',
   initialCheckIn = '',
   initialCheckOut = '',
-  initialAdults = '',
-  initialChildren = '',
+  initialAdults = '1',
+  initialChildren = '0',
 }: {
   initialDestination?: string
   initialCheckIn?: string
@@ -49,7 +58,8 @@ export default function HotelSearchBar({
   const [adults, setAdults] = useState(initialAdults)
   const [children, setChildren] = useState(initialChildren)
 
-  const hasFilters = destination || checkIn || checkOut || adults || children
+  const hasFilters =
+    destination || checkIn || checkOut || (adults && adults !== '1') || (children && children !== '0')
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -66,29 +76,29 @@ export default function HotelSearchBar({
     setDestination('')
     setCheckIn('')
     setCheckOut('')
-    setAdults('')
-    setChildren('')
+    setAdults('1')
+    setChildren('0')
     router.push('/hotel')
   }
 
   return (
-    <div style={{ maxWidth: 1000, margin: '-190px auto 0', padding: '0 24px', position: 'relative', zIndex: 2 }}>
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
       <form
         onSubmit={handleSubmit}
         style={{
           background: '#111110',
-          border: '1px solid rgba(200,169,110,0.2)',
-          borderRadius: 12,
-          padding: 20,
+          border: '1px solid rgba(200,169,110,0.15)',
+          borderRadius: 8,
+          padding: 16,
           display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr 0.7fr 0.7fr auto',
+          gridTemplateColumns: '2.2fr 1fr 1fr 0.8fr 0.8fr auto',
           gap: 12,
-          alignItems: 'end',
+          alignItems: 'stretch',
         }}
         className="hotel-search-form"
       >
-        <label style={labelStyle}>
-          Destination
+        <div style={cardStyle}>
+          <span style={labelStyle}>Destination</span>
           <input
             type="text"
             value={destination}
@@ -96,49 +106,63 @@ export default function HotelSearchBar({
             placeholder="Where are you going?"
             style={inputStyle}
           />
-        </label>
+        </div>
 
-        <DateField label="Check-in" value={checkIn} onChange={setCheckIn} min={new Date().toISOString().slice(0, 10)} />
-        <DateField label="Check-out" value={checkOut} onChange={setCheckOut} min={checkIn || new Date().toISOString().slice(0, 10)} />
+        <div style={cardStyle}>
+          <DateField
+            label="Check-in"
+            value={checkIn}
+            onChange={setCheckIn}
+            min={new Date().toISOString().slice(0, 10)}
+          />
+        </div>
+        <div style={cardStyle}>
+          <DateField
+            label="Check-out"
+            value={checkOut}
+            onChange={setCheckOut}
+            min={checkIn || new Date().toISOString().slice(0, 10)}
+          />
+        </div>
 
-        <label style={labelStyle}>
-          Adults
+        <div style={cardStyle}>
+          <span style={labelStyle}>Adults</span>
           <input
             type="number"
             min={1}
             value={adults}
             onChange={(e) => setAdults(e.target.value)}
-            placeholder="1"
             style={inputStyle}
           />
-        </label>
-        <label style={labelStyle}>
-          Children
+        </div>
+        <div style={cardStyle}>
+          <span style={labelStyle}>Children</span>
           <input
             type="number"
             min={0}
             value={children}
             onChange={(e) => setChildren(e.target.value)}
-            placeholder="0"
             style={inputStyle}
           />
-        </label>
+        </div>
 
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             type="submit"
             style={{
+              flex: 1,
               fontFamily: "'Bebas Neue',sans-serif",
-              fontSize: '0.8rem',
-              letterSpacing: '0.12em',
+              fontSize: '0.78rem',
+              letterSpacing: '0.14em',
               textTransform: 'uppercase',
               color: '#080807',
               background: gold,
               border: 'none',
               borderRadius: 6,
-              padding: '11px 20px',
+              padding: '0 24px',
               cursor: 'pointer',
               whiteSpace: 'nowrap',
+              transition: 'background 0.2s ease',
             }}
           >
             Search
@@ -149,14 +173,14 @@ export default function HotelSearchBar({
               onClick={handleClear}
               style={{
                 fontFamily: "'Bebas Neue',sans-serif",
-                fontSize: '0.8rem',
+                fontSize: '0.75rem',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 color: cream,
                 background: 'transparent',
-                border: '1px solid rgba(200,169,110,0.25)',
+                border: '1px solid rgba(200,169,110,0.3)',
                 borderRadius: 6,
-                padding: '11px 16px',
+                padding: '0 16px',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
               }}
@@ -168,6 +192,12 @@ export default function HotelSearchBar({
       </form>
 
       <style>{`
+        .hotel-search-form > div:hover {
+          border-color: rgba(200,169,110,0.5);
+        }
+        .hotel-search-form button:hover {
+          filter: brightness(1.08);
+        }
         @media (max-width: 900px) {
           .hotel-search-form {
             grid-template-columns: 1fr 1fr !important;

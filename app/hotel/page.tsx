@@ -128,18 +128,11 @@ export default async function HotelBrowsePage({
       
       {/* Hero Section */}
       <div className="relative pt-24 pb-16 px-6 text-center bg-[radial-gradient(circle_at_30%_20%,#1C1B18,#0A0A09_70%)]">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <p className="font-['Bebas_Neue'] text-xs tracking-[0.3em] uppercase text-[#C8A96E]">
-            Global stays, booked with confidence
-          </p>
-          <h1 className="font-['Cormorant_Garamond'] font-light text-5xl md:text-6xl lg:text-7xl leading-[1.1] text-[#F5EFE4]">
+        <div className="max-w-5xl mx-auto space-y-6">
+          <h1 className="font-['Cormorant_Garamond'] font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] text-[#F5EFE4] md:whitespace-nowrap">
             Find Your Perfect <span className="italic text-[#C8A96E]">Dream Stay</span>
           </h1>
-          <p className="text-lg md:text-xl text-[rgba(245,239,228,0.60)] font-light max-w-2xl mx-auto leading-relaxed">
-            Discover extraordinary hotels, luxury resorts, and unique accommodations worldwide. 
-            Book with confidence, stay with comfort, and create unforgettable memories.
-          </p>
-        </div>
+          </div>
       </div>
 
       {/* Search Bar */}
@@ -354,3 +347,6 @@ export default async function HotelBrowsePage({
     </div>
   )
 }
+
+
+
