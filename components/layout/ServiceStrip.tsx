@@ -56,7 +56,7 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
     <>
       <style>{`
         body.has-service-sidebar {
-          padding-left: 58px;
+          padding-left: 78px;
           transition: padding-left 0.3s ease;
         }
         @media (max-width: 900px) {
@@ -71,8 +71,8 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
           z-index: 850;
           display: flex;
           flex-direction: column;
-          gap: 2px;
-          padding: 10px 6px;
+          gap: 8px;
+          padding: 16px 10px;
           background: rgba(8,8,7,0.92);
           border-right: 1px solid rgba(200,169,110,0.18);
           border-radius: 0 8px 8px 0;
@@ -87,11 +87,11 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
           transform: translateY(-50%) translateX(-10px);
         }
         .ss-side-item {
-          width: 46px;
+          width: 58px;
           background: transparent;
           border: none;
-          border-radius: 6px;
-          padding: 7px 4px;
+          border-radius: 7px;
+          padding: 8px 4px;
           text-decoration: none;
           display: flex;
           flex-direction: column;
@@ -99,7 +99,7 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
           justify-content: center;
           gap: 3px;
           text-align: center;
-          transition: background 0.2s ease;
+          transition: background 0.25s ease;
           cursor: pointer;
         }
         .ss-side-item:hover { background: rgba(200,169,110,0.1); }
@@ -109,21 +109,20 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
         }
         .ss-side-icon {
           color: #C8A96E;
-          opacity: 0.8;
+          opacity: 0.85;
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .ss-side-item:hover .ss-side-icon { opacity: 1; }
         .ss-side-label {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 0.38rem;
-          letter-spacing: 0.08em;
-          color: rgba(245,239,228,0.5);
-          line-height: 1.1;
-          text-transform: uppercase;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 0.56rem;
+          font-style: italic;
+          color: #F5EFE4;
+          line-height: 1.05;
         }
-        .ss-side-item:hover .ss-side-label { color: rgba(245,239,228,0.8); }
+        .ss-side-item:hover .ss-side-label { color: #F5EFE4; }
         .ss-side-item.active .ss-side-label { color: #C8A96E; }
         @media (max-width: 900px) { .ss-sidebar { display: none !important; } }
       `}</style>
@@ -134,7 +133,7 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
           const isActive = pathname.startsWith(s.matchPrefix)
           return (
             <a key={s.label} href={s.href} className={`ss-side-item${isActive ? ' active' : ''}`} title={s.label}>
-              <span className="ss-side-icon"><Icon size={15} /></span>
+              <span className="ss-side-icon"><Icon size={14} /></span>
               <span className="ss-side-label">{s.label.split(' ')[0]}</span>
             </a>
           )
