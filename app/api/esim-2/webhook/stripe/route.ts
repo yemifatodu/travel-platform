@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { getAiraloClient, AIRALO_BRAND_SETTINGS_NAME } from '@/lib/airalo-client';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_ESIM2!, {
-    apiVersion: '2026-05-27.dahlia',
+    apiVersion: '2026-05-27.dahlia' as any,
 });
 
 // This is a SEPARATE webhook endpoint from the existing /api/esim/webhook/stripe.

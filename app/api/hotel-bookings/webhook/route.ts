@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY, {
-    apiVersion: '2026-05-27.dahlia',
+    apiVersion: '2026-05-27.dahlia' as any,
   })
 
   // Service-role client — webhooks have no user session, so this bypasses RLS

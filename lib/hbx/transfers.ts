@@ -45,8 +45,8 @@ export async function fetchTransferLocations(countryCodes: string = 'ES'): Promi
       fields: 'ALL',
       language: 'ENG',
       countryCodes,
-      offset,
-      limit,
+      offset: String(offset),
+      limit: String(limit),
     })) as any[];
 
     if (!Array.isArray(rows) || rows.length === 0) break;
