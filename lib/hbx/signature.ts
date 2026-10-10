@@ -3,12 +3,16 @@ import crypto from 'crypto'
 // HBX requires every request to carry a fresh signature proving you hold
 // the secret, without ever sending the secret itself over the wire.
 // Formula (from HBX docs): SHA256(apiKey + secret + currentUnixTimestamp)
-export function getHbxHeaders() {
-  const apiKey = process.env.HBX_API_KEY
-  const secret = process.env.HBX_SECRET
+export function getHbxHeaders(isTransfer = false) {
+  const apiKey = isTransfer
+    ? process.env.HBX_TRANSFER_API_KEY || process.env.HBX_API_KEY
+    : process.env.HBX_API_KEY
+  const secret = isTransfer
+    ? process.env.HBX_TRANSFER_SECRET || process.env.HBX_SECRET
+    : process.env.HBX_SECRET
 
   if (!apiKey || !secret) {
-    throw new Error('HBX_API_KEY or HBX_SECRET is not set in environment variables')
+    throw new Error(`HBX API credentials not set. Transfer: ${isTransfer}`)
   }
 
   const timestamp = Math.floor(Date.now() / 1000).toString()

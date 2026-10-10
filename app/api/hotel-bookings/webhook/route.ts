@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    const bookingId = session.metadata?.booking_id
+    const bookingId = session.metadata?.product && session.metadata.product !== 'hotel' ? undefined : session.metadata?.booking_id
 
     if (bookingId) {
       const { data: bookingRow, error } = await (supabase.from('bookings') as any)
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
 
   if (event.type === 'checkout.session.expired') {
     const session = event.data.object as Stripe.Checkout.Session
-    const bookingId = session.metadata?.booking_id
+    const bookingId = session.metadata?.product && session.metadata.product !== 'hotel' ? undefined : session.metadata?.booking_id
     if (bookingId) {
       await (supabase.from('bookings') as any).update({ status: 'cancelled' }).eq('id', bookingId)
     }

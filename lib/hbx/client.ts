@@ -33,6 +33,32 @@ export async function hbxPost(path: string, body: unknown) {
   return parseHbxResponse(res, url)
 }
 
+export async function hbxCheckRate(rateKey: string) {
+  return hbxPost('/hotel-api/1.0/checkrates', { rateKey })
+}
+
+export async function hbxTransferGet(path: string, params?: Record<string, string>) {
+  const url = new URL(BASE_URL + path)
+  if (params) Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value))
+  const res = await fetch(url.toString(), {
+    headers: getHbxHeaders(true),
+    cache: 'no-store'
+  })
+  return parseHbxResponse(res, url.toString())
+}
+
+export async function hbxTransferPost(path: string, body: unknown) {
+  // Transfers API might use different paths but same signature logic
+  const url = BASE_URL + path
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: getHbxHeaders(true),
+    body: JSON.stringify(body),
+    cache: 'no-store',
+  })
+  return parseHbxResponse(res, url)
+}
+
 export async function hbxGet(path: string, params?: Record<string, string>) {
   const url = new URL(BASE_URL + path)
   if (params) Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value))

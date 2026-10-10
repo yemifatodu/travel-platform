@@ -53,7 +53,7 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
   }, [nearFooter])
 
   return (
-    <>
+    <div style={{ display: 'none' }}>
       <style>{`
         body.has-service-sidebar {
           padding-left: 78px;
@@ -126,19 +126,6 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
         .ss-side-item.active .ss-side-label { color: #C8A96E; }
         @media (max-width: 900px) { .ss-sidebar { display: none !important; } }
       `}</style>
-
-      <nav className={`ss-sidebar${nearFooter ? ' hidden' : ''}`}>
-        {services.map(s => {
-          const Icon = s.icon
-          const isActive = pathname.startsWith(s.matchPrefix)
-          return (
-            <a key={s.label} href={s.href} className={`ss-side-item${isActive ? ' active' : ''}`} title={s.label}>
-              <span className="ss-side-icon"><Icon size={14} /></span>
-              <span className="ss-side-label">{s.label.split(' ')[0]}</span>
-            </a>
-          )
-        })}
-      </nav>
-    </>
+    </div>
   )
 }
