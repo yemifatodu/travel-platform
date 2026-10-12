@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
   }
 
-  const stripe = new Stripe(stripeKey, { apiVersion: '2026-05-27.dahlia' })
+  const stripe = new Stripe(stripeKey, { apiVersion: '2026-08-26.dahlia' })
   const supabase: any = createClient(sbUrl, sbKey)
 
   const body = await request.text()

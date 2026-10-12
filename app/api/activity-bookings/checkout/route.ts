@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const stripeKey = process.env.STRIPE_TEST_SECRET_KEY
     if (!stripeKey) return bad('Payments are not configured', 500)
-    const stripe = new Stripe(stripeKey, { apiVersion: '2026-05-27.dahlia' })
+    const stripe = new Stripe(stripeKey, { apiVersion: '2026-08-26.dahlia' })
 
     const supabase = createServerClient()
     const { data: { user } } = await supabase.auth.getUser()
