@@ -1,4 +1,4 @@
-import { getHbxHeaders } from './signature'
+import { getHbxHeaders, getHbxActivityHeaders } from './signature'
 
 const BASE_URL =
   process.env.HBX_ENV === 'live'
@@ -63,5 +63,35 @@ export async function hbxGet(path: string, params?: Record<string, string>) {
   const url = new URL(BASE_URL + path)
   if (params) Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value))
   const res = await fetch(url.toString(), { headers: getHbxHeaders(), cache: 'no-store' })
+  return parseHbxResponse(res, url.toString())
+}
+export async function hbxPut(path: string, body: unknown) {
+  const url = BASE_URL + path
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: getHbxHeaders(),
+    body: JSON.stringify(body),
+    cache: 'no-store',
+  })
+  return parseHbxResponse(res, url)
+}
+
+
+export async function hbxActivityPost(path: string, body: unknown) {
+  const url = BASE_URL + path
+  const res = await fetch(url, { method: 'POST', headers: getHbxActivityHeaders(), body: JSON.stringify(body), cache: 'no-store' })
+  return parseHbxResponse(res, url)
+}
+
+export async function hbxActivityPut(path: string, body: unknown) {
+  const url = BASE_URL + path
+  const res = await fetch(url, { method: 'PUT', headers: getHbxActivityHeaders(), body: JSON.stringify(body), cache: 'no-store' })
+  return parseHbxResponse(res, url)
+}
+
+export async function hbxActivityGet(path: string, params?: Record<string, string>) {
+  const url = new URL(BASE_URL + path)
+  if (params) Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value))
+  const res = await fetch(url.toString(), { headers: getHbxActivityHeaders(), cache: 'no-store' })
   return parseHbxResponse(res, url.toString())
 }

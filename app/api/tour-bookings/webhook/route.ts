@@ -33,6 +33,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 })
   }
 
+  if ((event.data.object as any)?.metadata?.kind === 'activity') {
+    return NextResponse.json({ received: true })
+  }
+
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
     const bookingId = session.metadata?.booking_id
@@ -68,3 +72,5 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ received: true })
 }
+
+
