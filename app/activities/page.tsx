@@ -115,7 +115,8 @@ export default function ActivitiesPage() {
         body: JSON.stringify({ code: detail.code, date, modality: mod.code, session, holder, paxes, answers }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(res.status === 401 ? 'Please sign in to book.' : data.error || 'Checkout failed')
+      if (res.status === 401) { window.location.href = '/auth/login?redirect=' + encodeURIComponent('/activities'); return }
+      if (!res.ok) throw new Error(data.error || 'Checkout failed')
       window.location.href = data.url
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Checkout failed')
