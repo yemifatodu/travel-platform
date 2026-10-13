@@ -76,19 +76,16 @@ export default async function ToursPage({ searchParams }: { searchParams: { cate
 
   return (
     <div style={{ background: '#080807', minHeight: '100vh' }}>
-      <div style={{ position: 'relative', minHeight: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '88px 24px 24px', background: 'radial-gradient(circle at 30% 20%, #1C1B18, #080807 70%)' }}>
+      <div style={{ position: 'relative', minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '84px 24px 8px', background: 'radial-gradient(circle at 30% 20%, #1C1B18, #080807 70%)' }}>
         <div>
-          <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: gold, marginBottom: 16 }}>
-            Local guides, hand-picked experiences
-          </p>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, fontSize: 'clamp(2.5rem, 6vw, 4rem)', color: cream, lineHeight: 1.1 }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, fontSize: 'clamp(2rem, 4.5vw, 3rem)', color: cream, lineHeight: 1.1 }}>
             Tours & <em style={{ fontStyle: 'italic', color: gold }}>Experiences</em>
           </h1>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1000, margin: '0 auto 40px', padding: '0 24px' }}>
-        <form action="/activities" method="GET" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end', background: '#111110', border: '2px solid rgba(200,169,110,0.6)', borderRadius: 12, padding: '16px 20px' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto 20px', padding: '0 24px' }}>
+        <form action="/activities" method="GET" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end', background: '#111110', border: '2px solid rgba(200,169,110,0.6)', borderRadius: 12, padding: '12px 20px' }}>
           <div style={{ flex: '1 1 100%' }}>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: gold }}>Live bookable activities</span>
           </div>
@@ -112,7 +109,7 @@ export default async function ToursPage({ searchParams }: { searchParams: { cate
         </form>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 32px', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 20px', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
         <Link
           href="/tours"
           style={{
