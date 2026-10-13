@@ -31,6 +31,9 @@ type HbxRoom = {
   adults: number
   children: number
   cancellation_policies: { amount: string; from: string }[]
+  price_token: string
+  rate_comments_id?: string | null
+  promotions?: { code: string; name: string }[]
 }
 
 type DisplayRoom = {
@@ -174,7 +177,7 @@ export default function RoomsAndBooking({
         id: r.rate_key,
         name: r.room_name,
         subtitle: r.board_name,
-        price: r.selling_rate,
+        price: nights > 0 ? Math.round((r.selling_rate / nights) * 100) / 100 : r.selling_rate,
         currency: hbxCurrency,
         image: hbxRoomImages?.find((img) => img.roomCode === r.room_code)?.url,
       }))
@@ -187,7 +190,7 @@ export default function RoomsAndBooking({
       currency: r.currency,
       maxOccupancy: r.max_occupancy,
     }))
-  }, [source, hbxRooms, hbxCurrency, rooms, hbxRoomImages])
+  }, [source, hbxRooms, hbxCurrency, rooms, hbxRoomImages, nights])
 
   const selectedRoom = displayRooms.find((r) => r.id === selectedRoomId) ?? displayRooms[0]
   const selectedHbxRoom = source === 'hbx' ? hbxRooms.find((r) => r.rate_key === selectedRoomId) : undefined
@@ -229,10 +232,16 @@ export default function RoomsAndBooking({
 
     let finalUnitPrice = selectedRoom.price
     let finalRateKey: string | undefined
+    let finalPriceToken: string | undefined
+    let finalHbxTotal: number | undefined
+    let finalHbxCurrency: string | undefined
     let finalHbxHotelCode: number | undefined
 
     if (source === 'hbx' && selectedHbxRoom) {
       finalRateKey = selectedHbxRoom.rate_key
+      finalPriceToken = selectedHbxRoom.price_token
+      finalHbxTotal = selectedHbxRoom.selling_rate
+      finalHbxCurrency = hbxCurrency
       finalHbxHotelCode = hbxHotelCode ?? undefined
 
       if (selectedHbxRoom.rate_type === 'RECHECK') {
@@ -243,8 +252,11 @@ export default function RoomsAndBooking({
         })
         const checkData = await checkRes.json()
         if (!checkRes.ok) throw new Error(checkData.error || 'This rate is no longer available.')
-        finalUnitPrice = checkData.selling_rate
+        finalUnitPrice = checkData.selling_rate / n
         finalRateKey = checkData.rate_key
+        finalPriceToken = checkData.price_token
+        finalHbxTotal = checkData.selling_rate
+        finalHbxCurrency = checkData.currency ?? hbxCurrency
       }
     }
 
@@ -268,6 +280,9 @@ export default function RoomsAndBooking({
         ...(source === 'hbx' && {
           hbx_hotel_code: finalHbxHotelCode,
           hbx_rate_key: finalRateKey,
+          price_token: finalPriceToken,
+          hbx_total: finalHbxTotal,
+          hbx_currency: finalHbxCurrency,
         }),
       }),
     })

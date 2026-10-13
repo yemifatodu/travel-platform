@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServerClient } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
+import { verifyPrice } from '@/lib/hbx/price-token'
 
 async function validateCoupon(code: string, orderValue: number) {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY_HOTEL) return null
@@ -64,12 +65,12 @@ export async function POST(req: NextRequest) {
       guests,
       nights,
       unit_price,
-      currency = 'USD',
+      currency: clientCurrency = 'USD',
       coupon_code,
       source = 'curated',   // tells us which flow this booking belongs to
       hbx_hotel_code,       // only present for HBX bookings
       hbx_rate_key,         // the HBX price token from checkrate/availability
-    } = await req.json()
+    price_token, hbx_total, hbx_currency } = await req.json()
 
     if (!hotel_id || !room_id || !check_in || !check_out || !unit_price || !nights) {
       return NextResponse.json({ error: 'Missing booking details' }, { status: 400 })
@@ -84,7 +85,15 @@ export async function POST(req: NextRequest) {
     // Subtotal is always recomputed here from unit_price × nights — never
     // trusted from the client — so a discount can't be stacked on top of an
     // already-tampered total.
-    const subtotal = Math.round(unit_price * nights * 100) / 100
+    let currency = clientCurrency
+    let subtotal = Math.round(unit_price * nights * 100) / 100
+    if (source === 'hbx') {
+      if (!verifyPrice(hbx_rate_key, Number(hbx_total), String(hbx_currency), price_token)) {
+        return NextResponse.json({ error: 'Price could not be verified. Please reselect your room.' }, { status: 400 })
+      }
+      subtotal = Math.round(Number(hbx_total) * 100) / 100
+      currency = String(hbx_currency)
+    }
 
     let discount_amount = 0
     let applied_coupon: string | null = null
@@ -169,14 +178,14 @@ export async function POST(req: NextRequest) {
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
     const nightsLabel = `${nights} night${nights !== 1 ? 's' : ''} · ${check_in} to ${check_out} · ${guests} guest${guests !== 1 ? 's' : ''}`
-    const line_items = discount_amount > 0
+    const line_items = (discount_amount > 0 || source === 'hbx')
       ? [
           {
             price_data: {
               currency: currency.toLowerCase(),
               product_data: {
                 name: `${hotel_name} — ${room_name}`,
-                description: `${nightsLabel} · Code ${applied_coupon} applied`,
+                description: `${nightsLabel} · Code ${applied_coupon} applied`.replace(/ . Code null applied$/, ""),
               },
               unit_amount: Math.round(total_price * 100),
             },
@@ -205,7 +214,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         booking_id: (booking as any).id,
         hotel_slug,
-        coupon_code: applied_coupon || '',
+        coupon_code: applied_coupon || '', product: 'hotel',
       },
       success_url: `${origin}/hotel/${hotel_slug}?booking=success&booking_id=${(booking as any).id}`,
       cancel_url: `${origin}/hotel/${hotel_slug}?booking=cancelled`,

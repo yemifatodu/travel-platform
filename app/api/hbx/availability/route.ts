@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { hbxPost } from '@/lib/hbx/client'
+import { signPrice } from '@/lib/hbx/price-token'
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
         selling_rate: rate.sellingRate ? Number(rate.sellingRate) : Number(rate.net),
         adults: rate.adults,
         children: rate.children,
-        cancellation_policies: rate.cancellationPolicies ?? [],
+        cancellation_policies: rate.cancellationPolicies ?? [], rate_comments_id: rate.rateCommentsId ?? null, promotions: rate.promotions ?? [], packaging: rate.packaging ?? false, price_token: signPrice(rate.rateKey, rate.sellingRate ? Number(rate.sellingRate) : Number(rate.net), String(hotel.currency)),
       }))
     )
 
