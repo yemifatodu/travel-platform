@@ -100,7 +100,7 @@ export default function DateField({
   return (
     <div ref={wrapperRef} style={{ position: 'relative' }}>
       {name && <input type="hidden" name={name} value={value} />}
-      <label style={{ fontSize: '0.7rem', color: muted, display: 'block' }}>
+      <label style={{ fontSize: '0.62rem', color: gold, fontFamily: "'Bebas Neue',sans-serif", letterSpacing: '0.18em', textTransform: 'uppercase', display: 'block' }}>
         {label}
         <button
           type="button"
@@ -109,11 +109,11 @@ export default function DateField({
             display: 'block',
             width: '100%',
             marginTop: 6,
-            background: '#080807',
-            border: `1px solid ${open ? gold : 'rgba(200,169,110,0.25)'}`,
+            background: 'transparent',
+            border: 'none',
             borderRadius: 6,
             color: value ? cream : dim,
-            padding: '10px 12px',
+            padding: 0,
             fontSize: '0.85rem',
             textAlign: 'left',
             cursor: 'pointer',
