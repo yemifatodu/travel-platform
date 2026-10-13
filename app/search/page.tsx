@@ -18,7 +18,7 @@ const navigationHub = [
   },
   { 
     label: 'Rent a Car', 
-    href: '/car-rentals', // Points to app/car-rentals/page.tsx
+    href: '/ground-transport', // Points to app/car-rentals/page.tsx
     desc: 'Worldwide car rentals and private transport options' 
   },
 ]

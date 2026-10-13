@@ -11,7 +11,7 @@ const ctaData = {
   flights: { url: '/flights', title: 'Search Flights', icon: '✈️', description: 'Find the best flight deals' },
   hotels: { url: '/hotels', title: 'Book Hotels', icon: '🏨', description: 'Luxury stays worldwide' },
   tours: { url: '/tours', title: 'Tours', icon: '🎒', description: 'Unforgettable experiences' },
-  carRentals: { url: '/car-rentals', title: 'Car Rentals', icon: '🚗', description: 'Best rates from top providers' },
+  carRentals: { url: '/ground-transport', title: 'Car Rentals', icon: '🚗', description: 'Best rates from top providers' },
   aiPlanner: { url: '/ai-planner', title: 'AI Trip Planner', icon: '🤖', description: 'Plan your perfect itinerary with AI' },
   budgetCalculator: { url: '/budget-calculator', title: 'Budget Calculator', icon: '💰', description: 'Plan your travel budget' },
 };

@@ -17,7 +17,7 @@ const dim = 'rgba(245,239,228,0.35)'
 const quickLinks = [
   { icon: Plane, label: 'Search Flights', href: '/flights', desc: 'Compare 1,200+ airlines' },
   { icon: Building2, label: 'Search Hotels', href: '/hotel', desc: '28M+ properties worldwide' },
-  { icon: Car, label: 'Rent a Car', href: '/car-rentals', desc: '900+ rental suppliers' },
+  { icon: Car, label: 'Rent a Car', href: '/ground-transport', desc: '900+ rental suppliers' },
   { icon: Compass, label: 'Browse Experiences', href: '/tours', desc: 'Hand-picked local tours' },
   { icon: Smartphone, label: 'Get a Travel eSIM', href: '/esim', desc: 'Data in 150+ countries' },
   { icon: Stamp, label: 'Visa Requirements', href: '/visa-requirements', desc: '75+ countries covered' },

@@ -10,7 +10,7 @@ export function Footer() {
         ['Hotels', 'https://www.huuboi.com/hotel'],
         ['Travel Insurance', '/insurance'],
         ['Tours', '/tours'],
-        ['Car Rentals', '/car-rentals'],
+        ['Car Rentals', '/ground-transport'],
         ['Deals', '/deals'],
       ],
     },

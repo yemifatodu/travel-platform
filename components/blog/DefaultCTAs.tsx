@@ -7,7 +7,7 @@ const quickLinks = [
   { url: '/hotels', title: 'Hotels', icon: '🏨' },
   { url: '/esim', title: 'eSIM', icon: '📱' },
   { url: '/tours', title: 'Tours', icon: '🎒' },
-  { url: '/car-rentals', title: 'Cars', icon: '🚗' },
+  { url: '/ground-transport', title: 'Cars', icon: '🚗' },
   { url: '/ai-planner', title: 'AI Planner', icon: '🤖' },
 ];
 

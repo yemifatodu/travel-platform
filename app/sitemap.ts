@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/esim',
     '/hotels',
     '/flights',
-    '/car-rentals',
+    '/ground-transport',
     '/destinations',
     '/travel-guides',
     '/ai-planner',

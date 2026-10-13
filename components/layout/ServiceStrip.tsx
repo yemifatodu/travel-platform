@@ -6,7 +6,7 @@ import { Building2, Car, Shield, Smartphone, Compass, Umbrella, ArrowLeftRight }
 
 const ALL_SERVICES = [
   { label: 'hotel', href: 'https://www.huuboi.com/hotels', icon: Building2, matchPrefix: '/hotel' },
-  { label: 'car rental', href: 'https://www.huuboi.com/car-rentals', icon: Car, matchPrefix: '/car-rental' },
+  { label: 'car rental', href: 'https://www.huuboi.com/ground-transport', icon: Car, matchPrefix: '/car-rental' },
   { label: 'visa', href: 'https://www.huuboi.com/visa-requirements', icon: Shield, matchPrefix: '/visa' },
   { label: 'esim', href: 'https://www.huuboi.com/esim-select', icon: Smartphone, matchPrefix: '/esim' },
   { label: 'tours', href: 'https://www.huuboi.com/tours', icon: Compass, matchPrefix: '/tour' },

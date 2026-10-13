@@ -13,7 +13,7 @@ export default function GroundTransportPage() {
       <h1 style={{ fontSize: 34, marginBottom: 8 }}>Car rentals and transfers</h1>
       <p style={{ opacity: 0.75, maxWidth: 560 }}>Choose how you want to get around: drive yourself, or have a driver take you there.</p>
       <div style={grid}>
-        <Link href="/car-rentals" style={card}>
+        <Link href="/ground-transport" style={card}>
           <div style={{ fontSize: 34 }}>🚗</div>
           <h2 style={{ margin: '10px 0 6px' }}>Car rental</h2>
           <p style={{ opacity: 0.8, margin: 0 }}>Self-drive hire. Compare cars from our rental partners and drive on your own schedule.</p>
