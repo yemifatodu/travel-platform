@@ -32,6 +32,8 @@ export default function ActivitiesPage() {
   const [holder, setHolder] = useState({ title: 'Mr', name: '', surname: '', email: '', phone: '', country: '' })
   const [paxes, setPaxes] = useState<Pax[]>([])
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [auto, setAuto] = useState(false)
+  const [compact, setCompact] = useState(false)
 
   async function watchBooking(id: string | null) {
     if (!id) return setBanner('Payment received.')
@@ -52,8 +54,10 @@ export default function ActivitiesPage() {
 
   useEffect(() => {
     const b = new URLSearchParams(window.location.search).get('booking')
+      const q = new URLSearchParams(window.location.search); const qd = q.get('destination'); if (qd && /^[A-Za-z]{2,4}$/.test(qd)) setDestination(qd.toUpperCase()); const qt = q.get('date'); if (qt) setDate(qt); const qa = Number(q.get('adults')); if (qa >= 1 && qa <= 9) setAdults(qa); const qk = q.get('kids'); if (qk) setKids(qk.replace(/[^0-9,]/g, ''))
     if (b === 'success') watchBooking(new URLSearchParams(window.location.search).get('booking_id'))
     if (b === 'cancelled') setBanner('Payment was cancelled. You have not been charged.')
+    if (!b && qd && qt) { setAuto(true); setCompact(true) }
   }, [])
 
   const kidAges = kids.split(',').map((s) => s.trim()).filter(Boolean).map(Number)
@@ -77,6 +81,11 @@ export default function ActivitiesPage() {
       setBusy(false)
     }
   }
+
+  useEffect(() => {
+    if (auto) { setAuto(false); search() }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auto])
 
   async function choose(a: Act) {
     setError('')
@@ -135,7 +144,14 @@ export default function ActivitiesPage() {
       {banner && <div style={{ ...box, borderColor: '#C8A96E' }}>{banner}{voucherId && <div style={{ marginTop: 8 }}><a href={'/activities/voucher?id=' + voucherId} style={{ color: '#C8A96E', fontWeight: 600 }}>View your voucher</a></div>}</div>}
       {error && <div style={{ ...box, borderColor: '#c0392b', color: '#e74c3c' }}>{error}</div>}
 
-      {!detail && (
+      {!detail && compact && !error && (
+        <div style={{ ...box, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span>{destination} · {date} · {adults} adult{adults !== 1 ? 's' : ''}{kidAges.length > 0 ? ` · ${kidAges.length} child${kidAges.length !== 1 ? 'ren' : ''} (${kidAges.join(', ')})` : ''}</span>
+          <button style={btn} onClick={() => setCompact(false)}>Change search</button>
+        </div>
+      )}
+
+      {!detail && (!compact || !!error) && (
         <div style={box}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12 }}>
             <div><span style={label}>Destination code</span><input style={input} value={destination} maxLength={4} onChange={(e) => setDestination(e.target.value.toUpperCase())} /></div>

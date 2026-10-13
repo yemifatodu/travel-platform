@@ -76,7 +76,7 @@ export default async function ToursPage({ searchParams }: { searchParams: { cate
 
   return (
     <div style={{ background: '#080807', minHeight: '100vh' }}>
-      <div style={{ position: 'relative', minHeight: 340, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '96px 24px 48px', background: 'radial-gradient(circle at 30% 20%, #1C1B18, #080807 70%)' }}>
+      <div style={{ position: 'relative', minHeight: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '88px 24px 24px', background: 'radial-gradient(circle at 30% 20%, #1C1B18, #080807 70%)' }}>
         <div>
           <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: gold, marginBottom: 16 }}>
             Local guides, hand-picked experiences
@@ -85,6 +85,31 @@ export default async function ToursPage({ searchParams }: { searchParams: { cate
             Tours & <em style={{ fontStyle: 'italic', color: gold }}>Experiences</em>
           </h1>
         </div>
+      </div>
+
+      <div style={{ maxWidth: 1000, margin: '0 auto 40px', padding: '0 24px' }}>
+        <form action="/activities" method="GET" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end', background: '#111110', border: '2px solid rgba(200,169,110,0.6)', borderRadius: 12, padding: '16px 20px' }}>
+          <div style={{ flex: '1 1 100%' }}>
+            <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.75rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: gold }}>Live bookable activities</span>
+          </div>
+          <label style={{ flex: '1 1 160px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: gold }}>
+            Destination code
+            <input name="destination" defaultValue="BCN" maxLength={4} style={{ display: 'block', width: '100%', marginTop: 6, background: 'transparent', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', color: cream, padding: '6px 0', fontSize: '0.95rem', outline: 'none', textTransform: 'uppercase' }} />
+          </label>
+          <label style={{ flex: '1 1 160px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: gold }}>
+            Date
+            <input name="date" type="date" style={{ display: 'block', width: '100%', marginTop: 6, background: 'transparent', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', color: cream, padding: '6px 0', fontSize: '0.95rem', outline: 'none', colorScheme: 'dark' }} />
+          </label>
+          <label style={{ flex: '0 1 100px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: gold }}>
+            Adults
+            <input name="adults" type="number" min={1} max={9} defaultValue={2} style={{ display: 'block', width: '100%', marginTop: 6, background: 'transparent', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', color: cream, padding: '6px 0', fontSize: '0.95rem', outline: 'none' }} />
+          </label>
+          <label style={{ flex: '1 1 140px', fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: gold }}>
+            Children ages
+            <input name="kids" placeholder="e.g. 5,9" maxLength={20} style={{ display: 'block', width: '100%', marginTop: 6, background: 'transparent', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.4)', color: cream, padding: '6px 0', fontSize: '0.95rem', outline: 'none' }} />
+          </label>
+          <button type="submit" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '0.85rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#080807', background: gold, border: 'none', borderRadius: 8, padding: '0 32px', minHeight: 44, cursor: 'pointer' }}>Search activities</button>
+        </form>
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 32px', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
