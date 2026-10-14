@@ -141,9 +141,9 @@ export default function HotelSearchBar({
         .hsb-step:hover:not(:disabled) { background: rgba(200,169,110,0.15); }
         .hsb-step:disabled { opacity: 0.3; cursor: not-allowed; }
         .hsb-actions { display: flex; gap: 8px; padding: 4px; }
-        .hsb-search { font-family: 'Bebas Neue',sans-serif; font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; color: #080807; background: ${gold}; border: none; border-radius: 8px; padding: 0 32px; min-height: 56px; cursor: pointer; transition: background 0.2s ease; }
+        .hsb-search { font-family: Bebas Neue,sans-serif; font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; color: #080807; background: ${gold}; border: none; border-radius: 8px; padding: 0 32px; min-height: 56px; cursor: pointer; transition: background 0.2s ease; }
         .hsb-search:hover { background: #D8BB82; }
-        .hsb-clear { font-family: 'Bebas Neue',sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,228,0.6); background: transparent; border: 1px solid rgba(200,169,110,0.25); border-radius: 8px; padding: 0 16px; cursor: pointer; }
+        .hsb-clear { font-family: Bebas Neue,sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,228,0.6); background: transparent; border: 1px solid rgba(200,169,110,0.25); border-radius: 8px; padding: 0 16px; cursor: pointer; }
         .hsb-clear:hover { color: ${gold}; border-color: ${gold}; }
         @media (max-width: 860px) {
           .hotel-search-form { grid-template-columns: 1fr 1fr !important; }

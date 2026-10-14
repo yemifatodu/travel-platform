@@ -104,7 +104,7 @@ export default function FlightsPage() {
     <div style={{ minHeight: '100vh', background: '#080807', paddingTop: 90 }}>
       <style>{`
         .tpwl-widget .wl-tabs__item--hotels, .tpwl-widget [data-tab="hotels"], .tpwl-widget .mewtwo-hotels-checkbox { display: none !important; }
-        .tpwl-widget button[type="submit"], .tpwl-widget .wl-button--primary { background: #C8A96E !important; color: #080807 !important; font-family: 'Bebas Neue', sans-serif !important; letter-spacing: 0.1em !important; }
+        .tpwl-widget button[type="submit"], .tpwl-widget .wl-button--primary { background: #C8A96E !important; color: #080807 !important; font-family: Bebas Neue, sans-serif !important; letter-spacing: 0.1em !important; }
 
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .marquee-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }

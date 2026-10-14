@@ -345,7 +345,7 @@ export default function EsimPage() {
           background: transparent;
           border: 1px solid #C8A96E;
           color: #C8A96E;
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           letter-spacing: 0.1em;
           padding: 4px 10px;
           cursor: pointer;

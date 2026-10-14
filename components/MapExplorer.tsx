@@ -141,7 +141,7 @@ export default function MapExplorerComponent({ selectedCityName }: Props) {
           background: #1C1B18;
           border: 1px solid #C8A96E;
           color: #C8A96E;
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: 0.65rem;
           letter-spacing: 0.1em;
           padding: 3px 8px;

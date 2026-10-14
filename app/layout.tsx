@@ -5,7 +5,6 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import FlightWidgetInitializer from '@/components/FlightWidgetInitializer'
-import CarWidgetInitializer from '@/components/CarWidgetInitializer' // Added for car rentals
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -64,7 +63,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         {/* Persistent widget initializers */}
         <FlightWidgetInitializer />
-        <CarWidgetInitializer />
       </body>
     </html>
   )

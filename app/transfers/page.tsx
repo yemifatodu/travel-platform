@@ -256,10 +256,10 @@ export default function TransfersPage() {
     <>
       <ServiceStrip exclude="/transfer" />
       <style>{`
-        .tr-page{min-height:100vh;background:#080807;padding-top:90px;color:#F5EFE4;font-family:'DM Sans',sans-serif}
+        .tr-page{min-height:100vh;background:#080807;padding-top:90px;color:#F5EFE4;font-family:DM Sans,sans-serif}
         .tr-wrap{max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
         .tr-hero{padding:clamp(40px,7vw,80px) 0 clamp(24px,4vw,40px);border-bottom:1px solid rgba(200,169,110,.12);background:linear-gradient(160deg,#0a0808,#100c08 60%,#080a10)}
-        .tr-hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.3rem,6vw,4.4rem);line-height:1.04;margin:0 0 14px;color:#F5EFE4}
+        .tr-hero h1{font-family:Cormorant Garamond,serif;font-weight:300;font-size:clamp(2.3rem,6vw,4.4rem);line-height:1.04;margin:0 0 14px;color:#F5EFE4}
         .tr-hero p{color:rgba(245,239,228,.62);max-width:520px;line-height:1.7;margin:0;font-size:1.02rem}
         .tr-main{padding:clamp(24px,4vw,40px) 0 clamp(48px,7vw,80px)}
         .tr-steps{display:flex;gap:6px 22px;flex-wrap:wrap;margin:0 0 18px;padding:0;list-style:none}
@@ -273,7 +273,7 @@ export default function TransfersPage() {
         @keyframes trIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
         @media (prefers-reduced-motion:reduce){.tr-panel{animation:none}}
         .tr-label{display:block;font-size:.8rem;font-weight:600;color:rgba(245,239,228,.62);margin-bottom:6px}
-        .tr-input{width:100%;box-sizing:border-box;min-height:46px;background:#0d0d0c;border:1px solid rgba(200,169,110,.28);border-radius:6px;color:#F5EFE4;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:.95rem;color-scheme:dark}
+        .tr-input{width:100%;box-sizing:border-box;min-height:46px;background:#0d0d0c;border:1px solid rgba(200,169,110,.28);border-radius:6px;color:#F5EFE4;padding:11px 14px;font-family:DM Sans,sans-serif;font-size:.95rem;color-scheme:dark}
         .tr-input::placeholder{color:rgba(245,239,228,.35)}
         .tr-input:focus,.tr-btn:focus-visible,.tr-btn2:focus-visible,.tr-swap:focus-visible,.tr-pax button:focus-visible,.tr-link:focus-visible{outline:2px solid #C8A96E;outline-offset:2px}
         .tr-chip{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:.72rem;font-weight:600;color:#C8A96E;border:1px solid rgba(200,169,110,.4);border-radius:4px;padding:2px 7px}
@@ -288,19 +288,19 @@ export default function TransfersPage() {
         .tr-pax{display:flex;align-items:center;justify-content:space-between;min-height:46px;background:#0d0d0c;border:1px solid rgba(200,169,110,.28);border-radius:6px}
         .tr-pax button{width:42px;height:44px;background:transparent;border:0;color:#C8A96E;font-size:1.2rem;cursor:pointer}
         .tr-pax span{font-weight:600;min-width:24px;text-align:center}
-        .tr-btn{background:#C8A96E;color:#080807;border:0;border-radius:6px;min-height:46px;padding:11px 24px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer}
+        .tr-btn{background:#C8A96E;color:#080807;border:0;border-radius:6px;min-height:46px;padding:11px 24px;font-family:DM Sans,sans-serif;font-weight:700;font-size:.95rem;cursor:pointer}
         .tr-btn:hover:not(:disabled){background:#D6B97F}
         .tr-btn:disabled{opacity:.55;cursor:not-allowed}
-        .tr-btn2{background:transparent;color:#C8A96E;border:1px solid rgba(200,169,110,.5);border-radius:6px;min-height:40px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer}
+        .tr-btn2{background:transparent;color:#C8A96E;border:1px solid rgba(200,169,110,.5);border-radius:6px;min-height:40px;padding:8px 16px;font-family:DM Sans,sans-serif;font-weight:600;font-size:.88rem;cursor:pointer}
         .tr-btn2:hover{background:rgba(200,169,110,.1)}
-        .tr-link{background:none;border:0;color:#C8A96E;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+        .tr-link{background:none;border:0;color:#C8A96E;font-family:DM Sans,sans-serif;font-size:.9rem;cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
         .tr-alert{margin-top:14px;border:1px solid rgba(224,120,100,.5);background:rgba(224,120,100,.08);color:#F0B5A8;padding:12px 14px;border-radius:6px;font-size:.9rem;line-height:1.5}
         .tr-notice{margin-bottom:18px;padding:14px 16px;border-radius:6px;font-size:.92rem;line-height:1.5;border:1px solid rgba(200,169,110,.5);background:rgba(200,169,110,.08)}
         .tr-ticket{padding:20px 24px;background:#111110;border:1px solid rgba(200,169,110,.2);border-radius:8px;margin-bottom:18px;animation:trIn .25s ease-out}
         .tr-route{display:flex;align-items:center;gap:18px}
         .tr-end{min-width:0}
         .tr-end.right{text-align:right}
-        .tr-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.2vw,2rem);font-weight:400;line-height:1.1}
+        .tr-name{font-family:Cormorant Garamond,serif;font-size:clamp(1.3rem,3.2vw,2rem);font-weight:400;line-height:1.1}
         .tr-kind{font-size:.78rem;color:rgba(245,239,228,.38);margin-top:4px}
         .tr-mid{flex:1;display:flex;align-items:center;gap:10px;color:#C8A96E;min-width:48px}
         .tr-dash{flex:1;border-top:1px dashed rgba(200,169,110,.5)}
@@ -312,19 +312,19 @@ export default function TransfersPage() {
         .tr-thumb{background:#ECE6D8;border-radius:6px;height:110px;display:flex;align-items:center;justify-content:center;overflow:hidden}
         .tr-thumb img{max-width:100%;max-height:100%;object-fit:contain}
         .tr-thumb span{font-size:.78rem;color:#6b6558}
-        .tr-row h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;margin:0 0 6px;color:#F5EFE4}
+        .tr-row h3{font-family:Cormorant Garamond,serif;font-size:1.5rem;font-weight:500;margin:0 0 6px;color:#F5EFE4}
         .tr-meta{font-size:.88rem;color:rgba(245,239,228,.62);display:flex;align-items:center;gap:6px;margin-top:4px}
         .tr-buy{text-align:right;min-width:150px}
-        .tr-price{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:500;line-height:1;color:#F5EFE4}
+        .tr-price{font-family:Cormorant Garamond,serif;font-size:1.9rem;font-weight:500;line-height:1;color:#F5EFE4}
         .tr-pnote{font-size:.76rem;color:rgba(245,239,228,.38);margin:4px 0 10px}
         .tr-two{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:start}
-        .tr-h2{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:500;margin:0 0 18px}
+        .tr-h2{font-family:Cormorant Garamond,serif;font-size:1.7rem;font-weight:500;margin:0 0 18px}
         .tr-dl{display:grid;grid-template-columns:120px 1fr;gap:10px 16px;margin:0 0 18px;font-size:.93rem}
         .tr-dl dt{color:rgba(245,239,228,.38)}
         .tr-dl dd{margin:0;color:#F5EFE4}
         .tr-sum{position:sticky;top:110px}
         .tr-form{margin:0 0 18px}
-        .tr-h3{font-family:"Cormorant Garamond",serif;font-size:1.3rem;font-weight:500;margin:0 0 12px}
+        .tr-h3{font-family:Cormorant Garamond,serif;font-size:1.3rem;font-weight:500;margin:0 0 12px}
         .tr-fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
         @media (max-width:560px){.tr-fgrid{grid-template-columns:1fr}}
         .tr-total{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0;padding-top:16px;border-top:1px dashed rgba(200,169,110,.25)}

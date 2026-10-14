@@ -180,7 +180,7 @@ export default function HotelServiceStrip({ children }: { children: React.ReactN
           min-width: 0;
         }
         .hotel-service-label {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(0.85rem, 1.4vw, 1.05rem);
           font-style: italic;
           color: ${cream};
@@ -194,7 +194,7 @@ export default function HotelServiceStrip({ children }: { children: React.ReactN
           flex-wrap: nowrap;
         }
         .hotel-service-stat {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(0.75rem, 1.2vw, 0.9rem);
           font-weight: 600;
           color: ${gold};
@@ -202,7 +202,7 @@ export default function HotelServiceStrip({ children }: { children: React.ReactN
           white-space: nowrap;
         }
         .hotel-service-stat-label {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: clamp(0.4rem, 0.7vw, 0.48rem);
           letter-spacing: 0.14em;
           color: rgba(245,239,228,0.35);
@@ -254,14 +254,14 @@ export default function HotelServiceStrip({ children }: { children: React.ReactN
           display: flex;
         }
         .hotel-sidebar-item-label {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 0.56rem;
           font-style: italic;
           color: ${cream};
           line-height: 1.05;
         }
         .hotel-sidebar-item-stat {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: 0.34rem;
           letter-spacing: 0.06em;
           color: rgba(200,169,110,0.7);

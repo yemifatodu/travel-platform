@@ -252,13 +252,13 @@ export default function PacificPage() {
         .region-header:hover { background: rgba(200,169,110,0.05); }
         .region-header-left { display: flex; align-items: baseline; gap: 14px; }
         .region-name {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(1.2rem, 2.4vw, 1.7rem);
           font-weight: 400;
           color: #F5EFE4;
         }
         .region-count {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: 0.6rem;
           letter-spacing: 0.15em;
           color: rgba(200,169,110,0.6);

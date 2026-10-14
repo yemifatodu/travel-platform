@@ -216,7 +216,7 @@ export default function HomePage() {
         .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .tpwl-widget .wl-tabs__item--hotels, .tpwl-widget [data-tab="hotels"], .tpwl-widget .mewtwo-hotels-checkbox { display: none !important; }
-        .tpwl-widget button[type="submit"], .tpwl-widget .wl-button--primary { background: #C8A96E !important; color: #080807 !important; font-family: 'Bebas Neue', sans-serif !important; letter-spacing: 0.1em !important; }
+        .tpwl-widget button[type="submit"], .tpwl-widget .wl-button--primary { background: #C8A96E !important; color: #080807 !important; font-family: Bebas Neue, sans-serif !important; letter-spacing: 0.1em !important; }
 
         .service-strip {
           display: grid;
@@ -268,7 +268,7 @@ export default function HomePage() {
           min-width: 0;
         }
         .service-label {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(0.85rem, 1.4vw, 1.05rem);
           font-style: italic;
           color: #F5EFE4;
@@ -282,7 +282,7 @@ export default function HomePage() {
           flex-wrap: nowrap;
         }
         .service-stat {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(0.75rem, 1.2vw, 0.9rem);
           font-weight: 600;
           color: #C8A96E;
@@ -290,7 +290,7 @@ export default function HomePage() {
           white-space: nowrap;
         }
         .service-stat-label {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: clamp(0.4rem, 0.7vw, 0.48rem);
           letter-spacing: 0.14em;
           color: rgba(245,239,228,0.35);
@@ -343,14 +343,14 @@ export default function HomePage() {
           display: flex;
         }
         .sidebar-item-label {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 0.56rem;
           font-style: italic;
           color: #F5EFE4;
           line-height: 1.05;
         }
         .sidebar-item-stat {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: 0.34rem;
           letter-spacing: 0.06em;
           color: rgba(200,169,110,0.7);
@@ -396,13 +396,13 @@ export default function HomePage() {
           gap: 14px;
         }
         .region-name {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(1.2rem, 2.4vw, 1.7rem);
           font-weight: 400;
           color: #F5EFE4;
         }
         .region-count {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: Bebas Neue, sans-serif;
           font-size: 0.6rem;
           letter-spacing: 0.15em;
           color: rgba(200,169,110,0.6);

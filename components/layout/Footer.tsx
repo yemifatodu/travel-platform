@@ -150,7 +150,7 @@ export function Footer() {
           text-decoration: none;
           font-size: 0.76rem;
           transition: color 0.2s ease;
-          font-family: 'DM Sans', sans-serif;
+          font-family: DM Sans, sans-serif;
         }
 
         .footer-col a:hover {

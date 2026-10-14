@@ -116,7 +116,7 @@ export function ServiceStrip({ exclude }: ServiceStripProps) {
         }
         .ss-side-item:hover .ss-side-icon { opacity: 1; }
         .ss-side-label {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 0.56rem;
           font-style: italic;
           color: #F5EFE4;
